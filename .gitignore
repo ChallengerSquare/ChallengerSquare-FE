@@ -1,7 +1,8 @@
 HELP.md
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
+/backend/gradle/wrapper/gradle-wrapper.jar
+/backend/gradle/wrapper/gradle-wrapper.properties
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -36,8 +37,7 @@ out/
 ### VS Code ###
 .vscode/
 /exec/docker-compose-dev.yml
-/backend/src/main/resources/application-dev.yml
-/backend/src/main/resources/application-s3.yml
+/backend/src/main/resources/application.yml
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
