@@ -2,12 +2,14 @@ package com.ssafy.challs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class ChallssApplication {
+@EnableJpaAuditing
+public class ChallsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChallssApplication.class, args);
+		SpringApplication.run(ChallsApplication.class, args);
 	}
 
 }
