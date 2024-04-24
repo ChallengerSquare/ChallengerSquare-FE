@@ -12,7 +12,10 @@
       "@services": ["src/services"],
       "@styles": ["src/styles"],
       "@types": ["src/types"],
-      "@utils": ["src/utils"]
+      "@utils": ["src/utils"],
+      "@svgs": ["public/svgs"],
+      "@fonts": ["public/fonts"],
+      "@images": ["public/images"]
     }
   }
 }
