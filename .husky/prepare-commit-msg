@@ -1,9 +1,16 @@
 if [ -z "$BRANCHES_TO_SKIP" ]; then
-  BRANCHES_TO_SKIP=(master develop release hotfix)
+  BRANCHES_TO_SKIP=(master dev-be dev-fe release hotfix)
 fi
 
 BRANCH_NAME=$(git symbolic-ref --short HEAD)
 BRANCH_NAME="${BRANCH_NAME##*/}"
+
+for branch in "${BRANCHES_TO_SKIP[@]}"; do
+    if [[ "$BRANCH_NAME" == "$branch" ]]; then
+        echo "Skipping commit message hook for branch $BRANCH_NAME"
+        exit 0
+    fi
+done
 
 JIRA_ID=`echo $BRANCH_NAME | egrep -o 'S10P31A205-[0-9]+'`
 
