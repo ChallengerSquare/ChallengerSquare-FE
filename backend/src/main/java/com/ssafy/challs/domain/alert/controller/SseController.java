@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.ssafy.challs.domain.alert.dto.response.SseEmitterResponseDto;
 import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
@@ -33,13 +34,13 @@ public class SseController {
 	 */
 	@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	@Operation(summary = "SSE 연결 요청 API", description = "SSE 알림을 받기 위한 객체 생성(구독) 요청")
-	public ResponseEntity<SuccessResponse<SseEmitter>> subscribe(
+	public ResponseEntity<SuccessResponse<SseEmitterResponseDto>> subscribe(
 		@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
 		// TODO : 추후 토큰에서 로그인한 member 정보 가져오기
 		// TODO : 서비스 로직 추가
 		String memberCode = "memberCode";
 		SseEmitter emitter = sseService.subscribe(memberCode, lastEventId);
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, emitter));
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new SseEmitterResponseDto(emitter, true)));
 	}
 
 }
