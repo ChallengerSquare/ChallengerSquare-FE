@@ -28,7 +28,7 @@ class Blockchain:
     def get_previous_block(self):
         return self.chain[-1]
 
-    def proof_of_work(self, previous_proof):
+    def proof_of_work(self, previous_proof):  # todo : 해쉬값 찾는걸 더 어렵게 만들어서 시간이 걸리도록 할건지, 일정한 주기를 정할건지 추가
         new_proof = 1
         check_proof = False
         while check_proof is False:
@@ -77,7 +77,7 @@ class Blockchain:
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
 
-    def replace_chain(self):
+    def replace_chain(self):  # todo : 길이가 같다면 어떻게 할지 추가
         network = self.nodes
         longest_chain = None
         max_length = len(self.chain)
