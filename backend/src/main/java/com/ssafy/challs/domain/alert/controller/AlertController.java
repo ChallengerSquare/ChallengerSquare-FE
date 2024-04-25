@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.challs.domain.alert.dto.request.AlertUpdateRequestDto;
@@ -15,6 +16,7 @@ import com.ssafy.challs.domain.alert.dto.response.AlertResponseDto;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -31,8 +33,9 @@ public class AlertController {
 	 * @return
 	 */
 	@GetMapping
-	@Operation(summary = "알림 조회 API", description = "사용자에게 왔었던 모든 알림 조회")
-	public ResponseEntity<SuccessResponse<List<AlertResponseDto>>> searhAlertList() {
+	@Operation(summary = "알림 조회 API", description = "사용자에게 왔었던 모든 알림/안 읽은 알림 조회")
+	public ResponseEntity<SuccessResponse<List<AlertResponseDto>>> searhAlertList(
+		@RequestParam(value = "unread", required = false) @Schema(description = "안읽은 알림만 조회하기 위한 조건", example = "true") Boolean unread) {
 		// TODO : 추후 토큰에서 로그인한 member 정보 가져오기
 		// TODO : 서비스 로직 추가
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, List.of(AlertResponseDto.builder()
