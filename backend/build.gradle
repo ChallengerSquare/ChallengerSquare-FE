@@ -39,9 +39,6 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
     runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // BlockChain
-    implementation 'org.web3j:core:4.11.0'
-
 }
 
 tasks.named('test') {
