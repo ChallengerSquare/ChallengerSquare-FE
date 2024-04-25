@@ -167,7 +167,7 @@ public class TeamController {
 	public ResponseEntity<SuccessResponse<List<TeamRegistrationResponseDto>>> searchRegistrationTeamList(
 		@PathVariable Long contestId) {
 		return ResponseEntity.ok(
-			new SuccessResponse(HttpStatus.OK, List.of(TeamRegistrationResponseDto.builder()
+			new SuccessResponse<>(HttpStatus.OK, List.of(TeamRegistrationResponseDto.builder()
 				.teamName("팀 이름")
 				.teamNum(2)
 				.registrationId(1L)
