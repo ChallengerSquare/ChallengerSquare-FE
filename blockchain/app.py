@@ -48,7 +48,7 @@ def is_valid():
     return jsonify(response), 200
 
 
-@app.route('/add_transaction', methods=['POST'])
+@app.route('/add_transaction', methods=['POST'])  # todo : 대회 수상 정보로 바꾸기
 def add_transaction():
     json = request.get_json()
     transaction_keys = ['sender', 'receiver', 'amount']
@@ -60,6 +60,8 @@ def add_transaction():
     return jsonify(response), 201
 
 
+# todo : node 를 탐색해서 connect 하도록
+# todo : node 탐색 기준 설정
 @app.route('/connect_node', methods=['POST'])
 def connect_node():
     json = request.get_json()
@@ -74,7 +76,7 @@ def connect_node():
     return jsonify(response), 201
 
 
-@app.route('/replace_chain', methods=['GET'])
+@app.route('/replace_chain', methods=['GET'])  # todo : chain 길이가 같을 때 어떻게 할건지 추가
 def replace_chain():
     is_chain_replaced = blockchain.replace_chain()
     if is_chain_replaced:
