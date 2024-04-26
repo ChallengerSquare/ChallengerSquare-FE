@@ -16,6 +16,7 @@ public enum ErrorCode {
 	 * 500 : Internal Server Error
 	 *
 	 */
+
 	// 잘못된 서버 요청
 	BAD_REQUEST_ERROR(400, "G-001", "Bad Request Exception"),
 
@@ -75,6 +76,12 @@ public enum ErrorCode {
 
 	// Method Not Allowed
 	METHOD_NOT_ALLOWED_ERROR(405, "G-020", "Method Not Allowed Exception"),
+
+	// SSE 연결 오류
+	SSE_CONNECTION_ERROR(400, "G-021", "SSE Connection Error"),
+
+	// SSE 전송 오류
+	SSE_SEND_ERROR(500, "G-022", "SSE Alert Send Error"),
 
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
