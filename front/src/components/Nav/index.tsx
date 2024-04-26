@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '@/components/Button'
 
 const Navbar = () => {
   // 로고의 경로를 설정합니다. 이 경로는 public 폴더를 기준으로 합니다.
@@ -19,12 +20,8 @@ const Navbar = () => {
             수상/참가 내역 조회
           </a>
         </nav>
-        <button
-          type="button"
-          className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded transition-colors"
-        >
-          로그인
-        </button>
+        {/* 기존의 버튼을 새로운 Button 컴포넌트로 대체합니다. */}
+        <Button variant="purple">로그인</Button>
       </div>
     </header>
   )
