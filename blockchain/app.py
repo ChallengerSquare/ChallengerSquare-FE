@@ -60,6 +60,29 @@ def add_sample_transaction():
     return jsonify(response), 201
 
 
+@app.route('/add_transaction', methods=['POST'])
+def add_transaction():
+    json = request.get_json()
+    # todo : type이 비어있으면 잘못된 정보임을 반환
+    if json['type'] == 'award':
+        transaction_keys = ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type']
+        if not all(key in json for key in transaction_keys):
+            return 'Some elements of the transaction are missing in award', 400
+        index = blockchain.add_award_transaction(json)
+        response = {'message': f'This transaction will be added to Block {index}'}
+        return jsonify(response), 201
+
+    elif json['type'] == 'participation':
+        transaction_keys = ['organizer', 'event_name', 'attendee_name', 'event_date', 'code', 'details']
+        if not all(key in json for key in transaction_keys):
+            return 'Some elements of the transaction are missing in participation', 400
+        index = blockchain.add_participation_transaction(json)
+        response = {'message': f'This transaction will be added to Block {index}'}
+        return jsonify(response), 201
+    else:
+        return 'type is invalid', 400
+
+
 # todo : node 를 탐색해서 connect 하도록
 # todo : node 탐색 기준 설정
 @app.route('/connect_node', methods=['POST'])
