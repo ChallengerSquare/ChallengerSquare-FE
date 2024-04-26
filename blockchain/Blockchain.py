@@ -1,6 +1,8 @@
 import datetime
 import hashlib
 import json
+import uuid
+
 import requests
 from urllib.parse import urlparse
 
@@ -72,6 +74,34 @@ class Blockchain:
         previous_block = self.get_previous_block()
 
         return previous_block['index'] + 1
+
+    def add_award_transaction(self, json_data):
+        # json 데이터 파싱
+        data = json.loads(json_data)
+        transaction_id = str(uuid.uuid4())
+        timestamp = datetime.datetime.now().isoformat()
+
+        transaction = {
+            "transaction_id": transaction_id,
+            "timestamp": timestamp,
+            "type": "award",
+            "data": {
+                "organizer": data["organizer"],  # todo : 데이터 key 이름 조정하기
+                "event_name": data["event_name"],
+                "award_date": data["award_date"],
+                "recipient_name": data["recipient_name"],
+                "certificate_code": data["certificate_code"],
+                "award_type": data["award_type"]
+            }
+        }
+
+        self.transactions.append(transaction)
+
+        previous_block = self.get_previous_block()
+
+        return previous_block['index'] + 1
+
+
 
     def add_node(self, address):
         parsed_url = urlparse(address)
