@@ -1,6 +1,8 @@
 import datetime
 import hashlib
 import json
+import uuid
+
 import requests
 from urllib.parse import urlparse
 
@@ -20,8 +22,11 @@ class Blockchain:
                  'timestamp': str(datetime.datetime.now()),
                  'proof': proof,
                  'previous_hash': previous_hash,
-                 'transactions': self.transactions}
+                 'transactions': self.transactions[:]}
+
         self.chain.append(block)
+        # clear transactions after create block
+        self.transactions.clear()
 
         return block
 
@@ -68,6 +73,56 @@ class Blockchain:
         self.transactions.append({'sender': sender,
                                   'receiver': receiver,
                                   'amount': amount})
+
+        previous_block = self.get_previous_block()
+
+        return previous_block['index'] + 1
+
+    def add_award_transaction(self, data):  # todo : 함수 테스트
+        # data가 json 형식이면 parsing 불필요
+        transaction_id = str(uuid.uuid4())
+        timestamp = datetime.datetime.now().isoformat()
+        # todo : 데이터 key 이름 조정하기
+        transaction = {
+            "transaction_id": transaction_id,
+            "timestamp": timestamp,
+            "type": "award",
+            "data": {
+                "organizer": data["organizer"],
+                "event_name": data["event_name"],
+                "award_date": data["award_date"],
+                "recipient_name": data["recipient_name"],
+                "certificate_code": data["certificate_code"],
+                "award_type": data["award_type"]
+            }
+        }
+
+        self.transactions.append(transaction)
+
+        previous_block = self.get_previous_block()
+
+        return previous_block['index'] + 1
+
+    def add_participation_transaction(self, data):  # todo : 함수 테스트
+        # data가 json 형식이면 parsing 불필요
+        transaction_id = str(uuid.uuid4())
+        timestamp = datetime.datetime.now().isoformat()
+
+        transaction = {
+            "transaction_id": transaction_id,  # todo : 데이터 key 이름 조정
+            "timestamp": timestamp,
+            "type": "participation",
+            "data": {
+                "organizer": data["organizer"],
+                "event_name": data["event_name"],
+                "attendee_name": data["attendee_name"],
+                "code": data["code"],
+                "event_date": data["event_date"],
+                "details": data["details"]
+            }
+        }
+
+        self.transactions.append(transaction)
 
         previous_block = self.get_previous_block()
 
