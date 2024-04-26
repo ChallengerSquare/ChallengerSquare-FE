@@ -48,16 +48,16 @@ def is_valid():
     return jsonify(response), 200
 
 
-@app.route('/add_sample_transaction', methods=['POST'])  # todo : 대회 수상 정보로 바꾸기
-def add_sample_transaction():
-    json = request.get_json()
-    transaction_keys = ['sender', 'receiver', 'amount']
-    if not all(key in json for key in transaction_keys):
-        return 'Some elements of the transaction are missing', 400
-
-    index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
-    response = {'message': f'This transaction will be added to Block {index}'}
-    return jsonify(response), 201
+# @app.route('/add_sample_transaction', methods=['POST'])
+# def add_sample_transaction():
+#     json = request.get_json()
+#     transaction_keys = ['sender', 'receiver', 'amount']
+#     if not all(key in json for key in transaction_keys):
+#         return 'Some elements of the transaction are missing', 400
+#
+#     index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
+#     response = {'message': f'This transaction will be added to Block {index}'}
+#     return jsonify(response), 201
 
 
 @app.route('/add_transaction', methods=['POST'])
