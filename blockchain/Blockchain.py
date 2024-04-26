@@ -75,9 +75,8 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
-    def add_award_transaction(self, json_data):  # todo : 함수 테스트
-        # json 데이터 파싱
-        data = json.loads(json_data)
+    def add_award_transaction(self, data):  # todo : 함수 테스트
+        # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
         timestamp = datetime.datetime.now().isoformat()
         # todo : 데이터 key 이름 조정하기
@@ -101,9 +100,8 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
-    def add_participation_transaction(self, json_data):  # todo : 함수 테스트
-        # JSON 문자열 파싱
-        data = json.loads(json_data)
+    def add_participation_transaction(self, data):  # todo : 함수 테스트
+        # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
         timestamp = datetime.datetime.now().isoformat()
 
@@ -126,8 +124,6 @@ class Blockchain:
         previous_block = self.get_previous_block()
 
         return previous_block['index'] + 1
-
-
 
     def add_node(self, address):
         parsed_url = urlparse(address)
