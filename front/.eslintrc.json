@@ -1,4 +1,7 @@
 {
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   // [env] 프로젝트 환경 설정, 브라우저 환경과 ES2021 문법 사용
   "env": {
     "browser": true,
@@ -70,8 +73,9 @@
   },
   "settings": {
     "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
       }
     }
   }
