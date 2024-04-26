@@ -80,13 +80,13 @@ class Blockchain:
         data = json.loads(json_data)
         transaction_id = str(uuid.uuid4())
         timestamp = datetime.datetime.now().isoformat()
-
+        # todo : 데이터 key 이름 조정하기
         transaction = {
             "transaction_id": transaction_id,
             "timestamp": timestamp,
             "type": "award",
             "data": {
-                "organizer": data["organizer"],  # todo : 데이터 key 이름 조정하기
+                "organizer": data["organizer"],
                 "event_name": data["event_name"],
                 "award_date": data["award_date"],
                 "recipient_name": data["recipient_name"],

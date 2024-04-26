@@ -48,11 +48,11 @@ def is_valid():
     return jsonify(response), 200
 
 
-@app.route('/add_transaction', methods=['POST'])  # todo : 대회 수상 정보로 바꾸기
-def add_transaction():
+@app.route('/add_sample_transaction', methods=['POST'])  # todo : 대회 수상 정보로 바꾸기
+def add_sample_transaction():
     json = request.get_json()
     transaction_keys = ['sender', 'receiver', 'amount']
-    if not all (key in json for key in transaction_keys):
+    if not all(key in json for key in transaction_keys):
         return 'Some elements of the transaction are missing', 400
 
     index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
@@ -66,7 +66,7 @@ def add_transaction():
 def connect_node():
     json = request.get_json()
     nodes = json.get('nodes')
-    if nodes is None :
+    if nodes is None:
         return 'No nodes provided', 400
 
     for node in nodes:
