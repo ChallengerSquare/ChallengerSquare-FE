@@ -1,0 +1,10 @@
+$main-color: #8930fd;
+
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%; // left: 0; right: 0; 이랑 같다
+  background-color: white;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem /* 12px */;
+}
