@@ -16,4 +16,5 @@ const Button = ({ variant = 'default', children, type, ...props }: ButtonProps) 
     </button>
   )
 }
+
 export default Button
