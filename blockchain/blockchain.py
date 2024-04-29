@@ -40,15 +40,28 @@ class Blockchain:
     def get_previous_block(self):
         return self.chain[-1] # 현재 체인에 있는 블록 중 가장 끝 블록 반환
 
+    # 작업 증명
+    # 새로운 블록을 채굴하기 위한 nonce 값을 찾아내는 것
+    '''
+    :param previous_proof: 이전 블록의 nonce 값
+    :return new_proof: 새로운 nonce값
+    '''
     def proof_of_work(self, previous_proof):  # todo : 해쉬값 찾는걸 더 어렵게 만들어서 시간이 걸리도록 할건지, 일정한 주기를 정할건지 추가
-        new_proof = 1
-        check_proof = False
+        new_proof = 1   # 새로운 nonce 값을 저장할 변수
+        check_proof = False # 신규 증명의 유효성을 저장할 변수
+
+        # todo : 지금 로직에는 블록의 데이터를 함께 해싱하는 로직이 빠져있음, 대신 이전 블록의 nonce를 추가하는 것으로 대체함
+        '''
+        1. 트랜잭션을 포함한 데이터 + 타임스탬프 추가해서 해싱 -> 타임스탬프 1초마다 바뀌면 언제 nonce가 찾아질지 장담을 못 하겠음...
+        2. 트랜잭션만 포함해서 해싱 : 난이도는 내려가는데 난이도에 대한 확신이 없음
+        '''
         while check_proof is False:
-            hash_operation = hashlib.sha256(str(new_proof ** 2 - previous_proof ** 2).encode()).hexdigest()
-            if hash_operation[:4] == '0000':
+            hash_operation = hashlib.sha256(str(new_proof ** 2 - previous_proof ** 2).encode()).hexdigest() # nonce를 포함해서 해싱
+            # todo : difficulty가 지금 4인데 이거 상수로 빼도 좋을 거 같아요
+            if hash_operation[:4] == '0000':    # difficulty에 맞게 해싱 값 검증
                 check_proof = True
             else:
-                new_proof += 1
+                new_proof += 1  # nonce 값 +1 증가
         return new_proof
 
     def hash(self, block):
