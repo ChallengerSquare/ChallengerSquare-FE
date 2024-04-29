@@ -49,8 +49,8 @@ public class AlertController {
 	 * 알림을 읽음처리하는 API
 	 *
 	 * @author 강다솔
-	 * @param alertUpdateRequestDto
-	 * @return
+	 * @param alertUpdateRequestDto 읽음 처리할 알림 정보
+	 * @return 성공 여부
 	 */
 	@PutMapping
 	@Operation(summary = "알림을 읽음처리하는 API", description = "해당 알림을 조회하여 읽음처리")
