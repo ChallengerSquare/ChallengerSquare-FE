@@ -1,0 +1,38 @@
+.search {
+  margin:1rem;
+  max-width: 1000px;
+  width: 90%;
+}
+
+.search_bar {
+  display: flex;
+  background-color: whitesmoke; opacity: 70%;
+  border-radius: 1rem;
+  align-items: center;
+  font-size: medium;
+  color: black;
+  width: 100%;
+
+  input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    padding : 1rem 1.5rem;
+    width: 100%;
+
+    &:focus {
+      outline:none;
+    }
+  }
+
+  button{
+    margin : 1rem 1.5rem;
+  }
+}
+
+.page_link{
+  text-align: right;
+  margin: 0.5rem 0rem;
+  font-size: small;
+
+}
