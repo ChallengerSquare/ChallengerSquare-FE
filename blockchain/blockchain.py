@@ -64,22 +64,31 @@ class Blockchain:
                 new_proof += 1  # nonce 값 +1 증가
         return new_proof
 
+    # 블록의 내용을 해싱해서 반환
+    '''
+    :param block: 블록
+    :return: 해싱값
+    '''
     def hash(self, block):
         encoded_block = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
 
+    # 체인이 올바른지 검증하는 함수
     def is_chain_valid(self, chain):
-        previous_block = chain[0]
-        block_index = 1
+        previous_block = chain[0]   # 제네시스 블록에서부터 시작
+        block_index = 1 # 블록의 인덱스
 
         while block_index < len(chain):
             block = chain[block_index]
+
+            # 현재 블록이 가진 previous_hash가 실제로 이전 블록을 해싱했을 떄의 값과 같은지 확인
             if block['previous_hash'] != self.hash(previous_block):
                 return False
 
-            previous_proof = previous_block['proof']
-            proof = block['proof']
+            previous_proof = previous_block['proof'] # 이전 블록의 nonce 값
+            proof = block['proof']  # 현재 블록의 nonce 값
 
+            # todo: nonce를 이용한 작업증명인데 이거 로직 바꿔야 할듯
             hash_operation = hashlib.sha256(str(proof ** 2 - previous_proof ** 2).encode()).hexdigest()
             if hash_operation[:4] != '0000':
                 return False
@@ -89,6 +98,12 @@ class Blockchain:
 
         return True
 
+    # 르랜잭션 멤풀에 트랜잭션 추가
+    '''
+    :param sender: 발신자
+    :param receiver: 수신자
+    :param amount: 규모
+    '''
     def add_transaction(self, sender, receiver, amount):  # todo : 대회 정보 입력으로 바꾸기
         self.transactions.append({'sender': sender,
                                   'receiver': receiver,
