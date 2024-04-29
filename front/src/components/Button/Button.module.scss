@@ -1,20 +1,17 @@
 @mixin button {
-  width: 50%;
-  height: 3rem;
+  width: 10%;
+  height: 2rem;
   box-sizing: border-box;
   border: solid #8930fd;
   border-radius: 24px;
 
   text-align: center;
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 500;
-  color: var(--color-white); // 보라색 버튼에는 흰색 글씨가 가독성이 더 좋음
 }
 
 .purple {
   @include button();
-
-  background: linear-gradient(0deg, var(--color-green) 10%, var(--color-white) 10%);
 
   &:hover {
     opacity: 40%;

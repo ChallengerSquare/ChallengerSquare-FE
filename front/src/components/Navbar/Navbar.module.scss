@@ -1,4 +1,5 @@
 $main-color: #8930fd;
+$hover-color: #efe3ff;
 
 .header {
   position: sticky;
@@ -7,4 +8,40 @@ $main-color: #8930fd;
   background-color: white;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem /* 12px */;
+}
+
+.logo {
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+.link {
+  font-size: 1.2rem;
+  line-height: auto;
+  color: black;
+  //  font-weight: bold;
+  margin-right: 2rem;
+  opacity: 1;
+  &:hover {
+    color: $main-color;
+  }
+}
+
+// 버튼 스타일
+.login {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  background-color: $main-color;
+  color: white;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $main-color;
+    font-weight: bold;
+    opacity: 50%;
+  }
 }

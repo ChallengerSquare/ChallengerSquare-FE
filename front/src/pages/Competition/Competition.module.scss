@@ -1,1 +1,8 @@
 $main-color: #8930fd;
+
+.background {
+  background-image: url('../../../public/images/competition/background.png');
+  background-size: auto;
+  background-repeat: no-repeat;
+  min-height: 100vh; // 최소 높이를 뷰포트 높이의 100%로 설정
+}
