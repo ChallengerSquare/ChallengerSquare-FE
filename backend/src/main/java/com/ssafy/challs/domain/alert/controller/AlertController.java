@@ -55,9 +55,10 @@ public class AlertController {
 	@PutMapping
 	@Operation(summary = "알림을 읽음처리하는 API", description = "해당 알림을 조회하여 읽음처리")
 	public ResponseEntity<SuccessResponse<String>> updateAlertReadState(
+		@RequestParam String memberCode,
 		@RequestBody AlertUpdateRequestDto alertUpdateRequestDto) {
 		// TODO : 추후 토큰에서 로그인한 member 정보 가져오기
-		// TODO : 서비스 로직 추가
+		alertService.updateAlert(memberCode, alertUpdateRequestDto.alertId());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
