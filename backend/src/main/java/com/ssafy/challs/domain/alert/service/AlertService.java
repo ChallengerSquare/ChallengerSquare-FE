@@ -8,9 +8,7 @@ public interface AlertService {
 
 	public void createAlert(List<String> receivers, Character alertType, Long alertTargetId, String alertContent);
 
-	public List<AlertResponseDto> findAllAlert(String memberCode);
-
-	public List<AlertResponseDto> findAlertByUnread(String memberCode);
+	public List<AlertResponseDto> findAlerts(String memberCode, boolean unread);
 
 	public void updateAlert(String memberCode);
 }

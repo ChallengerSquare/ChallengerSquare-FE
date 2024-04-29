@@ -1,5 +1,6 @@
 package com.ssafy.challs.domain.alert.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -49,27 +50,54 @@ public class AlertServiceImpl implements AlertService {
 	}
 
 	/**
-	 * 회원의 모든 알림을 조회하는 메서드
+	 * 알림을 조건에 맞게 조회하는 메서드
 	 *
 	 * @author 강다솔
-	 * @param memberCode 회원
-	 * @return 모든 알림 리스트
+	 * @param memberCode 회원정보
+	 * @param unread 안읽은 알림 가져오는지 여부
+	 * @return 조건에 맞는 알림 리스트
 	 */
 	@Override
-	public List<AlertResponseDto> findAllAlert(String memberCode) {
-		return null;
+	public List<AlertResponseDto> findAlerts(String memberCode, boolean unread) {
+		// 안읽은 알림인지 여부에 따라 alertMember 매핑테이블 정보 조회
+		List<AlertMember> alertMemberList = unread ?
+			alertMemberRepository.findAllByMemberCodeAndIsRead(memberCode, false) :
+			alertMemberRepository.findAllByMemberCode(memberCode);
+
+		// 매핑테이블 정보로 반환 DTO로 변환하여 반환
+		return alertMemberListToAlertResponseDtoList(alertMemberList);
 	}
 
 	/**
-	 * 안읽은 알림을 조회하는 메서드
+	 * AlertMemberList -> AlertResponseDtoList 변환 메서드
 	 *
 	 * @author 강다솔
-	 * @param memberCode 회원
-	 * @return 안읽은 알림 리스트
+	 * @param alertMemberList DB에서 조회한 매핑테이블 리스트 정보
+	 * @return 변환된 DTO 리스트
 	 */
-	@Override
-	public List<AlertResponseDto> findAlertByUnread(String memberCode) {
-		return null;
+	private List<AlertResponseDto> alertMemberListToAlertResponseDtoList(List<AlertMember> alertMemberList) {
+		List<AlertResponseDto> allAlert = new ArrayList<>();
+		for (AlertMember alertMember : alertMemberList) {
+			allAlert.add(alertMemberToAlertResponseDto(alertMember));
+		}
+		return allAlert;
+	}
+
+	/**
+	 * AlertMember -> AlertResponseDto 변환 메서드
+	 *
+	 * @author 강다솔
+	 * @param alertMember DB에서 조회한 매핑 테이블 정보
+	 * @return 변환된 DTO
+	 */
+	private AlertResponseDto alertMemberToAlertResponseDto(AlertMember alertMember) {
+		Alert alert = alertMember.getAlert();
+		return AlertResponseDto.builder()
+			.alertId(alert.getId())
+			.alertContent(alert.getAlertContent())
+			.alertTargetId(alert.getAlertTargetId())
+			.alertType(alert.getAlertType())
+			.isRead(alertMember.getIsRead()).build();
 	}
 
 	/**
@@ -82,4 +110,5 @@ public class AlertServiceImpl implements AlertService {
 	public void updateAlert(String memberCode) {
 
 	}
+
 }
