@@ -1,21 +1,18 @@
 package com.ssafy.challs.domain.alert.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.ssafy.challs.domain.alert.dto.response.AlertResponseDto;
-
 public interface SseService {
 
-	public SseEmitter subscribe(String memberCode, String lastEventId);
+	public SseEmitter subscribe(String memberCode);
 
-	AlertResponseDto createDummyAlert(String receiver);
+	public Map<String, Boolean> createConnectionMessage(String memberCode);
 
-	public void send(List<String> receivers);
+	public void send(List<String> receivers, Map<String, Boolean> message);
 
-	void send(SseEmitter sseEmitter, String emitterId);
-
-	void emitEventToClient(SseEmitter sseEmitter, String emitterId);
+	void send(SseEmitter sseEmitter, String memberCode, Map<String, Boolean> message);
 
 }
