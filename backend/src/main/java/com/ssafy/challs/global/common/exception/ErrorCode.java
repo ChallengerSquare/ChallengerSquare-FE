@@ -83,6 +83,10 @@ public enum ErrorCode {
 	// SSE 전송 오류
 	SSE_SEND_ERROR(500, "G-022", "SSE Alert Send Error"),
 
+	// 회원의 알림 아님
+	ALERT_NOT_OWNER(400, "G-023", "Alert Not Owner"),
+	NOT_FOUND_ALERT(400, "G-024", "Not Found Alert"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
