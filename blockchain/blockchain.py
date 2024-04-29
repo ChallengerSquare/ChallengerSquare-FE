@@ -113,6 +113,8 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
+    # 수상기록 트랜잭션 추가
+    # todo: 요청 왔을 떄 트랜잭션 생성해서 넣는 건 smart_contract로 분리
     def add_award_transaction(self, data):  # todo : 함수 테스트
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
@@ -138,6 +140,8 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
+    # 참가기록 트랜잭션 추가
+    # todo: 요청 왔을 떄 트랜잭션 생성해서 넣는 건 smart_contract로 분리
     def add_participation_transaction(self, data):  # todo : 함수 테스트
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
@@ -163,10 +167,13 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
+
+    # 노드 목록에 새로운 노드를 추가하는 함수
     def add_node(self, address):
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
 
+    #
     def replace_chain(self):  # todo : 길이가 같다면 어떻게 할지 추가
         network = self.nodes
         longest_chain = None
