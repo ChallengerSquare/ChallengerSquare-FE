@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlertMember {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -25,4 +25,8 @@ public class AlertMember {
 	Alert alert;
 	String memberCode;
 	Boolean isRead;
+
+	public void updateIsRead() {
+		this.isRead = true;
+	}
 }
