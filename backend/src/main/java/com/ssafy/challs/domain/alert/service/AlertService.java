@@ -10,5 +10,5 @@ public interface AlertService {
 
 	public List<AlertResponseDto> findAlerts(String memberCode, boolean unread);
 
-	public void updateAlert(String memberCode);
+	public void updateAlert(String memberCode, Long alertId);
 }

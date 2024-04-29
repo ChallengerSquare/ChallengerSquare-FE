@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.challs.domain.alert.dto.response.AlertResponseDto;
 import com.ssafy.challs.domain.alert.entity.Alert;
@@ -11,6 +12,8 @@ import com.ssafy.challs.domain.alert.entity.AlertMember;
 import com.ssafy.challs.domain.alert.repository.AlertMemberRepository;
 import com.ssafy.challs.domain.alert.repository.AlertRepository;
 import com.ssafy.challs.domain.alert.service.AlertService;
+import com.ssafy.challs.global.common.exception.BaseException;
+import com.ssafy.challs.global.common.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,7 @@ public class AlertServiceImpl implements AlertService {
 	 * @param alertContent 알림 내용
 	 */
 	@Override
+	@Transactional
 	public void createAlert(List<String> receivers, Character alertType, Long alertTargetId, String alertContent) {
 		// 생성된 알림 저장
 		Alert alert = Alert.builder()
@@ -58,6 +62,7 @@ public class AlertServiceImpl implements AlertService {
 	 * @return 조건에 맞는 알림 리스트
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<AlertResponseDto> findAlerts(String memberCode, boolean unread) {
 		// 안읽은 알림인지 여부에 따라 alertMember 매핑테이블 정보 조회
 		List<AlertMember> alertMemberList = unread ?
@@ -65,7 +70,7 @@ public class AlertServiceImpl implements AlertService {
 			alertMemberRepository.findAllByMemberCode(memberCode);
 
 		// 매핑테이블 정보로 반환 DTO로 변환하여 반환
-		return alertMemberListToAlertResponseDtoList(alertMemberList);
+		return convertDtoList(alertMemberList);
 	}
 
 	/**
@@ -75,10 +80,10 @@ public class AlertServiceImpl implements AlertService {
 	 * @param alertMemberList DB에서 조회한 매핑테이블 리스트 정보
 	 * @return 변환된 DTO 리스트
 	 */
-	private List<AlertResponseDto> alertMemberListToAlertResponseDtoList(List<AlertMember> alertMemberList) {
+	private List<AlertResponseDto> convertDtoList(List<AlertMember> alertMemberList) {
 		List<AlertResponseDto> allAlert = new ArrayList<>();
 		for (AlertMember alertMember : alertMemberList) {
-			allAlert.add(alertMemberToAlertResponseDto(alertMember));
+			allAlert.add(alertMemberToDto(alertMember));
 		}
 		return allAlert;
 	}
@@ -90,7 +95,7 @@ public class AlertServiceImpl implements AlertService {
 	 * @param alertMember DB에서 조회한 매핑 테이블 정보
 	 * @return 변환된 DTO
 	 */
-	private AlertResponseDto alertMemberToAlertResponseDto(AlertMember alertMember) {
+	private AlertResponseDto alertMemberToDto(AlertMember alertMember) {
 		Alert alert = alertMember.getAlert();
 		return AlertResponseDto.builder()
 			.alertId(alert.getId())
@@ -107,8 +112,17 @@ public class AlertServiceImpl implements AlertService {
 	 * @param memberCode 회원
 	 */
 	@Override
-	public void updateAlert(String memberCode) {
+	@Transactional
+	public void updateAlert(String memberCode, Long alertId) {
+		// alertId로 Alert 가져오기
+		Alert alert = alertRepository.findById(alertId).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_ALERT));
 
+		// memberCode, alert로 매핑 테이블 검색 
+		AlertMember alertMember = alertMemberRepository.findAlertMembersByMemberCodeAndAlert(memberCode, alert)
+			.orElseThrow(() -> new BaseException(ErrorCode.ALERT_NOT_OWNER));
+
+		// 읽음 상태 변경
+		alertMember.updateIsRead();
 	}
 
 }
