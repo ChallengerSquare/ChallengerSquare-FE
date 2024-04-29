@@ -3,8 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@assets": ["src/assets"],
-      "@components": ["src/components"],
+      "@assets/*": ["src/assets"],
+      "@components/*": ["src/components"],
       "@constants": ["src/constants"],
       "@contexts": ["src/contexts"],
       "@hooks": ["src/hooks"],
@@ -12,7 +12,10 @@
       "@services": ["src/services"],
       "@styles": ["src/styles"],
       "@types": ["src/types"],
-      "@utils": ["src/utils"]
+      "@utils": ["src/utils"],
+      "@svgs": ["public/svgs"],
+      "@fonts": ["public/fonts"],
+      "@images": ["public/images"]
     }
   }
 }
