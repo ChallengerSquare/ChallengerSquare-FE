@@ -11,22 +11,28 @@ from urllib.parse import urlparse
 
 class Blockchain:
     def __init__(self):
-        self.chain = []
-        self.transactions = []
-        self.nodes = set()
-        self.create_block(proof=1, previous_hash='0')
+        self.chain = [] # 블록들이 들어갈 체인
+        self.transactions = []  # 프랜잭션 멤풀
+        self.nodes = set()  # 네트워크에 연결된 노드들의 목록
+        self.create_block(proof=1, previous_hash='0')   # 제네시스 블록 생성
 
+    # 블록 생성 함수
+    '''
+    :param proof: nonce의 역할을 함
+    :param previous_hash: 이전 블록의 hash
+    :return: 새로 생성된 블록
+    '''
     def create_block(self, proof, previous_hash):
         # define Block
-        block = {'index': len(self.chain) + 1,
-                 'timestamp': str(datetime.datetime.now()),
-                 'proof': proof,
-                 'previous_hash': previous_hash,
-                 'transactions': self.transactions[:]}
+        block = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
+                 'timestamp': str(datetime.datetime.now()), # 블록 생성 시점
+                 'proof': proof, #noce 값
+                 'previous_hash': previous_hash,    # 이전 블록의 hash값
+                 'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
 
-        self.chain.append(block)
+        self.chain.append(block)    # 체인에 새로운 블록 추가
         # clear transactions after create block
-        self.transactions.clear()
+        self.transactions.clear()   # 트랜잭션 멤풀 비우기
 
         return block
 
