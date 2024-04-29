@@ -36,8 +36,9 @@ class Blockchain:
 
         return block
 
+    # 이전 블록 가져오기
     def get_previous_block(self):
-        return self.chain[-1]
+        return self.chain[-1] # 현재 체인에 있는 블록 중 가장 끝 블록 반환
 
     def proof_of_work(self, previous_proof):  # todo : 해쉬값 찾는걸 더 어렵게 만들어서 시간이 걸리도록 할건지, 일정한 주기를 정할건지 추가
         new_proof = 1
