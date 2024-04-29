@@ -11,6 +11,7 @@ const Button = ({ variant = 'default', children, type, ...props }: ButtonProps) 
   const buttonType = type || 'button'
   const className = variant === 'white' ? style.white : variant === 'purple' ? style.purple : style.default
   return (
+    // eslint-disable-next-line react/button-has-type
     <button className={className} type={buttonType} {...props}>
       {children}
     </button>
