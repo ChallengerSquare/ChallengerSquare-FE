@@ -38,6 +38,7 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	@Transactional
 	public void createAlert(List<String> receivers, Character alertType, Long alertTargetId, String alertContent) {
+		log.info("알림 생성 시작 - 타입: {}, 대상 ID: {}", alertType, alertTargetId);
 		// 생성된 알림 저장
 		Alert alert = Alert.builder()
 			.alertType(alertType)
@@ -45,12 +46,14 @@ public class AlertServiceImpl implements AlertService {
 			.alertTargetId(alertTargetId)
 			.build();
 		alertRepository.save(alert);
+		log.debug("알림 저장 완료 - ID: {}", alert.getId());
 
 		// 생성된 알림 받는 모든 회원 매핑 테이블로 연결
 		for (String receiver : receivers) {
 			AlertMember alertMember = AlertMember.builder().alert(alert).isRead(false).memberCode(receiver).build();
 			alertMemberRepository.save(alertMember);
 		}
+		log.info("알림 및 받는 회원 정보 저장 완료");
 	}
 
 	/**
@@ -64,10 +67,12 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<AlertResponseDto> findAlerts(String memberCode, boolean unread) {
+		log.info("알림 조회 시작 - 회원 코드: {}, 안읽은 알림 조건 여부: {}", memberCode, unread);
 		// 안읽은 알림인지 여부에 따라 alertMember 매핑테이블 정보 조회
 		List<AlertMember> alertMemberList = unread ?
 			alertMemberRepository.findAllByMemberCodeAndIsRead(memberCode, false) :
 			alertMemberRepository.findAllByMemberCode(memberCode);
+		log.debug("조회된 알림의 받는 회원 수: {}", alertMemberList.size());
 
 		// 매핑테이블 정보로 반환 DTO로 변환하여 반환
 		return convertDtoList(alertMemberList);
@@ -114,6 +119,7 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	@Transactional
 	public void updateAlert(String memberCode, Long alertId) {
+		log.info("읽음 상태 업데이트 시작 - 알림 ID: {}, 회원 코드: {}", alertId, memberCode);
 		// alertId로 Alert 가져오기
 		Alert alert = alertRepository.findById(alertId).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_ALERT));
 
@@ -123,6 +129,7 @@ public class AlertServiceImpl implements AlertService {
 
 		// 읽음 상태 변경
 		alertMember.updateIsRead();
+		log.info("읽음 상태 업데이트 완료 - 알림 ID: {}, 회원 코드: {}", alertId, memberCode);
 	}
 
 }
