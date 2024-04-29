@@ -12,5 +12,5 @@ public interface SseRepository {
 	SseEmitter findEmitterByMemberCode(String memberCode);
 
 	// SseEmitter 캐시에서 삭제
-	void deleteEmitterById(String id);
+	void deleteEmitterByMemberCode(String memberCode);
 }
