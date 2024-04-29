@@ -1,7 +1,9 @@
 package com.ssafy.challs.domain.alert.repository;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+@Repository
 public interface SseRepository {
 	// SseEmitter를 생성하고 저장
 	SseEmitter save(String emitterId, SseEmitter sseEmitter);

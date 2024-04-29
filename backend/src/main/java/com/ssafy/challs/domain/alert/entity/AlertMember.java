@@ -1,7 +1,5 @@
 package com.ssafy.challs.domain.alert.entity;
 
-import com.ssafy.challs.domain.member.entity.Member;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +17,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlertMember {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	Member member;
-	@ManyToOne(fetch = FetchType.LAZY)
 	Alert alert;
+	String memberCode;
 	Boolean isRead;
 }
