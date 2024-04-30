@@ -16,7 +16,6 @@ const Home = () => {
       <div>gg</div>
       <div>gg</div>
       <div>gg</div>
-      <div>gg</div>
     </>
   )
 }
