@@ -6,7 +6,7 @@ class SmartContract:
     def validate_transaction(self, transaction):
         # 트랜잭션 유형에 따른 필수 데이터 필드 검증
         required_fields = {
-            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type'],  # todo : 올바른 컬럼명으로 고치기
+            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type'],
             'participation': ['organizer', 'event_name', 'attendee_name', 'event_date', 'code', 'details']
         }
 
@@ -20,6 +20,8 @@ class SmartContract:
             return False, "Missing required transaction data"
 
         return True, "Transaction is valid"
+
+
 
     def execute_transaction(self, transaction):
         # 트랜잭션 유효성 검증
