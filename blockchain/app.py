@@ -3,11 +3,13 @@ from uuid import uuid4
 from flask import Flask, jsonify, request
 
 from blockchain import Blockchain
+from smart_contract import SmartContract
 
 app = Flask(__name__)
 
 node_address = str(uuid4()).replace('-', '')
 blockchain = Blockchain()
+smart_contract = SmartContract(blockchain)
 
 
 @app.route('/mine_block', methods=['GET'])
@@ -16,7 +18,6 @@ def mine_block():
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
-    # blockchain.add_transaction(sender=node_address, receiver='junhyun', amount=10)
     block = blockchain.create_block(proof, previous_hash)
 
     response = {'message': 'Congratulations, you just mine a block!!',
@@ -39,8 +40,7 @@ def get_chain():
 
 @app.route('/is_valid', methods=['GET'])
 def is_valid():
-    is_valid = blockchain.is_chain_valid(blockchain.chain)
-    if is_valid:
+    if blockchain.is_chain_valid(blockchain.chain):
         response = {'message': 'All good. The Blockchain is valid!'}
     else:
         response = {'message': 'We have a problem!!'}
@@ -48,39 +48,15 @@ def is_valid():
     return jsonify(response), 200
 
 
-# @app.route('/add_sample_transaction', methods=['POST'])
-# def add_sample_transaction():
-#     json = request.get_json()
-#     transaction_keys = ['sender', 'receiver', 'amount']
-#     if not all(key in json for key in transaction_keys):
-#         return 'Some elements of the transaction are missing', 400
-#
-#     index = blockchain.add_transaction(json['sender'], json['receiver'], json['amount'])
-#     response = {'message': f'This transaction will be added to Block {index}'}
-#     return jsonify(response), 201
-
-
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
-    json = request.get_json()
-    # todo : type이 비어있으면 잘못된 정보임을 반환
-    if json['type'] == 'award':
-        transaction_keys = ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type']
-        if not all(key in json for key in transaction_keys):
-            return 'Some elements of the transaction are missing in award', 400
-        index = blockchain.add_award_transaction(json)
-        response = {'message': f'This transaction will be added to Block {index}'}
-        return jsonify(response), 201
-
-    elif json['type'] == 'participation':
-        transaction_keys = ['organizer', 'event_name', 'attendee_name', 'event_date', 'code', 'details']
-        if not all(key in json for key in transaction_keys):
-            return 'Some elements of the transaction are missing in participation', 400
-        index = blockchain.add_participation_transaction(json)
-        response = {'message': f'This transaction will be added to Block {index}'}
-        return jsonify(response), 201
-    else:
-        return 'type is invalid', 400
+    try:
+        transaction_json = request.get_json()
+        message = smart_contract.execute_transaction(transaction_json)  # 트랜잭션 실행 및 유효성 검증 포함
+        response = {'message': message}
+        return jsonify(response), 201  # 성공적으로 처리됨
+    except ValueError as e:  # 유효성 검증 실패시 예외 처리
+        return jsonify({'error': str(e)}), 400
 
 
 # todo : node 를 탐색해서 connect 하도록
