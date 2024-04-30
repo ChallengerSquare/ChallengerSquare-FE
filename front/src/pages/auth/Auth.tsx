@@ -24,21 +24,21 @@ const Auth = () => {
 
         <div className={styles.container}>
           <div className={styles.wrap}>
-            <div className="flex justify-center items-center">
+            <div>
               <img src={challSv2} alt="renewal" />
             </div>
 
-            <div className="flex justify-center">
+            <div>
               <img src={content} alt="Content" />
             </div>
 
-            <div className="flex justify-center mt-5">
+            <div className="mt-5">
               <button type="button" onClick={GoogleLoginHandler}>
                 <img src={googleBtn} alt="google" className={styles.btn} />
               </button>
             </div>
 
-            <div className="flex justify-center mt-5">
+            <div className="mt-5">
               <button type="button" onClick={KakaoLoginHandler}>
                 <img src={kakaoBtn} alt="kakao" className={styles.btn} />
               </button>
@@ -51,25 +51,3 @@ const Auth = () => {
 }
 
 export default Auth
-
-/* <div className="grid grid-flow-col h-screen ">
-        <div className={styles.background} />
-        <div className={styles.container}>
-          <div className="flex justify-center mt-32">
-            <img src={challSv2} alt="renewal" />
-          </div>
-          <div className="flex justify-center">
-            <img src={content} alt="Content" />
-          </div>
-          <div className="flex justify-center mt-5 ml-52">
-            <button type="button" onClick={GoogleLoginHandler}>
-              <img src={googleBtn} alt="google" className={styles.btn} />
-            </button>
-          </div>
-          <div className="flex justify-center mt-5 ml-52">
-            <button type="button" onClick={KakaoLoginHandler}>
-              <img src={kakaoBtn} alt="kakao" className={styles.btn} />
-            </button>
-          </div>
-        </div>
-      </div> */
