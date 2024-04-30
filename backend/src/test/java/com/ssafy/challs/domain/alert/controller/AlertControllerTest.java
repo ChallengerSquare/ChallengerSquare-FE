@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -75,6 +76,19 @@ class AlertControllerTest {
 			.alertTargetId(1L)
 			.isRead(false).build();
 		return Arrays.asList(test1, test2);
+	}
+
+	@Test
+	@DisplayName("알림읽음처리_성공")
+	void updateAlertReadStateTest() throws Exception {
+		doNothing().when(alertService).updateAlert("testMember", 1L);
+
+		mockMvc.perform(MockMvcRequestBuilders.put("/alert")
+				.param("memberCode", "testMember")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"alertId\":\"1\"}"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.content().string(org.hamcrest.Matchers.containsString("success")));
 	}
 
 }
