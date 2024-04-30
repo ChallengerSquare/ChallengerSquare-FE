@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -32,6 +33,7 @@ class AlertControllerTest {
 
 	@Test
 	@DisplayName("알림조회_모든알림_성공")
+	@WithMockUser(username = "testMember", roles = {"false"})
 	void searhAlertListTest() throws Exception {
 
 		// 테스트 데이터 준비
@@ -47,6 +49,7 @@ class AlertControllerTest {
 
 	@Test
 	@DisplayName("알림조회_안읽은알림_성공")
+	@WithMockUser(username = "testMember", roles = {"false"})
 	void searhUnreadAlertListTest() throws Exception {
 
 		// 테스트 데이터 준비
@@ -80,6 +83,7 @@ class AlertControllerTest {
 
 	@Test
 	@DisplayName("알림읽음처리_성공")
+	@WithMockUser(username = "testMember", roles = {"false"})
 	void updateAlertReadStateTest() throws Exception {
 		doNothing().when(alertService).updateAlert("testMember", 1L);
 
