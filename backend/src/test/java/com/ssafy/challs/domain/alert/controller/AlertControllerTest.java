@@ -2,6 +2,7 @@ package com.ssafy.challs.domain.alert.controller;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -88,6 +89,7 @@ class AlertControllerTest {
 		doNothing().when(alertService).updateAlert("testMember", 1L);
 
 		mockMvc.perform(MockMvcRequestBuilders.put("/alert")
+				.with(csrf())
 				.param("memberCode", "testMember")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"alertId\":\"1\"}"))
