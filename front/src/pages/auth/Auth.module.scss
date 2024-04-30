@@ -12,13 +12,14 @@ $backgroundColor: #f9f6ff;
 .container {
   background-color: $backgroundColor;
   grid-column: 2fr 2fr;
-  height: 100%;
-  align-items: center;
 }
 
-.em {
+.wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .btn {

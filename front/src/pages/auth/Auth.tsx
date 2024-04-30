@@ -23,7 +23,7 @@ const Auth = () => {
         <div className={styles.background} />
 
         <div className={styles.container}>
-          <div className="container justify-center items-center">
+          <div className={styles.wrap}>
             <div className="flex justify-center items-center">
               <img src={challSv2} alt="renewal" />
             </div>
@@ -32,13 +32,13 @@ const Auth = () => {
               <img src={content} alt="Content" />
             </div>
 
-            <div className="flex justify-center mt-5 ml-52">
+            <div className="flex justify-center mt-5">
               <button type="button" onClick={GoogleLoginHandler}>
                 <img src={googleBtn} alt="google" className={styles.btn} />
               </button>
             </div>
 
-            <div className="flex justify-center mt-5 ml-52">
+            <div className="flex justify-center mt-5">
               <button type="button" onClick={KakaoLoginHandler}>
                 <img src={kakaoBtn} alt="kakao" className={styles.btn} />
               </button>
