@@ -76,7 +76,7 @@ class Blockchain:
     # 체인이 올바른지 검증하는 함수
     def is_chain_valid(self, chain):
         previous_block = chain[0]   # 제네시스 블록에서부터 시작
-        block_index = 1 # 블록의 인덱스
+        block_index = 1  # 블록의 인덱스
 
         while block_index < len(chain):
             block = chain[block_index]
@@ -113,13 +113,11 @@ class Blockchain:
 
         return previous_block['index'] + 1
 
-    # 수상기록 트랜잭션 추가
-    # todo: 요청 왔을 떄 트랜잭션 생성해서 넣는 건 smart_contract로 분리
-    def add_award_transaction(self, data):  # todo : 함수 테스트
+
+    def add_award_transaction(self, data):
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
         timestamp = datetime.datetime.now().isoformat()
-        # todo : 데이터 key 이름 조정하기
         transaction = {
             "transaction_id": transaction_id,
             "timestamp": timestamp,
@@ -141,14 +139,13 @@ class Blockchain:
         return previous_block['index'] + 1
 
     # 참가기록 트랜잭션 추가
-    # todo: 요청 왔을 떄 트랜잭션 생성해서 넣는 건 smart_contract로 분리
     def add_participation_transaction(self, data):  # todo : 함수 테스트
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
         timestamp = datetime.datetime.now().isoformat()
 
         transaction = {
-            "transaction_id": transaction_id,  # todo : 데이터 key 이름 조정
+            "transaction_id": transaction_id,
             "timestamp": timestamp,
             "type": "participation",
             "data": {
