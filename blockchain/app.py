@@ -50,18 +50,13 @@ def is_valid():
 
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
-    json = request.get_json()
-    if smart_contract.validate_transaction(json):
-        if json['type'] == 'award':
-            index = blockchain.add_award_transaction(json)
-            response = {'message': f'This transaction will be added to Block {index}'}
-            return jsonify(response), 201
-        elif json['type'] == 'participant':
-            index = blockchain.add_participation_transaction(json)
-            response = {'message': f'This transaction will be added to Block {index}'}
-            return jsonify(response), 201
-    else:
-        return 'Invalid Transaction', 400
+    try:
+        transaction_json = request.get_json()
+        message = smart_contract.execute_transaction(transaction_json)  # 트랜잭션 실행 및 유효성 검증 포함
+        response = {'message': message}
+        return jsonify(response), 201  # 성공적으로 처리됨
+    except ValueError as e:  # 유효성 검증 실패시 예외 처리
+        return jsonify({'error': str(e)}), 400
 
 
 # todo : node 를 탐색해서 connect 하도록
