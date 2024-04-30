@@ -60,7 +60,7 @@ public class SecurityConfig {
 			// 여기에서 열어줘야 하는 곳은 대회 조회, 대회 상세조회, 대회 QNA조회, 대회 공지 조회, 대회 공지 상세 조회, 소셜 로그인의 모든 과정, 추가 정보 입력
 			requests -> requests.requestMatchers("/contest/", "/contest", "/qna", "/qna/", "/notice", "/notice/",
 					"/error", "/favicon.ico", "/login/oauth2/**", "/member/refresh", "/member/logout",
-					"/info/actuator/health", "/info/actuator/prometheus").permitAll()
+					"/info/actuator/health", "/info/actuator/prometheus","/swagger-ui/**", "/v3/api-docs/**","/swagger-ui.html").permitAll()
 				.anyRequest()
 				.authenticated()
 		);
