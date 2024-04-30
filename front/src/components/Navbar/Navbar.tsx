@@ -1,7 +1,7 @@
-import styles from '@components/Navbar/Navbar.module.scss'
-import Button from '@components/Button/Button'
-import useNavbarScroll from '@hooks/useNavbarScroll'
 import { Link } from 'react-router-dom'
+import useNavbarScroll from '@hooks/useNavbarScroll'
+import Button from '@components/Button/Button'
+import styles from './Navbar.module.scss'
 
 interface NavbarProps {
   enableScrollEffect?: boolean

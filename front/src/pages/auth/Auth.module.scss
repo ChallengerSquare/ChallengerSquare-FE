@@ -1,0 +1,27 @@
+$main-color: #8930fd;
+$backgroundColor: #f9f6ff;
+
+.background {
+  background-image: url('../../../public/images/auth/bg-left.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: auto;
+  grid-column: 1fr 1fr;
+}
+
+.container {
+  background-color: $backgroundColor;
+  grid-column: 2fr 2fr;
+  height: 100%;
+  align-items: center;
+}
+
+.em {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  width: auto;
+  height: auto;
+}
