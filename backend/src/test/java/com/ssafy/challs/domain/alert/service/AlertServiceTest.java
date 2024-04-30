@@ -1,5 +1,6 @@
 package com.ssafy.challs.domain.alert.service;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ssafy.challs.domain.alert.dto.response.AlertResponseDto;
 import com.ssafy.challs.domain.alert.entity.Alert;
 import com.ssafy.challs.domain.alert.entity.AlertMember;
 import com.ssafy.challs.domain.alert.repository.AlertMemberRepository;
@@ -43,6 +45,26 @@ class AlertServiceTest {
 		// 검증
 		verify(alertRepository).save(any(Alert.class));
 		verify(alertMemberRepository, times(receivers.size())).save(any(AlertMember.class));
+	}
+
+	@Test
+	@DisplayName("알림 조회 테스트")
+	void testFindAlerts() {
+		// 테스트 데이터 준비
+		AlertMember alertMember = AlertMember.builder()
+			.alert(
+				Alert.builder().id(1L).alertTargetId(1L).alertType('N').alertContent("알림 내용").build())
+			.memberCode("testMember")
+			.isRead(false).build();
+		List<AlertMember> alertMembers = Arrays.asList(alertMember);
+		when(alertMemberRepository.findAllByMemberCode(memberCode)).thenReturn(alertMembers);
+
+		// 테스트 실행
+		List<AlertResponseDto> results = alertService.findAlerts(memberCode, false);
+
+		// 검증
+		assertEquals(1, results.size());
+		assertEquals("알림 내용", results.get(0).alertContent());
 	}
 
 }
