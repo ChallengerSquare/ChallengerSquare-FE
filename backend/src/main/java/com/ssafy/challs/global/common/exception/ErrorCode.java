@@ -71,9 +71,6 @@ public enum ErrorCode {
 	// 이미 토큰을 발행함
 	EXIST_TOKEN_ERROR(401, "G-018", "Exist Token Exception"),
 
-	// FeignClient에서 400 이상의 에러가 오는 경우
-	FEIGN_ERROR(502, "G-019", "Feign Exception"),
-
 	// Method Not Allowed
 	METHOD_NOT_ALLOWED_ERROR(405, "G-020", "Method Not Allowed Exception"),
 
@@ -86,6 +83,12 @@ public enum ErrorCode {
 	// 회원의 알림 아님
 	ALERT_NOT_OWNER(400, "G-023", "Alert Not Owner"),
 	NOT_FOUND_ALERT(400, "G-024", "Not Found Alert"),
+
+	// 멤버의 정보가 존재하지 않음
+	MEMBER_FOUND_ERROR(404, "G-025", "Member Found Exception"),
+
+	// 멤버가 약관에 동의하지 않음
+	MEMBER_NOT_AGREE_ERROR(403, "G-026", "Member Not Agree Exception"),
 
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
