@@ -20,6 +20,7 @@ import com.ssafy.challs.domain.alert.entity.AlertMember;
 import com.ssafy.challs.domain.alert.repository.AlertMemberRepository;
 import com.ssafy.challs.domain.alert.repository.AlertRepository;
 import com.ssafy.challs.domain.alert.service.impl.AlertServiceImpl;
+import com.ssafy.challs.global.common.exception.BaseException;
 
 @ExtendWith(MockitoExtension.class)
 class AlertServiceTest {
@@ -86,4 +87,13 @@ class AlertServiceTest {
 		verify(alertMemberRepository).findAlertMembersByMemberCodeAndAlert(memberCode, alert);
 	}
 
+	@Test
+	@DisplayName("알림 ID로 찾기 실패 시 예외 발생 테스트")
+	void testUpdateAlertNotFound() {
+		// 준비
+		when(alertRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+		// 실행 & 검증
+		assertThrows(BaseException.class, () -> alertService.updateAlert(memberCode, 1L));
+	}
 }
