@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,6 +66,24 @@ class AlertServiceTest {
 		// 검증
 		assertEquals(1, results.size());
 		assertEquals("알림 내용", results.get(0).alertContent());
+	}
+
+	@Test
+	@DisplayName("읽음 상태 업데이트 테스트")
+	void testUpdateAlert() {
+		// 테스트 데이터 준비
+		Alert alert = new Alert(1L, 'N', "알림 내용", 1L);
+		AlertMember alertMember = AlertMember.builder().alert(alert).memberCode(memberCode).isRead(false).build();
+		when(alertRepository.findById(1L)).thenReturn(Optional.of(alert));
+		when(alertMemberRepository.findAlertMembersByMemberCodeAndAlert(memberCode, alert)).thenReturn(
+			Optional.of(alertMember));
+
+		// 테스트 실행
+		alertService.updateAlert(memberCode, 1L);
+
+		// 검증
+		assertTrue(alertMember.getIsRead());
+		verify(alertMemberRepository).findAlertMembersByMemberCodeAndAlert(memberCode, alert);
 	}
 
 }
