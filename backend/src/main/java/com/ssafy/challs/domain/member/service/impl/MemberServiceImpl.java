@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * refresh token을 기준으로 새로운 accessToken과 refreshToken 발급
+	 * @author 강태연
 	 * @param refreshToken refreshToken
 	 * @return 토큰을 저장할 HttpHeaders
 	 */
@@ -50,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * refresh token을 redis에서 삭제하고 cookie를 삭제
+	 * @author 강태연
 	 * @param refreshToken refreshToken
 	 * @return 토큰을 저장할 HttpHeaders
 	 */
@@ -75,6 +77,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 회원가입
+	 * @author 강태연
 	 * @param memberCreateRequestDto 회원가입에 필요한 정보
 	 * @param memberId 회원 pk
 	 */
@@ -86,6 +89,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 정보수정
+	 * @author 강태연
 	 * @param memberUpdateRequestDto 정보수정에 필요한 정보
 	 * @param memberId 회원 pk
 	 */
@@ -97,6 +101,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 정보 조회
+	 * @author 강태연
 	 * @param memberId 회원 pk
 	 * @return 회원 조회 결과
 	 */
@@ -110,6 +115,7 @@ public class MemberServiceImpl implements MemberService {
 
 	/**
 	 * 회원 탈퇴
+	 * @author 강태연
 	 * @param memberId 회원 pk
 	 */
 	@Override
