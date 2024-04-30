@@ -58,7 +58,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		String httpMethod = request.getMethod();
 
 		// 로그인을 하지 않아도 볼 수 있어야 하는 경로
-		List<String> excludeUris = List.of("/error", "/favicon.ico", "/api/contest", "/api/notice", "/api/qna");
+		List<String> excludeUris = List.of("/error", "/favicon.ico", "/api/contest", "/api/notice", "/api/qna",
+			"/info/actuator/health", "/info/actuator/prometheus");
 		return httpMethod.equals("GET") && excludeUris.stream().anyMatch(requestUri::startsWith);
 	}
 
