@@ -3,7 +3,8 @@ class SmartContract:
     def __init__(self, blockchain):
         self.blockchain = blockchain
 
-    def validate_transaction(self, transaction):
+    @staticmethod
+    def validate_transaction(transaction):
         # 트랜잭션 유형에 따른 필수 데이터 필드 검증
         required_fields = {
             'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type'],
