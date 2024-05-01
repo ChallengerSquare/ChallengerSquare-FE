@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from '@pages/home/Home'
-import Competition from '@pages/competition/Competition'
+import Competition from '@/pages/competition/Competition'
 import CompetitionResult from '@pages/competition-result/CompetitionResult'
 import SignIn from '@/pages/signin/SignIn'
 

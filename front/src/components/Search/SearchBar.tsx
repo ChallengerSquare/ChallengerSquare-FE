@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 // import { useNavigate } from 'react-router-dom';
 import style from '@/components/Search/SearachBar.module.scss'
+import searchIcon from '@/assets/search.svg'
 
 const SearchBar = () => {
   // const navigate = useNavigate()
@@ -26,6 +27,14 @@ const SearchBar = () => {
   }
   return (
     <div className={style.search}>
+      <div className={style.content}>
+        <p>
+          행사 개최, 관리, 참여를 모두 <span>한 곳</span>에서.
+        </p>
+        <p>
+          수상 내역, 참가 확인은 <span>블록체인</span>으로 안전하고 확실하게.
+        </p>
+      </div>
       <div className={style.search_bar}>
         <input
           type={`text`}
@@ -36,7 +45,7 @@ const SearchBar = () => {
           maxLength={25}
         />
         <button type="button" onClick={() => handleSearch(keyword)}>
-          검색
+          <img src={searchIcon} alt="검색" />
         </button>
       </div>
       <div className={style.page_link}>
