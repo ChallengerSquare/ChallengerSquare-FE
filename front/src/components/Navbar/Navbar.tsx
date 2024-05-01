@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import useNavbarScroll from '@hooks/useNavbarScroll'
 import Button from '@components/Button/Button'
 import styles from './Navbar.module.scss'
@@ -20,12 +20,30 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
           </Link>
         </div>
         <nav>
-          <Link to="/competition" className={styles.link}>
+          <NavLink
+            to="/competition"
+            className={styles.link}
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? 'bold' : '',
+                color: isActive ? '#8930FD' : '',
+              }
+            }}
+          >
             대회
-          </Link>
-          <Link to="/competition-results" className={styles.link}>
-            수상/참가 내역 조회
-          </Link>
+          </NavLink>
+          <NavLink
+            to="/competition-results"
+            className={styles.link}
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? 'bold' : '',
+                color: isActive ? '#8930FD' : '',
+              }
+            }}
+          >
+            수상/참가 조회
+          </NavLink>
         </nav>
         <Link to="/sign-in">
           <Button variation="purple" className={styles.login}>
