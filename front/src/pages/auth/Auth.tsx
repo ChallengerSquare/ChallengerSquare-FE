@@ -3,6 +3,7 @@ import styles from './Auth.module.scss'
 const Auth = () => {
   const challSv2 = `${process.env.PUBLIC_URL}/svgs/challSv2.svg`
   const content = `${process.env.PUBLIC_URL}/images/auth/content.png`
+  const leftImage = `${process.env.PUBLIC_URL}/images/auth/bg-left.png`
   const kakaoBtn = `${process.env.PUBLIC_URL}/images/auth/kakao_login.png`
   const googleBtn = `${process.env.PUBLIC_URL}/images/auth/google_login.png`
 
@@ -19,29 +20,33 @@ const Auth = () => {
 
   return (
     <>
-      <div className="grid grid-flow-col h-screen">
-        <div className={styles.background} />
+      <div className={styles.container}>
+        <div className={styles.image}>
+          <img src={leftImage} alt="Renewal" />
+        </div>
 
-        <div className={styles.container}>
+        <div className={styles.form}>
           <div className={styles.wrap}>
-            <div>
-              <img src={challSv2} alt="renewal" />
-            </div>
+            <div className={styles.form_size}>
+              <div>
+                <img src={challSv2} alt="Renewal" />
+              </div>
 
-            <div>
-              <img src={content} alt="Content" />
-            </div>
+              <div>
+                <img src={content} alt="Content" />
+              </div>
 
-            <div className="mt-5">
-              <button type="button" onClick={GoogleLoginHandler}>
-                <img src={googleBtn} alt="google" className={styles.btn} />
-              </button>
-            </div>
+              <div className="mt-5">
+                <button type="button" onClick={GoogleLoginHandler}>
+                  <img src={googleBtn} alt="google" className={styles.btn} />
+                </button>
+              </div>
 
-            <div className="mt-5">
-              <button type="button" onClick={KakaoLoginHandler}>
-                <img src={kakaoBtn} alt="kakao" className={styles.btn} />
-              </button>
+              <div className="mt-5">
+                <button type="button" onClick={KakaoLoginHandler}>
+                  <img src={kakaoBtn} alt="kakao" className={styles.btn} />
+                </button>
+              </div>
             </div>
           </div>
         </div>

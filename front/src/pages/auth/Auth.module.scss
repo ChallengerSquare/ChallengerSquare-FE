@@ -1,17 +1,30 @@
 $main-color: #8930fd;
 $backgroundColor: #f9f6ff;
 
-.background {
-  background-image: url('../../../public/images/auth/bg-left.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: auto;
-  grid-column: 1fr 1fr;
+.container {
+  display: flex;
+  height: 100svh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
-.container {
+.image {
+  width: 30%;
+  img {
+    width: auto;
+    height: 100svh;
+  }
+}
+
+.form {
+  width: 80%;
   background-color: $backgroundColor;
-  grid-column: 2fr 2fr;
+}
+
+.form_size {
+  width: 470px;
 }
 
 .wrap {
@@ -19,10 +32,15 @@ $backgroundColor: #f9f6ff;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
 }
 
 .btn {
   width: auto;
   height: auto;
+
+  &:hover {
+    filter: brightness(0.7);
+    opacity: 0.5;
+  }
 }
