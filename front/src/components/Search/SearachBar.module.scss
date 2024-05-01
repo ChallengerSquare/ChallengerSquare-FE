@@ -1,38 +1,58 @@
+@import '../../styles/variables.scss';
+
 .search {
   margin:1rem;
-  max-width: 1000px;
-  width: 90%;
-}
+  max-width: 800px;
+  width: 80%;
+  color: white;
 
-.search_bar {
-  display: flex;
-  background-color: whitesmoke; opacity: 70%;
-  border-radius: 1rem;
-  align-items: center;
-  font-size: medium;
-  color: black;
-  width: 100%;
+  .content{
+    // font-size: xx-large;
+    font-size: 2vw;
+    font-weight: 600;
+    margin-bottom: 1rem;
 
-  input {
-    flex: 1;
-    background-color: transparent;
-    border: none;
-    padding : 1rem 1.5rem;
-    width: 100%;
-
-    &:focus {
-      outline:none;
+    span{
+      background-color: $main-color;
     }
   }
 
-  button{
-    margin : 1rem 1.5rem;
+  .search_bar {
+    display: flex;
+    background-color: whitesmoke; opacity: 80%;
+    border-radius: 1rem;
+    align-items: center;
+    font-size: medium;
+    width: 100%;
+
+    input {
+      flex: 1;
+      background-color: transparent;
+      border: none;
+      padding : 1rem 1.5rem;
+      width: 100%;
+      color: black;
+      font-size: large;
+
+      &:focus {
+        outline:none;
+      }
+    }
+
+    button{
+      margin : 1rem 1.5rem;
+
+      img{
+        width: 2rem;
+      }
+    }
   }
-}
 
-.page_link{
-  text-align: right;
-  margin: 0.5rem 0rem;
-  font-size: small;
-
+  .page_link{
+    display: flex;
+    justify-content: end;
+    margin: 0.5rem 0rem;
+    font-size: medium;
+    font-weight:500;
+  }
 }

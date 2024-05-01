@@ -1,8 +1,17 @@
-$main-color: #8930fd;
-
 .background {
-  background-image: url('../../../public/images/competition/background.png');
-  background-size: auto;
+  background-image: url('../../../public/images/competition/SearchPageLanding.gif');
   background-repeat: no-repeat;
-  min-height: 100vh;
+  background-size: cover;
+  height: 32rem;
+  
+  .searchbar{
+    height: 28rem;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.searchlist{
+  margin-bottom: 5rem;
 }
