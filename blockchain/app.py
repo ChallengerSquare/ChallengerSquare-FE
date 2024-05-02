@@ -1,9 +1,8 @@
 from uuid import uuid4
-
 from flask import Flask, jsonify, request
-
 from blockchain import Blockchain
 from smart_contract import SmartContract
+from schedule import start_scheduler
 
 app = Flask(__name__)
 
@@ -90,4 +89,5 @@ def replace_chain():
 
 # Running the app
 if __name__ == '__main__':
+    start_scheduler()
     app.run(host='0.0.0.0', port=5000)
