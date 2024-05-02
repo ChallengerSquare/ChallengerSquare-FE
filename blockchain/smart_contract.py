@@ -1,6 +1,10 @@
+from blockchain import Blockchain
+
+blockchain = Blockchain.get_blockchain()
+
 
 class SmartContract:
-    def __init__(self, blockchain):
+    def __init__(self):
         self.blockchain = blockchain
 
     @staticmethod
@@ -13,6 +17,7 @@ class SmartContract:
         transaction_type = transaction.get('type')
         fields = required_fields.get(transaction_type)
 
+        # todo : 올바른 형식의 데이터인지 검증 로직 추가
         if not fields:
             raise ValueError("Invalid transaction type")
 
@@ -33,4 +38,3 @@ class SmartContract:
         except ValueError as e:
             # 로컬 예외 처리: 특정 오류 로그 등
             raise e  # 다시 예외를 발생시켜 상위 레벨에서 처리할 수 있게 함
-
