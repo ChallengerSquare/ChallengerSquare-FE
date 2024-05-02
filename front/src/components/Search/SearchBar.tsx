@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom';
 import styles from '@/components/Search/SearachBar.module.scss'
 import searchIcon from '@/assets/search.svg'
@@ -6,9 +6,10 @@ import searchIcon from '@/assets/search.svg'
 interface SearchBarProps {
   text: string
   openBtn: boolean
+  openBtnColor: string
 }
 
-const SearchBar = ({ text, openBtn }: SearchBarProps) => {
+const SearchBar = ({ text, openBtn, openBtnColor }: SearchBarProps) => {
   // const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
 
@@ -30,6 +31,11 @@ const SearchBar = ({ text, openBtn }: SearchBarProps) => {
       handleSearch(keyword)
     }
   }
+
+  let checkColor = ''
+  if (openBtnColor === 'white') checkColor = styles.white
+  else checkColor = styles.mainColor
+
   return (
     <div className={styles.search}>
       <div className={styles.search_bar}>
@@ -47,7 +53,7 @@ const SearchBar = ({ text, openBtn }: SearchBarProps) => {
       </div>
       {openBtn == true ? (
         <div className={styles.page_link}>
-          <button type="button" onClick={() => moveToComtetitionOpen()}>
+          <button className={checkColor} type="button" onClick={() => moveToComtetitionOpen()}>
             {`대회 개최하러가기 >`}
           </button>
         </div>

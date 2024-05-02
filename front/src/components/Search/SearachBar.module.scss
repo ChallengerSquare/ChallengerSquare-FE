@@ -23,6 +23,7 @@
 
     button{
       margin : 1rem 1.5rem;
+
       img{
         width: 2rem;
       }
@@ -34,7 +35,13 @@
       justify-content: end;
       margin: 0.5rem 0rem;
       font-size: medium;
-      font-weight:500;
-      color:white;
+      font-weight:600;
+
+      .white{
+        color:white;
+      }
+      .mainColor{
+        color:$main-color;
+      }
     }
 }

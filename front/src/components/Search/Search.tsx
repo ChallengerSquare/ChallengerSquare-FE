@@ -13,7 +13,7 @@ const Search = () => {
           수상 내역, 참가 확인은 <span>블록체인</span>으로 안전하고 확실하게.
         </p>
       </div>
-      <SearchBar text="원하는 대회를 입력해주세요" openBtn />
+      <SearchBar text="원하는 대회를 입력해주세요" openBtn openBtnColor="white" />
     </div>
   )
 }
