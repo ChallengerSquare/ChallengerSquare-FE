@@ -37,8 +37,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 			.set(member.memberAddress,
 				memberUpdateRequestDto.memberAddress())
 			.set(member.memberPhone, memberUpdateRequestDto.memberPhone())
-			.where(member.id.eq(memberId));
-
+			.where(member.id.eq(memberId))
+			.execute();
 	}
 
 	@Override
