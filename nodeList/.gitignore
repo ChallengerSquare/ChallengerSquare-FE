@@ -416,6 +416,9 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
+# Secret.json
+secret.json
+
 # Dump file
 *.stackdump
 
