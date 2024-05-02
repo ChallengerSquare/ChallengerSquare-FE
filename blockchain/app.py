@@ -1,5 +1,5 @@
 from uuid import uuid4
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from blockchain import Blockchain
 from smart_contract import SmartContract
 from schedule import start_scheduler
@@ -85,6 +85,11 @@ def replace_chain():
                     'actual_chain': blockchain.chain}
 
     return jsonify(response), 200
+
+
+@app.route('/blocks')
+def show_blocks():
+    return render_template('blocks.html', blockchain=blockchain)
 
 
 # Running the app
