@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react'
-import style from '@components/Button/Button.module.scss'
+import styles from './Button.module.scss'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variation?: 'purple' | 'white'
@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({ variation, onClick, children, type = 'button', ...props }: ButtonProps) => {
-  const className = variation === 'white' ? style.white : style.purple
+  const className = variation === 'white' ? styles.white : styles.purple
   return (
     // eslint-disable-next-line react/button-has-type
     <button className={className} onClick={onClick} {...props}>

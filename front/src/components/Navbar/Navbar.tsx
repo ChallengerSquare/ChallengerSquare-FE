@@ -1,14 +1,13 @@
-import styles from '@components/Navbar/Navbar.module.scss'
-import Button from '@components/Button/Button'
+import { Link, NavLink } from 'react-router-dom'
 import useNavbarScroll from '@hooks/useNavbarScroll'
-import { Link } from 'react-router-dom'
+import Button from '@components/Button/Button'
+import styles from './Navbar.module.scss'
 
 interface NavbarProps {
   enableScrollEffect?: boolean
 }
 
 const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
-  // 로고의 경로를 설정합니다. 이 경로는 public 폴더를 기준으로 합니다.
   const challS = `${process.env.PUBLIC_URL}/svgs/challS.svg`
   const navbarScroll = useNavbarScroll(enableScrollEffect)
   return (
@@ -20,12 +19,30 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
           </Link>
         </div>
         <nav>
-          <Link to="/competition" className={styles.link}>
+          <NavLink
+            to="/competition"
+            className={styles.link}
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? 'bold' : '',
+                color: isActive ? '#8930FD' : '',
+              }
+            }}
+          >
             대회
-          </Link>
-          <Link to="/competition-results" className={styles.link}>
-            수상/참가 내역 조회
-          </Link>
+          </NavLink>
+          <NavLink
+            to="/competition-results"
+            className={styles.link}
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? 'bold' : '',
+                color: isActive ? '#8930FD' : '',
+              }
+            }}
+          >
+            수상/참가 조회
+          </NavLink>
         </nav>
         <Link to="/sign-in">
           <Button variation="purple" className={styles.login}>

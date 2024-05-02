@@ -1,0 +1,46 @@
+$main-color: #8930fd;
+$backgroundColor: #f9f6ff;
+
+.container {
+  display: flex;
+  height: 100svh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.left {
+  width: 30%;
+  img {
+    width: 100%;
+    height: 100svh;
+  }
+}
+
+.form {
+  width: 80%;
+  background-color: $backgroundColor;
+}
+
+.form_size {
+  width: 470px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.btn {
+  width: auto;
+  height: auto;
+
+  &:hover {
+    filter: brightness(0.7);
+    opacity: 0.5;
+  }
+}
