@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import navigateBefore from '@/assets/navigate_before.svg'
 import navigateNext from '@/assets/navigate_next.svg'
 import styles from '@/components/Competition/CompetitionList.module.scss'
@@ -59,9 +60,10 @@ const CompetitoinList = ({ text, items }: Props) => {
         </div>
         <div className={styles.content}>
           <div className={styles.more}>
-            <button type="button" onClick={movetoCompetitionList}>
+            <Link to="/competition/search"> 더보기 </Link>
+            {/* <button type="button" onClick={movetoCompetitionList}>
               더보기
-            </button>
+            </button> */}
           </div>
           <div className={styles.content_items}>{slicedItems}</div>
         </div>
