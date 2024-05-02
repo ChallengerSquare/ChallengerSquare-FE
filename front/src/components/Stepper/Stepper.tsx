@@ -16,6 +16,7 @@ const Stepper = ({ currentStep }: StepperProps) => {
         <Fragment key={step}>
           <Step label={`${index + 1}`} isActive={index === currentStep} />
           {index < steps.length - 1 ? <div className={styles.line} /> : null}
+          <div>{step[index]}</div>
         </Fragment>
       ))}
     </div>
