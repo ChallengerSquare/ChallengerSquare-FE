@@ -1,0 +1,24 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// .stepContainer {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: center;
+// }
+
+// .stepLabel {
+//   margin-top: 8px;
+//   color: #8930fd;
+//   font-size: 14px;
+// }
+
+.line {
+  width: 50px;
+  height: 2px;
+  background-color: #8930fd;
+}

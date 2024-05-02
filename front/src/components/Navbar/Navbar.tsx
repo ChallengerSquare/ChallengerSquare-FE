@@ -8,7 +8,6 @@ interface NavbarProps {
 }
 
 const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
-  // 로고의 경로를 설정합니다. 이 경로는 public 폴더를 기준으로 합니다.
   const challS = `${process.env.PUBLIC_URL}/svgs/challS.svg`
   const navbarScroll = useNavbarScroll(enableScrollEffect)
   return (

@@ -21,7 +21,7 @@ const Auth = () => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.image}>
+        <div className={styles.left}>
           <img src={leftImage} alt="Renewal" />
         </div>
 

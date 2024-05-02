@@ -1,0 +1,22 @@
+$main-color: #8930fd;
+$hover-color: #efe3ff;
+
+.step {
+  width: 50px; // 원의 너비
+  height: 50px; // 원의 높이
+  background-color: #ffffff; // 배경 색상
+  color: $main-color; // 글자 색상
+  display: flex; // Flexbox 사용
+  align-items: center; // 가로 중앙 정렬
+  justify-content: center; // 세로 중앙 정렬
+  border-radius: 50%; // 원 모양 만들기
+  border: 2px solid $main-color; // 테두리 색상과 두께
+  font-weight: bold; // 글자 굵기
+  font-size: 16px; // 글자 크기
+  margin: 0 10px; // 양 옆 여백
+}
+
+.active {
+  background-color: $main-color; // 활성 상태일 때의 배경 색상
+  color: #ffffff; // 활성 상태일 때의 글자 색상
+}

@@ -1,0 +1,20 @@
+$main-color: #8930fd;
+$backgroundColor: #f9f6ff;
+
+.background {
+  background-color: $backgroundColor;
+  height: 100dvh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.sign-up {
+  font-weight: bold;
+  font-size: 2rem;
+}
