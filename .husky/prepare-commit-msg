@@ -3,7 +3,7 @@ if [ -z "$BRANCHES_TO_SKIP" ]; then
 fi
 
 BRANCH_NAME=$(git symbolic-ref --short HEAD)
-BRANCH_NAME="${BRANCH_NAME##*/}"
+# BRANCH_NAME="${BRANCH_NAME##*/}"
 
 for branch in "${BRANCHES_TO_SKIP[@]}"; do
     if [[ "$BRANCH_NAME" == "$branch" ]]; then
