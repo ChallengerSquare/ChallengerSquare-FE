@@ -2,26 +2,38 @@ import datetime
 import hashlib
 import json
 import uuid
+from urllib.parse import urlparse
 
 import requests
-from urllib.parse import urlparse
 
 
 # Building a Blockchain
 
 class Blockchain:
-    def __init__(self):
-        self.chain = [] # 블록들이 들어갈 체인
-        self.transactions = []  # 프랜잭션 멤풀
-        self.nodes = set()  # 네트워크에 연결된 노드들의 목록
-        self.create_block(proof=1, previous_hash='0')   # 제네시스 블록 생성
+    _instance = None
 
+    def __init__(self):
+        if not Blockchain._instance:
+            self.chain = []
+            self.transactions = []
+            self.nodes = set()
+            self.create_block(proof=1, previous_hash='0')
+            Blockchain._instance = self  # 인스턴스를 클래스 변수에 저장
+        else:
+            raise Exception("This class is a singleton!")
     # 블록 생성 함수
     '''
     :param proof: nonce의 역할을 함
     :param previous_hash: 이전 블록의 hash
     :return: 새로 생성된 블록
     '''
+
+    @staticmethod
+    def get_blockchain():
+        if not Blockchain._instance:
+            Blockchain._instance = Blockchain()
+        return Blockchain._instance
+
     def create_block(self, proof, previous_hash):
         # define Block
         block = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
