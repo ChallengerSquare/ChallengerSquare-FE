@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.container{
+    display: flex;
+    flex-direction: column  ;
+    width: 800px;
+    margin: 0rem 2rem;
+    
+    .content{
+        color: white;
+        font-size: 2vw;
+        font-weight: 600;
+        margin-bottom: 1rem;
+
+        span{
+            background-color: $main-color;
+        }
+    }
+}

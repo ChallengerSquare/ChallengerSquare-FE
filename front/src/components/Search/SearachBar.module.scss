@@ -1,38 +1,20 @@
 @import '../../styles/variables.scss';
 
-.search {
-  margin:1rem;
-  max-width: 800px;
-  width: 80%;
-  color: white;
-
-  .content{
-    // font-size: xx-large;
-    font-size: 2vw;
-    font-weight: 600;
-    margin-bottom: 1rem;
-
-    span{
-      background-color: $main-color;
-    }
-  }
+.search{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
   .search_bar {
     display: flex;
     background-color: whitesmoke; opacity: 80%;
     border-radius: 1rem;
-    align-items: center;
-    font-size: medium;
-    width: 100%;
 
     input {
       flex: 1;
       background-color: transparent;
-      border: none;
       padding : 1rem 1.5rem;
-      width: 100%;
-      color: black;
-      font-size: large;
+      font-size: medium;
 
       &:focus {
         outline:none;
@@ -41,7 +23,6 @@
 
     button{
       margin : 1rem 1.5rem;
-
       img{
         width: 2rem;
       }
@@ -49,10 +30,11 @@
   }
 
   .page_link{
-    display: flex;
-    justify-content: end;
-    margin: 0.5rem 0rem;
-    font-size: medium;
-    font-weight:500;
-  }
+      display: flex;
+      justify-content: end;
+      margin: 0.5rem 0rem;
+      font-size: medium;
+      font-weight:500;
+      color:white;
+    }
 }

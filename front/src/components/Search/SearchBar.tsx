@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 // import { useNavigate } from 'react-router-dom';
-import style from '@/components/Search/SearachBar.module.scss'
+import styles from '@/components/Search/SearachBar.module.scss'
 import searchIcon from '@/assets/search.svg'
 
-const SearchBar = () => {
+interface SearchBarProps {
+  text: string
+  openBtn: boolean
+}
+
+const SearchBar = ({ text, openBtn }: SearchBarProps) => {
   // const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
 
@@ -26,19 +31,11 @@ const SearchBar = () => {
     }
   }
   return (
-    <div className={style.search}>
-      <div className={style.content}>
-        <p>
-          행사 개최, 관리, 참여를 모두 <span>한 곳</span>에서.
-        </p>
-        <p>
-          수상 내역, 참가 확인은 <span>블록체인</span>으로 안전하고 확실하게.
-        </p>
-      </div>
-      <div className={style.search_bar}>
+    <div className={styles.search}>
+      <div className={styles.search_bar}>
         <input
-          type={`text`}
-          placeholder={`원하는 대회를 입력해주세요`}
+          type="text"
+          placeholder={text}
           value={keyword}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
@@ -48,11 +45,13 @@ const SearchBar = () => {
           <img src={searchIcon} alt="검색" />
         </button>
       </div>
-      <div className={style.page_link}>
-        <button type="button" onClick={() => moveToComtetitionOpen()}>
-          {`대회 개최하러가기 >`}
-        </button>
-      </div>
+      {openBtn == true ? (
+        <div className={styles.page_link}>
+          <button type="button" onClick={() => moveToComtetitionOpen()}>
+            {`대회 개최하러가기 >`}
+          </button>
+        </div>
+      ) : null}
     </div>
   )
 }
