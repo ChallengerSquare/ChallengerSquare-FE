@@ -32,9 +32,9 @@ public class ContestServiceImpl implements ContestService {
 		String contestImage = "contest_temp_image";
 		// 대회 생성과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
-		// TODO : DTO -> ENTITY
+		// DTO -> ENTITY
 		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestImage, contestState);
-		// TODO : DB에 저장
+		// DB에 저장
 		Contest savedContest = contestRepository.save(contest);
 		return new ContestCreateResponseDto(savedContest.getId());
 	}
@@ -43,12 +43,12 @@ public class ContestServiceImpl implements ContestService {
 	 * 대회가 생성됨과 동시에 모집중인지 확인
 	 *
 	 * @author 강다솔
-	 * @param contestRegistPeriod 모집 기간
+	 * @param contestRegistrationPeriod 모집 기간
 	 * @return 모집전 or 모집중
 	 */
-	private Character isOpenContest(ContestPeriodDto contestRegistPeriod) {
+	private Character isOpenContest(ContestPeriodDto contestRegistrationPeriod) {
 		LocalDate today = LocalDate.now();
-		if (!contestRegistPeriod.start().isBefore(today)) {
+		if (!contestRegistrationPeriod.start().isBefore(today)) {
 			return 'J';
 		}
 		return 'P';
