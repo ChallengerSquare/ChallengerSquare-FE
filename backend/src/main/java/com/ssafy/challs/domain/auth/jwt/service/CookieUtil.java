@@ -17,8 +17,7 @@ public class CookieUtil {
 	private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 	@Value("${server.servlet.context-path}")
 	private String path;
-	private static final Duration ACCESS_TOKEN_EXPIRATION = Duration.ofMinutes(30);
-	private static final Duration REFRESH_TOKEN_EXPIRATION = Duration.ofDays(7);
+	private static final Duration TOKEN_EXPIRATION = Duration.ofDays(7);
 	private static final Duration DELETION_EXPIRATION = Duration.ofMillis(1);
 
 	// 토큰 조회
@@ -37,9 +36,9 @@ public class CookieUtil {
 	// 쿠키 저장
 	public TokenCookie saveCookie(String accessToken, String refreshToken) {
 		ResponseCookie accessCookie = getResponseCookie(ACCESS_TOKEN_COOKIE_NAME, accessToken, path,
-			ACCESS_TOKEN_EXPIRATION);
+			TOKEN_EXPIRATION);
 		ResponseCookie refreshCookie = getResponseCookie(REFRESH_TOKEN_COOKIE_NAME, refreshToken, path + "/member",
-			REFRESH_TOKEN_EXPIRATION);
+			TOKEN_EXPIRATION);
 		return new TokenCookie(accessCookie, refreshCookie);
 	}
 
