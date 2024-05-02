@@ -41,16 +41,22 @@ public class TeamController {
 
 	/**
 	 * 팀 생성
-	 * @autohr 강태연
-	 * @param teamRequestDto
-	 * @return TeamCreateResponseDto
+	 *
+	 * @author 강다솔
+	 * @param teamRequestDto 팀 생성 정보
+	 * @return TeamCreateResponseDto 생성된 팀의 아이디
 	 */
 	@PostMapping
 	@Operation(summary = "팀 생성", description = "대회 참가/개최를 위한 팀을 생성하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> createTeam(
+		@RequestParam Long memberId,
 		@RequestBody TeamCreateRequestDto teamRequestDto) {
+		// TODO : 추후에 토큰에서 멤버 ID 가져오도록 변경
+		// TODO : 서비스 로직 추가
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new TeamCreateResponseDto(1L)));
 	}
+
+	// TODO : 팀 초대 요청 보낼 수 있는 GET요청 추가 (로고 이름)
 
 	/**
 	 * 팀 참가 신청
