@@ -1,4 +1,4 @@
-package com.ssafy.challs.domain.contest.service;
+package com.ssafy.challs.domain.contest.service.impl;
 
 import java.time.LocalDate;
 
@@ -10,6 +10,7 @@ import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
+import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
 
 import lombok.RequiredArgsConstructor;
