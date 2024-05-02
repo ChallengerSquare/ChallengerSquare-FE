@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
+import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,17 +39,23 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Contest Controller", description = "대회 관리 컨트롤러")
 public class ContestController {
 
+	private final ContestService contestService;
+
 	/**
+	 * 대회 생성하는 API
 	 *
-	 * @autohr
-	 * @param contestCreateRequestDto
-	 * @return
+	 * @author 강다솔
+	 * @param contestCreateRequestDto 대회 생성 정보
+	 * @return 성공여부
 	 */
 	@PostMapping
 	@Operation(summary = "대회 생성", description = "대회를 개최하는 API")
-	public ResponseEntity<SuccessResponse<String>> createContest(
+	public ResponseEntity<SuccessResponse<ContestCreateResponseDto>> createContest(
+		@AuthenticationPrincipal SecurityMember securityMember,
 		@ModelAttribute ContestCreateRequestDto contestCreateRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED, "success"));
+		Long memberId = securityMember.id();
+		ContestCreateResponseDto createdContest = contestService.createContest(contestCreateRequestDto, memberId);
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED, createdContest));
 	}
 
 	/**
