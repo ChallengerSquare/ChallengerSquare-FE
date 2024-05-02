@@ -14,6 +14,7 @@ def mine_block_regularly():
     print("Block has been mined")
     pass
 
+
 def replace_chain_regularly():
     is_chain_replaced = blockchain.replace_chain()
     if is_chain_replaced:

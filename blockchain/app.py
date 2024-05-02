@@ -7,8 +7,8 @@ from schedule import start_scheduler
 app = Flask(__name__)
 
 node_address = str(uuid4()).replace('-', '')
-blockchain = Blockchain()
-smart_contract = SmartContract(blockchain)
+blockchain = Blockchain.get_blockchain()
+smart_contract = SmartContract()
 
 
 @app.route('/mine_block', methods=['GET'])
