@@ -18,11 +18,11 @@ const SearchBar = ({ text, openBtn, openBtnColor }: SearchBarProps) => {
   }
 
   const moveToComtetitionOpen = () => {
-    // navigate(`/search/result?keyword=${searchQuery}`)
+    // navigate(`/competition/create`)
   }
 
   const handleSearch = async (searchQuery: string) => {
-    // navigate(`/search/result?keyword=${searchQuery}`)
+    // navigate(`/competition/search?keyword=${searchQuery}`)
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {

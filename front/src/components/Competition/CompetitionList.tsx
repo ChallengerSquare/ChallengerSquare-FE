@@ -6,14 +6,14 @@ import styles from '@/components/Competition/CompetitionList.module.scss'
 import backImg from '../../../public/images/competition/background.png'
 
 interface Item {
-  id: string
+  id: number
   image: string
   name: string
   date: string
 }
 interface Props {
-  items: Item[]
   text: string
+  items: Item[]
 }
 
 const CompetitoinList = ({ text, items }: Props) => {
@@ -35,8 +35,6 @@ const CompetitoinList = ({ text, items }: Props) => {
       setCurrentIndex((prevState) => prevState - itemPerPage)
     }
   }
-
-  const movetoCompetitionList = () => {}
 
   // 슬라이스된 아이템을 보여주는 렌더링 부분
   const slicedItems = items.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
