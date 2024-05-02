@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar/Navbar'
-import SearchBar from '@/components/Search/SearchBar'
-import SearchList from '@/components/Search/SearchList'
+import CompetitionList from '@/components/Competition/CompetitionList'
+import Search from '@/components/Search/Search'
 import styles from './Competition.module.scss'
 
 const items = [
@@ -17,12 +17,12 @@ const Competition = () => {
       <div className={styles.background}>
         <Navbar enableScrollEffect />
         <div className={styles.searchbar}>
-          <SearchBar />
+          <Search />
         </div>
       </div>
       <div className={styles.searchlist}>
-        <SearchList text="인기 있는 대회를 살펴보세요" items={items} />
-        <SearchList text="마감 임박한 대회를 살펴보세요" items={items} />
+        <CompetitionList text="인기 있는 대회를 살펴보세요" items={items} />
+        <CompetitionList text="마감 임박한 대회를 살펴보세요" items={items} />
       </div>
     </div>
   )
