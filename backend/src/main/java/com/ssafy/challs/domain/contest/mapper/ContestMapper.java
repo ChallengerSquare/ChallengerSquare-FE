@@ -5,6 +5,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
+import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.team.entity.Team;
 
@@ -19,4 +21,7 @@ public interface ContestMapper {
 	@Mapping(source = "contestRequestDto.contestPeriod.end", target = "contestEnd")
 	Contest contestCreateDtoToContest(ContestCreateRequestDto contestRequestDto, Team team, String image,
 		Character contestState);
+
+	@Mapping(source = "contest", target = "contest")
+	Awards awardsDtoToEntity(ContestAwardsDto contestAwardsDto, Contest contest);
 }
