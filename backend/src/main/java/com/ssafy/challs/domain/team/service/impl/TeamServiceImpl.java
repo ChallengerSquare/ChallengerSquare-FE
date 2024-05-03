@@ -54,16 +54,15 @@ public class TeamServiceImpl implements TeamService {
 		Member owner = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		// DTO -> ENTITY
-		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, imageUrl, owner.getMemberPhone());
+		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, null, owner.getMemberPhone());
 		// DB에 저장
 		Team savedTeam = teamRepository.save(team);
 
-		imageUrl = s3ImageUploader.uploadImage(teamImage, "team", savedTeam.getId().toString());
-
-		teamRepository.updateImage(imageUrl, savedTeam.getId());
-
-		// 중요한 사실이 빠져있다
-		// team을 생성한 후에 팀과 멤버를 연결 시켜야한다
+		// 이미지가 있으면 S3에 업로드 후 팀 로고 정보 수정
+		if (teamImage != null) {
+			imageUrl = s3ImageUploader.uploadImage(teamImage, "team", savedTeam.getId().toString());
+			teamRepository.updateImage(imageUrl, savedTeam.getId());
+		}
 
 		TeamParticipants teamParticipants = TeamParticipants
 			.builder()
@@ -91,24 +90,37 @@ public class TeamServiceImpl implements TeamService {
 		return teamCode;
 	}
 
+	/**
+	 * 팀 정보 수정
+	 * @author 강태연
+	 * @param teamRequestDto 팀 정보 수정에 필요한 dto
+	 * @param teamImage 팀 로고에 사용 될 이미지
+	 * @param memberId 현재 요청을 보낸 멤버의 pk
+	 * @return 팀의 번호
+	 */
 	@Override
 	@Transactional
 	public TeamCreateResponseDto updateTeam(TeamUpdateRequestDto teamRequestDto, MultipartFile teamImage,
 		Long memberId) {
+		// 멤버 조회
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
+		// 팀 조회
 		Team team = teamRepository.findById(teamRequestDto.teamId())
-			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+		// 조회된 멤버와 팀으로 현재 요청을 보낸 멤버가 대표인지 확인
 		boolean isLeader = teamParticipantsRepository.existsByMemberAndTeamAndIsLeaderTrue(member, team);
 
+		// 대표가 아닌 경우 에러처리
 		if (!isLeader) {
-			throw new BaseException(ErrorCode.MEMBER_FOUND_ERROR);
+			throw new BaseException(ErrorCode.MEMBER_NOT_LEADER);
 		}
 
+		// 이미지를 업로드 하는 경우
 		if (teamImage != null) {
-			String imageUrl = s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
-			teamRepository.updateImage(imageUrl, team.getId());
+			s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
 		}
+		// 팀 정보 수정
 		teamRepository.updateTeam(teamRequestDto);
 
 		return new TeamCreateResponseDto(team.getId());
