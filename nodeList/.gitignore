@@ -416,6 +416,10 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
+# ssl key
+server.crt
+server.key
+
 # Secret.json
 secret.json
 
