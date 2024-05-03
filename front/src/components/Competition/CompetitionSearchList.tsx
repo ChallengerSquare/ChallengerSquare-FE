@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import styles from '@/components/Competition/CompetitionSearchList.module.scss'
 import img from '../../../public/images/competition/background.png'
 
@@ -44,9 +45,11 @@ const CompetitionSearchList = ({ title, data }: SearchListProps) => {
         <div className={styles.grid}>
           {items.map((item: item) => (
             <div key={item.id} className={styles.grid_item}>
-              <img src={img} alt={item.name} />
-              <p>{item.name}</p>
-              <span>{item.date}</span>
+              <Link to={`/competition/detail/${item.id}`}>
+                <img src={img} alt={item.name} />
+                <p>{item.name}</p>
+                <span>{item.date}</span>
+              </Link>
             </div>
           ))}
         </div>
