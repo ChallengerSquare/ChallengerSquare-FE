@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
@@ -15,6 +16,7 @@ import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.domain.team.service.TeamService;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
+import com.ssafy.challs.global.common.service.S3ImageUploader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ public class TeamServiceImpl implements TeamService {
 	private final TeamRepository teamRepository;
 	private final MemberRepository memberRepository;
 	private final TeamMapper teamMapper;
+	private final S3ImageUploader imageConfig;
 
 	/**
 	 * 팀 생성
@@ -38,9 +41,9 @@ public class TeamServiceImpl implements TeamService {
 	 */
 	@Override
 	@Transactional
-	public TeamCreateResponseDto createTeam(TeamCreateRequestDto teamRequestDto, Long memberId) {
-		// TODO : 팀 로고 S3에 저장 후 링크 받아오기
-		String imageUrl = "testurl";
+	public TeamCreateResponseDto createTeam(TeamCreateRequestDto teamRequestDto, Long memberId,
+		MultipartFile teamImage) {
+		String imageUrl = "";
 		// 팀 초대 링크 UUID로 생성
 		String teamCode = createTeamCode();
 		// 팀 대표 번호 팀장 번호로 저장
@@ -50,6 +53,11 @@ public class TeamServiceImpl implements TeamService {
 		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, imageUrl, owner.getMemberPhone());
 		// DB에 저장
 		Team savedTeam = teamRepository.save(team);
+
+		imageUrl = imageConfig.uploadImage(teamImage, "team", savedTeam.getId().toString());
+
+		teamRepository.updateImage(imageUrl, savedTeam.getId());
+
 		return new TeamCreateResponseDto(savedTeam.getId());
 	}
 

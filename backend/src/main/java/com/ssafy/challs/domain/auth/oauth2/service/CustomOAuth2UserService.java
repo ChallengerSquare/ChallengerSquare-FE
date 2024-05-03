@@ -7,13 +7,14 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.challs.domain.auth.oauth2.dto.OAuth2UserInfo;
 import com.ssafy.challs.domain.auth.oauth2.dto.PrincipalDetails;
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

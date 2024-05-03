@@ -13,10 +13,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public record SecurityMember(
 	@Schema(description = "회원의 PK", example = "1L")
-	Long id
+	Long id,
+	Boolean isAgree
 ) implements UserDetails {
 	public static SecurityMember of(Member member) {
-		return new SecurityMember(member.getId());
+		return new SecurityMember(member.getId(), member.getIsAgree());
 	}
 
 	@Override
@@ -26,7 +27,7 @@ public record SecurityMember(
 
 	@Override
 	public String getPassword() {
-		return null;
+		return isAgree.toString();
 	}
 
 	@Override

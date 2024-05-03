@@ -2,6 +2,7 @@ package com.ssafy.challs.domain.member.service.impl;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.challs.domain.auth.jwt.dto.TokenCookie;
 import com.ssafy.challs.domain.auth.jwt.repository.RefreshTokenRepository;
@@ -16,7 +17,6 @@ import com.ssafy.challs.domain.member.service.MemberService;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -106,6 +106,7 @@ public class MemberServiceImpl implements MemberService {
 	 * @return 회원 조회 결과
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public MemberFindResponseDto findMember(Long memberId) {
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
