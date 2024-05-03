@@ -87,6 +87,18 @@ def replace_chain():
     return jsonify(response), 200
 
 
+@app.route('/get_transactions/<name>', methods=['GET'])
+def get_transactions_by_name(name):
+    transactions = blockchain.get_transactions_by_name(name)
+    if transactions:
+        response = {'message': 'successfully find transactions!!',
+                    'results': transactions}
+        return jsonify(response), 200
+    else:
+        response = {'message': 'No transactions'}
+        return jsonify(response), 404
+
+
 @app.route('/blocks')
 def show_blocks():
     return render_template('blocks.html', blockchain=blockchain)
