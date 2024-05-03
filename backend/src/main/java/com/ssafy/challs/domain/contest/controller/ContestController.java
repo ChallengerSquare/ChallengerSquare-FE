@@ -21,6 +21,7 @@ import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
@@ -59,15 +60,19 @@ public class ContestController {
 	}
 
 	/**
+	 * 대회 수정하는 API
 	 *
-	 * @autohr
-	 * @param contestCreateRequestDto
-	 * @return
+	 * @author 강다솔
+	 * @param contestUpdateRequestDto 대회 수정 정보
+	 * @return 성공 여부
 	 */
 	@PutMapping
 	@Operation(summary = "대회 수정", description = "대회를 수정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContest(
-		@ModelAttribute ContestCreateRequestDto contestCreateRequestDto) {
+		@AuthenticationPrincipal SecurityMember securityMember,
+		@ModelAttribute ContestUpdateRequestDto contestUpdateRequestDto) {
+		Long memberId = securityMember.id();
+		contestService.updateContest(contestUpdateRequestDto, memberId);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
