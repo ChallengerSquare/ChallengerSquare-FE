@@ -1,7 +1,6 @@
 package com.ssafy.challs.domain.team.dto.request;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -11,8 +10,6 @@ public record TeamCreateRequestDto(
 	@Schema(description = "팀 이름 최소 2글자 ~ 최대 20글자", example = "팀이름!!!!!")
 	String teamName,
 	@Schema(description = "팀 설명 무제한", example = "팀설명!!!!!")
-	String teamDescription,
-	@Schema(description = "팀 로고")
-	MultipartFile teamImage
+	String teamDescription
 ) {
 }
