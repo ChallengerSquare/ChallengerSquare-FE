@@ -25,13 +25,11 @@ public interface ContestMapper {
 	@Mapping(target = "id", ignore = true)
 	Awards awardsDtoToEntity(ContestAwardsDto contestAwardsDto, Contest contest);
 
-	@Mapping(source = "image", target = "contestImage")
 	@Mapping(source = "contestRequestDto.contestId", target = "id")
 	@Mapping(source = "team", target = "team")
 	@Mapping(source = "contestRequestDto.registrationPeriod.start", target = "contestRegistrationStart")
 	@Mapping(source = "contestRequestDto.registrationPeriod.end", target = "contestRegistrationEnd")
 	@Mapping(source = "contestRequestDto.contestPeriod.start", target = "contestStart")
 	@Mapping(source = "contestRequestDto.contestPeriod.end", target = "contestEnd")
-	Contest contestUpdateDtoToContest(ContestUpdateRequestDto contestRequestDto, Team team, String image,
-		Character contestState);
+	Contest contestUpdateDtoToContest(ContestUpdateRequestDto contestRequestDto, Team team, Character contestState);
 }

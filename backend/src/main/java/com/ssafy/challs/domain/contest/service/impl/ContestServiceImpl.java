@@ -59,15 +59,21 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	@Override
-	public void updateContest(ContestUpdateRequestDto contestRequestDto, Long memberId) {
+	public void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId) {
 		// TODO : 수정시도하는 사람이 팀장인지 확인
 		Team team = new Team();
-		// TODO : TODO : 대회 포스터 S3에 저장 후 URL 가져오기
-		String teamImage = "teamImage";
+
 		// 대회 날짜 수정과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// 대회 수정
-		Contest contest = contestMapper.contestUpdateDtoToContest(contestRequestDto, team, teamImage, contestState);
+		Contest contest = contestMapper.contestUpdateDtoToContest(contestRequestDto, team, contestState);
+		// 사진 있다면 S3에 업로드
+		if (!contestImage.isEmpty()) {
+			imageConfig.uploadImage(contestImage, "contest", contest.getId().toString());
+		}
+
+		// 수정된 대회 포스터 S3에 저장 후 URL 가져오기
+		String teamImage = "teamImage";
 		contestRepository.save(contest);
 		// 수상 정보 수정
 		updateAwards(contest, contestRequestDto.contestAwards());
