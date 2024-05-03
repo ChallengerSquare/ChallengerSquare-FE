@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import useScrollTop from '@/hooks/useScrollTop'
 import styles from '@/components/Competition/CompetitionSearchList.module.scss'
 import img from '../../../public/images/competition/background.png'
 
@@ -18,6 +19,7 @@ interface item {
 const CompetitionSearchList = ({ title, data }: SearchListProps) => {
   const [items, setItems] = useState([...data])
   const [sortOrder, setSortOrder] = useState('date')
+  useScrollTop()
 
   useEffect(() => {
     const fetchData = async () => {
