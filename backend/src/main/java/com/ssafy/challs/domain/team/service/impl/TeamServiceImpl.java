@@ -9,9 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
+import com.ssafy.challs.domain.team.dto.request.TeamUpdateRequestDto;
 import com.ssafy.challs.domain.team.dto.response.TeamCreateResponseDto;
 import com.ssafy.challs.domain.team.entity.Team;
+import com.ssafy.challs.domain.team.entity.TeamParticipants;
 import com.ssafy.challs.domain.team.mapper.TeamMapper;
+import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.domain.team.service.TeamService;
 import com.ssafy.challs.global.common.exception.BaseException;
@@ -29,7 +32,8 @@ public class TeamServiceImpl implements TeamService {
 	private final TeamRepository teamRepository;
 	private final MemberRepository memberRepository;
 	private final TeamMapper teamMapper;
-	private final S3ImageUploader imageConfig;
+	private final S3ImageUploader s3ImageUploader;
+	private final TeamParticipantsRepository teamParticipantsRepository;
 
 	/**
 	 * 팀 생성
@@ -54,9 +58,21 @@ public class TeamServiceImpl implements TeamService {
 		// DB에 저장
 		Team savedTeam = teamRepository.save(team);
 
-		imageUrl = imageConfig.uploadImage(teamImage, "team", savedTeam.getId().toString());
+		imageUrl = s3ImageUploader.uploadImage(teamImage, "team", savedTeam.getId().toString());
 
 		teamRepository.updateImage(imageUrl, savedTeam.getId());
+
+		// 중요한 사실이 빠져있다
+		// team을 생성한 후에 팀과 멤버를 연결 시켜야한다
+
+		TeamParticipants teamParticipants = TeamParticipants
+			.builder()
+			.member(owner)
+			.team(savedTeam)
+			.isParticipants(true)
+			.isLeader(true)
+			.build();
+		teamParticipantsRepository.save(teamParticipants);
 
 		return new TeamCreateResponseDto(savedTeam.getId());
 	}
@@ -74,4 +90,28 @@ public class TeamServiceImpl implements TeamService {
 		// String teamCode = "https://www.challengersquare.com/api/team/participants?teamCode=" + uuid;
 		return teamCode;
 	}
+
+	@Override
+	@Transactional
+	public TeamCreateResponseDto updateTeam(TeamUpdateRequestDto teamRequestDto, MultipartFile teamImage,
+		Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
+		Team team = teamRepository.findById(teamRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
+		boolean isLeader = teamParticipantsRepository.existsByMemberAndTeamAndIsLeaderTrue(member, team);
+
+		if (!isLeader) {
+			throw new BaseException(ErrorCode.MEMBER_FOUND_ERROR);
+		}
+
+		if (teamImage != null) {
+			String imageUrl = s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
+			teamRepository.updateImage(imageUrl, team.getId());
+		}
+		teamRepository.updateTeam(teamRequestDto);
+
+		return new TeamCreateResponseDto(team.getId());
+	}
+
 }

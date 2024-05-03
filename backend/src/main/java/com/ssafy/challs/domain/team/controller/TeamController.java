@@ -140,8 +140,11 @@ public class TeamController {
 	@PutMapping
 	@Operation(summary = "팀 정보 수정", description = "팀의 정보를 수정하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> updateTeam(
-		@RequestBody TeamUpdateRequestDto teamRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new TeamCreateResponseDto(1L)));
+		@RequestPart(required = false) MultipartFile teamImage,
+		@RequestPart TeamUpdateRequestDto teamRequestDto,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,
+			teamService.updateTeam(teamRequestDto, teamImage, securityMember.id())));
 	}
 
 	/**
