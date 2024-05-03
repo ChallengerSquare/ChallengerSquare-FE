@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
@@ -20,6 +21,7 @@ import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
+import com.ssafy.challs.global.common.service.S3ImageUploader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,22 +35,25 @@ public class ContestServiceImpl implements ContestService {
 	private final AwardsRepository awardsRepository;
 	private final TeamRepository teamRepository;
 	private final ContestMapper contestMapper;
+	private final S3ImageUploader imageConfig;
 
 	@Override
 	@Transactional
-	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, Long memberId) {
+	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, MultipartFile contestImage,
+		Long memberId) {
 		log.info("입력으로 들어온 정보 >> " + contestRequestDto.toString());
 		// TODO : 팀 가져오고 팀장인지 확인
 		Team team = new Team();
 		teamRepository.save(team);
-		// TODO : 대회 포스터 S3에 저장 후 URL 가져오기
-		String contestImage = "contest_temp_image";
 		// 대회 생성과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// DTO -> ENTITY
-		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestImage, contestState);
+		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestState);
 		// DB에 대회, 수상 정보 저장
 		Contest savedContest = contestRepository.save(contest);
+		// 대회 포스터 S3에 저장 후 URL 가져오기
+		String savedImage = imageConfig.uploadImage(contestImage, "contest", savedContest.getId().toString());
+		savedContest.setContestImage(savedImage);
 		createAwards(savedContest, contestRequestDto.contestAwards());
 		return new ContestCreateResponseDto(savedContest.getId());
 	}

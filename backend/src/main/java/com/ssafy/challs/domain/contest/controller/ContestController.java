@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
@@ -32,6 +34,7 @@ import com.ssafy.challs.global.common.response.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -53,9 +56,11 @@ public class ContestController {
 	@Operation(summary = "대회 생성", description = "대회를 개최하는 API")
 	public ResponseEntity<SuccessResponse<ContestCreateResponseDto>> createContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
-		@ModelAttribute ContestCreateRequestDto contestCreateRequestDto) {
+		@RequestPart(required = false) MultipartFile contestImage,
+		@RequestPart @Valid ContestCreateRequestDto contestCreateRequestDto) {
 		Long memberId = securityMember.id();
-		ContestCreateResponseDto createdContest = contestService.createContest(contestCreateRequestDto, memberId);
+		ContestCreateResponseDto createdContest = contestService.createContest(contestCreateRequestDto, contestImage,
+			memberId);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED, createdContest));
 	}
 
