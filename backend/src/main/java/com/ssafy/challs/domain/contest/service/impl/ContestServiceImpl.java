@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
@@ -43,6 +44,33 @@ public class ContestServiceImpl implements ContestService {
 		Contest savedContest = contestRepository.save(contest);
 		createAwards(savedContest, contestRequestDto.contestAwards());
 		return new ContestCreateResponseDto(savedContest.getId());
+	}
+
+	@Override
+	public void updateContest(ContestUpdateRequestDto contestRequestDto, Long memberId) {
+		// TODO : 수정시도하는 사람이 팀장인지 확인
+		Team team = new Team();
+		// TODO : TODO : 대회 포스터 S3에 저장 후 URL 가져오기
+		String teamImage = "teamImage";
+		// 대회 날짜 수정과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
+		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
+		// 대회 수정
+		Contest contest = contestMapper.contestUpdateDtoToContest(contestRequestDto, team, teamImage, contestState);
+		contestRepository.save(contest);
+		// 수상 정보 수정
+		updateAwards(contest, contestRequestDto.contestAwards());
+	}
+
+	/**
+	 * 수상 정보를 수정하는 메서드
+	 *
+	 * @author 강다솔
+	 * @param contest 대회 정보
+	 * @param awardsDtoList 수정된 수상 정보
+	 */
+	private void updateAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
+		awardsRepository.deleteAllByContest(contest);
+		createAwards(contest, awardsDtoList);
 	}
 
 	/**
