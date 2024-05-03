@@ -2,8 +2,10 @@ package com.ssafy.challs.domain.contest.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
@@ -17,6 +19,7 @@ import com.ssafy.challs.domain.contest.repository.AwardsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
+import com.ssafy.challs.domain.team.repository.TeamRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +31,16 @@ public class ContestServiceImpl implements ContestService {
 
 	private final ContestRepository contestRepository;
 	private final AwardsRepository awardsRepository;
+	private final TeamRepository teamRepository;
 	private final ContestMapper contestMapper;
 
 	@Override
+	@Transactional
 	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, Long memberId) {
+		log.info("입력으로 들어온 정보 >> " + contestRequestDto.toString());
 		// TODO : 팀 가져오고 팀장인지 확인
 		Team team = new Team();
+		teamRepository.save(team);
 		// TODO : 대회 포스터 S3에 저장 후 URL 가져오기
 		String contestImage = "contest_temp_image";
 		// 대회 생성과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
@@ -96,9 +103,11 @@ public class ContestServiceImpl implements ContestService {
 	 * @param awardsDtoList 수상 정보
 	 */
 	private void createAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
-		for (ContestAwardsDto dto : awardsDtoList) {
-			Awards awards = contestMapper.awardsDtoToEntity(dto, contest);
-			awardsRepository.save(awards);
-		}
+		log.info("들어온 수상 정보 >> " + awardsDtoList);
+		List<Awards> awardsList = awardsDtoList.stream()
+			.map(a -> contestMapper.awardsDtoToEntity(a, contest))
+			.collect(Collectors.toList());
+		log.info("변환된 수상 정보 >> " + awardsList);
+		awardsRepository.saveAll(awardsList);
 	}
 }
