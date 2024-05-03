@@ -1,0 +1,25 @@
+@import '../../styles/variables.scss';
+
+.icons_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color:$main-third-color;
+  font-weight: 600;
+
+  .icon {
+    cursor: pointer;
+    text-align: center;
+
+    img {
+      background-color: $main-second-color;
+      border-radius: 1rem;
+      padding: 1rem;
+      width: 4rem; // 이미지 크기는 적절히 조절
+    }
+
+    p{
+      font-size:12px;
+    }
+  }
+}
