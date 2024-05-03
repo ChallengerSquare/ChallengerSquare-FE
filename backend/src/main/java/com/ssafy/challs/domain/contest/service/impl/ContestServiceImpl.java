@@ -59,6 +59,7 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	@Override
+	@Transactional
 	public void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId) {
 		// TODO : 수정시도하는 사람이 팀장인지 확인
 		Team team = new Team();
