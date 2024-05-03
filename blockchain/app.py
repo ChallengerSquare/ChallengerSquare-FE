@@ -1,15 +1,14 @@
 from uuid import uuid4
-
-from flask import Flask, jsonify, request
-
+from flask import Flask, jsonify, request, render_template
 from blockchain import Blockchain
 from smart_contract import SmartContract
+from schedule import start_scheduler
 
 app = Flask(__name__)
 
 node_address = str(uuid4()).replace('-', '')
-blockchain = Blockchain()
-smart_contract = SmartContract(blockchain)
+blockchain = Blockchain.get_blockchain()
+smart_contract = SmartContract()
 
 
 @app.route('/mine_block', methods=['GET'])
@@ -88,6 +87,24 @@ def replace_chain():
     return jsonify(response), 200
 
 
+@app.route('/get_transactions/<name>', methods=['GET'])
+def get_transactions_by_name(name):
+    transactions = blockchain.get_transactions_by_name(name)
+    if transactions:
+        response = {'message': 'successfully find transactions!!',
+                    'results': transactions}
+        return jsonify(response), 200
+    else:
+        response = {'message': 'No transactions'}
+        return jsonify(response), 404
+
+
+@app.route('/blocks')
+def show_blocks():
+    return render_template('blocks.html', blockchain=blockchain)
+
+
 # Running the app
 if __name__ == '__main__':
+    start_scheduler()
     app.run(host='0.0.0.0', port=5000)
