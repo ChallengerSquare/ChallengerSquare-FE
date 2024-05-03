@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import useNavbarScroll from '@hooks/useNavbarScroll'
+import useNavbarScroll from '@/hooks/useNavbarScroll'
 import Button from '@components/Button/Button'
 import styles from './Navbar.module.scss'
 
@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
-  const challS = `${process.env.PUBLIC_URL}/svgs/challS.svg`
+  const challS = `${process.env.PUBLIC_URL}/svgs/logo/challS.svg`
   const navbarScroll = useNavbarScroll(enableScrollEffect)
   return (
     <header className={styles.header} style={{ backgroundColor: navbarScroll }}>

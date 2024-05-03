@@ -1,9 +1,8 @@
-$main-color: #8930fd;
-$backgroundColor: #f9f6ff;
+@import '@styles/variables.scss';
 
 .background {
-  background-color: $backgroundColor;
-  height: 100dvh;
+  background-color: $login-background;
+  height: auto;
 }
 
 .container {
@@ -11,10 +10,10 @@ $backgroundColor: #f9f6ff;
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 3rem;
 }
 
-.sign-up {
+.title {
   font-weight: bold;
   font-size: 2rem;
 }
