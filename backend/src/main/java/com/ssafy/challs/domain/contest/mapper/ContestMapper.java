@@ -24,6 +24,7 @@ public interface ContestMapper {
 		Character contestState);
 
 	@Mapping(source = "contest", target = "contest")
+	@Mapping(target = "id", ignore = true)
 	Awards awardsDtoToEntity(ContestAwardsDto contestAwardsDto, Contest contest);
 
 	@Mapping(source = "image", target = "contestImage")
