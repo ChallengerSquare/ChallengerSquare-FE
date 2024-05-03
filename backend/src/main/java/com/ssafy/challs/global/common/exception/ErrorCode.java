@@ -90,6 +90,9 @@ public enum ErrorCode {
 	// 멤버가 약관에 동의하지 않음
 	MEMBER_NOT_AGREE_ERROR(403, "G-026", "Member Not Agree Exception"),
 
+	// 해당 대회 찾을 수 없음
+	CONTEST_NOT_FOUND_ERROR(404, "G-027", "Contest Not Found Exception"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
