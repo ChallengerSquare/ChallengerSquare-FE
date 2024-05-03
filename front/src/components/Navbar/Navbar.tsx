@@ -45,9 +45,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
           </NavLink>
         </nav>
         <Link to="/sign-in">
-          <Button variation="purple" className={styles.login}>
-            로그인
-          </Button>
+          <Button variation="purple">로그인</Button>
         </Link>
       </div>
     </header>

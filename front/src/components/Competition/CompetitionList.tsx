@@ -39,9 +39,11 @@ const CompetitoinList = ({ text, items }: Props) => {
   // 슬라이스된 아이템을 보여주는 렌더링 부분
   const slicedItems = items.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
     <div className={styles.content_item} key={item.id}>
-      <img src={backImg} alt="competImg" />
-      <p>{item.date}</p>
-      <span>{item.name}</span>
+      <Link to={`/competition/detail/${item.id}`}>
+        <img src={backImg} alt="competImg" />
+        <p>{item.date}</p>
+        <span>{item.name}</span>
+      </Link>
     </div>
   ))
 
