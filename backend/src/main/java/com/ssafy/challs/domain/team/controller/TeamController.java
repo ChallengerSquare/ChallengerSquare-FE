@@ -56,8 +56,8 @@ public class TeamController {
 	@PostMapping
 	@Operation(summary = "팀 생성", description = "대회 참가/개최를 위한 팀을 생성하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> createTeam(
-		@RequestPart("image") MultipartFile teamImage,
-		@RequestPart("teamRequestDto") TeamCreateRequestDto teamRequestDto,
+		@RequestPart(required = false) MultipartFile teamImage,
+		@RequestPart TeamCreateRequestDto teamRequestDto,
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(
 			new SuccessResponse<>(HttpStatus.OK,
@@ -133,15 +133,18 @@ public class TeamController {
 
 	/**
 	 * 팀 정보 수정
-	 * @autohr
-	 * @param teamRequestDto
-	 * @return
+	 * @autohr 강태연
+	 * @param teamRequestDto 팀 정보 수정에 필요한 dto
+	 * @return 수정된 팀의 번호
 	 */
 	@PutMapping
 	@Operation(summary = "팀 정보 수정", description = "팀의 정보를 수정하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> updateTeam(
-		@RequestBody TeamUpdateRequestDto teamRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new TeamCreateResponseDto(1L)));
+		@RequestPart(required = false) MultipartFile teamImage,
+		@RequestPart TeamUpdateRequestDto teamRequestDto,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,
+			teamService.updateTeam(teamRequestDto, teamImage, securityMember.id())));
 	}
 
 	/**
