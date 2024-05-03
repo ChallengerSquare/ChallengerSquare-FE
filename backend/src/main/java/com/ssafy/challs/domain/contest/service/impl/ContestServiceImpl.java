@@ -1,14 +1,18 @@
 package com.ssafy.challs.domain.contest.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
+import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
+import com.ssafy.challs.domain.contest.repository.AwardsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
@@ -22,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContestServiceImpl implements ContestService {
 
 	private final ContestRepository contestRepository;
+	private final AwardsRepository awardsRepository;
 	private final ContestMapper contestMapper;
 
 	@Override
@@ -34,8 +39,9 @@ public class ContestServiceImpl implements ContestService {
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// DTO -> ENTITY
 		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestImage, contestState);
-		// DB에 저장
+		// DB에 대회, 수상 정보 저장
 		Contest savedContest = contestRepository.save(contest);
+		createAwards(savedContest, contestRequestDto.contestAwards());
 		return new ContestCreateResponseDto(savedContest.getId());
 	}
 
@@ -52,5 +58,19 @@ public class ContestServiceImpl implements ContestService {
 			return 'J';
 		}
 		return 'P';
+	}
+
+	/**
+	 * 대회 수상 정보 저장
+	 *
+	 * @author 강다솔
+	 * @param contest DB에 저장된 대회
+	 * @param awardsDtoList 수상 정보
+	 */
+	private void createAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
+		for (ContestAwardsDto dto : awardsDtoList) {
+			Awards awards = contestMapper.awardsDtoToEntity(dto, contest);
+			awardsRepository.save(awards);
+		}
 	}
 }
