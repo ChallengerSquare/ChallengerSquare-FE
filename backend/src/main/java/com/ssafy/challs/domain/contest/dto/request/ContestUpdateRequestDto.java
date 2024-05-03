@@ -11,7 +11,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-public record ContestCreateRequestDto(
+public record ContestUpdateRequestDto(
+	@Schema(description = "대회 PK", example = "1")
+	@NotNull
+	Long contestId,
 	@Schema(description = "대회 제목", example = "데이터 수집 대회!!!!!!!!")
 	@NotEmpty
 	String contestTitle,
@@ -37,6 +40,7 @@ public record ContestCreateRequestDto(
 	@NotNull
 	Integer contestFee,
 	@Schema(description = "대회 주최측 연락처", example = "000-0000-0000")
+	@NotEmpty
 	String contestPhone,
 	@Schema(description = "대회 선착순 여부", example = "false")
 	@NotNull
