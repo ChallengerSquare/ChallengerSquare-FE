@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.team.dto.request.TeamCodeRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamParticipantsRequestDto;
@@ -26,6 +30,7 @@ import com.ssafy.challs.domain.team.dto.response.TeamMemberResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamParticipantsResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamRegistrationResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamResponseDto;
+import com.ssafy.challs.domain.team.service.TeamService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,6 +44,8 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Team Controller", description = "팀 관리 컨트롤러")
 public class TeamController {
 
+	private final TeamService teamService;
+
 	/**
 	 * 팀 생성
 	 *
@@ -49,11 +56,12 @@ public class TeamController {
 	@PostMapping
 	@Operation(summary = "팀 생성", description = "대회 참가/개최를 위한 팀을 생성하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> createTeam(
-		@RequestParam Long memberId,
-		@RequestBody TeamCreateRequestDto teamRequestDto) {
-		// TODO : 추후에 토큰에서 멤버 ID 가져오도록 변경
-		// TODO : 서비스 로직 추가
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new TeamCreateResponseDto(1L)));
+		@RequestPart("image") MultipartFile teamImage,
+		@RequestPart("teamRequestDto") TeamCreateRequestDto teamRequestDto,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(
+			new SuccessResponse<>(HttpStatus.OK,
+				teamService.createTeam(teamRequestDto, securityMember.id(), teamImage)));
 	}
 
 	// TODO : 팀 초대 요청 보낼 수 있는 GET요청 추가 (로고 이름)
@@ -173,7 +181,7 @@ public class TeamController {
 	public ResponseEntity<SuccessResponse<List<TeamRegistrationResponseDto>>> searchRegistrationTeamList(
 		@PathVariable Long contestId) {
 		return ResponseEntity.ok(
-			new SuccessResponse(HttpStatus.OK, List.of(TeamRegistrationResponseDto.builder()
+			new SuccessResponse<>(HttpStatus.OK, List.of(TeamRegistrationResponseDto.builder()
 				.teamName("팀 이름")
 				.teamNum(2)
 				.registrationId(1L)
