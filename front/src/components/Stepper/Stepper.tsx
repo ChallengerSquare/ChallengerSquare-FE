@@ -4,20 +4,18 @@ import Step from './Step' // Step 컴포넌트 임포트
 import styles from './Stepper.module.scss'
 
 interface StepperProps {
-  currentStep: number
+  activeStep: number
+  steps: string[]
 }
 
-const Stepper = ({ currentStep }: StepperProps) => {
-  const steps = ['약관 동의', '정보 입력', '가입 완료'] // 스텝 라벨 배열
-
+const Stepper = ({ activeStep, steps }: StepperProps) => {
   return (
     <div className={styles.stepper}>
       {steps.map((step, index) => (
-        <Fragment key={step}>
-          <Step label={`${index + 1}`} isActive={index === currentStep} />
+        <>
+          <Step label={index + 1} description={step} isActive={index === activeStep} />
           {index < steps.length - 1 ? <div className={styles.line} /> : null}
-          <div>{step[index]}</div>
-        </Fragment>
+        </>
       ))}
     </div>
   )
