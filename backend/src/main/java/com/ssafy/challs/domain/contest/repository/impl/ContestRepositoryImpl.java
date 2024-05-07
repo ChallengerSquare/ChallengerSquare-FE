@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.contest.repository.impl;
 
+import static com.ssafy.challs.domain.contest.entity.QContest.*;
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +10,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +18,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.entity.QContest;
 import com.ssafy.challs.domain.contest.repository.ContestRepositoryCustom;
+import com.ssafy.challs.domain.team.dto.response.TeamContestResponseDto;
 import com.ssafy.challs.domain.team.entity.QTeam;
 
 import lombok.RequiredArgsConstructor;
@@ -75,4 +79,23 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 			.leftJoin(contest.team, team)
 			.where(whereBuilder);
 	}
+
+	@Override
+	public Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable) {
+		List<TeamContestResponseDto> response = queryFactory.select(
+				Projections.constructor(TeamContestResponseDto.class, contest.contestTitle, contest.contestImage))
+			.from(contest)
+			.where(contest.team.id.eq(teamId))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		JPAQuery<Long> limit = queryFactory.select(contest.count())
+			.from(contest)
+			.where(contest.team.id.eq(teamId))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize());
+		return PageableExecutionUtils.getPage(response, pageable, limit::fetchOne);
+	}
+
 }
