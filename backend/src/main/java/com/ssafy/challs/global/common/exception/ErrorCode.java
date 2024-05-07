@@ -92,11 +92,22 @@ public enum ErrorCode {
 
 	// 해당 대회 찾을 수 없음
 	CONTEST_NOT_FOUND_ERROR(404, "G-027", "Contest Not Found Exception"),
+	
 	// 팀을 찾을 수 없음
-	TEAM_FOUND_ERROR(404, "G-027", "Team Found Exception"),
+	TEAM_FOUND_ERROR(404, "G-028", "Team Found Exception"),
 
-	// 팀을 찾을 수 없음
-	MEMBER_NOT_LEADER(403, "G-028", "Member Not Leader"),
+	// 현재 멤버가 리더가 아님
+	MEMBER_NOT_LEADER(403, "G-029", "Member Not Leader"),
+
+	// 현재 멤버가 리더임
+	MEMBER_IS_LEADER(403, "G-030", "Member IS Leader"),
+
+	// 이미 참가 신청을 했음
+	MEMBER_EXISTS_PARTICIPANTS(400, "G-031", "Member Exists Participants"),
+
+	// 참가 신청 정보가 없음
+	PARTICIPANTS_NOT_EXISTS(404, "G-032", "Participant Not Exists"),
+
 
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
