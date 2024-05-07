@@ -196,6 +196,30 @@ class Blockchain:
 
         return False
 
+    def sync_transactions(self):
+        # 로컬 트랜잭션 ID 집합
+        local_transaction_ids = {tx['transaction_id'] for tx in self.transactions}
+
+        # 네트워크의 모든 노드에 대해 반복
+        for node in self.nodes:
+            try:
+                # 각 노드의 트랜잭션 풀을 가져옴
+                response = requests.get(f'http://{node}/get_transactions')
+                if response.status_code == 200:
+                    node_transactions = response.json()
+
+                    # 각 트랜잭션에 대해 검사
+                    for tx in node_transactions:
+                        # 로컬 트랜잭션 풀에 없는 경우 추가
+                        if tx['transaction_id'] not in local_transaction_ids:
+                            self.transactions.append(tx)
+                            local_transaction_ids.add(tx['transaction_id'])
+                            print(f"New transaction added: {tx['transaction_id']}")
+            except requests.exceptions.RequestException as e:
+                print(f"Failed to connect to node {node}: {e}")
+
+        print("Finished syncing transactions")
+
     def get_transactions_by_name(self, name):
         found_transactions = []  # 일치하는 트랜잭션을 저장할 리스트
         for block in self.chain:  # 체인의 모든 블록을 순회
