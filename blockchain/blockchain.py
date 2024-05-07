@@ -113,14 +113,6 @@ class Blockchain:
 
         return True
 
-    # 르랜잭션 멤풀에 트랜잭션 추가
-    '''
-    :param sender: 발신자
-    :param receiver: 수신자
-    :param amount: 규모
-    '''
-
-
     def add_award_transaction(self, data):
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
