@@ -38,9 +38,9 @@ public record ContestFindResponseDto(
 	@Schema(description = "대회 신청한 팀장인지 여부", example = "true")
 	Boolean isLeader,
 	@Schema(description = "B :참가 신청 안한 상태, W : 참가 신청 후 승인 대기중, A : 참가 신청 후 승인 완료, R : 참가 신청 후 승인 거절", example = "BEFORE")
-	String participantState,
+	Character participantState,
 	@Schema(description = "P : 모집 전, J : 모집 중, D : 모집 끝, S : 대회 시작, E : 대회 끝")
-	String contestState,
+	Character contestState,
 	@Schema(description = "시상 정보")
 	List<ContestAwardsDto> contestAwards
 ) {

@@ -15,6 +15,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
@@ -25,6 +26,8 @@ import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
+import com.ssafy.challs.global.common.exception.BaseException;
+import com.ssafy.challs.global.common.exception.ErrorCode;
 import com.ssafy.challs.global.common.service.S3ImageUploader;
 
 import lombok.RequiredArgsConstructor;
@@ -82,6 +85,28 @@ public class ContestServiceImpl implements ContestService {
 		contestRepository.save(contest);
 		// 수상 정보 수정
 		updateAwards(contest, contestRequestDto.contestAwards());
+	}
+
+	/**
+	 * 대회 상세 조회
+	 *
+	 * @author 강다솔
+	 * @param contestId 대회 PK
+	 * @param memberId 회원 PK
+	 * @return 대회 상세 정보
+	 */
+	@Override
+	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
+		// TODO : 조회하는 회원이 신청한 팀장인지 확인
+		Boolean isLeader = false;
+		// TODO : 팀의 참가 신청 상태 가져오기
+		Character participantState = 'W';
+		// 대회 정보 가져오기
+		Contest contest = contestRepository.findById(contestId)
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+		// 시상 정보 가져오기
+		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
+		return contestMapper.contestToFindResponseDto(contest, awardsList, isLeader, participantState);
 	}
 
 	/**

@@ -99,15 +99,17 @@ public class ContestController {
 	}
 
 	/**
+	 * 대회 상세 조회하는 API
 	 *
-	 * @autohr
-	 * @param contestId
-	 * @return
+	 * @author 강다솔
+	 * @param contestId 대회 PK
+	 * @return 대회 상세 정보
 	 */
 	@GetMapping("/{contestId}")
 	@Operation(summary = "대회 상세조회", description = "대회를 상세조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestFindResponseDto>> findContest(
 		@PathVariable @Schema(description = "검색할 대회의 ID", example = "1") Long contestId) {
+		// TODO : 대회 상세 조회 로직 추가
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, ContestFindResponseDto.builder().build()));
 	}
 
