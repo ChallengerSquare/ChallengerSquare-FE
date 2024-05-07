@@ -108,9 +108,10 @@ public class ContestController {
 	@GetMapping("/{contestId}")
 	@Operation(summary = "대회 상세조회", description = "대회를 상세조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestFindResponseDto>> findContest(
+		@AuthenticationPrincipal SecurityMember securityMember,
 		@PathVariable @Schema(description = "검색할 대회의 ID", example = "1") Long contestId) {
-		// TODO : 대회 상세 조회 로직 추가
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, ContestFindResponseDto.builder().build()));
+		ContestFindResponseDto contest = contestService.findContest(contestId, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contest));
 	}
 
 	/**
