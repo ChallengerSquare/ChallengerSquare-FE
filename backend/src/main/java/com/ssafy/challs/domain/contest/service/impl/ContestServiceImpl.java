@@ -44,6 +44,15 @@ public class ContestServiceImpl implements ContestService {
 	private final ContestMapper contestMapper;
 	private final S3ImageUploader imageConfig;
 
+	/**
+	 * 대회 등록
+	 *
+	 * @author 강다솔
+	 * @param contestRequestDto 등록할 대회 정보
+	 * @param contestImage 등록할 대회 포스터 이미지
+	 * @param memberId 등록하는 회원 PK
+	 * @return 등록된 대회 PK
+	 */
 	@Override
 	@Transactional
 	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, MultipartFile contestImage,
@@ -65,6 +74,14 @@ public class ContestServiceImpl implements ContestService {
 		return new ContestCreateResponseDto(savedContest.getId());
 	}
 
+	/**
+	 * 대회 수정
+	 *
+	 * @author 강다솔
+	 * @param contestRequestDto 수정된 대회 정보
+	 * @param contestImage 수정된 대회 포스터 이미지
+	 * @param memberId 회원 PK
+	 */
 	@Override
 	@Transactional
 	public void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId) {
@@ -96,6 +113,7 @@ public class ContestServiceImpl implements ContestService {
 	 * @return 대회 상세 정보
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
 		// TODO : 조회하는 회원이 신청한 팀장인지 확인
 		Boolean isLeader = false;
@@ -118,6 +136,7 @@ public class ContestServiceImpl implements ContestService {
 	 * @return 검색된 대회
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto,
 		Pageable pageable) {
 		Page<Contest> contests = contestRepository.searchContest(contestSearchRequestDto, pageable);
