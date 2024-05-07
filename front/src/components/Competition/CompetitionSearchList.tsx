@@ -23,9 +23,9 @@ const CompetitionSearchList = ({ title, data }: SearchListProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      //   const response = await fetch(`https://api.example.com/items?sort=${sortOrder}`)
-      //   const data = await response.json()
-      //   setItems(data)
+      // const response = await fetch(`https://api.example.com/items?sort=${sortOrder}`)
+      // const data = await response.json()
+      // setItems(data)
     }
     fetchData()
   }, [sortOrder])
