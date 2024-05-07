@@ -120,14 +120,6 @@ class Blockchain:
     :param amount: 규모
     '''
 
-    def add_transaction(self, sender, receiver, amount):  # todo : 대회 정보 입력으로 바꾸기
-        self.transactions.append({'sender': sender,
-                                  'receiver': receiver,
-                                  'amount': amount})
-
-        previous_block = self.get_previous_block()
-
-        return previous_block['index'] + 1
 
     def add_award_transaction(self, data):
         # data가 json 형식이면 parsing 불필요
