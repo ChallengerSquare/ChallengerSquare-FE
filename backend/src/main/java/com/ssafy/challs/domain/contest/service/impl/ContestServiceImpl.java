@@ -4,15 +4,19 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
@@ -78,6 +82,21 @@ public class ContestServiceImpl implements ContestService {
 		contestRepository.save(contest);
 		// 수상 정보 수정
 		updateAwards(contest, contestRequestDto.contestAwards());
+	}
+
+	/**
+	 * 대회 검색
+	 *
+	 * @author 강다솔
+	 * @param contestSearchRequestDto 검색 조건
+	 * @param pageable 페이지 정보
+	 * @return 검색된 대회
+	 */
+	@Override
+	public Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto,
+		Pageable pageable) {
+		Page<Contest> contests = contestRepository.searchContest(contestSearchRequestDto, pageable);
+		return contestMapper.contestPageToDtoPage(contests);
 	}
 
 	/**
