@@ -1,9 +1,9 @@
 package com.ssafy.challs.domain.contest.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,6 @@ import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
@@ -93,12 +92,10 @@ public class ContestController {
 	 */
 	@GetMapping
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
-	public ResponseEntity<SuccessResponse<List<ContestSearchResponseDto>>> searchContestList(
+	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
 		@RequestParam ContestSearchRequestDto contestSearchRequestDto, @RequestParam Pageable pageable) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, List.of(
-			new ContestSearchResponseDto(1L, "대회이름", "포스터", "팀이름",
-				new ContestPeriodDto(LocalDate.now(), LocalDate.now()),
-				new ContestPeriodDto(LocalDate.now(), LocalDate.now())))));
+		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable);
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, searchContest));
 	}
 
 	/**
