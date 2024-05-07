@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +23,7 @@ import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
@@ -82,17 +84,17 @@ public class ContestController {
 	}
 
 	/**
+	 * 대회 이름, 카테고리, 종료 여부로 대회 검색
 	 *
-	 * @autohr
-	 * @param keyword
-	 * @param category
-	 * @return
+	 * @author 강다솔
+	 * @param contestSearchRequestDto 검색할 조건
+	 * @param pageable 페이지 정보
+	 * @return 검색된 대회
 	 */
 	@GetMapping
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
 	public ResponseEntity<SuccessResponse<List<ContestSearchResponseDto>>> searchContestList(
-		@RequestParam @Schema(description = "대회 이름 or 주최팀명으로 검색 할 키워드 Null인 경우 전체 검색", example = "삼성") String keyword,
-		@RequestParam @Schema(description = "검색할 대회의 카테고리 Null인 경우 전체 검색", example = "IT") String category) {
+		@RequestParam ContestSearchRequestDto contestSearchRequestDto, @RequestParam Pageable pageable) {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, List.of(
 			new ContestSearchResponseDto(1L, "대회이름", "포스터", "팀이름",
 				new ContestPeriodDto(LocalDate.now(), LocalDate.now()),
