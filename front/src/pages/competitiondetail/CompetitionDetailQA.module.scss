@@ -1,0 +1,85 @@
+@import '@styles/variables.scss';
+
+.container{
+    padding: 3rem;
+
+    .empty{
+       height: 20rem;
+       background-color: white;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       color: $main-forth-color;
+       
+       p{
+        font-size: xx-large;
+        color: $main-forth-color;
+       }
+    }
+
+    .QAs{
+        font-size:large;
+        font-weight: 600;
+
+        .notice{
+            margin: 0rem 1rem;
+        }
+
+        .header{
+           display: flex;
+           justify-content: space-between;
+           margin: 2rem 1rem 1rem 1rem;
+           font-size: 1.4rem;
+            span{
+                color: $main-color;
+            }
+
+            button{
+                font-size: 1.0rem
+            }
+        }
+        .body{
+            border-top: grey solid 1px;
+            font-size: 1.1rem;
+
+            .QA{
+                border-bottom: grey solid 1px;
+                padding: 1rem;
+
+                .info{
+                    display: flex;
+                    justify-content: space-between;
+
+                    .date{
+                        color:darkgray;
+                        font-weight: 400;
+                    }
+                }
+
+                .content{
+                    margin: 0.5rem 0rem;
+                }
+
+                .answer{
+                    border-radius: 0.5rem;
+                    background-color: $main-fifth-color;
+                    padding:0.5rem 1rem;
+                }
+
+                input{
+                    width: 100%;
+                    padding : 0.5rem;
+                    border-radius: 0.5rem;
+                    border: 1px solid $main-forth-color;
+
+                    &:focus{
+                        outline: none;
+                        border: 1px solid $main-color;
+                        
+                    } 
+                }
+                
+            }
+        }
+    }
+}
