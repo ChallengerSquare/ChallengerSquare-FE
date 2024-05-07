@@ -10,7 +10,7 @@ public record ContestFindResponseDto(
 	@Schema(description = "대회 ID", example = "1")
 	Long contestId,
 	@Schema(description = "대회 제목", example = "데이터 수집 대회!!!!!!!!")
-	String contestName,
+	String contestTitle,
 	@Schema(description = "대회 포스터", example = "s3 주소")
 	String contestImage,
 	@Schema(description = "대회 개최팀 이름", example = "SSAFY")
@@ -35,11 +35,11 @@ public record ContestFindResponseDto(
 	Integer contestPeopleMin,
 	@Schema(description = "대회 최대 신청 인원", example = "6")
 	Integer contestPeopleMax,
-	@Schema(description = "대회 신청한 팀장인이 여부", example = "true")
+	@Schema(description = "대회 신청한 팀장인지 여부", example = "true")
 	Boolean isLeader,
-	@Schema(description = "BEFORE :참가 신청 안한 상태, WAITING : 참가 신청 후 승인 대기중, APPROVE : 참가 신청 후 승인 완료, REJECT : 참가 신청 후 승인 거절", example = "BEFORE")
+	@Schema(description = "B :참가 신청 안한 상태, W : 참가 신청 후 승인 대기중, A : 참가 신청 후 승인 완료, R : 참가 신청 후 승인 거절", example = "BEFORE")
 	String participantState,
-	@Schema(description = "WAITING : 모집 전, OPEN : 모집 중, CLOSED : 모집 끝, START : 대회 시작, END : 대회 끝")
+	@Schema(description = "P : 모집 전, J : 모집 중, D : 모집 끝, S : 대회 시작, E : 대회 끝")
 	String contestState,
 	@Schema(description = "시상 정보")
 	List<ContestAwardsDto> contestAwards
