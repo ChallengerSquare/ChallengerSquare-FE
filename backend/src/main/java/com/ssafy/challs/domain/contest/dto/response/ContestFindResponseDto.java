@@ -29,7 +29,7 @@ public record ContestFindResponseDto(
 	String contestPhone,
 	@Schema(description = "대회 선착순 여부", example = "false")
 	Boolean isPriority,
-	@Schema(description = "대회 카테고리", example = "IT")
+	@Schema(description = "대회 카테고리", example = "2")
 	String contestCategory,
 	@Schema(description = "대회 최소 신청 인원", example = "1")
 	Integer contestPeopleMin,
