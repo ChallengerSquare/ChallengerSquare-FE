@@ -8,6 +8,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 
 public interface ContestService {
@@ -18,4 +19,6 @@ public interface ContestService {
 	void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId);
 
 	Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto, Pageable pageable);
+
+	ContestFindResponseDto findContest(Long contestId, Long memberId);
 }

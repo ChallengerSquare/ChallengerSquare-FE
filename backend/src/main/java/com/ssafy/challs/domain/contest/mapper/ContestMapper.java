@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.contest.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Page;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
@@ -45,4 +48,17 @@ public interface ContestMapper {
 	@Mapping(source = "contestStart", target = "contestPeriod.start")
 	@Mapping(source = "contestEnd", target = "contestPeriod.end")
 	ContestSearchResponseDto contestToSearchResponseDto(Contest contest);
+
+	@Mapping(source = "contest.team.id", target = "teamId")
+	@Mapping(source = "contest.team.teamName", target = "teamName")
+	@Mapping(source = "contest.contestRegistrationStart", target = "registrationPeriod.start")
+	@Mapping(source = "contest.contestRegistrationEnd", target = "registrationPeriod.end")
+	@Mapping(source = "contest.contestStart", target = "contestPeriod.start")
+	@Mapping(source = "contest.contestEnd", target = "contestPeriod.end")
+	ContestFindResponseDto contestToFindResponseDto(Contest contest, List<Awards> contestAwards,
+		Boolean isLeader, Character participantState);
+
+	List<ContestAwardsDto> awardsToDtoList(List<Awards> awardsList);
+
+	ContestAwardsDto awardsToDto(Awards awards);
 }
