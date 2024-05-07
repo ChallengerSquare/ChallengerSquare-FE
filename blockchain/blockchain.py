@@ -224,4 +224,5 @@ class Blockchain:
 
         return found_transactions
 
-
+    def get_transactions(self):
+        return self.transactions
