@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ContestRepositoryCustom {
 
-    Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable);
+    Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable, Integer orderBy);
 
     Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable);
 

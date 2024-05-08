@@ -30,7 +30,7 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable) {
+    public Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable, Integer orderBy) {
         QContest contest = QContest.contest;
         QTeam team = QTeam.team;
 
@@ -57,10 +57,17 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
         }
 
         // 결과 쿼리 실행
-        List<Contest> results = queryFactory.selectFrom(contest)
+        JPAQuery<Contest> query = queryFactory.selectFrom(contest)
                 .innerJoin(contest.team, team)
-                .where(whereBuilder)
-                .offset(pageable.getOffset())
+                .where(whereBuilder);
+
+        if (orderBy == 3) {
+            query.orderBy(contest.createDate.desc());
+        } else if (orderBy == 4) {
+            query.orderBy(contest.contestTitle.asc());
+        }
+
+        List<Contest> results = query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
