@@ -20,14 +20,6 @@ done
 
 JIRA_ID=$(echo $BRANCH_NAME | egrep -o 'S10P31A205-[0-9]+')
 
-<<<<<<< HEAD
-# BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
-# BRANCH_IN_COMMIT=$(grep -c "$JIRA_ID" $1)
-
-# if [ -n $JIRA_ID ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then 
-sed -i.bak -e "1s/^/[$JIRA_ID] /" $1
-=======
 if [ -n "$JIRA_ID" ]; then
     sed -i.bak -e "1s/^/[$JIRA_ID] /" $1
 fi
->>>>>>> 115fee2a4fd213896f198b238c51e42a7c5f89ad
