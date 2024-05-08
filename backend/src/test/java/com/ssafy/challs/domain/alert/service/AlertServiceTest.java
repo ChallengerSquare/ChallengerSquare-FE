@@ -31,13 +31,11 @@ class AlertServiceTest {
 	@InjectMocks
 	private AlertServiceImpl alertService;
 
-	private static String memberCode = "testMember";
-
 	@Test
 	@DisplayName("알림_생성_성공")
 	void testCreateAlert() {
 		// 테스트 데이터 준비
-		List<String> receivers = Arrays.asList("member1", "member2");
+		List<Long> receivers = Arrays.asList(1L, 2L);
 		Alert alert = new Alert(1L, 'N', "Content", 1L);
 		when(alertRepository.save(any(Alert.class))).thenReturn(alert);
 
@@ -56,13 +54,13 @@ class AlertServiceTest {
 		AlertMember alertMember = AlertMember.builder()
 			.alert(
 				Alert.builder().id(1L).alertTargetId(1L).alertType('N').alertContent("알림 내용").build())
-			.memberCode("testMember")
+			.memberId(1L)
 			.isRead(false).build();
 		List<AlertMember> alertMembers = Arrays.asList(alertMember);
-		when(alertMemberRepository.findAllByMemberCode(memberCode)).thenReturn(alertMembers);
+		when(alertMemberRepository.findAllByMemberId(1L)).thenReturn(alertMembers);
 
 		// 테스트 실행
-		List<AlertResponseDto> results = alertService.findAlerts(memberCode, false);
+		List<AlertResponseDto> results = alertService.findAlerts(1L, false);
 
 		// 검증
 		assertEquals(1, results.size());
@@ -74,17 +72,17 @@ class AlertServiceTest {
 	void testUpdateAlert() {
 		// 테스트 데이터 준비
 		Alert alert = new Alert(1L, 'N', "알림 내용", 1L);
-		AlertMember alertMember = AlertMember.builder().alert(alert).memberCode(memberCode).isRead(false).build();
+		AlertMember alertMember = AlertMember.builder().alert(alert).memberId(1L).isRead(false).build();
 		when(alertRepository.findById(1L)).thenReturn(Optional.of(alert));
-		when(alertMemberRepository.findAlertMembersByMemberCodeAndAlert(memberCode, alert)).thenReturn(
+		when(alertMemberRepository.findAlertMembersByMemberIdAndAlert(1L, alert)).thenReturn(
 			Optional.of(alertMember));
 
 		// 테스트 실행
-		alertService.updateAlert(memberCode, 1L);
+		alertService.updateAlert(1L, 1L);
 
 		// 검증
 		assertTrue(alertMember.getIsRead());
-		verify(alertMemberRepository).findAlertMembersByMemberCodeAndAlert(memberCode, alert);
+		verify(alertMemberRepository).findAlertMembersByMemberIdAndAlert(1L, alert);
 	}
 
 	@Test
@@ -94,6 +92,6 @@ class AlertServiceTest {
 		when(alertRepository.findById(anyLong())).thenReturn(Optional.empty());
 
 		// 실행 & 검증
-		assertThrows(BaseException.class, () -> alertService.updateAlert(memberCode, 1L));
+		assertThrows(BaseException.class, () -> alertService.updateAlert(1L, 1L));
 	}
 }
