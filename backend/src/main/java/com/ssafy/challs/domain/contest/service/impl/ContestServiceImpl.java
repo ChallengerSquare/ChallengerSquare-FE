@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
@@ -251,7 +251,7 @@ public class ContestServiceImpl implements ContestService {
 	 */
 	@Override
 	@Transactional
-	public void deleteContestParticipant(ContestDisabledRequestDto contestRequestDto, Long memberId) {
+	public void deleteContestParticipant(ContestRequestDto contestRequestDto, Long memberId) {
 		ContestParticipants contestParticipants = contestParticipantsRepository.findContestParticipants(
 			contestRequestDto.contestId(), memberId);
 		contestParticipantsRepository.delete(contestParticipants);
