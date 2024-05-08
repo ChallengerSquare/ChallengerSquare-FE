@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
@@ -133,46 +134,6 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	/**
-	 * 대회 참가 신청
-	 *
-	 * @author 강다솔
-	 * @param participantRequestDto 대회 참가 신청 정보
-	 * @param memberId 신청자
-	 */
-	@Override
-	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
-		// 신청자가 팀장인지 확인
-		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
-			participantRequestDto.teamId());
-		if (!isLeader)
-			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
-
-		// 팀에 이미 참가 신청된 회원이 있는지 확인
-		if (contestParticipantsRepository.checkAlreadyParticipantsMember(participantRequestDto.contestId(),
-			participantRequestDto.teamId())) {
-			throw new BaseException(ErrorCode.CONTEST_ALREADY_PARTICIPANTS_ERROR);
-		}
-
-		// 참가신청 정보 Entity로 변환
-		Contest contest = contestRepository.findById(participantRequestDto.contestId())
-			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
-
-		// 모집중인 대회인지 확인
-		if (!contest.getContestState().equals('J')) {
-			throw new BaseException(ErrorCode.CONTEST_NOT_OPEN_ERROR);
-		}
-
-		Team team = teamRepository.findById(participantRequestDto.teamId())
-			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
-
-		ContestParticipants contestParticipants = contestMapper.contestParticipantsDtoToEntity(participantRequestDto,
-			contest, team);
-
-		// 참가 신청 정보 저장
-		contestParticipantsRepository.save(contestParticipants);
-	}
-
-	/**
 	 * 대회 검색
 	 *
 	 * @author 강다솔
@@ -238,5 +199,61 @@ public class ContestServiceImpl implements ContestService {
 			.map(a -> contestMapper.awardsDtoToEntity(a, contest))
 			.collect(Collectors.toList());
 		awardsRepository.saveAll(awardsList);
+	}
+
+	/**
+	 * 대회 참가 신청
+	 *
+	 * @author 강다솔
+	 * @param participantRequestDto 대회 참가 신청 정보
+	 * @param memberId 신청자
+	 */
+	@Override
+	@Transactional
+	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
+		// 신청자가 팀장인지 확인
+		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
+			participantRequestDto.teamId());
+		if (!isLeader)
+			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
+
+		// 팀에 이미 참가 신청된 회원이 있는지 확인
+		if (contestParticipantsRepository.checkAlreadyParticipantsMember(participantRequestDto.contestId(),
+			participantRequestDto.teamId())) {
+			throw new BaseException(ErrorCode.CONTEST_ALREADY_PARTICIPANTS_ERROR);
+		}
+
+		// 참가신청 정보 Entity로 변환
+		Contest contest = contestRepository.findById(participantRequestDto.contestId())
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+
+		// 모집중인 대회인지 확인
+		if (!contest.getContestState().equals('J')) {
+			throw new BaseException(ErrorCode.CONTEST_NOT_OPEN_ERROR);
+		}
+
+		Team team = teamRepository.findById(participantRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+
+		ContestParticipants contestParticipants = contestMapper.contestParticipantsDtoToEntity(participantRequestDto,
+			contest, team);
+
+		// 참가 신청 정보 저장
+		contestParticipantsRepository.save(contestParticipants);
+	}
+
+	/**
+	 * 대회 참가 신청 취소
+	 *
+	 * @author 강다솔
+	 * @param contestRequestDto 참가취소하는 대회 PK
+	 * @param memberId 참가 취소 신청하는 팀장 PK
+	 */
+	@Override
+	@Transactional
+	public void deleteContestParticipant(ContestDisabledRequestDto contestRequestDto, Long memberId) {
+		ContestParticipants contestParticipants = contestParticipantsRepository.findContestParticipants(
+			contestRequestDto.contestId(), memberId);
+		contestParticipantsRepository.delete(contestParticipants);
 	}
 }
