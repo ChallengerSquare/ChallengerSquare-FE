@@ -1,10 +1,13 @@
 package com.ssafy.challs.domain.member.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 
 public interface MemberService {
 
@@ -19,4 +22,6 @@ public interface MemberService {
 	MemberFindResponseDto findMember(Long memberId);
 
 	void deleteMember(Long memberId);
+
+	Page<MemberTeamResponseDto> searchTeamList(Long memberId, Pageable pageable);
 }
