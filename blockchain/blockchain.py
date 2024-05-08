@@ -42,8 +42,11 @@ class Blockchain:
                  'previous_hash': previous_hash,  # 이전 블록의 hash값
                  'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
 
+        block_string = json.dumps(block, sort_keys=True).encode()
+        block_hash = hashlib.sha256(block_string).hexdigest()
+        block['hash'] = block_hash
+
         self.chain.append(block)  # 체인에 새로운 블록 추가
-        # clear transactions after create block
         self.transactions.clear()  # 트랜잭션 멤풀 비우기
 
         return block
@@ -169,7 +172,7 @@ class Blockchain:
         self.nodes.add(parsed_url.netloc)
 
     #
-    def replace_chain(self):  # todo : 길이가 같다면 어떻게 할지 추가
+    def replace_chain(self):
         network = self.nodes
         longest_chain = None
         max_length = len(self.chain)
