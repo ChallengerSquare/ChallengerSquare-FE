@@ -25,7 +25,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 				memberCreateRequestDto.memberAddress())
 			.set(member.memberPhone, memberCreateRequestDto.memberPhone())
 			.set(member.memberBirth, memberCreateRequestDto.memberBirth())
-			.set(member.isAgree, memberCreateRequestDto.isAgree())
+			.set(member.isAgree, true)
 			.where(member.id.eq(memberId))
 			.execute();
 	}
