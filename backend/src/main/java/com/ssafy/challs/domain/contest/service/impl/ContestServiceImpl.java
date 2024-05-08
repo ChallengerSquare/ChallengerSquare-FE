@@ -63,7 +63,6 @@ public class ContestServiceImpl implements ContestService {
 	@Transactional
 	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, MultipartFile contestImage,
 		Long memberId) {
-		log.info("입력으로 들어온 정보 >> " + contestRequestDto.toString());
 		// TODO : 팀 가져오고 팀장인지 확인
 		Team team = new Team();
 		teamRepository.save(team);
@@ -111,33 +110,6 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	/**
-	 * 대회 참가 신청
-	 *
-	 * @author 강다솔
-	 * @param participantRequestDto 대회 참가 신청 정보
-	 * @param memberId 신청자
-	 */
-	@Override
-	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
-		// 신청자가 팀장인지 확인
-		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
-			participantRequestDto.teamId());
-		if (!isLeader)
-			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
-
-		// 참가신청 정보 Entity로 변환
-		Contest contest = contestRepository.findById(participantRequestDto.contestId())
-			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
-		Team team = teamRepository.findById(participantRequestDto.teamId())
-			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
-		ContestParticipants contestParticipants = contestMapper.contestParticipantsDtoToEntity(participantRequestDto,
-			contest, team);
-
-		// 참가 신청 정보 저장
-		contestParticipantsRepository.save(contestParticipants);
-	}
-
-	/**
 	 * 대회 상세 조회
 	 *
 	 * @author 강다솔
@@ -158,6 +130,46 @@ public class ContestServiceImpl implements ContestService {
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		return contestMapper.contestToFindResponseDto(contest, awardsList, isLeader, participantState);
+	}
+
+	/**
+	 * 대회 참가 신청
+	 *
+	 * @author 강다솔
+	 * @param participantRequestDto 대회 참가 신청 정보
+	 * @param memberId 신청자
+	 */
+	@Override
+	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
+		// 신청자가 팀장인지 확인
+		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
+			participantRequestDto.teamId());
+		if (!isLeader)
+			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
+
+		// 팀에 이미 참가 신청된 회원이 있는지 확인
+		if (contestParticipantsRepository.checkAlreadyParticipantsMember(participantRequestDto.contestId(),
+			participantRequestDto.teamId())) {
+			throw new BaseException(ErrorCode.CONTEST_ALREADY_PARTICIPANTS_ERROR);
+		}
+
+		// 참가신청 정보 Entity로 변환
+		Contest contest = contestRepository.findById(participantRequestDto.contestId())
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+
+		// 모집중인 대회인지 확인
+		if (!contest.getContestState().equals('J')) {
+			throw new BaseException(ErrorCode.CONTEST_NOT_OPEN_ERROR);
+		}
+
+		Team team = teamRepository.findById(participantRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+
+		ContestParticipants contestParticipants = contestMapper.contestParticipantsDtoToEntity(participantRequestDto,
+			contest, team);
+
+		// 참가 신청 정보 저장
+		contestParticipantsRepository.save(contestParticipants);
 	}
 
 	/**
@@ -218,15 +230,13 @@ public class ContestServiceImpl implements ContestService {
 	 * 대회 수상 정보 저장
 	 *
 	 * @author 강다솔
-	 * @param contest DB에 저장된 대회
+	 * @param contest 수상정보 저장할 대회
 	 * @param awardsDtoList 수상 정보
 	 */
 	private void createAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
-		log.info("들어온 수상 정보 >> " + awardsDtoList);
 		List<Awards> awardsList = awardsDtoList.stream()
 			.map(a -> contestMapper.awardsDtoToEntity(a, contest))
 			.collect(Collectors.toList());
-		log.info("변환된 수상 정보 >> " + awardsList);
 		awardsRepository.saveAll(awardsList);
 	}
 }
