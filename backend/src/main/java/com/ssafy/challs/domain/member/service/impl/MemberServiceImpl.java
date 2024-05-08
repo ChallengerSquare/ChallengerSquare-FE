@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.member.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +13,11 @@ import com.ssafy.challs.domain.auth.jwt.service.TokenProvider;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.member.service.MemberService;
+import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
@@ -27,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final TokenProvider tokenProvider;
 	private final CookieUtil cookieUtil;
+	private final TeamRepository teamRepository;
 
 	/**
 	 * refresh token을 기준으로 새로운 accessToken과 refreshToken 발급
@@ -123,6 +128,20 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public void deleteMember(Long memberId) {
 		memberRepository.deleteMember(memberId);
+	}
+
+	/**
+	 * 가입된 팀 목록 조회
+	 *
+	 * @author 강태연
+	 * @param memberId 현재 요청 보낸 멤버 정보
+	 * @param pageable 페이징 정보
+	 * @return 팀 정보 목록
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MemberTeamResponseDto> searchTeamList(Long memberId, Pageable pageable) {
+		return teamRepository.searchTeamList(memberId, pageable);
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.ssafy.challs.domain.member.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.service.MemberService;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
@@ -85,6 +89,23 @@ public class MemberController {
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		memberService.deleteMember(securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, SUCCESS_STRING));
+	}
+
+	/**
+	 * 멤버가 가입한 팀의 목록 조회
+	 *
+	 * @author 강태연
+	 * @param pageable 페이징 정보
+	 * @param securityMember 현재 요청을 한 멤버 정보
+	 * @return 팀 정보 목록
+	 */
+	@GetMapping("/teams")
+	@Operation(summary = "팀 목록 조회 API", description = "회원이 가입한 팀의 목록을 조회하는 API")
+	public ResponseEntity<SuccessResponse<Page<MemberTeamResponseDto>>> searchTeamList(
+		@PageableDefault Pageable pageable,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(
+			new SuccessResponse<>(HttpStatus.OK, memberService.searchTeamList(securityMember.id(), pageable)));
 	}
 
 }
