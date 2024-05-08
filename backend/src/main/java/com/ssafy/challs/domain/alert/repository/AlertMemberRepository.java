@@ -10,10 +10,12 @@ import com.ssafy.challs.domain.alert.entity.AlertMember;
 
 public interface AlertMemberRepository extends JpaRepository<AlertMember, Long> {
 
-	List<AlertMember> findAllByMemberCode(String memberCode);
+	List<AlertMember> findAllByMemberId(Long memberId);
 
-	List<AlertMember> findAllByMemberCodeAndIsRead(String memberCode, Boolean isRead);
+	List<AlertMember> findAllByMemberIdAndIsRead(Long memberId, Boolean isRead);
 
-	Optional<AlertMember> findAlertMembersByMemberCodeAndAlert(String memberCode, Alert alert);
+	boolean existsByMemberIdAndIsRead(Long memberId, Boolean isRead);
+
+	Optional<AlertMember> findAlertMembersByMemberIdAndAlert(Long memberId, Alert alert);
 
 }

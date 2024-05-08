@@ -10,42 +10,42 @@ import com.ssafy.challs.domain.alert.repository.SseRepository;
 
 @Repository
 public class SseRepositoryImpl implements SseRepository {
-	private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+	private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
 
 	/**
 	 * 생성한 SseEmitter를 캐시에 {memberCode : SseEmitter}로 저장하는 메서드
 	 *
 	 * @author 강다솔
-	 * @param memberCode
-	 * @param sseEmitter
-	 * @return
+	 * @param memberId 회원 PK
+	 * @param sseEmitter sseEmitte r
+	 * @return 저장된 sseEmitter
 	 */
 	@Override
-	public SseEmitter save(String memberCode, SseEmitter sseEmitter) {
-		emitters.put(memberCode, sseEmitter);
-		return emitters.get(memberCode);
+	public SseEmitter save(Long memberId, SseEmitter sseEmitter) {
+		emitters.put(memberId, sseEmitter);
+		return emitters.get(memberId);
 	}
 
 	/**
 	 * 캐시에서 해당 유저의 SseEmitter를 가져오는 메서드
 	 *
 	 * @author 강다솔
-	 * @param memberCode
-	 * @return
+	 * @param memberId 회원 PK
+	 * @return 회원의 SseEmitter
 	 */
 	@Override
-	public SseEmitter findEmitterByMemberCode(String memberCode) {
-		return emitters.get(memberCode);
+	public SseEmitter findEmitterByMemberId(Long memberId) {
+		return emitters.get(memberId);
 	}
 
 	/**
 	 * 캐시에서 해당 유저의 SseEmitter를 삭제하는 메서드
 	 *
 	 * @author 강다솔
-	 * @param memberCode
+	 * @param memberId 회원 PK
 	 */
 	@Override
-	public void deleteEmitterByMemberCode(String memberCode) {
-		emitters.remove(memberCode);
+	public void deleteEmitterByMemberId(Long memberId) {
+		emitters.remove(memberId);
 	}
 }

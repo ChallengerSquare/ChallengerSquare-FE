@@ -14,11 +14,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.alert.dto.response.AlertResponseDto;
 import com.ssafy.challs.domain.alert.service.AlertService;
 
@@ -34,28 +34,27 @@ class AlertControllerTest {
 
 	@Test
 	@DisplayName("알림조회_모든알림_성공")
-	@WithMockUser(username = "testMember", roles = {"false"})
+	@WithCustomMockUser
 	void searhAlertListTest() throws Exception {
 
 		// 테스트 데이터 준비
 		List<AlertResponseDto> allAlerts = createTestData();
-		when(alertService.findAlerts("testMember", false)).thenReturn(allAlerts);
+		when(alertService.findAlerts(1L, false)).thenReturn(allAlerts);
 
 		// 테스트 실행
-		mockMvc.perform(MockMvcRequestBuilders.get("/alert")
-				.param("memberCode", "testMember"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/alert"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data", hasSize(2)));
 	}
 
 	@Test
 	@DisplayName("알림조회_안읽은알림_성공")
-	@WithMockUser(username = "testMember", roles = {"false"})
+	@WithCustomMockUser
 	void searhUnreadAlertListTest() throws Exception {
 
 		// 테스트 데이터 준비
 		List<AlertResponseDto> unreadAlerts = createTestData();
-		when(alertService.findAlerts("testMember", true)).thenReturn(unreadAlerts);
+		when(alertService.findAlerts(1L, true)).thenReturn(unreadAlerts);
 
 		// 테스트 실행
 		mockMvc.perform(MockMvcRequestBuilders.get("/alert")
@@ -84,9 +83,9 @@ class AlertControllerTest {
 
 	@Test
 	@DisplayName("알림읽음처리_성공")
-	@WithMockUser(username = "testMember", roles = {"false"})
+	@WithCustomMockUser
 	void updateAlertReadStateTest() throws Exception {
-		doNothing().when(alertService).updateAlert("testMember", 1L);
+		doNothing().when(alertService).updateAlert(1L, 1L);
 
 		mockMvc.perform(MockMvcRequestBuilders.put("/alert")
 				.with(csrf())

@@ -23,7 +23,7 @@ public class AlertMember {
 	Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	Alert alert;
-	String memberCode;
+	Long memberId;
 	Boolean isRead;
 
 	public void updateIsRead() {
