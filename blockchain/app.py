@@ -111,7 +111,7 @@ def get_transactions():
 
 @app.route('/blocks')
 def show_blocks():
-    return render_template('blocks.html', blockchain=blockchain)
+    return render_template('dashboard.html', blockchain=blockchain)
 
 
 # Running the app

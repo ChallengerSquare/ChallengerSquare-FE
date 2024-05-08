@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>블록체인 대시보드</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; }
+        .header { text-align: center; padding: 20px; }
+        .block-container { display: flex; justify-content: space-around; flex-wrap: wrap; padding: 20px; }
+        .block { background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: 10px; padding: 20px; width: 250px; }
+        .stats { text-align: center; margin-top: 20px; }
+        .stat { background-color: #fff; padding: 10px 20px; margin: 10px; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>블록체인 대시보드</h1>
+    </div>
+    <div class="block-container">
+        {% for block in blockchain.chain %}
+        <div class="block">
+            <h3>Block #{{ block.index }}</h3>
+            <p>Timestamp: {{ block.timestamp }}</p>
+            <p>Nonce: {{ block.proof }}</p>
+            <p>Previous Hash: {{ block.previous_hash }}</p>
+            <p>Transactions Count: {{ block.transactions|length }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <h3>채굴된 블록 수</h3>
+            <p>{{ blockchain.chain|length }}</p>
+        </div>
+        <div class="stat">
+            <h3>총 트랜잭션 수</h3>
+            <p>{{ total_transactions }}</p>
+        </div>
+        <div class="stat">
+            <h3>최근 트랜잭션 노드 수</h3>
+            <p>{{ node_count }}</p>
+        </div>
+        <div class="stat">
+            <h3>평균 처리 시간</h3>
+            <p>{{ average_processing_time }} sec</p>
+        </div>
+    </div>
+    <div>
+        <h2>Transactions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Block Number</th>
+                    <th>Contents</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>{{ transaction.block_number }}</td>
+                    <td>{{ transaction.contents }}</td>
+                    <td>{{ transaction.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
