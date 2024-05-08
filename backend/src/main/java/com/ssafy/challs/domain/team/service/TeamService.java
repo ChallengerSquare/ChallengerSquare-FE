@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.team.dto.request.TeamCodeRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
+import com.ssafy.challs.domain.team.dto.request.TeamParticipantDeleteRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamParticipantsRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateLeaderRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateRequestDto;
@@ -47,4 +48,6 @@ public interface TeamService {
 	void updateTeamLeader(TeamUpdateLeaderRequestDto teamUpdateLeaderRequestDto, Long memberId);
 
 	Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable);
+
+	void deleteTeamParticipant(TeamParticipantDeleteRequestDto teamParticipantDeleteRequestDto, Long memberId);
 }

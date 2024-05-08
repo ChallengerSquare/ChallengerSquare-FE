@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.team.dto.request.TeamCodeRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
+import com.ssafy.challs.domain.team.dto.request.TeamParticipantDeleteRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamParticipantsRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateLeaderRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateRequestDto;
@@ -247,6 +248,7 @@ public class TeamController {
 	/**
 	 * 팀이 개최한 대회의 목록 조회
 	 *
+	 * @author 강태연
 	 * @param teamId 팀의 번호
 	 * @return 팀이 개최한 대회 목록(로고, 이름)
 	 */
@@ -256,6 +258,23 @@ public class TeamController {
 		@PathVariable Long teamId, @PageableDefault Pageable pageable) {
 		return ResponseEntity.ok(
 			new SuccessResponse<>(HttpStatus.OK, teamService.searchTeamContestList(teamId, pageable)));
+	}
+
+	/**
+	 * 팀 리더가 팀원 방출
+	 * 
+	 * @author 강태연
+	 * @param teamParticipantDeleteRequestDto 팀원의 팀 참가 번호
+	 * @param securityMember 현재 요청한 멤버의 정보
+	 * @return 성공 메세지
+	 */
+	@DeleteMapping("/participants")
+	@Operation(summary = "팀원 방출", description = "팀장이 팀원을 방출하는 API")
+	public ResponseEntity<SuccessResponse<String>> deleteTeamParticipant(
+		@RequestBody TeamParticipantDeleteRequestDto teamParticipantDeleteRequestDto,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		teamService.deleteTeamParticipant(teamParticipantDeleteRequestDto, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, SUCCESS_ANSWER));
 	}
 
 }
