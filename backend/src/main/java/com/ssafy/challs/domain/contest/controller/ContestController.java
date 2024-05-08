@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -147,14 +148,18 @@ public class ContestController {
 	}
 
 	/**
-	 * @param contestDisabledRequestDto
-	 * @return
-	 * @autohr
+	 * 대회 참가를 취소하는 API
+	 *
+	 * @author 강다솔
+	 * @param contestDisabledRequestDto 참가 취소할 대회 PK
+	 * @return 성공 여부
 	 */
-	@PutMapping("/participants")
+	@DeleteMapping("/participants")
 	@Operation(summary = "대회 참가 취소", description = "대회 참가를 취소하는 API")
-	public ResponseEntity<SuccessResponse<String>> updateContestParticipant(
+	public ResponseEntity<SuccessResponse<String>> deleteContestParticipant(
+		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody ContestDisabledRequestDto contestDisabledRequestDto) {
+		contestService.deleteContestParticipant(contestDisabledRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
