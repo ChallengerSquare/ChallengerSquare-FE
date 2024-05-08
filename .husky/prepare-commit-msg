@@ -1,5 +1,5 @@
 if [ -z "$BRANCHES_TO_SKIP" ]; then
-  BRANCHES_TO_SKIP=(master dev-be dev-fe dev-bc release hotfix)
+  BRANCHES_TO_SKIP=(master dev-be dev-fe dev-bc release hotfix bc-node bc-list)
 fi
 
 if [ "$(git rev-parse --abbrev-ref HEAD)" == "HEAD" ]; then
