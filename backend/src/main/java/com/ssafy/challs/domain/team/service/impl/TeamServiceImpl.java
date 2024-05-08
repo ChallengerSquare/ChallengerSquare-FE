@@ -17,6 +17,7 @@ import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.team.dto.request.TeamCodeRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
+import com.ssafy.challs.domain.team.dto.request.TeamParticipantDeleteRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamParticipantsRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateLeaderRequestDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateRequestDto;
@@ -392,6 +393,24 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional(readOnly = true)
 	public Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable) {
 		return contestRepository.searchTeamContestList(teamId, pageable);
+	}
+
+	/**
+	 * 팀장이 팀원을 방출
+	 * 
+	 * @author 강태연
+	 * @param teamParticipantDeleteRequestDto 팀원의 팀 참가 번호
+	 * @param memberId 현재 접속한 멤버의 정보
+	 */
+	@Override
+	@Transactional
+	public void deleteTeamParticipant(TeamParticipantDeleteRequestDto teamParticipantDeleteRequestDto, Long memberId) {
+		Long teamId = teamParticipantsRepository.findById(teamParticipantDeleteRequestDto.participantsId())
+			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS))
+			.getTeam()
+			.getId();
+		checkLeader(memberId, teamId);
+		teamParticipantsRepository.deleteById(teamParticipantDeleteRequestDto.participantsId());
 	}
 
 }
