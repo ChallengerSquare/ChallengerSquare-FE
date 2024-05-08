@@ -48,9 +48,9 @@ public class ContestController {
 	/**
 	 * 대회 생성하는 API
 	 *
+	 * @author 강다솔
 	 * @param contestCreateRequestDto 대회 생성 정보
 	 * @return 성공여부
-	 * @author 강다솔
 	 */
 	@PostMapping
 	@Operation(summary = "대회 생성", description = "대회를 개최하는 API")
@@ -67,9 +67,9 @@ public class ContestController {
 	/**
 	 * 대회 수정하는 API
 	 *
+	 * @author 강다솔
 	 * @param contestUpdateRequestDto 대회 수정 정보
 	 * @return 성공 여부
-	 * @author 강다솔
 	 */
 	@PutMapping
 	@Operation(summary = "대회 수정", description = "대회를 수정하는 API")
@@ -85,11 +85,11 @@ public class ContestController {
 	/**
 	 * 대회 이름, 카테고리, 종료 여부로 대회 검색
 	 *
-	 * @param contestSearchRequestDto 검색할 조건
-	 * @param pageable                페이지 정보
-	 * @param orderBy                 대회 정렬 조건
-	 * @return 검색된 대회
 	 * @author 강다솔
+	 * @param contestSearchRequestDto 검색할 조건
+	 * @param pageable 페이지 정보
+	 * @param orderBy 대회 정렬 조건
+	 * @return 검색된 대회
 	 */
 	@GetMapping
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
@@ -105,9 +105,9 @@ public class ContestController {
 	/**
 	 * 대회 상세 조회하는 API
 	 *
+	 * @author 강다솔
 	 * @param contestId 대회 PK
 	 * @return 대회 상세 정보
-	 * @author 강다솔
 	 */
 	@GetMapping("/{contestId}")
 	@Operation(summary = "대회 상세조회", description = "대회를 상세조회하는 API")
@@ -121,9 +121,9 @@ public class ContestController {
 	/**
 	 * 대회 참가 신청하는 API
 	 *
+	 * @author 강다솔
 	 * @param contestParticipantRequestDto 대회 신청 정보
 	 * @return 성공 여부
-	 * @author 강다솔
 	 */
 	@PostMapping("/participants")
 	@Operation(summary = "대회 참가 신청", description = "대회 참가 신청을 하는 API")

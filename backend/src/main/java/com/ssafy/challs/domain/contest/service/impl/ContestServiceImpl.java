@@ -53,11 +53,11 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 등록
 	 *
+	 * @author 강다솔
 	 * @param contestRequestDto 등록할 대회 정보
 	 * @param contestImage      등록할 대회 포스터 이미지
 	 * @param memberId          등록하는 회원 PK
 	 * @return 등록된 대회 PK
-	 * @author 강다솔
 	 */
 	@Override
 	@Transactional
@@ -83,10 +83,10 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 수정
 	 *
-	 * @param contestRequestDto 수정된 대회 정보
-	 * @param contestImage      수정된 대회 포스터 이미지
-	 * @param memberId          회원 PK
 	 * @author 강다솔
+	 * @param contestRequestDto 수정된 대회 정보
+	 * @param contestImage 수정된 대회 포스터 이미지
+	 * @param memberId 회원 PK
 	 */
 	@Override
 	@Transactional
@@ -113,9 +113,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 참가 신청
 	 *
-	 * @param participantRequestDto 대회 참가 신청 정보
-	 * @param memberId              신청자
 	 * @author 강다솔
+	 * @param participantRequestDto 대회 참가 신청 정보
+	 * @param memberId 신청자
 	 */
 	@Override
 	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
@@ -140,10 +140,10 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 상세 조회
 	 *
+	 * @author 강다솔
 	 * @param contestId 대회 PK
 	 * @param memberId  회원 PK
 	 * @return 대회 상세 정보
-	 * @author 강다솔
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -163,11 +163,11 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 검색
 	 *
-	 * @param contestSearchRequestDto 대회 검색 정보
-	 * @param pageable                페이지 정보
-	 * @param orderBy                 정렬 정보 (1:마감임박, 2:인기순, 3:최신순, 4:이름순)
-	 * @return 검색된 대회
 	 * @author 강다솔
+	 * @param contestSearchRequestDto 대회 검색 정보
+	 * @param pageable 페이지 정보
+	 * @param orderBy 정렬 정보 (1:마감임박, 2:인기순, 3:최신순, 4:이름순)
+	 * @return 검색된 대회
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -190,9 +190,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 수상 정보를 수정하는 메서드
 	 *
-	 * @param contest       대회 정보
-	 * @param awardsDtoList 수정된 수상 정보
 	 * @author 강다솔
+	 * @param contest 대회 정보
+	 * @param awardsDtoList 수정된 수상 정보
 	 */
 	private void updateAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
 		awardsRepository.deleteAllByContest(contest);
@@ -202,9 +202,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회가 생성됨과 동시에 모집중인지 확인
 	 *
+	 * @author 강다솔
 	 * @param contestRegistrationPeriod 모집 기간
 	 * @return 모집전 or 모집중
-	 * @author 강다솔
 	 */
 	private Character isOpenContest(ContestPeriodDto contestRegistrationPeriod) {
 		LocalDate today = LocalDate.now();
@@ -217,9 +217,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 수상 정보 저장
 	 *
-	 * @param contest       DB에 저장된 대회
-	 * @param awardsDtoList 수상 정보
 	 * @author 강다솔
+	 * @param contest DB에 저장된 대회
+	 * @param awardsDtoList 수상 정보
 	 */
 	private void createAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
 		log.info("들어온 수상 정보 >> " + awardsDtoList);
