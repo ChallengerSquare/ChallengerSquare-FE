@@ -113,22 +113,6 @@ class Blockchain:
 
         return True
 
-    # 르랜잭션 멤풀에 트랜잭션 추가
-    '''
-    :param sender: 발신자
-    :param receiver: 수신자
-    :param amount: 규모
-    '''
-
-    def add_transaction(self, sender, receiver, amount):  # todo : 대회 정보 입력으로 바꾸기
-        self.transactions.append({'sender': sender,
-                                  'receiver': receiver,
-                                  'amount': amount})
-
-        previous_block = self.get_previous_block()
-
-        return previous_block['index'] + 1
-
     def add_award_transaction(self, data):
         # data가 json 형식이면 parsing 불필요
         transaction_id = str(uuid.uuid4())
@@ -204,6 +188,30 @@ class Blockchain:
 
         return False
 
+    def sync_transactions(self):
+        # 로컬 트랜잭션 ID 집합
+        local_transaction_ids = {tx['transaction_id'] for tx in self.transactions}
+
+        # 네트워크의 모든 노드에 대해 반복
+        for node in self.nodes:
+            try:
+                # 각 노드의 트랜잭션 풀을 가져옴
+                response = requests.get(f'http://{node}/get_transactions')
+                if response.status_code == 200:
+                    node_transactions = response.json()
+
+                    # 각 트랜잭션에 대해 검사
+                    for tx in node_transactions:
+                        # 로컬 트랜잭션 풀에 없는 경우 추가
+                        if tx['transaction_id'] not in local_transaction_ids:
+                            self.transactions.append(tx)
+                            local_transaction_ids.add(tx['transaction_id'])
+                            print(f"New transaction added: {tx['transaction_id']}")
+            except requests.exceptions.RequestException as e:
+                print(f"Failed to connect to node {node}: {e}")
+
+        print("Finished syncing transactions")
+
     def get_transactions_by_name(self, name):
         found_transactions = []  # 일치하는 트랜잭션을 저장할 리스트
         for block in self.chain:  # 체인의 모든 블록을 순회
@@ -216,4 +224,5 @@ class Blockchain:
 
         return found_transactions
 
-
+    def get_transactions(self):
+        return self.transactions
