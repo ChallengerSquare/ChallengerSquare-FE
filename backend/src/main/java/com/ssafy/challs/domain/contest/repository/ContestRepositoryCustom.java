@@ -14,4 +14,5 @@ public interface ContestRepositoryCustom {
 
     Page<Contest> searchContestOrderByRegistrationEnd(Pageable pageable);
 
+    Page<Contest> searchContestOrderByRegistrationNum(Pageable pageable);
 }

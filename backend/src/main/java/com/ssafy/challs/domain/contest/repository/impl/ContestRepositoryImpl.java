@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.entity.QContest;
+import com.ssafy.challs.domain.contest.entity.QContestParticipants;
 import com.ssafy.challs.domain.contest.repository.ContestRepositoryCustom;
 import com.ssafy.challs.domain.team.dto.response.TeamContestResponseDto;
 import com.ssafy.challs.domain.team.entity.QTeam;
@@ -92,6 +93,37 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
         JPAQuery<Long> countQuery = createCountQuery(contest, today);
 
         return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<Contest> searchContestOrderByRegistrationNum(Pageable pageable) {
+        QContest contest = QContest.contest;
+        QContestParticipants contestParticipants = QContestParticipants.contestParticipants;
+
+        // 대회를 그룹화 & 참가신청 인원 수를 기준으로 정렬
+        List<Contest> results = queryFactory
+                .selectFrom(contest)
+                .innerJoin(contestParticipants.contest, contest)
+                .where(contest.contestState.eq('J'))
+                .groupBy(contest)
+                .orderBy(contestParticipants.count().desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        // 카운트 쿼리 생성
+        JPAQuery<Long> countQuery = createCountQuery(contest);
+
+        // PageableExecutionUtils를 사용하여 Page 객체 반환
+        return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
+    }
+
+    private JPAQuery<Long> createCountQuery(QContest contest) {
+        // JPAQuery<Long> 객체를 생성하여 반환
+        return queryFactory
+                .select(contest.count())
+                .from(contest)
+                .where(contest.contestState.eq('J'));
     }
 
     private JPAQuery<Long> createCountQuery(QContest contest, QTeam team, BooleanBuilder whereBuilder) {
