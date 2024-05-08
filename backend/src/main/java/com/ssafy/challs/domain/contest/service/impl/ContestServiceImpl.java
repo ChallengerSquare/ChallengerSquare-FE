@@ -111,29 +111,6 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	/**
-	 * 대회 상세 조회
-	 *
-	 * @param contestId 대회 PK
-	 * @param memberId  회원 PK
-	 * @return 대회 상세 정보
-	 * @author 강다솔
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
-		// TODO : 조회하는 회원이 신청한 팀장인지 확인
-		Boolean isLeader = false;
-		// TODO : 팀의 참가 신청 상태 가져오기
-		Character participantState = 'W';
-		// 대회 정보 가져오기
-		Contest contest = contestRepository.findById(contestId)
-			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
-		// 시상 정보 가져오기
-		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
-		return contestMapper.contestToFindResponseDto(contest, awardsList, isLeader, participantState);
-	}
-
-	/**
 	 * 대회 참가 신청
 	 *
 	 * @param participantRequestDto 대회 참가 신청 정보
@@ -161,18 +138,52 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	/**
+	 * 대회 상세 조회
+	 *
+	 * @param contestId 대회 PK
+	 * @param memberId  회원 PK
+	 * @return 대회 상세 정보
+	 * @author 강다솔
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
+		// TODO : 조회하는 회원이 신청한 팀장인지 확인
+		Boolean isLeader = false;
+		// TODO : 팀의 참가 신청 상태 가져오기
+		Character participantState = 'W';
+		// 대회 정보 가져오기
+		Contest contest = contestRepository.findById(contestId)
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+		// 시상 정보 가져오기
+		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
+		return contestMapper.contestToFindResponseDto(contest, awardsList, isLeader, participantState);
+	}
+
+	/**
 	 * 대회 검색
 	 *
-	 * @param contestSearchRequestDto 검색 조건
+	 * @param contestSearchRequestDto 대회 검색 정보
 	 * @param pageable                페이지 정보
+	 * @param orderBy                 정렬 정보 (1:마감임박, 2:인기순, 3:최신순, 4:이름순)
 	 * @return 검색된 대회
 	 * @author 강다솔
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto,
-		Pageable pageable) {
-		Page<Contest> contests = contestRepository.searchContest(contestSearchRequestDto, pageable);
+		Pageable pageable, Integer orderBy) {
+		Page<Contest> contests = Page.empty();
+		if (orderBy > 2) {
+			// 전체 대회 정렬조건으로 조회
+			contests = contestRepository.searchContest(contestSearchRequestDto, pageable, orderBy);
+		} else {
+			if (orderBy == 1)
+				contests = contestRepository.searchContestOrderByRegistrationEnd(pageable);
+			else
+				contests = contestRepository.searchContestOrderByRegistrationNum(pageable);
+		}
+
 		return contestMapper.contestPageToDtoPage(contests);
 	}
 
