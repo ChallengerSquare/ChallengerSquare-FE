@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import { useEffect } from 'react'
 import Stepper from '@components/Stepper/Stepper'
 import CheckBox from '@/components/CheckBox/CheckBox'
@@ -5,15 +6,16 @@ import useCheckBox from '@/hooks/useCheckBox'
 import Button from '@/components/Button/Button'
 import styles from './Terms.module.scss'
 
-interface StepsProps {
-  steps: string[]
+interface stepProps {
+  nextStep: () => void
 }
 
-const Terms = ({ steps }: StepsProps) => {
+const Terms = ({ nextStep }: stepProps) => {
   const { isCheck: allCheck, handleCheckBox: handleAllCheck, setIsCheck: setAllCheck } = useCheckBox()
   const { isCheck: serviceCheck, handleCheckBox: handleServiceCheck } = useCheckBox()
   const { isCheck: privacyCheck, handleCheckBox: handlePrivacyCheck } = useCheckBox()
-  const checkState = useEffect(() => {
+
+  useEffect(() => {
     if (allCheck) {
       if (!serviceCheck) handleServiceCheck()
       if (!privacyCheck) handlePrivacyCheck()
@@ -31,7 +33,6 @@ const Terms = ({ steps }: StepsProps) => {
 
   return (
     <>
-      <Stepper activeStep={0} steps={steps} />
       <div className={styles['main-box']}>
         <div className={styles.header}>
           &nbsp; &nbsp; &nbsp; &nbsp;이용 약관
@@ -528,7 +529,7 @@ const Terms = ({ steps }: StepsProps) => {
           </div>
         </div>
 
-        <Button variation="purple agreement" disabled={!allCheck}>
+        <Button variation="purple agreement" disabled={!allCheck} onClick={nextStep}>
           다음
         </Button>
       </div>

@@ -7,7 +7,7 @@ import CompetitionSearch from '@/pages/competition/CompetitionSearch'
 import CompetitionDetail from '@/pages/competitiondetail/CompetitionDetail'
 import CompetitionResult from '@pages/competition-result/CompetitionResult'
 import Auth from '@pages/auth/Auth'
-import Agreement from '@pages/agreement/Agreement'
+import Signup from '@/pages/signup/Signup'
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
           <Route path="/competition/search" element={<CompetitionSearch />} />
           <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
           <Route path="/competition-results" element={<CompetitionResult />} />
-          <Route path="/sign-in" element={<Auth />} />
-          <Route path="/agreement" element={<Agreement />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/sign-up" element={<Signup />} />
           <Route path="*" element={<div>없는 페이지</div>} />
         </Routes>
       </BrowserRouter>

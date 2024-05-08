@@ -1,0 +1,34 @@
+import Navbar from '@components/Navbar/Navbar'
+import Stepper from '@components/Stepper/Stepper'
+import useStep from '@hooks/useStep'
+import Terms from './terms/Terms'
+import styles from './Signup.module.scss'
+import Userform from './userform/Userform'
+
+const Signup = () => {
+  const stepArr = ['약관동의', '정보 입력', '가입 완료']
+  const { step, nextStep, prevStep } = useStep(stepArr)
+
+  const stepsConfig = [
+    { name: '약관 동의', component: <Terms nextStep={nextStep} /> },
+    { name: '정보 입력', component: <Userform prevStep={prevStep} nextStep={nextStep} /> },
+    { name: '가입 완료', component: <Terms nextStep={nextStep} /> },
+  ]
+
+  return (
+    <>
+      <div className={styles.background}>
+        <Navbar />
+        <div className={styles.container}>
+          <div className={styles.title}>회원가입</div>
+          <div className={styles.content}>
+            <Stepper activeStep={step} steps={stepArr} />
+            {stepsConfig[step].component}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Signup
