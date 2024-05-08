@@ -1,18 +1,22 @@
-import { ButtonHTMLAttributes } from 'react'
 import styles from './Button.module.scss'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variation?: 'purple' | 'white'
+interface ButtonProps {
+  variation: string
   onClick?: () => void
   // size: "login" | ;
   children: React.ReactNode
+  disabled?: boolean
 }
 
-const Button = ({ variation, onClick, children, type = 'button', ...props }: ButtonProps) => {
-  const className = variation === 'white' ? styles.white : styles.purple
+const Button = ({ variation, onClick, children, disabled, ...props }: ButtonProps) => {
+  const className = variation
+    .split(' ')
+    .map((v) => styles[v])
+    .join(' ')
+
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className={className} onClick={onClick} {...props}>
+    <button className={className} onClick={onClick} disabled={disabled} {...props}>
       {children}
     </button>
   )
