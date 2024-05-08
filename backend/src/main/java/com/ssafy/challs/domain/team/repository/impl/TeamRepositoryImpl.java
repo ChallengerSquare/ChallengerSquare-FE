@@ -85,8 +85,9 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 		JPAQuery<Long> limit = queryFactory
 			.select(team.count())
 			.from(team)
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize());
+			.where(team.id.in(JPAExpressions.select(teamParticipants.team.id)
+				.from(teamParticipants)
+				.where(teamParticipants.member.id.eq(memberId))));
 		return PageableExecutionUtils.getPage(memberTeamResponseDtoList, pageable, limit::fetchOne);
 	}
 
