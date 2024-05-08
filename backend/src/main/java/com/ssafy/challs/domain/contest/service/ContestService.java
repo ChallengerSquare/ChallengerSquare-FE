@@ -18,7 +18,8 @@ public interface ContestService {
 
 	void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId);
 
-	Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto, Pageable pageable);
+	Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto, Pageable pageable,
+		Integer orderBy);
 
 	ContestFindResponseDto findContest(Long contestId, Long memberId);
 }
