@@ -20,6 +20,7 @@ def mine_block():
     block = blockchain.create_block(proof, previous_hash)
 
     response = {'message': 'Congratulations, you just mine a block!!',
+                'hash': block['hash'],
                 'index': block['index'],
                 'timestamp': block['timestamp'],
                 'proof': block['proof'],
