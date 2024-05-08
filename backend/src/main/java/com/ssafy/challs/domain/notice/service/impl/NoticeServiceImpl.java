@@ -1,11 +1,14 @@
 package com.ssafy.challs.domain.notice.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.notice.dto.request.NoticeCreateRequestDto;
+import com.ssafy.challs.domain.notice.dto.response.NoticeResponseDto;
 import com.ssafy.challs.domain.notice.entity.Notice;
 import com.ssafy.challs.domain.notice.repository.NoticeRepository;
 import com.ssafy.challs.domain.notice.service.NoticeService;
@@ -48,6 +51,20 @@ public class NoticeServiceImpl implements NoticeService {
 			.contest(contest)
 			.build();
 		noticeRepository.save(notice);
+	}
+
+	/**
+	 * 공지사항 목록 조회
+	 *
+	 * @author 강태연
+	 * @param contestId 대회 번호
+	 * @param pageable 페이징 정보
+	 * @return 공지사항 목록
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<NoticeResponseDto> searchNoticeList(Long contestId, Pageable pageable) {
+		return noticeRepository.searchNoticeList(pageable, contestId);
 	}
 
 }
