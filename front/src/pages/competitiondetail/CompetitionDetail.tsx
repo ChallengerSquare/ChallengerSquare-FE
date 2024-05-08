@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionDetailContent from './CompetitoinDetailContent'
+import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
 
 const CompetitionDetail = () => {
@@ -26,7 +27,9 @@ const CompetitionDetail = () => {
           <div className={styles.content_container}>
             <CompetitionDetailContent competitionId={competitionId} />
           </div>
-          <div className={styles.info_container}>info</div>
+          <div className={styles.info_container}>
+            <CompetitionDetailTab />
+          </div>
         </div>
       </div>
     </div>

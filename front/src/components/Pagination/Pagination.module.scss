@@ -1,0 +1,23 @@
+@import '@styles/variables.scss';
+
+.tail{
+    display: flex;
+    justify-content: center;
+    padding:1rem;
+    font-size: large;
+    
+    button{
+        margin:1rem;
+    }
+    
+    .active{
+        color: $main-color;
+        font-weight: bold;
+    }
+
+    .inactive{
+        &:hover{
+            color:$main-third-color;
+        }
+    }
+}
