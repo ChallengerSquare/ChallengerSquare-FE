@@ -1,0 +1,13 @@
+@import '@styles/variables.scss';
+
+.checkbox {
+  cursor: pointer;
+  width: 30px;
+  height: auto;
+  margin-left: 10px;
+}
+
+.container {
+  display: flex;
+  margin-left: 180px;
+}

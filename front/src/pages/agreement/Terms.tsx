@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Stepper from '@components/Stepper/Stepper'
-import CheckButton from '@/components/CheckButton/CheckButton'
+import CheckBox from '@/components/CheckBox/CheckBox'
+import useCheckBox from '@/hooks/useCheckBox'
+import Button from '@/components/Button/Button'
 import styles from './Terms.module.scss'
 
 interface StepsProps {
@@ -8,48 +10,47 @@ interface StepsProps {
 }
 
 const Terms = ({ steps }: StepsProps) => {
-  const [allCheck, setAllCheck] = useState(false)
-  const [serviceCheck, setServiceCheck] = useState(false)
-  const [privacyCheck, setPrivacyCheck] = useState(false)
-
-  const handleAllCheck = () => {
-    if (allCheck === true) {
-      setAllCheck(false)
-      setServiceCheck(false)
-      setPrivacyCheck(false)
-    } else {
-      setAllCheck(true)
-      setServiceCheck(true)
-      setPrivacyCheck(true)
+  const { isCheck: allCheck, handleCheckBox: handleAllCheck, setIsCheck: setAllCheck } = useCheckBox()
+  const { isCheck: serviceCheck, handleCheckBox: handleServiceCheck } = useCheckBox()
+  const { isCheck: privacyCheck, handleCheckBox: handlePrivacyCheck } = useCheckBox()
+  const checkState = useEffect(() => {
+    if (allCheck) {
+      if (!serviceCheck) handleServiceCheck()
+      if (!privacyCheck) handlePrivacyCheck()
+    } else if (serviceCheck && privacyCheck) {
+      if (serviceCheck) handleServiceCheck()
+      if (privacyCheck) handlePrivacyCheck()
     }
-  }
-
-  const handleServiceCheck = () => {
-    setServiceCheck(!serviceCheck)
-  }
-
-  const handlePrivacyCheck = () => {
-    setPrivacyCheck(!privacyCheck)
-  }
+  }, [allCheck])
 
   useEffect(() => {
-    if (serviceCheck === true && privacyCheck === true) setAllCheck(true)
-    else setAllCheck(false)
-  }, [allCheck, serviceCheck, privacyCheck])
+    if (serviceCheck && privacyCheck) {
+      setAllCheck(true)
+    } else setAllCheck(false)
+  }, [serviceCheck, privacyCheck])
+
   return (
     <>
       <Stepper activeStep={0} steps={steps} />
       <div className={styles['main-box']}>
-        &nbsp; &nbsp; &nbsp; &nbsp;이용 약관
+        <div className={styles.header}>
+          &nbsp; &nbsp; &nbsp; &nbsp;이용 약관
+          <div className={styles['whole-btn']}>
+            <CheckBox description="전체 동의" isCheck={allCheck} handleCheckBox={handleAllCheck} />
+          </div>
+        </div>
+
         <div className={styles['sub-box']}>
           <div className={styles.title}>
             <div>
               서비스 이용 약관 동의 <span className={styles.highlight}>(필수)</span>
             </div>
-            <div className={styles['check-btn']}>
-              <CheckButton description="동의" />
+
+            <div className={styles['check-btn-300']}>
+              <CheckBox description="동의" isCheck={serviceCheck} handleCheckBox={handleServiceCheck} />
             </div>
           </div>
+
           <div className={styles.content}>
             <br /> 제 1조 (목적)
             <hr />
@@ -216,7 +217,12 @@ const Terms = ({ steps }: StepsProps) => {
         </div>
         <div className={styles['sub-box']}>
           <div className={styles.title}>
-            개인 정보 수집 및 이용 동의 <span className={styles.highlight}>(필수)</span>
+            <div>
+              개인 정보 수집 및 이용 동의 <span className={styles.highlight}>(필수)</span>
+            </div>
+            <div className={styles['check-btn-250']}>
+              <CheckBox description="동의" isCheck={privacyCheck} handleCheckBox={handlePrivacyCheck} />
+            </div>
           </div>
           <div className={styles.content}>
             <br />
@@ -521,6 +527,10 @@ const Terms = ({ steps }: StepsProps) => {
             <br />
           </div>
         </div>
+
+        <Button variation="purple agreement" disabled={!allCheck}>
+          다음
+        </Button>
       </div>
     </>
   )
