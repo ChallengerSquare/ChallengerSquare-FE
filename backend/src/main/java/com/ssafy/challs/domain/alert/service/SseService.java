@@ -7,12 +7,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface SseService {
 
-	public SseEmitter subscribe(String memberCode);
+	public SseEmitter subscribe(Long memberId);
 
-	public Map<String, Boolean> createConnectionMessage(String memberCode);
+	public Map<String, Boolean> createConnectionMessage(Long memberId);
 
-	public void send(List<String> receivers, Map<String, Boolean> message);
+	public void send(List<Long> receivers, Map<String, Boolean> message);
 
-	void send(SseEmitter sseEmitter, String memberCode, Map<String, Boolean> message);
+	void send(SseEmitter sseEmitter, Long memberId, Map<String, Boolean> message);
 
 }
