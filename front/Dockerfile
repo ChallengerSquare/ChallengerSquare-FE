@@ -8,7 +8,7 @@ RUN yarn build
 
 FROM nginx:stable-alpine
 
-EXPOSE 8001
+EXPOSE 8000
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
