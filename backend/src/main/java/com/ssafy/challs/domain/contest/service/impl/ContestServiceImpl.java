@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
@@ -20,11 +21,14 @@ import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
+import com.ssafy.challs.domain.contest.entity.ContestParticipants;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
 import com.ssafy.challs.domain.contest.repository.AwardsRepository;
+import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.domain.team.entity.Team;
+import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
@@ -39,19 +43,21 @@ import lombok.extern.slf4j.Slf4j;
 public class ContestServiceImpl implements ContestService {
 
 	private final ContestRepository contestRepository;
+	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final AwardsRepository awardsRepository;
 	private final TeamRepository teamRepository;
+	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final ContestMapper contestMapper;
 	private final S3ImageUploader imageConfig;
 
 	/**
 	 * 대회 등록
 	 *
-	 * @author 강다솔
 	 * @param contestRequestDto 등록할 대회 정보
-	 * @param contestImage 등록할 대회 포스터 이미지
-	 * @param memberId 등록하는 회원 PK
+	 * @param contestImage      등록할 대회 포스터 이미지
+	 * @param memberId          등록하는 회원 PK
 	 * @return 등록된 대회 PK
+	 * @author 강다솔
 	 */
 	@Override
 	@Transactional
@@ -77,10 +83,10 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 수정
 	 *
-	 * @author 강다솔
 	 * @param contestRequestDto 수정된 대회 정보
-	 * @param contestImage 수정된 대회 포스터 이미지
-	 * @param memberId 회원 PK
+	 * @param contestImage      수정된 대회 포스터 이미지
+	 * @param memberId          회원 PK
+	 * @author 강다솔
 	 */
 	@Override
 	@Transactional
@@ -107,10 +113,10 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 상세 조회
 	 *
-	 * @author 강다솔
 	 * @param contestId 대회 PK
-	 * @param memberId 회원 PK
+	 * @param memberId  회원 PK
 	 * @return 대회 상세 정보
+	 * @author 강다솔
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -128,12 +134,39 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	/**
+	 * 대회 참가 신청
+	 *
+	 * @param participantRequestDto 대회 참가 신청 정보
+	 * @param memberId              신청자
+	 * @author 강다솔
+	 */
+	@Override
+	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
+		// 신청자가 팀장인지 확인
+		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
+			participantRequestDto.teamId());
+		if (!isLeader)
+			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
+
+		// 참가신청 정보 Entity로 변환
+		Contest contest = contestRepository.findById(participantRequestDto.contestId())
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+		Team team = teamRepository.findById(participantRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+		ContestParticipants contestParticipants = contestMapper.contestParticipantsDtoToEntity(participantRequestDto,
+			contest, team);
+
+		// 참가 신청 정보 저장
+		contestParticipantsRepository.save(contestParticipants);
+	}
+
+	/**
 	 * 대회 검색
 	 *
-	 * @author 강다솔
 	 * @param contestSearchRequestDto 검색 조건
-	 * @param pageable 페이지 정보
+	 * @param pageable                페이지 정보
 	 * @return 검색된 대회
+	 * @author 강다솔
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -146,9 +179,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 수상 정보를 수정하는 메서드
 	 *
-	 * @author 강다솔
-	 * @param contest 대회 정보
+	 * @param contest       대회 정보
 	 * @param awardsDtoList 수정된 수상 정보
+	 * @author 강다솔
 	 */
 	private void updateAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
 		awardsRepository.deleteAllByContest(contest);
@@ -158,9 +191,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회가 생성됨과 동시에 모집중인지 확인
 	 *
-	 * @author 강다솔
 	 * @param contestRegistrationPeriod 모집 기간
 	 * @return 모집전 or 모집중
+	 * @author 강다솔
 	 */
 	private Character isOpenContest(ContestPeriodDto contestRegistrationPeriod) {
 		LocalDate today = LocalDate.now();
@@ -173,9 +206,9 @@ public class ContestServiceImpl implements ContestService {
 	/**
 	 * 대회 수상 정보 저장
 	 *
-	 * @author 강다솔
-	 * @param contest DB에 저장된 대회
+	 * @param contest       DB에 저장된 대회
 	 * @param awardsDtoList 수상 정보
+	 * @author 강다솔
 	 */
 	private void createAwards(Contest contest, List<ContestAwardsDto> awardsDtoList) {
 		log.info("들어온 수상 정보 >> " + awardsDtoList);
