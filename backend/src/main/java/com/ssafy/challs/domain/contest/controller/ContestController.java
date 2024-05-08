@@ -130,7 +130,7 @@ public class ContestController {
 	public ResponseEntity<SuccessResponse<String>> createContestParticipant(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody ContestParticipantRequestDto contestParticipantRequestDto) {
-		// TODO : 대회 참가 신청 로직 추가
+		contestService.createContestParticipant(contestParticipantRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
