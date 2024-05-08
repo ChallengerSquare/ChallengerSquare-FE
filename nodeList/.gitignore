@@ -417,7 +417,7 @@ ehthumbs.db
 ehthumbs_vista.db
 
 # ssl key
-server.crt
+server.csr
 server.key
 
 # Secret.json
