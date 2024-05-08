@@ -88,7 +88,7 @@ public class DataSourceConfig {
 		// hibernate 설정
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		// sql 을 보여주는 설정
-		vendorAdapter.setShowSql(true);
+		vendorAdapter.setShowSql(false);
 		// entityManager 에 해당 설정 추가
 		em.setJpaVendorAdapter(vendorAdapter);
 

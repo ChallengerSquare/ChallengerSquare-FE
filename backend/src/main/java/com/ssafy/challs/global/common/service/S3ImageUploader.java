@@ -39,4 +39,8 @@ public class S3ImageUploader {
 		return newFIleName;
 	}
 
+	public void deleteImage(String fileName) {
+		amazonS3Client.deleteObject(bucket, fileName);
+	}
+
 }
