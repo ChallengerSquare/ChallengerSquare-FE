@@ -138,8 +138,22 @@ public class ContestServiceImpl implements ContestService {
 	@Override
 	@Transactional(readOnly = true)
 	public Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto,
-		Pageable pageable) {
-		Page<Contest> contests = contestRepository.searchContest(contestSearchRequestDto, pageable);
+		Pageable pageable, Integer orderBy) {
+		Page<Contest> contests = null;
+		if (orderBy == null) {
+			// 정렬 아닌 검색일 때
+			if (contestSearchRequestDto == null)
+				contestSearchRequestDto = new ContestSearchRequestDto("", ' ', false);
+			contests = contestRepository.searchContest(contestSearchRequestDto, pageable);
+		} else {
+			// 정렬일 때
+			if (orderBy == 1) {
+				contests = contestRepository.searchContestOrderByRegistrationEnd(pageable);
+			} else {
+
+			}
+		}
+
 		return contestMapper.contestPageToDtoPage(contests);
 	}
 

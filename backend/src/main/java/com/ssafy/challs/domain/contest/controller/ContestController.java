@@ -93,8 +93,11 @@ public class ContestController {
 	@GetMapping
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
 	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
-		@RequestParam ContestSearchRequestDto contestSearchRequestDto, @RequestParam Pageable pageable) {
-		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable);
+		@RequestParam(required = false) ContestSearchRequestDto contestSearchRequestDto,
+		@RequestParam Pageable pageable,
+		@RequestParam(required = false) Integer orderBy) {
+		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable,
+			orderBy);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, searchContest));
 	}
 
