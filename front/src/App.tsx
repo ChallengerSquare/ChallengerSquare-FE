@@ -1,4 +1,5 @@
 import './App.css'
+import { RecoilRoot } from 'recoil'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from '@pages/home/Home'
 import Competition from '@/pages/competition/Competition'
@@ -10,18 +11,20 @@ import Agreement from '@pages/agreement/Agreement'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/competition" element={<Competition />} />
-        <Route path="/competition/search" element={<CompetitionSearch />} />
-        <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
-        <Route path="/competition-results" element={<CompetitionResult />} />
-        <Route path="/sign-in" element={<Auth />} />
-        <Route path="/agreement" element={<Agreement />} />
-        <Route path="*" element={<div>없는 페이지</div>} />
-      </Routes>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/competition" element={<Competition />} />
+          <Route path="/competition/search" element={<CompetitionSearch />} />
+          <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
+          <Route path="/competition-results" element={<CompetitionResult />} />
+          <Route path="/sign-in" element={<Auth />} />
+          <Route path="/agreement" element={<Agreement />} />
+          <Route path="*" element={<div>없는 페이지</div>} />
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   )
 }
 

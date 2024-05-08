@@ -1,7 +1,7 @@
 import styles from './Auth.module.scss'
 
 const Auth = () => {
-  const challSv2 = `${process.env.PUBLIC_URL}/svgs/challSv2.svg`
+  const challSv2 = `${process.env.PUBLIC_URL}/svgs/logo/challSv2.svg`
   const content = `${process.env.PUBLIC_URL}/images/auth/content.png`
   const leftImage = `${process.env.PUBLIC_URL}/images/auth/bg-left.png`
   const kakaoBtn = `${process.env.PUBLIC_URL}/images/auth/kakao_login.png`
