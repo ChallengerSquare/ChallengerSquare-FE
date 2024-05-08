@@ -1,6 +1,8 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 from blockchain import Blockchain
+import pytz
+
 
 blockchain = Blockchain.get_blockchain()
 
@@ -28,7 +30,7 @@ def start_scheduler():
     executors = {
         'default': ThreadPoolExecutor(1)  # 동시에 하나의 작업만 실행
     }
-    scheduler = BackgroundScheduler(executors=executors)
+    scheduler = BackgroundScheduler(executors=executors, timezone=pytz.timezone('Asia/Seoul'))
     scheduler.add_job(func=mine_block_regularly, trigger="interval", seconds=10, max_instances=1)
     scheduler.add_job(func=replace_chain_regularly, trigger="interval", minutes=1, max_instances=1)
     scheduler.start()
