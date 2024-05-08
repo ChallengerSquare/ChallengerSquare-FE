@@ -137,7 +137,7 @@ public class ContestServiceImpl implements ContestService {
         Page<Contest> contests = Page.empty();
         if (orderBy > 2) {
             // 전체 대회 정렬조건으로 조회
-            contestRepository.searchContest(contestSearchRequestDto, pageable, orderBy);
+            contests = contestRepository.searchContest(contestSearchRequestDto, pageable, orderBy);
         } else {
             if (orderBy == 1) contests = contestRepository.searchContestOrderByRegistrationEnd(pageable);
             else contests = contestRepository.searchContestOrderByRegistrationNum(pageable);
