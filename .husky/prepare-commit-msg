@@ -2,7 +2,13 @@ if [ -z "$BRANCHES_TO_SKIP" ]; then
   BRANCHES_TO_SKIP=(master dev-be dev-fe dev-bc release hotfix)
 fi
 
+if [ "$(git rev-parse --abbrev-ref HEAD)" == "HEAD" ]; then
+    echo "Skipping commit message hook during rebase"
+    exit 0
+fi
+
 BRANCH_NAME=$(git symbolic-ref --short HEAD)
+echo ${BRANCH_NAME}
 # BRANCH_NAME="${BRANCH_NAME##*/}"
 
 for branch in "${BRANCHES_TO_SKIP[@]}"; do
