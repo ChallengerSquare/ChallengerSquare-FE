@@ -1,0 +1,91 @@
+@import '@styles/variables.scss';
+
+.container{
+    padding: 2rem 3rem;
+
+    .empty{
+       height: 20rem;
+       background-color: white;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       color: $main-forth-color;
+       
+       p{
+        font-size: xx-large;
+        color: $main-forth-color;
+       }
+    }
+    
+    .notices{
+        .header{
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            font-size: 1.4rem;
+
+            span{
+                color: $main-color;
+            }
+
+            button{
+                font-size: 1.0rem
+            }
+        }
+
+        .body{
+            border-top: grey solid 1px;
+            font-size: 1.2rem;
+
+            .content{
+                border-bottom : grey solid 0.01rem;
+                .summary{
+                    width: 850px;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 1rem 2rem;
+                    .text{
+                        display: flex;
+                        .index{
+                            width: 4rem;
+
+                        }
+                        .title{
+                            padding:0rem 1rem;
+                        }
+                        .date{
+                            color: darkgray;
+                            font-weight: 400;
+                        }
+                    }
+                }
+
+                .description{
+                    border-top : grey solid 0.01rem;
+                    background-color: $main-fifth-color;
+                    padding: 1rem 7rem;
+                }
+            } 
+        }
+        .tail{
+            display: flex;
+            justify-content: center;
+            padding:1rem;
+            
+            button{
+                margin:1rem;
+            }
+            
+            .active{
+                color: $main-color;
+                font-weight: bold;
+            }
+
+            .inactive{
+                &:hover{
+                    color:$main-third-color;
+                }
+            }
+        }
+    }
+}
