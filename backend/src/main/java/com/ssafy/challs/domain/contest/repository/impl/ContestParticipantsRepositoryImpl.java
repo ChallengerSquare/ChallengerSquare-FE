@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.challs.domain.contest.entity.ContestParticipants;
 import com.ssafy.challs.domain.contest.entity.QContestParticipants;
 import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepositoryCustom;
 import com.ssafy.challs.domain.team.entity.QTeamParticipants;
@@ -46,5 +48,23 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.fetch();
 
 		return !teamMemberIds.isEmpty();  // 결과 목록이 비어 있지 않다면, 중복된 멤버가 존재함
+	}
+
+	@Override
+	public ContestParticipants findContestParticipants(Long contestId, Long memberId) {
+		QContestParticipants contestParticipants = QContestParticipants.contestParticipants;
+		QTeamParticipants teamParticipants = QTeamParticipants.teamParticipants;
+
+		// 쿼리 조건 설정 (contestId에 참가 신청한 memberId가 팀장인 팀)
+		BooleanExpression teamInContestCondition = contestParticipants.contest.id.eq(contestId);
+		BooleanExpression teamWithLeaderCondition = teamParticipants.member.id.eq(memberId)
+			.and(teamParticipants.isLeader.eq(true));
+
+		// 찾은 ContestParticipants 가져오기
+		return queryFactory
+			.selectFrom(contestParticipants)
+			.join(teamParticipants).on(contestParticipants.team.id.eq(teamParticipants.team.id))
+			.where(teamInContestCondition.and(teamWithLeaderCondition))
+			.fetchOne();
 	}
 }
