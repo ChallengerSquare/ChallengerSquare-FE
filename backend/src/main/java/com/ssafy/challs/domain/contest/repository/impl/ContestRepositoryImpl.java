@@ -154,9 +154,7 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 
         JPAQuery<Long> limit = queryFactory.select(contest.count())
                 .from(contest)
-                .where(contest.team.id.eq(teamId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .where(contest.team.id.eq(teamId));
         return PageableExecutionUtils.getPage(response, pageable, limit::fetchOne);
     }
 
