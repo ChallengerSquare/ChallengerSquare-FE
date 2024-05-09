@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { User } from '@/types/user'
-import { ApiResponse } from '@/types/api'
+import { ApiResponse, MemberDto } from '@/types/api'
 
 const api = axios.create({
   baseURL: `${process.env.REACT_APP_API_ROOT}/member`,
@@ -9,7 +9,13 @@ const api = axios.create({
 
 export const registerUser = async (user: User): Promise<ApiResponse> => {
   try {
-    const response = await api.post<ApiResponse>('/create', user)
+    const memberDto: MemberDto = {
+      memberName: user.username,
+      memberBirth: user.birth,
+      memberPhone: user.contact,
+      memberAddress: user.address,
+    }
+    const response = await api.post<ApiResponse>('/create', memberDto)
     return response.data
   } catch (error) {
     console.error('회원가입 API 에러', error)
