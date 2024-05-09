@@ -14,8 +14,8 @@ import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestTeamParticipantsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
@@ -100,7 +100,7 @@ class ContestMapperTest {
 		// 실행
 		ContestTeamResponseDto responseDto = mapper.entityToContestTeamResponseDto(
 			contestTeamInfoDto, memberInfo);
-		ContestTeamParticipantsDto contestTeamParticipantsDto = mapper.dtoToContestTeamResponseDto(contest,
+		ContestParticipantsResponseDto contestTeamParticipantsDto = mapper.dtoToContestTeamResponseDto(contest,
 			List.of(responseDto), awardsDto);
 
 		// 검증
