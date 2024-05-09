@@ -7,35 +7,36 @@ declare global {
 
 const handleComplete = (
   data: any,
-  setAddress: React.Dispatch<
-    React.SetStateAction<{ postcode: string; address: string; detailAddress: string; extraAddress: string }>
-  >,
+  setAddress: React.Dispatch<React.SetStateAction<{ postcode: string; roadAddress: string; detailAddress: string }>>,
 ) => {
   let fullAddress = data.address
-  let extraAddress = ''
+  let detailAddress = ''
 
   if (data.addressType === 'R') {
     if (data.bname !== '') {
-      extraAddress += data.bname
+      detailAddress += data.bname
     }
     if (data.buildingName !== '') {
-      extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName
+      detailAddress += detailAddress !== '' ? `, ${data.buildingName}` : data.buildingName
     }
-    fullAddress += extraAddress !== '' ? ` (${extraAddress})` : ''
+    fullAddress += detailAddress !== '' ? ` (${detailAddress})` : ''
   }
 
   // 상태 업데이트
   setAddress({
     postcode: data.zonecode,
-    address: fullAddress,
-    detailAddress: '',
-    extraAddress,
+    roadAddress: fullAddress,
+    detailAddress,
   })
 }
 
 const loadPostcode = (
   setAddress: React.Dispatch<
-    React.SetStateAction<{ postcode: string; address: string; detailAddress: string; extraAddress: string }>
+    React.SetStateAction<{
+      postcode: string
+      roadAddress: string
+      detailAddress: string
+    }>
   >,
 ) => {
   const script = document.createElement('script')

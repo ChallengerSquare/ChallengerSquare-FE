@@ -4,20 +4,41 @@ import Calendar from '@components/Calendar/Calendar'
 import HelpButton from '@svgs/help_button.svg'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@services/postcode'
+import { useRecoilSnapshot, useSetRecoilState } from 'recoil'
+import { User } from '@/types/user'
+import { userState } from '@/stores/useState'
 import styles from './Userform.module.scss'
 
 interface stepProps {
   prevStep: () => void
   nextStep: () => void
 }
+
 const Userform = ({ prevStep, nextStep }: stepProps) => {
+  const setUserState = useSetRecoilState(userState)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [address, setAddress] = useState({
+  const [addressDetails, setAddressDetails] = useState({
     postcode: '',
-    address: '',
+    roadAddress: '',
     detailAddress: '',
-    extraAddress: '',
   })
+
+  useEffect(() => {
+    if (selectedDate) {
+      setUserState((prev) => ({
+        ...prev,
+        birth: selectedDate.toLocaleDateString('ko-KR'),
+      }))
+    }
+  }, [selectedDate])
+
+  const handleUserState = (key: string, e: any) => {
+    setUserState((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }))
+  }
+
   return (
     <>
       <div className={styles['main-box']}>
@@ -32,7 +53,14 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <div className={styles.label}>
               <span className={styles.highlight}>*</span> &nbsp; 이름
             </div>
-            <input type="text" className={styles['input-box']} placeholder="이름을 입력하세요." />
+            <input
+              type="text"
+              className={styles['input-box']}
+              onChange={(e) => {
+                handleUserState('username', e)
+              }}
+              placeholder="이름을 입력하세요."
+            />
           </div>
           <div className={styles.input}>
             <div className={styles.label}>
@@ -44,7 +72,14 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <div className={styles.label}>
               <span className={styles.highlight}>*</span> &nbsp; 연락처
             </div>
-            <input type="text" className={styles['input-box']} placeholder="000-000-000" />
+            <input
+              type="text"
+              className={styles['input-box']}
+              onChange={(e) => {
+                handleUserState('contact', e)
+              }}
+              placeholder="000-000-000"
+            />
             <div className={styles.help}>
               <img src={HelpButton} alt="도움말" />
             </div>
@@ -55,20 +90,32 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             </div>
             <input
               type="text"
-              value={address.postcode}
+              value={addressDetails.postcode}
+              onChange={(e) => {
+                setAddressDetails((prev) => ({
+                  ...prev,
+                  postcode: e.target.value,
+                }))
+              }}
               className={styles['input-box']}
               placeholder="우편번호"
               readOnly
             />
-            <Button variation="purple postcode" onClick={() => loadPostcode(setAddress)}>
+            <Button variation="postcode" onClick={() => loadPostcode(setAddressDetails)}>
               주소검색
             </Button>
           </div>
           <div>
             <input
               type="text"
-              value={address.address}
+              value={addressDetails.roadAddress}
               className={styles['road-address']}
+              onChange={(e) => {
+                setAddressDetails((prev) => ({
+                  ...prev,
+                  roadAddress: e.target.value,
+                }))
+              }}
               placeholder="도로명 주소"
               readOnly
             />
@@ -76,20 +123,45 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
           <div className={styles.flex}>
             <input
               type="text"
-              value={address.extraAddress}
               className={styles['detail-address']}
+              value={addressDetails.detailAddress}
+              onChange={(e) => {
+                setAddressDetails((prev) => ({
+                  ...prev,
+                  detailAddress: e.target.value,
+                }))
+              }}
               placeholder="상세 주소"
               readOnly
             />
             <input
               type="text"
-              value={address.detailAddress}
+              onChange={(e) => {
+                const fullAddress =
+                  `${addressDetails.postcode} ${addressDetails.roadAddress} ${addressDetails.detailAddress}`.trim() +
+                  e.target.value
+                setUserState((prev) => ({
+                  ...prev,
+                  address: fullAddress,
+                }))
+              }}
               className={styles['dong-address']}
               placeholder="(직접 입력)"
-              onChange={(e) => setAddress({ ...address, detailAddress: e.target.value })}
             />
           </div>
           <br />
+        </div>
+        <div className={styles.btn}>
+          <div>
+            <Button variation="white default" onClick={prevStep}>
+              이전
+            </Button>
+          </div>
+          <div>
+            <Button variation="purple default" onClick={nextStep}>
+              다음
+            </Button>
+          </div>
         </div>
       </div>
     </>

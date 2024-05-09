@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useEffect } from 'react'
-import Stepper from '@components/Stepper/Stepper'
 import CheckBox from '@/components/CheckBox/CheckBox'
 import useCheckBox from '@/hooks/useCheckBox'
 import Button from '@/components/Button/Button'

@@ -4,6 +4,7 @@ import useStep from '@hooks/useStep'
 import Terms from './terms/Terms'
 import styles from './Signup.module.scss'
 import Userform from './userform/Userform'
+import Complete from './complete/Complete'
 
 const Signup = () => {
   const stepArr = ['약관동의', '정보 입력', '가입 완료']
@@ -12,7 +13,7 @@ const Signup = () => {
   const stepsConfig = [
     { name: '약관 동의', component: <Terms nextStep={nextStep} /> },
     { name: '정보 입력', component: <Userform prevStep={prevStep} nextStep={nextStep} /> },
-    { name: '가입 완료', component: <Terms nextStep={nextStep} /> },
+    { name: '가입 완료', component: <Complete /> },
   ]
 
   return (

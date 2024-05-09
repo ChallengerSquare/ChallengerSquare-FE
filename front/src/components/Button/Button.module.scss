@@ -30,11 +30,16 @@
 
 .white {
   @include button();
-
+  border: 1px solid $main-color;
   background: var(--color-white);
+  color: $main-color;
 
   &:disabled {
-    opacity: 40%;
+    opacity: 0.4;
+  }
+
+  &:not(:disabled):hover {
+    color: white;
   }
 }
 
@@ -44,5 +49,16 @@
 }
 
 .postcode {
+  @include button();
   margin-left: 20px;
+  background-color: rgba(128, 128, 128, 0.756);
+  &:not(:disabled):hover {
+    background-color: rgba(128, 128, 128, 0.756);
+    font-weight: initial;
+    opacity: 100%;
+  }
+}
+
+.default {
+  width: 100px;
 }

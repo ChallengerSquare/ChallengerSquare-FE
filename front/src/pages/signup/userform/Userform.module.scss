@@ -120,7 +120,7 @@
 
 .form {
   margin-top: 70px;
-  margin-left: 35px;
+  margin-left: 70px;
   display: flex;
   flex-direction: column;
 
@@ -168,4 +168,14 @@
   width: 200px;
   margin-top: 20px;
   margin-left: 30px;
+}
+
+.btn {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  & > div {
+    margin: 0 40px;
+    text-align: center; // 버튼을 가운데 정렬
+  }
 }
