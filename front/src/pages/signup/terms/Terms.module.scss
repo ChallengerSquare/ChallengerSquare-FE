@@ -42,10 +42,6 @@
   color: $main-color;
 }
 
-.term-title {
-  font-size: 1.7rem;
-}
-
 .check-btn-300 {
   margin-left: 300px;
 }
@@ -60,4 +56,5 @@
 
 .header {
   display: flex;
+  font-weight: bold;
 }

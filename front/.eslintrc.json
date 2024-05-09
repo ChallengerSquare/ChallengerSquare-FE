@@ -70,7 +70,7 @@
     "react/jsx-no-useless-fragment": "off",
     "no-nested-ternary": 0,
     // [error] Curly braces are unnecessary here
-    "react/jsx-curly-brace-presence": ["warn", { "props": "always", "children": "always" }],
+    "react/jsx-curly-brace-presence": ["warn", { "props": "always", "children": "ignore" }],
     // 파일의 경로가 틀렸는지 확인하는 옵션 false
     "import/no-unresolved": ["error", { "caseSensitive": false }],
     // props spreading 허용하지 않는 경고 표시
@@ -81,6 +81,7 @@
     // 테스트 또는 개발환경을 구성 파일에서는 devDependency 사용 허용
     "import/no-extraneous-dependencies": 0,
     "no-shadow": 0,
+    "react/jsx-boolean-value": "off",
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "jsx-a11y/click-events-have-key-events": "off"
   },
