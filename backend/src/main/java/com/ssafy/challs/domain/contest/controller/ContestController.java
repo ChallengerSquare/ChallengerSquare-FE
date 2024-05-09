@@ -171,6 +171,14 @@ public class ContestController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamParticipants));
 	}
 
+	/**
+	 * 대회 참가 신청 승인 / 거절하는 API
+	 *
+	 * @author 강다솔
+	 * @param securityMember 로그인한 회원 정보
+	 * @param agreeTeams 참가 승인된 팀 리스트
+	 * @return 성공 여부 
+	 */
 	@PutMapping("/participants")
 	@Operation(summary = "대회 참가 신청 승인/거절", description = "대회에 참가 신청한 팀의 선발 여부를 결정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContestParticipantsState(
