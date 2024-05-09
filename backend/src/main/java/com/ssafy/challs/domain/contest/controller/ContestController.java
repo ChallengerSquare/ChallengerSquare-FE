@@ -29,6 +29,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
@@ -156,7 +157,9 @@ public class ContestController {
 	public ResponseEntity<SuccessResponse<?>> searchContestParticipants(
 		@AuthenticationPrincipal SecurityMember securityMember, @RequestBody ContestRequestDto contestRequestDto
 	) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
+		List<ContestTeamResponseDto> contestTeamMembers = contestService.searchContestParticipants(
+			contestRequestDto, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamMembers));
 	}
 
 	/**
