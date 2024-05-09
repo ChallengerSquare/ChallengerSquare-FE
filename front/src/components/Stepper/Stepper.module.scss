@@ -5,8 +5,12 @@
 }
 
 .line {
-  margin-top: 25px;
-  width: 200px;
+  margin-top: 29px;
+  width: 180px;
   height: 2px;
   background-color: #8930fd;
+}
+
+.stepWithLine {
+  display: flex;
 }

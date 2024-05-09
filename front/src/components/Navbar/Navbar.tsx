@@ -44,7 +44,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
             수상/참가 조회
           </NavLink>
         </nav>
-        <Link to="/sign-in">
+        <Link to="/auth">
           <Button variation="purple">로그인</Button>
         </Link>
       </div>
