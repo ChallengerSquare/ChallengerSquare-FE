@@ -14,6 +14,7 @@ import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
@@ -84,27 +85,31 @@ class ContestMapperTest {
 	@DisplayName("대회참여신청조회 (Entity -> DTO)")
 	public void testToContestTeamResponseDto() {
 		// 준비
+		Contest contest = Contest.builder().id(1L).contestTitle("대회이름").contestState('J').build();
 		ContestTeamInfoDto contestTeamInfoDto = new ContestTeamInfoDto(
 			1L, "버저비터", 'A', true, "대회 참가하고 싶어요");
+		Awards awards = Awards.builder().awardsName("최우수상").awardsCount(1).awardsPrize(10000).build();
+		Awards awards2 = Awards.builder().awardsName("우수상").awardsCount(5).awardsPrize(300).build();
+		List<Awards> awardsList = List.of(awards, awards2);
 
+		List<ContestAwardsDto> awardsDto = mapper.awardsToDtoList(awardsList);
 		List<ContestTeamMemberInfoDto> memberInfo = Arrays.asList(
 			new ContestTeamMemberInfoDto("강다솔", LocalDate.of(1999, 7, 23),
 				"010-1234-5678", "서울시 용산구", true));
 
-		List<ContestAwardsDto> awards = Arrays.asList(new ContestAwardsDto("최우수상", 2, 10000),
-			new ContestAwardsDto("우수", 3, 400));
-
 		// 실행
 		ContestTeamResponseDto responseDto = mapper.entityToContestTeamResponseDto(
-			contestTeamInfoDto, memberInfo, awards);
+			contestTeamInfoDto, memberInfo);
+		ContestParticipantsResponseDto contestTeamParticipantsDto = mapper.dtoToContestTeamResponseDto(contest,
+			List.of(responseDto), awardsDto);
 
 		// 검증
-		assertEquals(1L, responseDto.teamId());
-		assertEquals("버저비터", responseDto.teamName());
-		assertEquals('A', responseDto.contestParticipantsState());
-		assertEquals(true, responseDto.isParticipants());
-		assertEquals("대회 참가하고 싶어요", responseDto.contestParticipantsReason());
-		assertEquals(memberInfo, responseDto.teamMembers());
-		assertEquals(awards, responseDto.awards());
+		assertEquals(1L, contestTeamParticipantsDto.contestId());
+		assertEquals("대회이름", contestTeamParticipantsDto.contestTitle());
+		assertEquals("버저비터", contestTeamParticipantsDto.teamInfo().get(0).teamName());
+		assertEquals('A', contestTeamParticipantsDto.teamInfo().get(0).contestParticipantsState());
+		assertEquals(true, contestTeamParticipantsDto.teamInfo().get(0).isParticipants());
+		assertEquals("대회 참가하고 싶어요", contestTeamParticipantsDto.teamInfo().get(0).contestParticipantsReason());
+		assertEquals(awardsDto, contestTeamParticipantsDto.awards());
 	}
 }

@@ -13,6 +13,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
@@ -77,6 +78,10 @@ public interface ContestMapper {
 		Contest contest, Team team);
 
 	ContestTeamResponseDto entityToContestTeamResponseDto(ContestTeamInfoDto contestTeamInfoDto,
-		List<ContestTeamMemberInfoDto> teamMembers, List<ContestAwardsDto> awards);
+		List<ContestTeamMemberInfoDto> teamMembers);
+
+	@Mapping(source = "contest.id", target = "contestId")
+	ContestParticipantsResponseDto dtoToContestTeamResponseDto(Contest contest, List<ContestTeamResponseDto> teamInfo,
+		List<ContestAwardsDto> awards);
 
 }
