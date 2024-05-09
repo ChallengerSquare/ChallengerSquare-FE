@@ -18,7 +18,7 @@
   }
 
   &:not(:disabled):hover {
-    background-color: $main-color;
+    background-color: $main-color; 
     font-weight: bold;
     opacity: 70%;
   }
@@ -26,6 +26,20 @@
 
 .purple {
   @include button();
+}
+
+.purple_reverse{
+  @include button();
+  border: 1px solid $main-color;
+  background: white;
+  color: $main-color;
+
+  &:not(:disabled):hover {
+    background: $main-color;
+    color: white;
+    font-weight: bold;
+    opacity: 40%;
+  }
 }
 
 .white {
