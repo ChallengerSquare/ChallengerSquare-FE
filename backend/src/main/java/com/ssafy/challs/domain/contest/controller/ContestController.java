@@ -22,13 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestDisabledRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
@@ -136,18 +137,6 @@ public class ContestController {
 	}
 
 	/**
-	 * @param contestDisabledRequestDto
-	 * @return
-	 * @autohr
-	 */
-	@PutMapping("/registration")
-	@Operation(summary = "대회 모집 불가로 변경", description = "대회 모집을 불가능하게 변경 하는 API")
-	public ResponseEntity<SuccessResponse<String>> updateContestRegistration(
-		@RequestBody ContestDisabledRequestDto contestDisabledRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
-	}
-
-	/**
 	 * 대회 참가를 취소하는 API
 	 *
 	 * @author 강다솔
@@ -158,8 +147,30 @@ public class ContestController {
 	@Operation(summary = "대회 참가 취소", description = "대회 참가를 취소하는 API")
 	public ResponseEntity<SuccessResponse<String>> deleteContestParticipant(
 		@AuthenticationPrincipal SecurityMember securityMember,
-		@RequestBody ContestDisabledRequestDto contestDisabledRequestDto) {
+		@RequestBody ContestRequestDto contestDisabledRequestDto) {
 		contestService.deleteContestParticipant(contestDisabledRequestDto, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
+	}
+
+	@GetMapping("/participants")
+	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
+	public ResponseEntity<SuccessResponse<?>> searchContestParticipants(
+		@AuthenticationPrincipal SecurityMember securityMember, @RequestBody ContestRequestDto contestRequestDto
+	) {
+		List<ContestTeamResponseDto> contestTeamMembers = contestService.searchContestParticipants(
+			contestRequestDto, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamMembers));
+	}
+
+	/**
+	 * @param contestDisabledRequestDto
+	 * @return
+	 * @autohr
+	 */
+	@PutMapping("/registration")
+	@Operation(summary = "대회 모집 불가로 변경", description = "대회 모집을 불가능하게 변경 하는 API")
+	public ResponseEntity<SuccessResponse<String>> updateContestRegistration(
+		@RequestBody ContestRequestDto contestDisabledRequestDto) {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
@@ -171,7 +182,7 @@ public class ContestController {
 	@PutMapping("/cancel")
 	@Operation(summary = "대회 취소", description = "대회를 취소하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContestCancel(
-		@RequestBody ContestDisabledRequestDto contestDisabledRequestDto) {
+		@RequestBody ContestRequestDto contestDisabledRequestDto) {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 

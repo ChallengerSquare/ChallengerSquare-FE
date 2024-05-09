@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.entity.ContestParticipants;
 import com.ssafy.challs.domain.contest.entity.QContestParticipants;
 import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepositoryCustom;
+import com.ssafy.challs.domain.member.entity.QMember;
+import com.ssafy.challs.domain.team.entity.QTeam;
 import com.ssafy.challs.domain.team.entity.QTeamParticipants;
 
 import lombok.RequiredArgsConstructor;
@@ -66,5 +71,57 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.join(teamParticipants).on(contestParticipants.team.id.eq(teamParticipants.team.id))
 			.where(teamInContestCondition.and(teamWithLeaderCondition))
 			.fetchOne();
+	}
+
+	@Override
+	public List<ContestTeamInfoDto> searchTeamInfoByContest(Long contestId, Character state) {
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+		QTeam qTeam = QTeam.team;
+
+		// 조건적 쿼리 생성
+		BooleanExpression whereClause = qContestParticipants.contest.id.eq(contestId);
+		if (state != null && !state.equals('J')) {
+			whereClause = whereClause.and(qContestParticipants.contestParticipantsState.eq('A'));
+		}
+
+		// 쿼리 실행
+		return queryFactory
+			.select(
+				Projections.constructor(
+					ContestTeamInfoDto.class,
+					qTeam.id,
+					qTeam.teamName,
+					qContestParticipants.contestParticipantsState,
+					qContestParticipants.isParticipants,
+					qContestParticipants.contestParticipantsReason
+				)
+			)
+			.from(qContestParticipants)
+			.join(qContestParticipants.team, qTeam)
+			.where(whereClause)
+			.fetch();
+	}
+
+	@Override
+	public List<ContestTeamMemberInfoDto> searchTeamMemberByTeamId(Long teamId) {
+		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+		QMember qMember = QMember.member;
+
+		// 쿼리 실행
+		return queryFactory
+			.select(
+				Projections.constructor(
+					ContestTeamMemberInfoDto.class,
+					qMember.memberName,
+					qMember.memberBirth,
+					qMember.memberPhone,
+					qMember.memberAddress,
+					qTeamParticipants.isLeader
+				)
+			)
+			.from(qTeamParticipants)
+			.join(qTeamParticipants.member, qMember)
+			.where(qTeamParticipants.team.id.eq(teamId))
+			.fetch();
 	}
 }

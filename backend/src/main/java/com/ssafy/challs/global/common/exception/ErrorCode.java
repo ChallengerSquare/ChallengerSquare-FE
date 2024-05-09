@@ -114,6 +114,9 @@ public enum ErrorCode {
 	// 이미 참여 신청 중인 멤버 존재
 	CONTEST_ALREADY_PARTICIPANTS_ERROR(400, "G-034", "Exists Already Participants Member"),
 
+	// 개최팀에 속한 회원이 아닌 경우
+	MEMBER_NOT_IN_TEAM(400, "G-035", "Member Is Not In Team"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
