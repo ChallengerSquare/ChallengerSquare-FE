@@ -152,6 +152,14 @@ public class ContestController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
+	/**
+	 * 대회 참가 신청한 팀 조회하는 API
+	 *
+	 * @author 강다솔
+	 * @param securityMember 로그인 회원 정보
+	 * @param contestRequestDto 조회할 대회 PK
+	 * @return 대회정보, 신청팀정보, 수상정보
+	 */
 	@GetMapping("/participants")
 	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestParticipantsResponseDto>> searchContestParticipants(
