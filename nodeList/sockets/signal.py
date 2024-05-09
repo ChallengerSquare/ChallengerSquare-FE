@@ -1,4 +1,6 @@
 import socket
+from django.utils import timezone
+from apies.models import Node  # 'Node' 모델의 실제 경로로 교체해야 합니다.
 def signal(IP, PORT):
     print(str(IP) + '에 요청을 보낼 게요')
     try:
@@ -17,6 +19,19 @@ def signal(IP, PORT):
             response = client_socket.recv(1024).decode("utf-8")
             print(f"{name} : {message}")
             print(f"서버 : {response}\n")
+
+            node = Node.objects.get(IP=IP, PORT=PORT)
+            node.LAST_CONN_DATE = timezone.now()
+            node.save()
+
             # with 문이 끝나면 자동으로 클라이언트 소켓이 닫힘
     except ConnectionRefusedError:
         print("연결을 거부당했습니다. 서버가 실행 중인지 확인해주세요.")
+
+        # 데이터베이스 업데이트: DELETE_DATE
+        try:
+            node = Node.objects.get(IP=IP, PORT=PORT)
+            node.DELETE_DATE = timezone.now()
+            node.save()
+        except Node.DoesNotExist:
+            print(f"{IP}:{PORT}에 해당하는 노드가 데이터베이스에 존재하지 않습니다.")
