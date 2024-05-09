@@ -7,9 +7,9 @@ import CompetitionSearch from '@/pages/competition/CompetitionSearch'
 import CompetitionDetail from '@/pages/competitiondetail/CompetitionDetail'
 import CompetitionResult from '@pages/competition-result/CompetitionResult'
 import Auth from '@pages/auth/Auth'
-import Dashboard from './pages/blockchain/dashboard'
 import Signup from '@/pages/signup/Signup'
 import CompetitionManage from './pages/competitionmanage/CompetitionManage'
+import Dashboard from './pages/blockchain/dashboard'
 
 function App() {
   return (
