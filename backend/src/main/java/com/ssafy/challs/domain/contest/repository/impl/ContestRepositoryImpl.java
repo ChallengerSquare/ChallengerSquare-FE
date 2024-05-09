@@ -145,7 +145,8 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
     @Override
     public Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable) {
         List<TeamContestResponseDto> response = queryFactory.select(
-                        Projections.constructor(TeamContestResponseDto.class, contest.contestTitle, contest.contestImage))
+                        Projections.constructor(
+                            TeamContestResponseDto.class, contest.id, contest.contestTitle, contest.contestImage))
                 .from(contest)
                 .where(contest.team.id.eq(teamId))
                 .offset(pageable.getOffset())
