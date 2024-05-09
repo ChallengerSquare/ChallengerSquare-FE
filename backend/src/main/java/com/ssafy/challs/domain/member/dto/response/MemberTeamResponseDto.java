@@ -3,6 +3,8 @@ package com.ssafy.challs.domain.member.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record MemberTeamResponseDto(
+	@Schema(description = "팀 번호", example = "1")
+	Long teamId,
 	@Schema(description = "팀 이름", example = "팀이름입니다")
 	String teamName,
 	@Schema(description = "팀 로고", example = "URL")
