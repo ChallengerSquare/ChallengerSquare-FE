@@ -3,6 +3,7 @@ package com.ssafy.challs.domain.contest.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
@@ -20,6 +22,8 @@ import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.entity.Awards;
 import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.entity.ContestParticipants;
@@ -255,5 +259,83 @@ public class ContestServiceImpl implements ContestService {
 		ContestParticipants contestParticipants = contestParticipantsRepository.findContestParticipants(
 			contestRequestDto.contestId(), memberId);
 		contestParticipantsRepository.delete(contestParticipants);
+	}
+
+	/**
+	 * 대회에 참여하는 팀 정보 조회
+	 *
+	 * @author 강다솔
+	 * @param contestRequestDto 대회 PK
+	 * @param memberId 조회하는 회원 PK
+	 * @return 조회한 팀 정보 리스트
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<ContestTeamResponseDto> searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId) {
+		// 대회 상태 확인
+		Contest contest = contestRepository.findById(contestRequestDto.contestId())
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+
+		// 대회 참여자 목록을 보는 권한 있는지 확인 (개최 팀의 멤버인지 확인)
+		boolean isMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, contest.getTeam().getId());
+		if (!isMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+
+		// 팀 정보 조회 (팀 ID, 팀 name, 팀원목록)
+		List<ContestTeamInfoDto> contestTeamInfoDtos = contestParticipantsRepository.searchTeamInfoByContest(
+			contestRequestDto.contestId(), contest.getContestState());
+
+		// 상태별로 반환값 가져오기
+		List<ContestTeamResponseDto> contestTeamList;
+		if (contest.getContestState().equals('J')) {
+			// 모집 중일 때 (팀정보, 승인상태, 신청 사유)
+			contestTeamList = contestTeamInfoDtos.stream()
+				.map(teamInfo -> createContestTeamResponseDto(teamInfo, null))
+				.collect(Collectors.toList());
+		} else {
+			// 대회 시작 ~ 끝일 때 (팀정보, 참석여부, 시상정보)
+			// 수상 정보 가져오기
+			List<Awards> awardsList = awardsRepository.findAllByContest(contest);
+			contestTeamList = contestTeamInfoDtos.stream()
+				.map(teamInfo -> createContestTeamResponseDto(teamInfo, contestMapper.awardsToDtoList(awardsList)))
+				.collect(Collectors.toList());
+		}
+		return contestTeamList;
+	}
+
+	/**
+	 * 조회한 정보들로 반환 DTO 만드는 메서드
+	 *
+	 * @author 강다솔
+	 * @param teamInfo 팀정보
+	 * @param awards 수상 정보
+	 * @return CustomTeamResponseDto(팀정보, 팀원정보, 수상정보)
+	 */
+	private ContestTeamResponseDto createContestTeamResponseDto(ContestTeamInfoDto teamInfo,
+		List<ContestAwardsDto> awards) {
+		List<ContestTeamMemberInfoDto> teamMemberInfo =
+			contestParticipantsRepository.searchTeamMemberByTeamId(teamInfo.teamId());
+		sort(teamMemberInfo);
+
+		return contestMapper.entityToContestTeamResponseDto(teamInfo, teamMemberInfo, awards);
+	}
+
+	/**
+	 * 팀원 정보 정렬 (팀장이 맨 앞으로 이동)
+	 *
+	 * @author 강다솔
+	 * @param teamMemberInfo 팀원 정보
+	 */
+	private void sort(List<ContestTeamMemberInfoDto> teamMemberInfo) {
+		int leaderIndex = IntStream.range(0, teamMemberInfo.size())
+			.filter(i -> teamMemberInfo.get(i).isLeader())
+			.findFirst()
+			.orElse(-1);
+
+		if (leaderIndex > 0) {
+			ContestTeamMemberInfoDto leader = teamMemberInfo.remove(leaderIndex);
+			teamMemberInfo.add(0, leader);
+		}
 	}
 }
