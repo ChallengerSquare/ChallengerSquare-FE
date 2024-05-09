@@ -3,7 +3,6 @@ package com.ssafy.challs.domain.contest.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +19,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
@@ -271,7 +271,8 @@ public class ContestServiceImpl implements ContestService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<ContestTeamResponseDto> searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId) {
+	public ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto,
+		Long memberId) {
 		// 대회 상태 확인
 		Contest contest = contestRepository.findById(contestRequestDto.contestId())
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
@@ -287,21 +288,23 @@ public class ContestServiceImpl implements ContestService {
 			contestRequestDto.contestId(), contest.getContestState());
 
 		// 상태별로 반환값 가져오기
-		List<ContestTeamResponseDto> contestTeamList;
 		if (contest.getContestState().equals('J')) {
 			// 모집 중일 때 (팀정보, 승인상태, 신청 사유)
-			contestTeamList = contestTeamInfoDtos.stream()
-				.map(teamInfo -> createContestTeamResponseDto(teamInfo, null))
-				.collect(Collectors.toList());
+			List<ContestTeamResponseDto> contestTeamList = contestTeamInfoDtos.stream()
+				.map(this::createContestTeamResponseDto)
+				.toList();
+			return contestMapper.dtoToContestTeamResponseDto(contest, contestTeamList, null);
 		} else {
 			// 대회 시작 ~ 끝일 때 (팀정보, 참석여부, 시상정보)
 			// 수상 정보 가져오기
 			List<Awards> awardsList = awardsRepository.findAllByContest(contest);
-			contestTeamList = contestTeamInfoDtos.stream()
-				.map(teamInfo -> createContestTeamResponseDto(teamInfo, contestMapper.awardsToDtoList(awardsList)))
+			List<ContestTeamResponseDto> contestTeamList = contestTeamInfoDtos.stream()
+				.map(this::createContestTeamResponseDto)
 				.collect(Collectors.toList());
+			return contestMapper.dtoToContestTeamResponseDto(contest, contestTeamList,
+				contestMapper.awardsToDtoList(awardsList));
 		}
-		return contestTeamList;
+
 	}
 
 	/**
@@ -309,33 +312,13 @@ public class ContestServiceImpl implements ContestService {
 	 *
 	 * @author 강다솔
 	 * @param teamInfo 팀정보
-	 * @param awards 수상 정보
 	 * @return CustomTeamResponseDto(팀정보, 팀원정보, 수상정보)
 	 */
-	private ContestTeamResponseDto createContestTeamResponseDto(ContestTeamInfoDto teamInfo,
-		List<ContestAwardsDto> awards) {
+	private ContestTeamResponseDto createContestTeamResponseDto(ContestTeamInfoDto teamInfo) {
 		List<ContestTeamMemberInfoDto> teamMemberInfo =
 			contestParticipantsRepository.searchTeamMemberByTeamId(teamInfo.teamId());
-		sort(teamMemberInfo);
 
-		return contestMapper.entityToContestTeamResponseDto(teamInfo, teamMemberInfo, awards);
+		return contestMapper.entityToContestTeamResponseDto(teamInfo, teamMemberInfo);
 	}
 
-	/**
-	 * 팀원 정보 정렬 (팀장이 맨 앞으로 이동)
-	 *
-	 * @author 강다솔
-	 * @param teamMemberInfo 팀원 정보
-	 */
-	private void sort(List<ContestTeamMemberInfoDto> teamMemberInfo) {
-		int leaderIndex = IntStream.range(0, teamMemberInfo.size())
-			.filter(i -> teamMemberInfo.get(i).isLeader())
-			.findFirst()
-			.orElse(-1);
-
-		if (leaderIndex > 0) {
-			ContestTeamMemberInfoDto leader = teamMemberInfo.remove(leaderIndex);
-			teamMemberInfo.add(0, leader);
-		}
-	}
 }

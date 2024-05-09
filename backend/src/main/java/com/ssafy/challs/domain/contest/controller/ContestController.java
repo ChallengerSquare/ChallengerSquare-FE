@@ -28,8 +28,8 @@ import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.service.ContestService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
@@ -154,12 +154,12 @@ public class ContestController {
 
 	@GetMapping("/participants")
 	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
-	public ResponseEntity<SuccessResponse<?>> searchContestParticipants(
+	public ResponseEntity<SuccessResponse<ContestParticipantsResponseDto>> searchContestParticipants(
 		@AuthenticationPrincipal SecurityMember securityMember, @RequestBody ContestRequestDto contestRequestDto
 	) {
-		List<ContestTeamResponseDto> contestTeamMembers = contestService.searchContestParticipants(
+		ContestParticipantsResponseDto contestTeamParticipants = contestService.searchContestParticipants(
 			contestRequestDto, securityMember.id());
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamMembers));
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamParticipants));
 	}
 
 	/**
