@@ -15,4 +15,6 @@ public interface ContestParticipantsRepositoryCustom {
 	List<ContestTeamInfoDto> searchTeamInfoByContest(Long contestId, Character state);
 
 	List<ContestTeamMemberInfoDto> searchTeamMemberByTeamId(Long teamId);
+
+	void updateContestParticipantsState(Long contestId, List<Long> agreeMembers);
 }
