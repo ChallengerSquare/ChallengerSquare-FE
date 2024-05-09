@@ -4,4 +4,4 @@ from .models import Node
 class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
-        fields = ['ID', 'ADDR', 'LAST_CONN_DATE']
+        fields = ['ID', 'IP', 'PORT', 'LAST_CONN_DATE']
