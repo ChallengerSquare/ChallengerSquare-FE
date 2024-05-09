@@ -16,8 +16,6 @@ public record ContestTeamResponseDto(
 	@Schema(description = "참석 여부", example = "true")
 	Boolean isParticipants,
 	@Schema(description = "신청 사유", example = "대회 참가하고 싶어요")
-	String contestParticipantsReason,
-	@Schema(description = "수상 정보")
-	List<ContestAwardsDto> awards
+	String contestParticipantsReason
 ) {
 }

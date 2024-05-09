@@ -122,6 +122,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.from(qTeamParticipants)
 			.join(qTeamParticipants.member, qMember)
 			.where(qTeamParticipants.team.id.eq(teamId))
+			.orderBy(qTeamParticipants.isLeader.desc())
 			.fetch();
 	}
 }

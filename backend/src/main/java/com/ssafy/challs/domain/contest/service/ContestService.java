@@ -1,7 +1,5 @@
 package com.ssafy.challs.domain.contest.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +11,8 @@ import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 
 public interface ContestService {
 
@@ -32,6 +30,6 @@ public interface ContestService {
 
 	void deleteContestParticipant(ContestRequestDto contestRequestDto, Long memberId);
 
-	List<ContestTeamResponseDto> searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId);
+	ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId);
 
 }
