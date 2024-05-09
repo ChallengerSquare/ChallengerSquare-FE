@@ -4,15 +4,10 @@ import Calendar from '@components/Calendar/Calendar'
 import HelpButton from '@svgs/help_button.svg'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@services/postcode'
-import { useRecoilSnapshot, useSetRecoilState } from 'recoil'
-import { User } from '@/types/user'
+import { useSetRecoilState } from 'recoil'
 import { userState } from '@/stores/useState'
+import { stepProps } from '@/types/step'
 import styles from './Userform.module.scss'
-
-interface stepProps {
-  prevStep: () => void
-  nextStep: () => void
-}
 
 const Userform = ({ prevStep, nextStep }: stepProps) => {
   const setUserState = useSetRecoilState(userState)
