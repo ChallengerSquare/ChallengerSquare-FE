@@ -3,7 +3,6 @@ package com.ssafy.challs.domain.contest.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -318,26 +317,8 @@ public class ContestServiceImpl implements ContestService {
 	private ContestTeamResponseDto createContestTeamResponseDto(ContestTeamInfoDto teamInfo) {
 		List<ContestTeamMemberInfoDto> teamMemberInfo =
 			contestParticipantsRepository.searchTeamMemberByTeamId(teamInfo.teamId());
-		sort(teamMemberInfo);
 
 		return contestMapper.entityToContestTeamResponseDto(teamInfo, teamMemberInfo);
 	}
 
-	/**
-	 * 팀원 정보 정렬 (팀장이 맨 앞으로 이동)
-	 *
-	 * @author 강다솔
-	 * @param teamMemberInfo 팀원 정보
-	 */
-	private void sort(List<ContestTeamMemberInfoDto> teamMemberInfo) {
-		int leaderIndex = IntStream.range(0, teamMemberInfo.size())
-			.filter(i -> teamMemberInfo.get(i).isLeader())
-			.findFirst()
-			.orElse(-1);
-
-		if (leaderIndex > 0) {
-			ContestTeamMemberInfoDto leader = teamMemberInfo.remove(leaderIndex);
-			teamMemberInfo.add(0, leader);
-		}
-	}
 }
