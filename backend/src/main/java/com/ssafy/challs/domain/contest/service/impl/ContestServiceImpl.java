@@ -330,7 +330,15 @@ public class ContestServiceImpl implements ContestService {
 	 */
 	@Override
 	@Transactional
-	public void updateContestParticipantsState(ContestParticipantAgreeDto contestParticipantAgreeDto) {
+	public void updateContestParticipantsState(ContestParticipantAgreeDto contestParticipantAgreeDto, Long memberId) {
+		// 승인/거절하는 사람이 개최 팀의 팀원인지 확인
+		Long teamId = contestRepository.findTeamIdByContestId(contestParticipantAgreeDto.contestId());
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+
+		// 상태 업데이트
 		contestParticipantsRepository.updateContestParticipantsState(contestParticipantAgreeDto.contestId(),
 			contestParticipantAgreeDto.agreeMembers());
 	}

@@ -33,5 +33,5 @@ public interface ContestService {
 
 	ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId);
 
-	void updateContestParticipantsState(ContestParticipantAgreeDto agreeMembers);
+	void updateContestParticipantsState(ContestParticipantAgreeDto agreeMembers, Long memberId);
 }
