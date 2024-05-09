@@ -7,6 +7,7 @@ import CompetitionSearch from '@/pages/competition/CompetitionSearch'
 import CompetitionDetail from '@/pages/competitiondetail/CompetitionDetail'
 import CompetitionResult from '@pages/competition-result/CompetitionResult'
 import Auth from '@pages/auth/Auth'
+import Dashboard from './pages/blockchain/dashboard'
 import Signup from '@/pages/signup/Signup'
 import CompetitionManage from './pages/competitionmanage/CompetitionManage'
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="*" element={<div>없는 페이지</div>} />
+          <Route path="/blockchain/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
