@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
@@ -152,6 +153,14 @@ public class ContestController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
+	/**
+	 * 대회 참가 신청한 팀 조회하는 API
+	 *
+	 * @author 강다솔
+	 * @param securityMember 로그인 회원 정보
+	 * @param contestRequestDto 조회할 대회 PK
+	 * @return 대회정보, 신청팀정보, 수상정보
+	 */
 	@GetMapping("/participants")
 	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestParticipantsResponseDto>> searchContestParticipants(
@@ -160,6 +169,16 @@ public class ContestController {
 		ContestParticipantsResponseDto contestTeamParticipants = contestService.searchContestParticipants(
 			contestRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamParticipants));
+	}
+
+	@PutMapping("/participants")
+	@Operation(summary = "대회 참가 신청 승인/거절", description = "대회에 참가 신청한 팀의 선발 여부를 결정하는 API")
+	public ResponseEntity<SuccessResponse<String>> updateContestParticipantsState(
+		@AuthenticationPrincipal SecurityMember securityMember,
+		@RequestBody @Valid ContestParticipantAgreeDto agreeTeams
+	) {
+		contestService.updateContestParticipantsState(agreeTeams, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
 	/**

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
@@ -319,6 +320,27 @@ public class ContestServiceImpl implements ContestService {
 			contestParticipantsRepository.searchTeamMemberByTeamId(teamInfo.teamId());
 
 		return contestMapper.entityToContestTeamResponseDto(teamInfo, teamMemberInfo);
+	}
+
+	/**
+	 * 대회 참가신청한 팀의 수락 여부를 변경
+	 *
+	 * @author 강다솔
+	 * @param contestParticipantAgreeDto 대회 PK, 수락된 팀 정보
+	 */
+	@Override
+	@Transactional
+	public void updateContestParticipantsState(ContestParticipantAgreeDto contestParticipantAgreeDto, Long memberId) {
+		// 승인/거절하는 사람이 개최 팀의 팀원인지 확인
+		Long teamId = contestRepository.findTeamIdByContestId(contestParticipantAgreeDto.contestId());
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+
+		// 상태 업데이트
+		contestParticipantsRepository.updateContestParticipantsState(contestParticipantAgreeDto.contestId(),
+			contestParticipantAgreeDto.agreeMembers());
 	}
 
 }

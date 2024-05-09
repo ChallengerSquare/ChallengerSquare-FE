@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
@@ -124,5 +125,20 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.where(qTeamParticipants.team.id.eq(teamId))
 			.orderBy(qTeamParticipants.isLeader.desc())
 			.fetch();
+	}
+
+	@Override
+	public void updateContestParticipantsState(Long contestId, List<Long> agreeMembers) {
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+
+		queryFactory.update(qContestParticipants)
+			.set(qContestParticipants.contestParticipantsState,
+				new CaseBuilder()
+					.when(qContestParticipants.id.in(agreeMembers))
+					.then('A')
+					.otherwise('R')
+			)
+			.where(qContestParticipants.contest.id.eq(contestId))
+			.execute();
 	}
 }
