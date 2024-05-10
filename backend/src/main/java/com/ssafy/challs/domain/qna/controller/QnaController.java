@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.qna.dto.request.QnaCreateRequestDto;
 import com.ssafy.challs.domain.qna.dto.request.QnaUpdateRequestDto;
 import com.ssafy.challs.domain.qna.dto.response.QnaDetailResponseDto;
 import com.ssafy.challs.domain.qna.dto.response.QnaResponseDto;
+import com.ssafy.challs.domain.qna.service.QnaService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,10 +31,13 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Qna Controller", description = "QNA 관리 컨트롤러")
 public class QnaController {
 
+	private QnaService qnaService;
+
 	@PostMapping
 	@Operation(summary = "QNA 작성", description = "QNA를 작성하는 API")
-	public ResponseEntity<SuccessResponse<String>> createQna(
+	public ResponseEntity<SuccessResponse<String>> createQna(@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody QnaCreateRequestDto qnaCreateRequestDto) {
+		qnaService.createQna(qnaCreateRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
