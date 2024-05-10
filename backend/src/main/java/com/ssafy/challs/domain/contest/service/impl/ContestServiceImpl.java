@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.alert.service.AlertService;
 import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ContestServiceImpl implements ContestService {
 
+	private final AlertService alertService;
 	private final SseService sseService;
 	private final ContestRepository contestRepository;
 	private final ContestParticipantsRepository contestParticipantsRepository;
@@ -372,13 +374,25 @@ public class ContestServiceImpl implements ContestService {
 
 		// 대회 종료 시 모집 결과 알림 전송
 		if (updateStateDto.contestState().equals('D')) {
-			// 해당 대회에 참여 신청한 팀 정보 가져오기
+			// 대회 이름, 해당 대회에 참여 신청한 팀 정보 가져오기
+			String contestTitle = contestRepository.findContestTitleFromContestId(updateStateDto.contestId());
 			List<ContestParticipantsInfoDto> contestParticipantsInfoDto = contestParticipantsRepository.findAllTeamFromContestId(
 				updateStateDto.contestId());
 			// 팀원 모두에게 알림 전송
 			for (ContestParticipantsInfoDto participantsInfoDto : contestParticipantsInfoDto) {
 				List<Long> members = contestParticipantsRepository.searchMemberIdFromTeamId(
 					participantsInfoDto.teamId());
+
+				// 알림 저장
+				if (participantsInfoDto.participantsState().equals('A')) {
+					alertService.createAlert(members, 'C', updateStateDto.contestId(),
+						"축하합니다! " + contestTitle + " 대회 참가 신청이 확정되었습니다. 자세한 사항은 대회 공지사항을 확인해주세요. ");
+				} else {
+					alertService.createAlert(members, 'C', updateStateDto.contestId(),
+						"제한된 인원으로 인해 " + contestTitle + " 대회 참가 신청이 거절되었습니다. 신청해주셔서 감사합니다. ");
+				}
+
+				// 알림 전송
 				Map<String, Boolean> message = new HashMap<>();
 				message.put("unread", true);
 				sseService.send(members, message);
