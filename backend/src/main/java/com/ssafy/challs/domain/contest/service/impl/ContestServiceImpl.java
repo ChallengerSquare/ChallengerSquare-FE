@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class ContestServiceImpl implements ContestService {
+
+	@Value("${cloud.aws.s3.url}")
+	private String awsS3Url;
 
 	private final AlertService alertService;
 	private final SseService sseService;
@@ -143,7 +147,8 @@ public class ContestServiceImpl implements ContestService {
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
-		return contestMapper.contestToFindResponseDto(contest, awardsList, isLeader, participantState);
+		return contestMapper.contestToFindResponseDto(contest, awsS3Url + contest.getContestImage(), awardsList,
+			isLeader, participantState);
 	}
 
 	/**
@@ -170,7 +175,16 @@ public class ContestServiceImpl implements ContestService {
 				contests = contestRepository.searchContestOrderByRegistrationNum(pageable);
 		}
 
-		return contestMapper.contestPageToDtoPage(contests);
+		return contestPageToDtoPage(contests);
+	}
+
+	private ContestSearchResponseDto convertToDto(Contest contest) {
+		String fullImageUrl = awsS3Url + contest.getContestImage();
+		return contestMapper.contestToSearchResponseDto(contest, fullImageUrl);
+	}
+
+	public Page<ContestSearchResponseDto> contestPageToDtoPage(Page<Contest> contestPage) {
+		return contestPage.map(this::convertToDto);
 	}
 
 	/**

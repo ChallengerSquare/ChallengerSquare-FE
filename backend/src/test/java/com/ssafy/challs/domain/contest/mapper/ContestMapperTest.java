@@ -29,19 +29,21 @@ class ContestMapperTest {
 	void testContestToFindResponseDto() {
 		// Mock data
 		Team team = Team.builder().teamName("팀이름").build();
-		Contest contest = Contest.builder().contestTitle("대회 이름").team(team).build();
+		Contest contest = Contest.builder().contestTitle("대회 이름").contestImage("이미지").team(team).build();
 
 		List<Awards> awardsList = Arrays.asList(
 			Awards.builder().id(1L).awardsName("최우수").awardsCount(1).awardsPrize(1000).build(),
 			Awards.builder().id(2L).awardsName("우수").awardsCount(3).awardsPrize(500).build());
 
 		// Map to DTO
-		ContestFindResponseDto dto = mapper.contestToFindResponseDto(contest, awardsList, true, 'A');
+		ContestFindResponseDto dto = mapper.contestToFindResponseDto(contest, "경로" + contest.getContestImage(),
+			awardsList, true, 'A');
 
 		// Assertions
 		System.out.println(dto.contestAwards());
 		assertEquals("대회 이름", dto.contestTitle());
 		assertEquals("팀이름", dto.teamName());
+		assertEquals("경로이미지", dto.contestImage());
 		assertEquals(2, dto.contestAwards().size());
 	}
 
