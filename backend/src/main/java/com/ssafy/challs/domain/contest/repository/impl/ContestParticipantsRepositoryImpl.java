@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsLeaderStateDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.entity.ContestParticipants;
@@ -171,4 +172,25 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.where(qTeamParticipants.team.id.eq(teamId))
 			.fetch();
 	}
+
+	@Override
+	public ContestParticipantsLeaderStateDto isLeaderAndParticipantsState(Long contestId, Long memberId) {
+		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+
+		// 하나의 쿼리로 리더 여부와 대회 참여 상태 가져오기
+		return queryFactory
+			.select(
+				Projections.constructor(
+					ContestParticipantsLeaderStateDto.class,
+					qTeamParticipants.isLeader, qContestParticipants.contestParticipantsState
+				)
+			)
+			.from(qTeamParticipants)
+			.join(qTeamParticipants.team, qContestParticipants.team)
+			.where(qContestParticipants.contest.id.eq(contestId)
+				.and(qTeamParticipants.member.id.eq(memberId)))
+			.fetchOne();
+	}
+
 }
