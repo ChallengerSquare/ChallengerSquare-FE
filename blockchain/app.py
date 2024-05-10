@@ -101,6 +101,18 @@ def get_transactions_by_name(name):
         return jsonify(response), 404
 
 
+@app.route('/get-transactions/code/<code>', methods=['GET'])
+def get_transactions_by_code(code):
+    transactions = blockchain.get_transactions_by_code(code)
+    if transactions:
+        response = {'message': 'successfully find transactions!!',
+                    'results': transactions}
+        return jsonify(response), 200
+    else:
+        response = {'message': 'No transactions'}
+        return jsonify(response), 404
+
+
 @app.route('/get-transactions', methods=['GET'])
 def get_transactions():
     transactions = blockchain.get_transactions()
