@@ -2,6 +2,7 @@ package com.ssafy.challs.domain.contest.repository;
 
 import java.util.List;
 
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.entity.ContestParticipants;
@@ -17,4 +18,8 @@ public interface ContestParticipantsRepositoryCustom {
 	List<ContestTeamMemberInfoDto> searchTeamMemberByTeamId(Long teamId);
 
 	void updateContestParticipantsState(Long contestId, List<Long> agreeMembers);
+
+	List<ContestParticipantsInfoDto> findAllTeamFromContestId(Long contestId);
+
+	List<Long> searchMemberIdFromTeamId(Long teamId);
 }

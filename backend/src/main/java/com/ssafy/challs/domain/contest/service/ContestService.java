@@ -10,6 +10,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
@@ -34,4 +35,6 @@ public interface ContestService {
 	ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId);
 
 	void updateContestParticipantsState(ContestParticipantAgreeDto agreeMembers, Long memberId);
+
+	void updateContestState(ContestUpdateStateRequestDto updateStateDto, Long memberId);
 }

@@ -27,6 +27,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
@@ -171,6 +172,14 @@ public class ContestController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamParticipants));
 	}
 
+	/**
+	 * 대회 참가 신청 승인 / 거절하는 API
+	 *
+	 * @author 강다솔
+	 * @param securityMember 로그인한 회원 정보
+	 * @param agreeTeams 참가 승인된 팀 리스트
+	 * @return 성공 여부
+	 */
 	@PutMapping("/participants")
 	@Operation(summary = "대회 참가 신청 승인/거절", description = "대회에 참가 신청한 팀의 선발 여부를 결정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContestParticipantsState(
@@ -178,6 +187,24 @@ public class ContestController {
 		@RequestBody @Valid ContestParticipantAgreeDto agreeTeams
 	) {
 		contestService.updateContestParticipantsState(agreeTeams, securityMember.id());
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
+	}
+
+	/**
+	 * 대회 상태를 변경하는 API
+	 *
+	 * @author 강다솔
+	 * @param securityMember 로그인한 회원정보
+	 * @param contestUpdateStateRequestDto 상태 변경할 대회 정보
+	 * @return 성공 여부
+	 */
+	@PutMapping("/state")
+	@Operation(summary = "대회 상태 변경", description = "대회 상태를 변경하는 API")
+	public ResponseEntity<SuccessResponse<String>> updateContestState(
+		@AuthenticationPrincipal SecurityMember securityMember,
+		@RequestBody @Valid ContestUpdateStateRequestDto contestUpdateStateRequestDto
+	) {
+		contestService.updateContestState(contestUpdateStateRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 

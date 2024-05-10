@@ -8,6 +8,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestTeamMemberInfoDto;
 import com.ssafy.challs.domain.contest.entity.ContestParticipants;
@@ -140,5 +141,34 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			)
 			.where(qContestParticipants.contest.id.eq(contestId))
 			.execute();
+	}
+
+	@Override
+	public List<ContestParticipantsInfoDto> findAllTeamFromContestId(Long contestId) {
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+
+		// 쿼리 실행
+		return queryFactory
+			.select(
+				Projections.constructor(
+					ContestParticipantsInfoDto.class,
+					qContestParticipants.team.id,
+					qContestParticipants.contestParticipantsState
+				)
+			)
+			.from(qContestParticipants)
+			.where(qContestParticipants.contest.id.eq(contestId))
+			.fetch();
+	}
+
+	@Override
+	public List<Long> searchMemberIdFromTeamId(Long teamId) {
+		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+
+		return queryFactory
+			.select(qTeamParticipants.member.id)
+			.from(qTeamParticipants)
+			.where(qTeamParticipants.team.id.eq(teamId))
+			.fetch();
 	}
 }
