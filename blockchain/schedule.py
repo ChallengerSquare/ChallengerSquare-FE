@@ -26,6 +26,10 @@ def replace_chain_regularly():
     pass
 
 
+def sync_transactions_reqularly():
+    blockchain.sync_transactions()
+
+
 def start_scheduler():
     executors = {
         'default': ThreadPoolExecutor(1)  # 동시에 하나의 작업만 실행
