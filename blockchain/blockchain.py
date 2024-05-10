@@ -21,6 +21,7 @@ class Blockchain:
             Blockchain._instance = self  # 인스턴스를 클래스 변수에 저장
         else:
             raise Exception("This class is a singleton!")
+
     # 블록 생성 함수
     '''
     :param proof: nonce의 역할을 함
@@ -238,6 +239,15 @@ class Blockchain:
                     found_transactions.append(transaction)
 
         return found_transactions
+
+    def get_awards(self, code):
+        awards = []
+        for block in self.chain:  # 체인의 모든 블록을 순회
+            for transaction in block['transactions']:  # 각 블록의 트랜잭션을 순회
+                if transaction['type'] == 'award' and transaction['data']['certificate_code'] == code:
+                    awards.append(transaction)
+
+        return awards
 
     def get_transactions(self):
         return self.transactions
