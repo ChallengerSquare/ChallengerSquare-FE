@@ -9,6 +9,7 @@ import CompetitionResult from '@pages/competition-result/CompetitionResult'
 import Auth from '@pages/auth/Auth'
 import Agreement from '@pages/agreement/Agreement'
 import CompetitionManage from './pages/competitionmanage/CompetitionManage'
+import MyPage from './pages/mypage/MyPage'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/MyPage" element={<MyPage />} />
           <Route path="/competition" element={<Competition />} />
           <Route path="/competition/search" element={<CompetitionSearch />} />
           <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
