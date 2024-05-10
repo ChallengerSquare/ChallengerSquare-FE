@@ -181,4 +181,15 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 			.from(contest)
 			.where(contest.id.eq(contestId)).fetchOne();
 	}
+
+	@Override
+	public void updateContestState(Long contestId, Character contestState) {
+		QContest qContest = QContest.contest;
+
+		queryFactory
+			.update(qContest)
+			.set(qContest.contestState, contestState)
+			.where(qContest.id.eq(contestId))
+			.execute();
+	}
 }

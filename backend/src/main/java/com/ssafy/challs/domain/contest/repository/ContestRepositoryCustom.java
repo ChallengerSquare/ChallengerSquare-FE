@@ -18,4 +18,6 @@ public interface ContestRepositoryCustom {
 	Page<Contest> searchContestOrderByRegistrationNum(Pageable pageable);
 
 	Long findTeamIdByContestId(Long contestId);
+
+	void updateContestState(Long contestId, Character contestState);
 }
