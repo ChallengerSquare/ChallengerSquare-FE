@@ -72,7 +72,8 @@ public class SecurityConfig {
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
 			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(List.of("https://localhost:3000", "https://www.challengersquare.com"));
+			config.setAllowedOrigins(
+				List.of("http://localhost:3000", "https://localhost:3000", "https://www.challengersquare.com"));
 			config.setAllowedMethods(Collections.singletonList("*"));
 			config.setAllowCredentials(true);
 			config.setAllowedHeaders(Collections.singletonList("*"));
