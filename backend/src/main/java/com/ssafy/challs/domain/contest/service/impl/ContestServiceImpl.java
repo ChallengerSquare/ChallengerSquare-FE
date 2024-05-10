@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
@@ -17,6 +18,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
@@ -48,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ContestServiceImpl implements ContestService {
 
+	private final SseService sseService;
 	private final ContestRepository contestRepository;
 	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final AwardsRepository awardsRepository;
@@ -327,6 +330,7 @@ public class ContestServiceImpl implements ContestService {
 	 *
 	 * @author 강다솔
 	 * @param contestParticipantAgreeDto 대회 PK, 수락된 팀 정보
+	 * @param memberId 로그인한 회원 정보
 	 */
 	@Override
 	@Transactional
@@ -341,6 +345,27 @@ public class ContestServiceImpl implements ContestService {
 		// 상태 업데이트
 		contestParticipantsRepository.updateContestParticipantsState(contestParticipantAgreeDto.contestId(),
 			contestParticipantAgreeDto.agreeMembers());
+	}
+
+	/**
+	 * 대회 상태 변경
+	 *
+	 * @author 강다솔
+	 * @param updateStateDto 변경할 대회 정보
+	 * @param memberId 로그인한 회원 정보
+	 */
+	@Override
+	@Transactional
+	public void updateContestState(ContestUpdateStateRequestDto updateStateDto, Long memberId) {
+		// 대회 상태 변경하는 사람이 개최 팀의 팀원인지 확인
+		Long teamId = contestRepository.findTeamIdByContestId(updateStateDto.contestId());
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+
+		// 대회 상태 변경
+		contestRepository.updateContestState(updateStateDto.contestId(), updateStateDto.contestState());
 	}
 
 }
