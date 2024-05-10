@@ -251,6 +251,16 @@ class Blockchain:
 
         return found_transactions
 
+    def get_transactions_by_user_code(self, user_code):
+        found_transactions = []  # 일치하는 트랜잭션을 저장할 리스트
+        for block in self.chain:  # 체인의 모든 블록을 순회
+            for transaction in block['transactions']:  # 각 블록의 트랜잭션을 순회
+                # 참가기록 트랜잭션과 수상기록 트랜잭션을 확인
+                if transaction['type'] == 'participation' and transaction['data']['attendee_code'] == user_code:
+                    found_transactions.append(transaction)
+                elif transaction['type'] == 'award' and transaction['data']['recipient_code'] == user_code:
+                    found_transactions.append(transaction)
+        return found_transactions
 
     def get_awards(self, code):
         awards = []
