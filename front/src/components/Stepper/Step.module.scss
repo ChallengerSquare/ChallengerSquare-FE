@@ -7,8 +7,8 @@
 }
 
 .step {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: #ffffff;
   color: $main-color;
   display: flex;
@@ -17,16 +17,26 @@
   border-radius: 50%;
   border: 2px solid $main-color;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .description {
   margin-top: 10px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 11px;
   color: $main-color;
 }
+
 .active {
   background-color: $main-color;
   color: #ffffff;
+}
+
+.previous {
+  background-color: $main-color;
+  opacity: 50%;
+}
+
+.icon {
+  width: 60%;
 }

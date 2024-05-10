@@ -7,8 +7,8 @@ const Auth = () => {
   const kakaoBtn = `${process.env.PUBLIC_URL}/images/auth/kakao_login.png`
   const googleBtn = `${process.env.PUBLIC_URL}/images/auth/google_login.png`
 
-  const kakaoUrl = 'https://www.challengersquare.com/api/oauth2/authorization/kakao'
-  const googleUrl = 'https://www.challengersquare.com/api/oauth2/authorization/google'
+  const kakaoUrl = `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/kakao`
+  const googleUrl = `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`
 
   const KakaoLoginHandler = () => {
     window.location.href = kakaoUrl
