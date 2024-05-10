@@ -5,7 +5,6 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.data.domain.Page;
 
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
@@ -44,16 +43,13 @@ public interface ContestMapper {
 	@Mapping(source = "contestRequestDto.contestPeriod.end", target = "contestEnd")
 	Contest contestUpdateDtoToContest(ContestUpdateRequestDto contestRequestDto, Team team, Character contestState);
 
-	default Page<ContestSearchResponseDto> contestPageToDtoPage(Page<Contest> contestPage) {
-		return contestPage.map(this::contestToSearchResponseDto);
-	}
-
 	@Mapping(source = "contest.team.teamName", target = "teamName")
-	@Mapping(source = "contestRegistrationStart", target = "registrationPeriod.start")
-	@Mapping(source = "contestRegistrationEnd", target = "registrationPeriod.end")
-	@Mapping(source = "contestStart", target = "contestPeriod.start")
-	@Mapping(source = "contestEnd", target = "contestPeriod.end")
-	ContestSearchResponseDto contestToSearchResponseDto(Contest contest);
+	@Mapping(source = "contest.contestRegistrationStart", target = "registrationPeriod.start")
+	@Mapping(source = "contest.contestRegistrationEnd", target = "registrationPeriod.end")
+	@Mapping(source = "contest.contestStart", target = "contestPeriod.start")
+	@Mapping(source = "contest.contestEnd", target = "contestPeriod.end")
+	@Mapping(source = "imageUrl", target = "contestImage")
+	ContestSearchResponseDto contestToSearchResponseDto(Contest contest, String imageUrl);
 
 	@Mapping(source = "contest.team.id", target = "teamId")
 	@Mapping(source = "contest.team.teamName", target = "teamName")
@@ -61,7 +57,8 @@ public interface ContestMapper {
 	@Mapping(source = "contest.contestRegistrationEnd", target = "registrationPeriod.end")
 	@Mapping(source = "contest.contestStart", target = "contestPeriod.start")
 	@Mapping(source = "contest.contestEnd", target = "contestPeriod.end")
-	ContestFindResponseDto contestToFindResponseDto(Contest contest, List<Awards> contestAwards,
+	@Mapping(source = "imageUrl", target = "contestImage")
+	ContestFindResponseDto contestToFindResponseDto(Contest contest, String imageUrl, List<Awards> contestAwards,
 		Boolean isLeader, Character participantState);
 
 	List<ContestAwardsDto> awardsToDtoList(List<Awards> awardsList);
