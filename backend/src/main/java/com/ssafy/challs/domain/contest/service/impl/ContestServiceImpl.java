@@ -415,8 +415,8 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	private void isTeamLeader(Long memberId, Long teamId) {
-		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
-		if (!isTeamMember) {
+		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId, teamId);
+		if (!isLeader) {
 			throw new BaseException(ErrorCode.MEMBER_NOT_LEADER);
 		}
 	}
