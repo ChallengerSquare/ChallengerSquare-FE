@@ -3,11 +3,8 @@ import { useEffect } from 'react'
 import CheckBox from '@/components/CheckBox/CheckBox'
 import useCheckBox from '@/hooks/useCheckBox'
 import Button from '@/components/Button/Button'
+import { stepProps } from '@/types/step'
 import styles from './Terms.module.scss'
-
-interface stepProps {
-  nextStep: () => void
-}
 
 const Terms = ({ nextStep }: stepProps) => {
   const { isCheck: allCheck, handleCheckBox: handleAllCheck, setIsCheck: setAllCheck } = useCheckBox()
