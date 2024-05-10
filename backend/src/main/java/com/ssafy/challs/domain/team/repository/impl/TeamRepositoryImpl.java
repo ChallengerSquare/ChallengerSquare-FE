@@ -56,6 +56,7 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 	public Page<MemberTeamResponseDto> searchTeamList(Long memberId, Pageable pageable) {
 		List<MemberTeamResponseDto> memberTeamResponseDtoList = queryFactory.select(
 				Projections.constructor(MemberTeamResponseDto.class,
+					team.id,
 					team.teamName,
 					// 팀 로고 prefix 붙이기
 					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, team.teamImage),

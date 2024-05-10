@@ -22,7 +22,7 @@ public record SecurityMember(
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(Boolean.TRUE.equals(isAgree) ? "ROLE_MEMBER" : "ROLE_LOGIN"));
+		return List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));
 	}
 
 	@Override
