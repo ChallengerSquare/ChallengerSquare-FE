@@ -1,26 +1,30 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
-import { userState } from '@/stores/useState'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { User } from '@/types/user'
 import { registerUser } from '@services/member'
+import { userState } from '@/stores/useState'
 import Button from '@/components/Button/Button'
 import check from '@svgs/signup/check.svg'
+import { userForm } from '../store'
+
 import styles from './Complete.module.scss'
 
 const Complete = () => {
-  const user: User = useRecoilValue(userState)
+  const user: User = useRecoilValue(userForm)
+  const setUserState = useSetRecoilState(userState)
 
-  useEffect(() => {
+  const setUser = () => {
     registerUser(user).then((response) => {
       if (response) {
         console.log('회원가입 성공', response)
+        setUserState(user)
       } else {
         console.error('회원가입 실패')
       }
     })
-  }, [user])
+  }
 
   return (
     <>
@@ -29,7 +33,9 @@ const Complete = () => {
         <div className={styles.font}>가입이 완료되었습니다!</div>
         <div className={styles.font}>서비스를 이용하러 가볼까요?</div>
         <Link to="/">
-          <Button variation="purple default">홈으로</Button>
+          <Button variation="purple default" onClick={setUser}>
+            홈으로
+          </Button>
         </Link>
       </div>
     </>

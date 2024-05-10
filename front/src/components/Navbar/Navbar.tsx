@@ -1,5 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import useNavbarScroll from '@/hooks/useNavbarScroll'
+import { useRecoilValue } from 'recoil'
+import { userState } from '@/stores/useState'
 import Button from '@components/Button/Button'
 import styles from './Navbar.module.scss'
 
@@ -8,6 +10,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
+  const user = useRecoilValue(userState)
   const challS = `${process.env.PUBLIC_URL}/svgs/logo/challS.svg`
   const navbarScroll = useNavbarScroll(enableScrollEffect)
   return (
@@ -44,9 +47,15 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
             수상/참가 조회
           </NavLink>
         </nav>
-        <Link to="/auth">
-          <Button variation="purple">로그인</Button>
-        </Link>
+        {user.username ? (
+          <Link to="/mypage">
+            <Button variation="white">마이페이지</Button>
+          </Link>
+        ) : (
+          <Link to="/auth">
+            <Button variation="purple">로그인</Button>
+          </Link>
+        )}
       </div>
     </header>
   )
