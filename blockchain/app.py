@@ -109,6 +109,14 @@ def get_transactions():
         return jsonify({'error': 'No transactions found'}), 404
 
 
+@app.route('/get-awards/<code>', methods=['GET'])
+def get_awards(code):
+    awards = blockchain.get_awards(code)
+    if awards:
+        return jsonify(awards), 200
+    else:
+        return jsonify({'error': 'No awards found'}), 404
+
 @app.route('/blocks')
 def show_blocks():
     return render_template('dashboard.html', blockchain=blockchain)
