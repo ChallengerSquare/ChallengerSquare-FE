@@ -11,7 +11,7 @@ class SmartContract:
     def validate_transaction(transaction):
         # 트랜잭션 유형에 따른 필수 데이터 필드 검증
         required_fields = {
-            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type'],
+            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'code', 'award_type'],
             'participation': ['organizer', 'event_name', 'attendee_name', 'event_date', 'code', 'details']
         }
         transaction_type = transaction.get('type')

@@ -130,7 +130,7 @@ class Blockchain:
                 "event_name": data["event_name"],
                 "award_date": data["award_date"],
                 "recipient_name": data["recipient_name"],
-                "certificate_code": data["certificate_code"],
+                "code": data["code"],
                 "award_type": data["award_type"]
             }
         }
@@ -244,7 +244,7 @@ class Blockchain:
         awards = []
         for block in self.chain:  # 체인의 모든 블록을 순회
             for transaction in block['transactions']:  # 각 블록의 트랜잭션을 순회
-                if transaction['type'] == 'award' and transaction['data']['certificate_code'] == code:
+                if transaction['type'] == 'award' and transaction['data']['code'] == code:
                     awards.append(transaction)
 
         return awards
