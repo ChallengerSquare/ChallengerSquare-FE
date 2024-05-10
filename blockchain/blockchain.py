@@ -130,6 +130,7 @@ class Blockchain:
                 "event_name": data["event_name"],
                 "award_date": data["award_date"],
                 "recipient_name": data["recipient_name"],
+                "recipient_code": data["recipient_code"],
                 "code": data["code"],
                 "award_type": data["award_type"]
             }
@@ -155,6 +156,7 @@ class Blockchain:
                 "organizer": data["organizer"],
                 "event_name": data["event_name"],
                 "attendee_name": data["attendee_name"],
+                "attendee_code": data["attendee_code"],
                 "code": data["code"],
                 "event_date": data["event_date"],
                 "details": data["details"]
