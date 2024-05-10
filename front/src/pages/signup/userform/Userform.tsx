@@ -27,7 +27,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
     if (selectedDate) {
       setUserState((prev) => ({
         ...prev,
-        birth: selectedDate.toLocaleDateString('ko-KR').replace('. ', '-').substring(0, 10),
+        birth: selectedDate.toLocaleDateString('ko-KR').replace('. ', '-').substring(0, 8),
       }))
     }
   }, [selectedDate])
