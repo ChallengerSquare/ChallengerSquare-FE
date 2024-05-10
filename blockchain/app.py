@@ -51,8 +51,9 @@ def is_valid():
 @app.route('/add-transaction', methods=['POST'])
 def add_transaction():
     try:
+        secret_code = request.headers.get('Secret-Code')
         transaction_json = request.get_json()
-        message = smart_contract.execute_transaction(transaction_json)  # 트랜잭션 실행 및 유효성 검증 포함
+        message = smart_contract.execute_transaction(transaction_json, secret_code)  # 트랜잭션 실행 및 유효성 검증 포함
         response = {'message': message}
         return jsonify(response), 201  # 성공적으로 처리됨
     except ValueError as e:  # 유효성 검증 실패시 예외 처리
