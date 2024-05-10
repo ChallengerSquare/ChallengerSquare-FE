@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.challs.domain.alert.service.AlertService;
 import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsLeaderStateDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
@@ -81,9 +82,11 @@ public class ContestServiceImpl implements ContestService {
 	@Transactional
 	public ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, MultipartFile contestImage,
 		Long memberId) {
-		// TODO : 팀 가져오고 팀장인지 확인
-		Team team = new Team();
-		teamRepository.save(team);
+		// 팀 가져오고 팀장인지 확인
+		Team team = teamRepository.findById(contestRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+		isTeamLeader(memberId, team.getId());
+
 		// 대회 생성과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// DTO -> ENTITY
@@ -108,8 +111,10 @@ public class ContestServiceImpl implements ContestService {
 	@Override
 	@Transactional
 	public void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId) {
-		// TODO : 수정시도하는 사람이 팀장인지 확인
-		Team team = new Team();
+		// 수정시도하는 사람이 팀장인지 확인
+		Team team = teamRepository.findById(contestRequestDto.teamId())
+			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
+		isTeamLeader(memberId, team.getId());
 
 		// 대회 날짜 수정과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
@@ -138,17 +143,17 @@ public class ContestServiceImpl implements ContestService {
 	@Override
 	@Transactional(readOnly = true)
 	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
-		// TODO : 조회하는 회원이 신청한 팀장인지 확인
-		Boolean isLeader = false;
-		// TODO : 팀의 참가 신청 상태 가져오기
-		Character participantState = 'W';
+		// 조회하는 회원이 신청한 팀장인지, 팀의 참가 신청 상태 가져오기
+		ContestParticipantsLeaderStateDto info = contestParticipantsRepository.isLeaderAndParticipantsState(
+			contestId, memberId);
+
 		// 대회 정보 가져오기
 		Contest contest = contestRepository.findById(contestId)
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		return contestMapper.contestToFindResponseDto(contest, awsS3Url + contest.getContestImage(), awardsList,
-			isLeader, participantState);
+			info.isLeader(), info.contestParticipantsState());
 	}
 
 	/**
@@ -164,7 +169,7 @@ public class ContestServiceImpl implements ContestService {
 	@Transactional(readOnly = true)
 	public Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto,
 		Pageable pageable, Integer orderBy) {
-		Page<Contest> contests = Page.empty();
+		Page<Contest> contests;
 		if (orderBy > 2) {
 			// 전체 대회 정렬조건으로 조회
 			contests = contestRepository.searchContest(contestSearchRequestDto, pageable, orderBy);
@@ -239,10 +244,7 @@ public class ContestServiceImpl implements ContestService {
 	@Transactional
 	public void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId) {
 		// 신청자가 팀장인지 확인
-		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId,
-			participantRequestDto.teamId());
-		if (!isLeader)
-			throw new BaseException(ErrorCode.MEMBER_IS_LEADER);
+		isTeamLeader(memberId, participantRequestDto.teamId());
 
 		// 팀에 이미 참가 신청된 회원이 있는지 확인
 		if (contestParticipantsRepository.checkAlreadyParticipantsMember(participantRequestDto.contestId(),
@@ -301,10 +303,7 @@ public class ContestServiceImpl implements ContestService {
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 
 		// 대회 참여자 목록을 보는 권한 있는지 확인 (개최 팀의 멤버인지 확인)
-		boolean isMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, contest.getTeam().getId());
-		if (!isMember) {
-			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
-		}
+		isTeamMember(memberId, contest.getTeam().getId());
 
 		// 팀 정보 조회 (팀 ID, 팀 name, 팀원목록)
 		List<ContestTeamInfoDto> contestTeamInfoDtos = contestParticipantsRepository.searchTeamInfoByContest(
@@ -356,10 +355,7 @@ public class ContestServiceImpl implements ContestService {
 	public void updateContestParticipantsState(ContestParticipantAgreeDto contestParticipantAgreeDto, Long memberId) {
 		// 승인/거절하는 사람이 개최 팀의 팀원인지 확인
 		Long teamId = contestRepository.findTeamIdByContestId(contestParticipantAgreeDto.contestId());
-		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
-		if (!isTeamMember) {
-			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
-		}
+		isTeamMember(memberId, teamId);
 
 		// 상태 업데이트
 		contestParticipantsRepository.updateContestParticipantsState(contestParticipantAgreeDto.contestId(),
@@ -378,10 +374,7 @@ public class ContestServiceImpl implements ContestService {
 	public void updateContestState(ContestUpdateStateRequestDto updateStateDto, Long memberId) {
 		// 대회 상태 변경하는 사람이 개최 팀의 팀원인지 확인
 		Long teamId = contestRepository.findTeamIdByContestId(updateStateDto.contestId());
-		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
-		if (!isTeamMember) {
-			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
-		}
+		isTeamMember(memberId, teamId);
 
 		// 대회 상태 변경
 		contestRepository.updateContestState(updateStateDto.contestId(), updateStateDto.contestState());
@@ -411,6 +404,20 @@ public class ContestServiceImpl implements ContestService {
 				message.put("unread", true);
 				sseService.send(members, message);
 			}
+		}
+	}
+
+	private void isTeamMember(Long memberId, Long teamId) {
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+	}
+
+	private void isTeamLeader(Long memberId, Long teamId) {
+		boolean isLeader = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsLeaderTrue(memberId, teamId);
+		if (!isLeader) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_LEADER);
 		}
 	}
 

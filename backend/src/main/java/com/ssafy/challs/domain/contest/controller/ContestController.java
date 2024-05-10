@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -99,7 +100,7 @@ public class ContestController {
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
 	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
 		@RequestParam(required = false) ContestSearchRequestDto contestSearchRequestDto,
-		@RequestParam Pageable pageable,
+		@PageableDefault Pageable pageable,
 		@RequestParam(required = false) Integer orderBy) {
 		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable,
 			orderBy);
