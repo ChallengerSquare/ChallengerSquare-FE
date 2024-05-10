@@ -12,15 +12,15 @@ import styles from './Complete.module.scss'
 const Complete = () => {
   const user: User = useRecoilValue(userState)
 
-  // useEffect(() => {
-  //   registerUser(user).then((response) => {
-  //     if (response) {
-  //       console.log('회원가입 성공', response)
-  //     } else {
-  //       console.error('회원가입 실패')
-  //     }
-  //   })
-  // }, [user])
+  useEffect(() => {
+    registerUser(user).then((response) => {
+      if (response) {
+        console.log('회원가입 성공', response)
+      } else {
+        console.error('회원가입 실패')
+      }
+    })
+  }, [user])
 
   return (
     <>
