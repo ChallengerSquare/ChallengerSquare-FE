@@ -11,6 +11,7 @@ import Signup from '@/pages/signup/Signup'
 import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import Dashboard from './pages/blockchain/dashboard'
+import MyPage from './pages/mypage/MyPage'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/MyPage" element={<MyPage />} />
           <Route path="/competition" element={<Competition />} />
           <Route path="/competition/search" element={<CompetitionSearch />} />
           <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
