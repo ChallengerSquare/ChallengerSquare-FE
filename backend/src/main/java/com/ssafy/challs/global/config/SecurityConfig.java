@@ -2,6 +2,7 @@ package com.ssafy.challs.global.config;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -71,7 +72,7 @@ public class SecurityConfig {
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
 			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Collections.singletonList("*"));
+			config.setAllowedOrigins(List.of("localhost:3000", "challengersquare.com"));
 			config.setAllowedMethods(Collections.singletonList("*"));
 			config.setAllowCredentials(true);
 			config.setAllowedHeaders(Collections.singletonList("*"));
