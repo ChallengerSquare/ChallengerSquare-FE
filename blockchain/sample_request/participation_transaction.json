@@ -4,6 +4,7 @@
       "organizer": "주최 단체명",
       "event_name": "대회명",
       "attendee_name": "김영희",
+      "attendee_code": "sampleattendeecodeforkim",
       "event_date": "2023-05-02",
       "code": "PART67890",
       "details": "참가자 전원에게 기념품 제공"
