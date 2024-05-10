@@ -2,6 +2,7 @@ package com.ssafy.challs.global.config;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -58,18 +59,21 @@ public class SecurityConfig {
 			session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(
 			// 여기에서 열어줘야 하는 곳은 대회 조회, 대회 상세조회, 대회 QNA조회, 대회 공지 조회, 대회 공지 상세 조회, 소셜 로그인의 모든 과정, 추가 정보 입력
-			requests -> requests.requestMatchers("/contest/", "/contest", "/qna/*", "/notice/*",
-					"/error", "/favicon.ico", "/login/oauth2/**", "/member/refresh", "/member/logout", "/team/*/public",
-					"/team/*/members", "/info/actuator/health", "/info/actuator/prometheus", "/swagger-ui/**",
-					"/v3/api-docs/**", "/swagger-ui.html").permitAll()
-				.anyRequest()
+			requests -> requests.requestMatchers("/error", "/favicon.ico", "/login/oauth2/**", "/swagger-ui/**",
+					"/v3/api-docs/**", "/swagger-ui.html", "/info/actuator/health", "/info/actuator/prometheus", "/qna/*",
+					"/team/*/public", "/team/*/members", "/team/*/contest", "/notice/*", "/contest", "/conetst/*",
+					"/team/participants", "/member/refresh")
+				.permitAll()
+				.requestMatchers("/member/create", "/member/logout", "sse/subscribe")
 				.authenticated()
+				.anyRequest().hasAuthority("ROLE_MEMBER")
 		);
 
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
 			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Collections.singletonList(baseUrl));
+			config.setAllowedOrigins(
+				List.of("http://localhost:3000", "https://localhost:3000", "https://www.challengersquare.com"));
 			config.setAllowedMethods(Collections.singletonList("*"));
 			config.setAllowCredentials(true);
 			config.setAllowedHeaders(Collections.singletonList("*"));
@@ -89,22 +93,22 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthenticationEntryPoint customTempAuthenticationEntryPoint() {
-		return (request, response, authException) -> errorResponse(response);
+		return (request, response, authException) -> errorResponse(response, ErrorCode.MEMBER_NOT_LOGIN);
 	}
 
 	@Bean
 	public AccessDeniedHandler customAccessDeniedHandler() {
-		return (request, response, accessDeniedException) -> errorResponse(response);
+		return (request, response, accessDeniedException) -> errorResponse(response, ErrorCode.MEMBER_NOT_AGREE_ERROR);
 	}
 
-	private static void errorResponse(HttpServletResponse response)
+	private static void errorResponse(HttpServletResponse response, ErrorCode errorCode)
 		throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		ErrorResponse errorResponse = new ErrorResponse(ErrorCode.SECURITY_TOKEN_ERROR);
+		ErrorResponse errorResponse = new ErrorResponse(errorCode);
 		objectMapper.writeValueAsString(errorResponse);
 
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(ErrorCode.SECURITY_TOKEN_ERROR.getStatus());
+		response.setStatus(errorCode.getStatus());
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}

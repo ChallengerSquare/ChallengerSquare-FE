@@ -1,6 +1,8 @@
 package com.ssafy.challs.domain.contest.repository.impl;
 
 import static com.ssafy.challs.domain.contest.entity.QContest.*;
+import static com.ssafy.challs.domain.contest.entity.QContestParticipants.*;
+import static com.ssafy.challs.domain.team.entity.QTeamParticipants.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
@@ -20,6 +24,7 @@ import com.ssafy.challs.domain.contest.entity.Contest;
 import com.ssafy.challs.domain.contest.entity.QContest;
 import com.ssafy.challs.domain.contest.entity.QContestParticipants;
 import com.ssafy.challs.domain.contest.repository.ContestRepositoryCustom;
+import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamContestResponseDto;
 import com.ssafy.challs.domain.team.entity.QTeam;
 
@@ -192,4 +197,36 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 			.where(qContest.id.eq(contestId))
 			.execute();
 	}
+
+	@Override
+	public Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId) {
+		// 멤버가 현재 가입한 팀의 번호 목록
+		JPQLQuery<Long> searchTeamIdList = JPAExpressions.select(teamParticipants.team.id)
+			.from(teamParticipants)
+			.where(teamParticipants.member.id.eq(memberId));
+
+		// 팀의 번호 리스트가 포함된 대회 참가 내역을 조회후 대회의 번호 조회 (참가 상태가 대기, 승인)
+		JPQLQuery<Long> searchContestIdList = JPAExpressions.select(contestParticipants.contest.id)
+			.from(contestParticipants)
+			.where(contestParticipants.contestParticipantsState.in('A', 'W')
+				.and(contestParticipants.team.id.in(searchTeamIdList)));
+
+		// 해당 대회의 정보를 반환
+		List<MemberContestResponseDto> list = queryFactory.select(
+				Projections.constructor(MemberContestResponseDto.class, contest.id, contest.contestTitle,
+					contest.contestImage))
+			.from(contest)
+			.where(contest.contestState.in('J', 'D', 'S', 'E').and(contest.id.in(searchContestIdList)))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.orderBy(contest.id.desc())
+			.fetch();
+
+		JPAQuery<Long> countQuery = queryFactory.select(contest.count())
+			.from(contest)
+			.where(contest.contestState.notIn('N').and(contest.id.in(searchContestIdList)));
+
+		return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
+	}
+
 }

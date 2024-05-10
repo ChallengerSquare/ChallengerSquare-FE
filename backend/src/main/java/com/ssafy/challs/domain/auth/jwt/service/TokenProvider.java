@@ -9,8 +9,8 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.challs.domain.auth.jwt.repository.RefreshTokenRepository;
 import com.ssafy.challs.domain.auth.jwt.dto.TokenCookie;
+import com.ssafy.challs.domain.auth.jwt.repository.RefreshTokenRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
@@ -41,7 +41,7 @@ public class TokenProvider {
 	// 토큰으로 쿠키 생성
 	public TokenCookie makeTokenCookie(String id) {
 		String refreshUuid = UUID.randomUUID().toString();
-		String accessToken = createToken(id, Duration.ofMinutes(30));
+		String accessToken = createToken(id, Duration.ofDays(1));
 		String refreshToken = createToken(refreshUuid, Duration.ofDays(7));
 		refreshTokenRepository.save(refreshUuid, id);
 		return cookieUtil.saveCookie(accessToken, refreshToken);
