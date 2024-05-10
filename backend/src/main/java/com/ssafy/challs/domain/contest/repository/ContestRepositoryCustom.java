@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.entity.Contest;
+import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamContestResponseDto;
 
 public interface ContestRepositoryCustom {
@@ -18,4 +19,10 @@ public interface ContestRepositoryCustom {
 	Page<Contest> searchContestOrderByRegistrationNum(Pageable pageable);
 
 	Long findTeamIdByContestId(Long contestId);
+
+	void updateContestState(Long contestId, Character contestState);
+
+	Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId);
+
+	String findContestTitleFromContestId(Long contestId);
 }

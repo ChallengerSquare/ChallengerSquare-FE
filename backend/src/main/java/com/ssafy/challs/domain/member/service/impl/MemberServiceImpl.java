@@ -10,9 +10,11 @@ import com.ssafy.challs.domain.auth.jwt.dto.TokenCookie;
 import com.ssafy.challs.domain.auth.jwt.repository.RefreshTokenRepository;
 import com.ssafy.challs.domain.auth.jwt.service.CookieUtil;
 import com.ssafy.challs.domain.auth.jwt.service.TokenProvider;
+import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.entity.Member;
@@ -34,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
 	private final TokenProvider tokenProvider;
 	private final CookieUtil cookieUtil;
 	private final TeamRepository teamRepository;
+	private final ContestRepository contestRepository;
 	private final AwardsCodeRepository awardsCodeRepository;
 
 	/**
@@ -145,6 +148,20 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = true)
 	public Page<MemberTeamResponseDto> searchTeamList(Long memberId, Pageable pageable) {
 		return teamRepository.searchTeamList(memberId, pageable);
+	}
+
+	/**
+	 * 멤버가 가입된 모든 팀이 대회 참가 대기, 대회 참가 승인 상태인 대회(대회 모집 시작, 대회 모집 완료, 대회 시작, 대회 끝)의 목록 조회
+	 *
+	 * @author 강태연
+	 * @param pageable 페이징 정보
+	 * @param memberId 현재 요청 보낸 멤버 정보
+	 * @return 팀 정보 목록
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId) {
+		return contestRepository.searchContestList(pageable, memberId);
 	}
 
 	/**

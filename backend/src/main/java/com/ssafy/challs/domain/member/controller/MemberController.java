@@ -19,6 +19,7 @@ import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.service.MemberService;
@@ -107,6 +108,23 @@ public class MemberController {
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(
 			new SuccessResponse<>(HttpStatus.OK, memberService.searchTeamList(securityMember.id(), pageable)));
+	}
+
+	/**
+	 * 멤버가 가입된 모든 팀이 대회 참가 대기, 대회 참가 승인 상태인 대회(대회 모집 시작, 대회 모집 완료, 대회 시작, 대회 끝)의 목록 조회
+	 *
+	 * @author 강태연
+	 * @param pageable 페이징 정보
+	 * @param securityMember 현재 요청 보낸 멤버 정보
+	 * @return 팀 정보 목록
+	 */
+	@GetMapping("/contest")
+	@Operation(summary = "대회 목록 조회", description = "멤버가 포함된 팀이 참가 신청한 대회 목록 조회")
+	public ResponseEntity<SuccessResponse<Page<MemberContestResponseDto>>> searchContestList(
+		@PageableDefault Pageable pageable,
+		@AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(
+			new SuccessResponse<>(HttpStatus.OK, memberService.searchContestList(pageable, securityMember.id())));
 	}
 
 	/**
