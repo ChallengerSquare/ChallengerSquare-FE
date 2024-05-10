@@ -12,9 +12,11 @@ import com.ssafy.challs.domain.auth.jwt.service.CookieUtil;
 import com.ssafy.challs.domain.auth.jwt.service.TokenProvider;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
+import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.entity.Member;
+import com.ssafy.challs.domain.member.repository.AwardsCodeRepository;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.member.service.MemberService;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
@@ -32,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
 	private final TokenProvider tokenProvider;
 	private final CookieUtil cookieUtil;
 	private final TeamRepository teamRepository;
+	private final AwardsCodeRepository awardsCodeRepository;
 
 	/**
 	 * refresh token을 기준으로 새로운 accessToken과 refreshToken 발급
@@ -142,6 +145,20 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = true)
 	public Page<MemberTeamResponseDto> searchTeamList(Long memberId, Pageable pageable) {
 		return teamRepository.searchTeamList(memberId, pageable);
+	}
+
+	/**
+	 * 시상 정보 목록 조회
+	 *
+	 * @author 강태연
+	 * @param memberId 현재 요청 보낸 멤버 정보
+	 * @param pageable 페이징 정보
+	 * @return 시상 정보 목록
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MemberAwardsCodeResponseDto> searchAwardList(Long memberId, Pageable pageable) {
+		return awardsCodeRepository.searchAwardList(pageable, memberId);
 	}
 
 }

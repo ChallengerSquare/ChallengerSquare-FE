@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.member.dto.request.MemberCreateRequestDto;
 import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
+import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.service.MemberService;
@@ -106,6 +107,22 @@ public class MemberController {
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(
 			new SuccessResponse<>(HttpStatus.OK, memberService.searchTeamList(securityMember.id(), pageable)));
+	}
+
+	/**
+	 * 시상 정보 목록 조회
+	 *
+	 * @author 강태연
+	 * @param securityMember 현재 요청 보낸 멤버 정보
+	 * @param pageable 페이징 정보
+	 * @return 시상 정보 목록
+	 */
+	@GetMapping("/awards")
+	@Operation(summary = "대회 내역 조회", description = "멤버가 가입한 모든 팀이 참여한 대회 목록을 조회하는 API")
+	public ResponseEntity<SuccessResponse<Page<MemberAwardsCodeResponseDto>>> searchAwardList(
+		@PageableDefault Pageable pageable, @AuthenticationPrincipal SecurityMember securityMember) {
+		return ResponseEntity.ok(
+			new SuccessResponse<>(HttpStatus.OK, memberService.searchAwardList(securityMember.id(), pageable)));
 	}
 
 }
