@@ -118,10 +118,6 @@ def get_awards(code):
     else:
         return jsonify({'error': 'No awards found'}), 404
 
-@app.route('/blocks')
-def show_blocks():
-    return render_template('dashboard.html', blockchain=blockchain)
-
 
 # Running the app
 if __name__ == '__main__':
