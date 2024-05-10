@@ -7,8 +7,7 @@ import Userform from './userform/Userform'
 import Complete from './complete/Complete'
 
 const Signup = () => {
-  const stepArr = ['약관동의', '정보 입력', '가입 완료']
-  const { step, nextStep, prevStep } = useStep(stepArr)
+  const { step, nextStep, prevStep } = useStep()
 
   const stepsConfig = [
     { name: '약관 동의', component: <Terms nextStep={nextStep} /> },
@@ -23,7 +22,7 @@ const Signup = () => {
         <div className={styles.container}>
           <div className={styles.title}>회원가입</div>
           <div className={styles.content}>
-            <Stepper activeStep={step} steps={stepArr} />
+            <Stepper activeStep={step} steps={stepsConfig.map((step) => step.name)} />
             {stepsConfig[step].component}
           </div>
         </div>

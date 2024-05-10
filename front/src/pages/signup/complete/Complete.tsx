@@ -5,7 +5,6 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '@/stores/useState'
 import { User } from '@/types/user'
 import { registerUser } from '@services/member'
-import { ApiResponse } from '@/types/api'
 import Button from '@/components/Button/Button'
 import check from '@svgs/signup/check.svg'
 import styles from './Complete.module.scss'
@@ -13,15 +12,15 @@ import styles from './Complete.module.scss'
 const Complete = () => {
   const user: User = useRecoilValue(userState)
 
-  useEffect(() => {
-    registerUser(user).then((response) => {
-      if (response) {
-        console.log('회원가입 성공', response)
-      } else {
-        console.error('회원가입 실패')
-      }
-    })
-  }, [user])
+  // useEffect(() => {
+  //   registerUser(user).then((response) => {
+  //     if (response) {
+  //       console.log('회원가입 성공', response)
+  //     } else {
+  //       console.error('회원가입 실패')
+  //     }
+  //   })
+  // }, [user])
 
   return (
     <>
