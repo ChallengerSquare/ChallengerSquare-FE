@@ -1,7 +1,9 @@
 package com.ssafy.challs.domain.contest.service.impl;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.alert.service.SseService;
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
@@ -366,6 +369,21 @@ public class ContestServiceImpl implements ContestService {
 
 		// 대회 상태 변경
 		contestRepository.updateContestState(updateStateDto.contestId(), updateStateDto.contestState());
+
+		// 대회 종료 시 모집 결과 알림 전송
+		if (updateStateDto.contestState().equals('D')) {
+			// 해당 대회에 참여 신청한 팀 정보 가져오기
+			List<ContestParticipantsInfoDto> contestParticipantsInfoDto = contestParticipantsRepository.findAllTeamFromContestId(
+				updateStateDto.contestId());
+			// 팀원 모두에게 알림 전송
+			for (ContestParticipantsInfoDto participantsInfoDto : contestParticipantsInfoDto) {
+				List<Long> members = contestParticipantsRepository.searchMemberIdFromTeamId(
+					participantsInfoDto.teamId());
+				Map<String, Boolean> message = new HashMap<>();
+				message.put("unread", true);
+				sseService.send(members, message);
+			}
+		}
 	}
 
 }
