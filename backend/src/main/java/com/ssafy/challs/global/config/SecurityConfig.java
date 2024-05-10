@@ -58,20 +58,18 @@ public class SecurityConfig {
 			session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(
 			// 여기에서 열어줘야 하는 곳은 대회 조회, 대회 상세조회, 대회 QNA조회, 대회 공지 조회, 대회 공지 상세 조회, 소셜 로그인의 모든 과정, 추가 정보 입력
-			requests -> requests.requestMatchers("/error", "/favicon.ico", "/login/oauth2/**", "/swagger-ui/**",
-					"/v3/api-docs/**", "/swagger-ui.html", "/info/actuator/health", "/info/actuator/prometheus", "/qna/*",
-					"/team/*/public", "/team/*/members", "/team/*/contest", "/notice/*", "/contest", "/conetst/*",
-					"/team/participants", "/member/refresh")
-				.permitAll()
-				.requestMatchers("/member/create", "/member/logout", "sse/subscribe")
+			requests -> requests.requestMatchers("/contest/", "/contest", "/qna/*", "/notice/*",
+					"/error", "/favicon.ico", "/login/oauth2/**", "/member/refresh", "/member/logout", "/team/*/public",
+					"/team/*/members", "/info/actuator/health", "/info/actuator/prometheus", "/swagger-ui/**",
+					"/v3/api-docs/**", "/swagger-ui.html").permitAll()
+				.anyRequest()
 				.authenticated()
-				.anyRequest().hasAuthority("ROLE_MEMBER")
 		);
 
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
 			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Collections.singletonList("*"));
+			config.setAllowedOrigins(Collections.singletonList(baseUrl));
 			config.setAllowedMethods(Collections.singletonList("*"));
 			config.setAllowCredentials(true);
 			config.setAllowedHeaders(Collections.singletonList("*"));
@@ -91,22 +89,22 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthenticationEntryPoint customTempAuthenticationEntryPoint() {
-		return (request, response, authException) -> errorResponse(response, ErrorCode.MEMBER_NOT_LOGIN);
+		return (request, response, authException) -> errorResponse(response);
 	}
 
 	@Bean
 	public AccessDeniedHandler customAccessDeniedHandler() {
-		return (request, response, accessDeniedException) -> errorResponse(response, ErrorCode.MEMBER_NOT_AGREE_ERROR);
+		return (request, response, accessDeniedException) -> errorResponse(response);
 	}
 
-	private static void errorResponse(HttpServletResponse response, ErrorCode errorCode)
+	private static void errorResponse(HttpServletResponse response)
 		throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		ErrorResponse errorResponse = new ErrorResponse(errorCode);
+		ErrorResponse errorResponse = new ErrorResponse(ErrorCode.SECURITY_TOKEN_ERROR);
 		objectMapper.writeValueAsString(errorResponse);
 
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(errorCode.getStatus());
+		response.setStatus(ErrorCode.SECURITY_TOKEN_ERROR.getStatus());
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}

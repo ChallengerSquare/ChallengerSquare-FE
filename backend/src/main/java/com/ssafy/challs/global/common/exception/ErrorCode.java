@@ -117,9 +117,6 @@ public enum ErrorCode {
 	// 개최팀에 속한 회원이 아닌 경우
 	MEMBER_NOT_IN_TEAM(400, "G-035", "Member Is Not In Team"),
 
-	// 로그인이 필요한 접근의 경우
-	MEMBER_NOT_LOGIN(401, "G-036", "Member Is Not Login"),
-
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
