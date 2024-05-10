@@ -242,6 +242,16 @@ class Blockchain:
 
         return found_transactions
 
+    def get_transactions_by_code(self, code):
+        found_transactions = []
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['data']['code'] == code:
+                    found_transactions.append(transaction)
+
+        return found_transactions
+
+
     def get_awards(self, code):
         awards = []
         for block in self.chain:  # 체인의 모든 블록을 순회
