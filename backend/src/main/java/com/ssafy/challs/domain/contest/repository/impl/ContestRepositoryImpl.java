@@ -229,4 +229,15 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
 	}
 
+	@Override
+	public String findContestTitleFromContestId(Long contestId) {
+		QContest qContest = QContest.contest;
+
+		return queryFactory
+			.select(qContest.contestTitle)
+			.from(qContest)
+			.where(qContest.id.eq(contestId))
+			.fetchOne();
+	}
+
 }

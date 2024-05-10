@@ -23,4 +23,6 @@ public interface ContestRepositoryCustom {
 	void updateContestState(Long contestId, Character contestState);
 
 	Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId);
+
+	String findContestTitleFromContestId(Long contestId);
 }
