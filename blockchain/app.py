@@ -11,7 +11,7 @@ blockchain = Blockchain.get_blockchain()
 smart_contract = SmartContract()
 
 
-@app.route('/mine_block', methods=['GET'])
+@app.route('/mine-block', methods=['GET'])
 def mine_block():
     previous_block = blockchain.get_previous_block()
     previous_proof = previous_block['proof']
@@ -30,7 +30,7 @@ def mine_block():
     return jsonify(response), 200
 
 
-@app.route('/get_chain', methods=['GET'])
+@app.route('/get-chain', methods=['GET'])
 def get_chain():
     response = {'chain': blockchain.chain,
                 'length': len(blockchain.chain)}
@@ -38,7 +38,7 @@ def get_chain():
     return jsonify(response), 200
 
 
-@app.route('/is_valid', methods=['GET'])
+@app.route('/is-valid', methods=['GET'])
 def is_valid():
     if blockchain.is_chain_valid(blockchain.chain):
         response = {'message': 'All good. The Blockchain is valid!'}
@@ -48,11 +48,12 @@ def is_valid():
     return jsonify(response), 200
 
 
-@app.route('/add_transaction', methods=['POST'])
+@app.route('/add-transaction', methods=['POST'])
 def add_transaction():
     try:
+        secret_code = request.headers.get('Secret-Code')
         transaction_json = request.get_json()
-        message = smart_contract.execute_transaction(transaction_json)  # 트랜잭션 실행 및 유효성 검증 포함
+        message = smart_contract.execute_transaction(transaction_json, secret_code)  # 트랜잭션 실행 및 유효성 검증 포함
         response = {'message': message}
         return jsonify(response), 201  # 성공적으로 처리됨
     except ValueError as e:  # 유효성 검증 실패시 예외 처리
@@ -61,7 +62,7 @@ def add_transaction():
 
 # todo : node 를 탐색해서 connect 하도록
 # todo : node 탐색 기준 설정
-@app.route('/connect_node', methods=['POST'])
+@app.route('/connect-node', methods=['POST'])
 def connect_node():
     json = request.get_json()
     nodes = json.get('nodes')
@@ -75,7 +76,7 @@ def connect_node():
     return jsonify(response), 201
 
 
-@app.route('/replace_chain', methods=['GET'])  # todo : chain 길이가 같을 때 어떻게 할건지 추가
+@app.route('/replace-chain', methods=['GET'])  # todo : chain 길이가 같을 때 어떻게 할건지 추가
 def replace_chain():
     is_chain_replaced = blockchain.replace_chain()
     if is_chain_replaced:
@@ -88,7 +89,7 @@ def replace_chain():
     return jsonify(response), 200
 
 
-@app.route('/get_transactions/<name>', methods=['GET'])
+@app.route('/get-transactions/<name>', methods=['GET'])
 def get_transactions_by_name(name):
     transactions = blockchain.get_transactions_by_name(name)
     if transactions:
@@ -100,7 +101,7 @@ def get_transactions_by_name(name):
         return jsonify(response), 404
 
 
-@app.route('/get_transactions', methods=['GET'])
+@app.route('/get-transactions', methods=['GET'])
 def get_transactions():
     transactions = blockchain.get_transactions()
     if transactions:
