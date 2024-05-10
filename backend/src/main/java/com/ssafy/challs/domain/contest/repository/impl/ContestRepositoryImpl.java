@@ -188,6 +188,17 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 	}
 
 	@Override
+	public void updateContestState(Long contestId, Character contestState) {
+		QContest qContest = QContest.contest;
+
+		queryFactory
+			.update(qContest)
+			.set(qContest.contestState, contestState)
+			.where(qContest.id.eq(contestId))
+			.execute();
+	}
+
+	@Override
 	public Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId) {
 		// 멤버가 현재 가입한 팀의 번호 목록
 		JPQLQuery<Long> searchTeamIdList = JPAExpressions.select(teamParticipants.team.id)
@@ -216,6 +227,17 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 			.where(contest.contestState.notIn('N').and(contest.id.in(searchContestIdList)));
 
 		return PageableExecutionUtils.getPage(list, pageable, countQuery::fetchOne);
+	}
+
+	@Override
+	public String findContestTitleFromContestId(Long contestId) {
+		QContest qContest = QContest.contest;
+
+		return queryFactory
+			.select(qContest.contestTitle)
+			.from(qContest)
+			.where(qContest.id.eq(contestId))
+			.fetchOne();
 	}
 
 }

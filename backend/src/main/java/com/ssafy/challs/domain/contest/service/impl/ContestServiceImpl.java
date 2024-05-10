@@ -1,7 +1,9 @@
 package com.ssafy.challs.domain.contest.service.impl;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.alert.service.AlertService;
+import com.ssafy.challs.domain.alert.service.SseService;
+import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
@@ -17,6 +22,7 @@ import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestAwardsDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
@@ -48,6 +54,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ContestServiceImpl implements ContestService {
 
+	private final AlertService alertService;
+	private final SseService sseService;
 	private final ContestRepository contestRepository;
 	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final AwardsRepository awardsRepository;
@@ -327,6 +335,7 @@ public class ContestServiceImpl implements ContestService {
 	 *
 	 * @author 강다솔
 	 * @param contestParticipantAgreeDto 대회 PK, 수락된 팀 정보
+	 * @param memberId 로그인한 회원 정보
 	 */
 	@Override
 	@Transactional
@@ -341,6 +350,54 @@ public class ContestServiceImpl implements ContestService {
 		// 상태 업데이트
 		contestParticipantsRepository.updateContestParticipantsState(contestParticipantAgreeDto.contestId(),
 			contestParticipantAgreeDto.agreeMembers());
+	}
+
+	/**
+	 * 대회 상태 변경
+	 *
+	 * @author 강다솔
+	 * @param updateStateDto 변경할 대회 정보
+	 * @param memberId 로그인한 회원 정보
+	 */
+	@Override
+	@Transactional
+	public void updateContestState(ContestUpdateStateRequestDto updateStateDto, Long memberId) {
+		// 대회 상태 변경하는 사람이 개최 팀의 팀원인지 확인
+		Long teamId = contestRepository.findTeamIdByContestId(updateStateDto.contestId());
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember) {
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
+		}
+
+		// 대회 상태 변경
+		contestRepository.updateContestState(updateStateDto.contestId(), updateStateDto.contestState());
+
+		// 대회 종료 시 모집 결과 알림 전송
+		if (updateStateDto.contestState().equals('D')) {
+			// 대회 이름, 해당 대회에 참여 신청한 팀 정보 가져오기
+			String contestTitle = contestRepository.findContestTitleFromContestId(updateStateDto.contestId());
+			List<ContestParticipantsInfoDto> contestParticipantsInfoDto = contestParticipantsRepository.findAllTeamFromContestId(
+				updateStateDto.contestId());
+			// 팀원 모두에게 알림 전송
+			for (ContestParticipantsInfoDto participantsInfoDto : contestParticipantsInfoDto) {
+				List<Long> members = contestParticipantsRepository.searchMemberIdFromTeamId(
+					participantsInfoDto.teamId());
+
+				// 알림 저장
+				if (participantsInfoDto.participantsState().equals('A')) {
+					alertService.createAlert(members, 'C', updateStateDto.contestId(),
+						"축하합니다! " + contestTitle + " 대회 참가 신청이 확정되었습니다. 자세한 사항은 대회 공지사항을 확인해주세요. ");
+				} else {
+					alertService.createAlert(members, 'C', updateStateDto.contestId(),
+						"제한된 인원으로 인해 " + contestTitle + " 대회 참가 신청이 거절되었습니다. 신청해주셔서 감사합니다. ");
+				}
+
+				// 알림 전송
+				Map<String, Boolean> message = new HashMap<>();
+				message.put("unread", true);
+				sseService.send(members, message);
+			}
+		}
 	}
 
 }
