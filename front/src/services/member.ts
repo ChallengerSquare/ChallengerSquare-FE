@@ -15,7 +15,7 @@ export const registerUser = async (user: User): Promise<ApiResponse> => {
       memberPhone: user.contact,
       memberAddress: user.address,
     }
-    const response = await api.post<ApiResponse>('/create', memberDto)
+    const response = await api.put<ApiResponse>('/create', memberDto)
     return response.data
   } catch (error) {
     console.error('회원가입 API 에러', error)

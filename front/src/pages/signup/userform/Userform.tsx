@@ -18,15 +18,23 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
     detailAddress: '',
   })
 
+  const formateDate = (date: Date | null): string => {
+    if (!date) return ''
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+
+    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+  }
+
   useEffect(() => {
+    const formattedDate = formateDate(selectedDate)
     if (selectedDate) {
       setUserState((prev) => ({
         ...prev,
-        // birth: selectedDate.toLocaleDateString('ko-KR').replaceAll('. ', '-').substring(0, 8),
-        birth: '2024-04-01',
+        birth: formattedDate,
       }))
     }
-    // console.log(selectedDate.toDateString)
   }, [selectedDate])
 
   const handleUserState = (key: string, e: any) => {
