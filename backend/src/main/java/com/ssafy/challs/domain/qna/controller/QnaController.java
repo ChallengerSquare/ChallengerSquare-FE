@@ -33,6 +33,13 @@ public class QnaController {
 
 	private QnaService qnaService;
 
+	/**
+	 * 대회 질문 작성하는 API
+	 *
+	 * @param securityMember 질문 작성하는 회원 정보
+	 * @param qnaCreateRequestDto 등록하는 질문 정보
+	 * @return 성공 여부
+	 */
 	@PostMapping
 	@Operation(summary = "QNA 작성", description = "QNA를 작성하는 API")
 	public ResponseEntity<SuccessResponse<String>> createQna(@AuthenticationPrincipal SecurityMember securityMember,
