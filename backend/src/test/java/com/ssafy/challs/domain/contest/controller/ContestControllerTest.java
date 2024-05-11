@@ -14,9 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
@@ -240,5 +243,51 @@ class ContestControllerTest {
 		ContestTeamResponseDto team1 = ContestTeamResponseDto.builder().teamId(1L).teamName("팀이름1").build();
 		ContestTeamResponseDto team2 = ContestTeamResponseDto.builder().teamId(2L).teamName("팀이름2").build();
 		return List.of(team1, team2);
+	}
+
+	@Test
+	@DisplayName("대회 참가 승인/거절")
+	@WithCustomMockUser
+	void updateContestParticipantsState() throws Exception {
+		// Given
+		ContestParticipantAgreeDto contestParticipantAgreeDto = new ContestParticipantAgreeDto(1L,
+			List.of(1L, 23L, 239L, 12L, 30L));
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter()
+			.writeValueAsString(contestParticipantAgreeDto);
+
+		willDoNothing().given(contestService).updateContestParticipantsState(contestParticipantAgreeDto, 1L);
+
+		// When
+		ResultActions result = mockMvc.perform(put("/contest/participants")
+			.with(csrf())
+			.content(requestBody)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").value("success"));
+	}
+
+	@Test
+	@DisplayName("대회 상태 변경")
+	@WithCustomMockUser
+	void updateContestRegistration() throws Exception {
+		// Given
+		ContestUpdateStateRequestDto updateStateDto = new ContestUpdateStateRequestDto(1L, 'W');
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(updateStateDto);
+
+		willDoNothing().given(contestService).updateContestState(updateStateDto, 1L);
+
+		// When
+		ResultActions result = mockMvc.perform(put("/contest/registration")
+			.with(csrf())
+			.content(requestBody)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").value("success"));
 	}
 }
