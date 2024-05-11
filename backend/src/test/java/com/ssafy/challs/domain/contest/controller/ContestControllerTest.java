@@ -83,6 +83,34 @@ class ContestControllerTest {
 			.andExpect(jsonPath("$.data.contestId").value(1L));
 	}
 
+	@Test
+	@DisplayName("대회 수정_성공")
+	@WithCustomMockUser
+	void updateContest() throws Exception {
+		// Given
+		ContestUpdateRequestDto contestUpdateDto = createContestUpdateDto();
+		String requestBody = objectMapper.writeValueAsString(contestUpdateDto);
+		MockMultipartFile contestImage = new MockMultipartFile("대회포스터", "대회포스터.jpg", "text/plain",
+			"test file".getBytes(StandardCharsets.UTF_8));
+		MockPart requestPart = new MockPart("contestCreateRequestDto", "contest",
+			requestBody.getBytes(StandardCharsets.UTF_8));
+		// 요청 Content-Type 명시
+		requestPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+		willDoNothing().given(contestService).updateContest(contestUpdateDto, contestImage, 1L);
+
+		// When
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.multipart("/contest")
+			.file(contestImage)
+			.part(requestPart)
+			.with(csrf())
+			.accept(MediaType.APPLICATION_JSON))
+			;
+
+		// Then
+		result.andExpect(status().isOk());
+	}
+
 	ContestCreateRequestDto createContestRequestDto() {
 		return new ContestCreateRequestDto("대회 제목", "대회 설명", "서울시 역삼",
 			1L, new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
@@ -91,7 +119,7 @@ class ContestControllerTest {
 		);
 	}
 
-	ContestUpdateRequestDto createContestUpdateResponseDto() {
+	ContestUpdateRequestDto createContestUpdateDto() {
 		return new ContestUpdateRequestDto(1L, "대회 제목", "대회 설명", "서울시 역삼",
 			1L, new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
 			new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
