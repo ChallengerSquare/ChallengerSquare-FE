@@ -42,7 +42,7 @@ public class TokenProvider {
 	// 토큰으로 쿠키 생성
 	public TokenCookie makeTokenCookie(String id) {
 		String refreshUuid = UUID.randomUUID().toString();
-		String accessToken = createToken(id, Duration.ofSeconds(10));
+		String accessToken = createToken(id, Duration.ofDays(1));
 		String refreshToken = createToken(refreshUuid, Duration.ofDays(7));
 		refreshTokenRepository.save(refreshUuid, id);
 		return cookieUtil.saveCookie(accessToken, refreshToken);
