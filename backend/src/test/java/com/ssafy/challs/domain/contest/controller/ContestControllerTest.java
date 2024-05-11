@@ -171,4 +171,27 @@ class ContestControllerTest {
 			.andExpect(jsonPath("$.data.contestTitle").value("대회 제목"));
 	}
 
+	@Test
+	@DisplayName("대회 참가 신청")
+	@WithCustomMockUser
+	void createContestParticipant() throws Exception {
+		// Given
+		ContestParticipantRequestDto participantsRequestDto = new ContestParticipantRequestDto(1L, 1L, "참가하고 싶어요");
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(participantsRequestDto);
+
+		willDoNothing().given(contestService).createContestParticipant(participantsRequestDto, 1L);
+
+		// When
+		ResultActions result = mockMvc.perform(post("/contest/participants")
+			.with(csrf())
+			.content(requestBody)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").value("success"));
+
+	}
+
 }
