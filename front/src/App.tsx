@@ -24,7 +24,7 @@ function App() {
           <Route path="/competition/search" element={<CompetitionSearch />} />
           <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
           <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
-          <Route path="/competition-results" element={<CompetitionResult />} />
+          <Route path="/competition-results/:code" element={<CompetitionResult />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/competition/create" element={<CreateCompetition />} />
