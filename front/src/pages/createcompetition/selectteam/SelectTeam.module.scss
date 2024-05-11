@@ -1,1 +1,38 @@
 @import '@styles/variables.scss';
+
+.title {
+  display: flex;
+  font-weight: bold;
+  font-size: 1.5rem;
+  justify-content: center;
+  margin: 40px 0 0 0;
+}
+
+.notice {
+  display: flex;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: red;
+}
+.dropdown {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.create_team {
+  display: flex;
+  justify-content: end;
+  margin: 10px 212px;
+  font-size: 13px;
+  font-weight: bold;
+  color: $main-color;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}

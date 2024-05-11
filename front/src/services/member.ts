@@ -80,3 +80,8 @@ export const reissueCookie = async (): Promise<ApiResponse> => {
     }
   }
 }
+
+// export const getTeamsinLeader = async (): Promise<ApiResponse> => {
+//   try {
+//    // 내가 속한 팀 중 팀 리더로 있는 팀 조회하기
+// }
