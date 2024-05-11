@@ -27,6 +27,7 @@ import com.ssafy.challs.domain.auth.jwt.service.CookieUtil;
 import com.ssafy.challs.domain.auth.jwt.service.TokenProvider;
 import com.ssafy.challs.domain.auth.oauth2.handler.OAuth2SuccessHandler;
 import com.ssafy.challs.domain.auth.oauth2.service.CustomOAuth2UserService;
+import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 import com.ssafy.challs.global.common.response.ErrorResponse;
 
@@ -93,7 +94,19 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthenticationEntryPoint customTempAuthenticationEntryPoint() {
-		return (request, response, authException) -> errorResponse(response, ErrorCode.MEMBER_NOT_LOGIN);
+		return (request, response, authException) -> {
+			try {
+				String accessToken = cookieUtil.getCookieValue(request.getCookies(), "accessToken");
+				tokenProvider.validateToken(accessToken);
+				errorResponse(response, ErrorCode.MEMBER_NOT_LOGIN);
+			} catch (BaseException e) {
+				if (e.getErrorCode().equals(ErrorCode.EXPIRED_TOKEN_ERROR)) {
+					errorResponse(response, ErrorCode.EXPIRED_TOKEN_ERROR);
+				} else {
+					errorResponse(response, ErrorCode.WRONG_TOKEN_ERROR);
+				}
+			}
+		};
 	}
 
 	@Bean
