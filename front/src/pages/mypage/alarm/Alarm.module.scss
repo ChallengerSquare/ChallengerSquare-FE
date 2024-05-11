@@ -1,0 +1,75 @@
+@import '@styles/variables.scss';
+
+.info{
+    // background-color: beige;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .title{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-bottom: 1px solid $sub-color;
+        font-weight: 600;
+    }
+
+    .content{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        margin-top: 10px;  
+        border-bottom: 1px solid $sub-color;
+        overflow-y: auto;
+
+        .notification {
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+
+            &.unread {
+                background-color: $sub-color;
+            }
+
+            .notice_title{
+                display: flex;
+
+                .point {
+                    width: 8px;
+                    height: 8px;
+                    margin: 8px;
+                    border-radius: 5px;                
+                    &.unread{
+                        background-color: red;
+                    }
+                } 
+            }
+
+            .notice_content{
+                margin: 0px 25px;
+                display: flex;
+            }
+
+            .time{
+                display: flex;
+                align-self: center;
+
+                img{
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* 스크롤바 너비 */
+}
+::-webkit-scrollbar-thumb {
+    background-color: $main-fifth-color; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 모양 */
+}
