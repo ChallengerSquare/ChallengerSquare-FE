@@ -14,6 +14,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
@@ -191,7 +192,27 @@ class ContestControllerTest {
 		// Then
 		result.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data").value("success"));
+	}
 
+	@Test
+	@DisplayName("대회 참가 취소")
+	@WithCustomMockUser
+	void deleteContestParticipant() throws Exception {
+		ContestRequestDto contestRequestDto = new ContestRequestDto(1L);
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestRequestDto);
+
+		willDoNothing().given(contestService).deleteContestParticipant(contestRequestDto, 1L);
+
+		// When
+		ResultActions result = mockMvc.perform(delete("/contest/participants")
+			.with(csrf())
+			.content(requestBody)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").value("success"));
 	}
 
 }
