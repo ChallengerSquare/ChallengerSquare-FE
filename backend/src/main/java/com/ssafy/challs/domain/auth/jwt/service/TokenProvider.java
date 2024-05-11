@@ -42,7 +42,7 @@ public class TokenProvider {
 	// 토큰으로 쿠키 생성
 	public TokenCookie makeTokenCookie(String id) {
 		String refreshUuid = UUID.randomUUID().toString();
-		String accessToken = createToken(id, Duration.ofDays(1));
+		String accessToken = createToken(id, Duration.ofSeconds(10));
 		String refreshToken = createToken(refreshUuid, Duration.ofDays(7));
 		refreshTokenRepository.save(refreshUuid, id);
 		return cookieUtil.saveCookie(accessToken, refreshToken);
@@ -51,8 +51,7 @@ public class TokenProvider {
 	// 토큰 생성
 	private String createToken(String id, Duration time) {
 		Date now = new Date();
-		//Date validity = new Date(now.getTime() + time.toMillis());
-		Date validity = new Date(now.getTime() + 1);
+		Date validity = new Date(now.getTime() + time.toMillis());
 		return Jwts.builder().header().type("JWT").and().issuer("a205")
 			.issuedAt(now).expiration(validity).claim("id", id)
 			.signWith(secretKey)
