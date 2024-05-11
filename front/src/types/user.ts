@@ -3,4 +3,5 @@ export interface User {
   birth: string
   contact: string
   address: string
+  email?: string
 }
