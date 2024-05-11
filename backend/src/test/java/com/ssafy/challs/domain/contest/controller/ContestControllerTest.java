@@ -2,19 +2,21 @@ package com.ssafy.challs.domain.contest.controller;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
 import com.ssafy.challs.domain.contest.service.ContestService;
 
@@ -25,14 +27,15 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(ContestController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -44,7 +47,6 @@ class ContestControllerTest {
 	@MockBean
 	ContestService contestService;
 
-	private ContestMapper mapper = Mappers.getMapper(ContestMapper.class);
 	private ObjectMapper objectMapper;
 
 	@BeforeEach
@@ -58,8 +60,8 @@ class ContestControllerTest {
 	@WithCustomMockUser
 	void createContest() throws Exception {
 		// Given
-		ContestCreateRequestDto contestRequestDto = createContestRequestDto();
-		String requestBody = objectMapper.writeValueAsString(contestRequestDto);
+		ContestCreateRequestDto contestRequestDto = ContestCreateRequestDto.builder().build();
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestRequestDto);
 		MockMultipartFile contestImage = new MockMultipartFile("대회포스터", "대회포스터.jpg", "text/plain",
 			"test file".getBytes(StandardCharsets.UTF_8));
 		MockPart requestPart = new MockPart("contestCreateRequestDto", "contest",
@@ -72,7 +74,7 @@ class ContestControllerTest {
 			.willReturn(contestResponseDto);
 
 		// When
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.multipart("/contest")
+		ResultActions result = mockMvc.perform(multipart("/contest")
 			.file(contestImage)
 			.part(requestPart)
 			.with(csrf())
@@ -88,8 +90,8 @@ class ContestControllerTest {
 	@WithCustomMockUser
 	void updateContest() throws Exception {
 		// Given
-		ContestUpdateRequestDto contestUpdateDto = createContestUpdateDto();
-		String requestBody = objectMapper.writeValueAsString(contestUpdateDto);
+		ContestUpdateRequestDto contestUpdateDto = ContestUpdateRequestDto.builder().build();
+		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestUpdateDto);
 		MockMultipartFile contestImage = new MockMultipartFile("대회포스터", "대회포스터.jpg", "text/plain",
 			"test file".getBytes(StandardCharsets.UTF_8));
 		MockPart requestPart = new MockPart("contestCreateRequestDto", "contest",
@@ -100,30 +102,48 @@ class ContestControllerTest {
 		willDoNothing().given(contestService).updateContest(contestUpdateDto, contestImage, 1L);
 
 		// When
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.multipart("/contest")
+		ResultActions result = mockMvc.perform(multipart("/contest")
 			.file(contestImage)
 			.part(requestPart)
 			.with(csrf())
-			.accept(MediaType.APPLICATION_JSON))
-			;
+			.accept(MediaType.APPLICATION_JSON));
 
 		// Then
 		result.andExpect(status().isOk());
 	}
 
-	ContestCreateRequestDto createContestRequestDto() {
-		return new ContestCreateRequestDto("대회 제목", "대회 설명", "서울시 역삼",
-			1L, new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
-			new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
-			100, 10000, "010-1234-5678", false, '3', 1, 5, List.of()
-		);
+	@Test
+	@DisplayName("대회검색")
+	@WithCustomMockUser
+	void searchContestByTitle() throws Exception {
+		// Given
+		ContestSearchRequestDto searchRequestDto = new ContestSearchRequestDto("개발", '1', false);
+		Page<ContestSearchResponseDto> searchResponsePage = createSearchResponsePage();
+
+		given(contestService.searchContest(searchRequestDto, PageRequest.of(1, 10), 1))
+			.willReturn(searchResponsePage);
+
+		// When
+		ResultActions result = mockMvc.perform(get("/contest")
+			.param("keyword", "개발")
+			.param("category", "1")
+			.param("isEnd", "false")
+			.with(csrf())
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		// TODO : 반환값 확인
+		result.andExpect(status().isOk())
+			.andDo(print());
 	}
 
-	ContestUpdateRequestDto createContestUpdateDto() {
-		return new ContestUpdateRequestDto(1L, "대회 제목", "대회 설명", "서울시 역삼",
-			1L, new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
-			new ContestPeriodDto(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 05, 12)),
-			100, 10000, "010-1234-5678", false, '3', 1, 5, List.of()
-		);
+	Page<ContestSearchResponseDto> createSearchResponsePage() {
+		ContestSearchResponseDto response1 = new ContestSearchResponseDto(1L, "개발대회1", "포스터1", "팀1",
+			null, null);
+		ContestSearchResponseDto response2 = new ContestSearchResponseDto(2L, "개발대회2", "포스터2", "팀2",
+			null, null);
+		List<ContestSearchResponseDto> responseList = List.of(response1, response2);
+		return new PageImpl<>(responseList);
 	}
+
 }
