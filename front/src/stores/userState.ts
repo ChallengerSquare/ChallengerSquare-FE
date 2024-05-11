@@ -4,9 +4,9 @@ import { User } from '@/types/user'
 export const userState = atom<User>({
   key: 'userState',
   default: {
-    username: '',
-    birth: '',
-    contact: '',
-    address: '',
+    userName: '',
+    userBirth: '',
+    userContact: '',
+    userAddress: '',
   },
 })
