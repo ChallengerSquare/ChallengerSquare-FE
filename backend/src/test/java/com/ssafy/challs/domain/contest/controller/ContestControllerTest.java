@@ -13,9 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
 import com.ssafy.challs.domain.contest.mapper.ContestMapper;
 import com.ssafy.challs.domain.contest.service.ContestService;
@@ -144,6 +146,29 @@ class ContestControllerTest {
 			null, null);
 		List<ContestSearchResponseDto> responseList = List.of(response1, response2);
 		return new PageImpl<>(responseList);
+	}
+
+	@Test
+	@DisplayName("대회상세조회")
+	@WithCustomMockUser
+	void findContest() throws Exception {
+		// Given
+		ContestFindResponseDto contestFindResponseDto = ContestFindResponseDto.builder()
+			.contestId(1L)
+			.contestTitle("대회 제목")
+			.build();
+
+		given(contestService.findContest(1L, 1L)).willReturn(contestFindResponseDto);
+
+		// When
+		ResultActions result = mockMvc.perform(get("/contest/" + 1L)
+			.with(csrf())
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data.contestId").value(1L))
+			.andExpect(jsonPath("$.data.contestTitle").value("대회 제목"));
 	}
 
 }
