@@ -5,11 +5,11 @@ import Navbar from '@components/Navbar/Navbar'
 import { ApiResponse } from '@/types/api'
 
 const Home = () => {
-  const { data, isLoading, isError, error } = useQuery<ApiResponse, AxiosError>('user', getUser)
-  const userData = data
-  console.log(userData?.data)
-  if (isLoading) return <div>loading...</div>
-  if (isError) return <div>error:{error.message}</div>
+  // const { data, isLoading, isError, error } = useQuery<ApiResponse, AxiosError>('user', getUser)
+  // const userData = data
+  // console.log(userData?.data)
+  // if (isLoading) return <div>loading...</div>
+  // if (isError) return <div>error:{error.message}</div>
   return (
     <>
       <div className="bg-blue-500 min-h-screen">

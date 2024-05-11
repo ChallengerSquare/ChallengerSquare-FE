@@ -1,6 +1,8 @@
 export interface ApiResponse {
-  code: string
+  code?: string
+  status?: number
   data?: any
+  message?: string
 }
 
 export interface MemberDto {

@@ -4,9 +4,9 @@ import { User } from '@/types/user'
 export const userForm = atom<User>({
   key: 'userForm',
   default: {
-    username: '',
-    birth: '',
-    contact: '',
-    address: '',
+    userName: '',
+    userBirth: '',
+    userContact: '',
+    userAddress: '',
   },
 })

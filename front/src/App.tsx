@@ -15,6 +15,7 @@ import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 
 const queryClient = new QueryClient()
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
