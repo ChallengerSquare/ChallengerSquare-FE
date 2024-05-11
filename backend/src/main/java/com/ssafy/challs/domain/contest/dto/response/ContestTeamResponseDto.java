@@ -3,7 +3,9 @@ package com.ssafy.challs.domain.contest.dto.response;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
 public record ContestTeamResponseDto(
 	@Schema(description = "팀 PK", example = "1")
 	Long teamId,

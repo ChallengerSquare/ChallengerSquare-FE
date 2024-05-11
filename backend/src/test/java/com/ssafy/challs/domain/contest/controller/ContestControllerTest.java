@@ -1,5 +1,6 @@
 package com.ssafy.challs.domain.contest.controller;
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -14,19 +15,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.challs.domain.WithCustomMockUser;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
 import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
-import com.ssafy.challs.domain.contest.mapper.ContestMapper;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
 import com.ssafy.challs.domain.contest.service.ContestService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -198,16 +198,12 @@ class ContestControllerTest {
 	@DisplayName("대회 참가 취소")
 	@WithCustomMockUser
 	void deleteContestParticipant() throws Exception {
-		ContestRequestDto contestRequestDto = new ContestRequestDto(1L);
-		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestRequestDto);
-
-		willDoNothing().given(contestService).deleteContestParticipant(contestRequestDto, 1L);
+		// Given
+		willDoNothing().given(contestService).deleteContestParticipant(1L, 1L);
 
 		// When
-		ResultActions result = mockMvc.perform(delete("/contest/participants")
+		ResultActions result = mockMvc.perform(delete("/contest/participants/" + 1)
 			.with(csrf())
-			.content(requestBody)
-			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON));
 
 		// Then
@@ -215,4 +211,34 @@ class ContestControllerTest {
 			.andExpect(jsonPath("$.data").value("success"));
 	}
 
+	@Test
+	@DisplayName("대회 참가 신청 팀 조회")
+	@WithCustomMockUser
+	void searchContestParticipants() throws Exception {
+		// Given
+		List<ContestTeamResponseDto> teamList = createTeamResponseList();
+		ContestParticipantsResponseDto participantsResponseDto = ContestParticipantsResponseDto.builder()
+			.contestId(1L)
+			.teamInfo(teamList)
+			.build();
+
+		System.out.println(participantsResponseDto.teamInfo());
+		given(contestService.searchContestParticipants(1L, 1L)).willReturn(participantsResponseDto);
+
+		// When
+		ResultActions result = mockMvc.perform(get("/contest/participants/" + 1)
+			.with(csrf())
+			.accept(MediaType.APPLICATION_JSON));
+
+		// Then
+		result.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data.contestId").value(1L))
+			.andExpect(jsonPath("$.data.teamInfo", hasSize(2)));
+	}
+
+	List<ContestTeamResponseDto> createTeamResponseList() {
+		ContestTeamResponseDto team1 = ContestTeamResponseDto.builder().teamId(1L).teamName("팀이름1").build();
+		ContestTeamResponseDto team2 = ContestTeamResponseDto.builder().teamId(2L).teamName("팀이름2").build();
+		return List.of(team1, team2);
+	}
 }
