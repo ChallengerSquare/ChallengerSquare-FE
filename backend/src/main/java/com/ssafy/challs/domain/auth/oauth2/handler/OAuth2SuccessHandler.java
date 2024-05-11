@@ -42,7 +42,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 		Boolean isAgree = oAuth2User1.member().getIsAgree();
 		String redirectUri;
 		if (Boolean.TRUE.equals(isAgree)) {
-			redirectUri = baseurl + "/prepared=true";
+			redirectUri = baseurl;
 		} else {
 			redirectUri = baseurl + "sign-up";
 		}
