@@ -50,8 +50,8 @@ public class TokenProvider {
 	// 토큰 생성
 	private String createToken(String id, Duration time) {
 		Date now = new Date();
-		Date validity = new Date(now.getTime() + time.toMillis());
-
+		//Date validity = new Date(now.getTime() + time.toMillis());
+		Date validity = new Date(now.getTime() + time.toMillis(1));
 		return Jwts.builder().header().type("JWT").and().issuer("a205")
 			.issuedAt(now).expiration(validity).claim("id", id)
 			.signWith(secretKey)
