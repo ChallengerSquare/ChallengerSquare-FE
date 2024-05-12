@@ -31,7 +31,8 @@ function App() {
             <Route path="/competition-results" element={<CompetitionResult />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/sign-up" element={<Signup />} />
-            <Route path="/competition/create" element={<CreateCompetition />} />
+            <Route path="/create-competition" element={<CreateCompetition />} />
+            <Route path="/create-team" element={<div>공사중..</div>} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>

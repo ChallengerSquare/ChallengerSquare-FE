@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { User } from '@/types/user'
 import { registerUser } from '@services/member'

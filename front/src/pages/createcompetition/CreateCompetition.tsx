@@ -12,8 +12,8 @@ const Signup = () => {
 
   const stepsConfig = [
     { name: '팀 선택', component: <SelectTeam nextStep={nextStep} /> },
-    { name: '개최 정보', component: <CompetitionForm prevStep={prevStep} nextStep={nextStep} /> },
-    { name: '시상 정보', component: <Reward prevStep={prevStep} nextStep={nextStep} /> },
+    { name: '개최 정보 입력', component: <CompetitionForm prevStep={prevStep} nextStep={nextStep} /> },
+    { name: '시상 정보 입력', component: <Reward prevStep={prevStep} nextStep={nextStep} /> },
     { name: '홍보글 작성', component: <Editor prevStep={prevStep} /> },
   ]
 
