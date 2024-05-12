@@ -21,6 +21,7 @@ class Blockchain:
             Blockchain._instance = self  # 인스턴스를 클래스 변수에 저장
         else:
             raise Exception("This class is a singleton!")
+
     # 블록 생성 함수
     '''
     :param proof: nonce의 역할을 함
@@ -129,7 +130,8 @@ class Blockchain:
                 "event_name": data["event_name"],
                 "award_date": data["award_date"],
                 "recipient_name": data["recipient_name"],
-                "certificate_code": data["certificate_code"],
+                "recipient_code": data["recipient_code"],
+                "code": data["code"],
                 "award_type": data["award_type"]
             }
         }
@@ -154,6 +156,7 @@ class Blockchain:
                 "organizer": data["organizer"],
                 "event_name": data["event_name"],
                 "attendee_name": data["attendee_name"],
+                "attendee_code": data["attendee_code"],
                 "code": data["code"],
                 "event_date": data["event_date"],
                 "details": data["details"]
@@ -238,6 +241,35 @@ class Blockchain:
                     found_transactions.append(transaction)
 
         return found_transactions
+
+    def get_transactions_by_code(self, code):
+        found_transactions = []
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['data']['code'] == code:
+                    found_transactions.append(transaction)
+
+        return found_transactions
+
+    def get_transactions_by_user_code(self, user_code):
+        found_transactions = []  # 일치하는 트랜잭션을 저장할 리스트
+        for block in self.chain:  # 체인의 모든 블록을 순회
+            for transaction in block['transactions']:  # 각 블록의 트랜잭션을 순회
+                # 참가기록 트랜잭션과 수상기록 트랜잭션을 확인
+                if transaction['type'] == 'participation' and transaction['data']['attendee_code'] == user_code:
+                    found_transactions.append(transaction)
+                elif transaction['type'] == 'award' and transaction['data']['recipient_code'] == user_code:
+                    found_transactions.append(transaction)
+        return found_transactions
+
+    def get_awards(self, code):
+        awards = []
+        for block in self.chain:  # 체인의 모든 블록을 순회
+            for transaction in block['transactions']:  # 각 블록의 트랜잭션을 순회
+                if transaction['type'] == 'award' and transaction['data']['code'] == code:
+                    awards.append(transaction)
+
+        return awards
 
     def get_transactions(self):
         return self.transactions

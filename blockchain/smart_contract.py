@@ -11,8 +11,8 @@ class SmartContract:
     def validate_transaction(transaction):
         # 트랜잭션 유형에 따른 필수 데이터 필드 검증
         required_fields = {
-            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'certificate_code', 'award_type'],
-            'participation': ['organizer', 'event_name', 'attendee_name', 'event_date', 'code', 'details']
+            'award': ['organizer', 'event_name', 'award_date', 'recipient_name', 'recipient_code', 'code', 'award_type'],
+            'participation': ['organizer', 'event_name', 'attendee_name', 'attendee_code', 'event_date', 'code', 'details']
         }
         transaction_type = transaction.get('type')
         fields = required_fields.get(transaction_type)
@@ -26,8 +26,15 @@ class SmartContract:
 
         return True, "Transaction is valid"
 
-    def execute_transaction(self, transaction):
+    def validate_request_user(self, user_code):
+        if user_code == 'secretbetweenunmeiloveyou':
+            return True, "User is valid"
+        else:
+            raise ValueError("Need a valid user code")
+
+    def execute_transaction(self, transaction, secret_code):
         try:
+            self.validate_request_user(secret_code)  # 유저 검증
             self.validate_transaction(transaction)  # 유효성 검증
             # 트랜잭션을 블록체인에 추가
             if transaction['type'] == 'award':
@@ -38,3 +45,4 @@ class SmartContract:
         except ValueError as e:
             # 로컬 예외 처리: 특정 오류 로그 등
             raise e  # 다시 예외를 발생시켜 상위 레벨에서 처리할 수 있게 함
+
