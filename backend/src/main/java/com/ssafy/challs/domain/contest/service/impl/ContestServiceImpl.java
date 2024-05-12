@@ -21,7 +21,6 @@ import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
@@ -213,7 +212,7 @@ public class ContestServiceImpl implements ContestService {
 	 */
 	private Character isOpenContest(ContestPeriodDto contestRegistrationPeriod) {
 		LocalDate today = LocalDate.now();
-		if (!contestRegistrationPeriod.start().isBefore(today)) {
+		if (contestRegistrationPeriod.start().isBefore(today)) {
 			return 'J';
 		}
 		return 'P';
