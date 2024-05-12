@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.member.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +11,7 @@ import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamLeaderResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 
 public interface MemberService {
@@ -30,4 +33,6 @@ public interface MemberService {
 	Page<MemberContestResponseDto> searchContestList(Pageable pageable, Long memberId);
 
 	Page<MemberAwardsCodeResponseDto> searchAwardList(Long memberId, Pageable pageable);
+
+	List<MemberTeamLeaderResponseDto> searchTeamLeaderList(Long memberId);
 }
