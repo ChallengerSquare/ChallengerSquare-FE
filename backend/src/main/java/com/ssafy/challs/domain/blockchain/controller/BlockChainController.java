@@ -22,6 +22,13 @@ public class BlockChainController {
 
 	private final BlockChainService blockChainService;
 
+	/**
+	 * 블록체인 조회를 위한 api
+	 *
+	 * @author 강태연
+	 * @param code 블록체인 고유 코드
+	 * @return 블록체인 정보
+	 */
 	@GetMapping
 	public ResponseEntity<SuccessResponse<BlockChainResponse>> getAwardsChain(@RequestParam String code) {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, blockChainService.getBlockChain(code)));

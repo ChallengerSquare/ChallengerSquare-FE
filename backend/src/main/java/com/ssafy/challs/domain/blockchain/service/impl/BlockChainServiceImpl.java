@@ -24,11 +24,24 @@ public class BlockChainServiceImpl implements BlockChainService {
 	@Value("${feign-client.secret-code}")
 	private String secretCode;
 
+	/**
+	 * 블록체인 생성 메소드
+	 * 
+	 * @author 강태연
+	 * @param blockChainRequest 블록체인 생성에 필요한 정보
+	 */
 	@Override
 	public void createBlockChain(BlockChainRequest blockChainRequest) {
 		blockChainClient.createBlockChain(secretCode, blockChainRequest);
 	}
 
+	/**
+	 * 블록체인 조회 메소드
+	 *
+	 * @author 강태연
+	 * @param code 블록체인 조회에 필요한 정보
+	 * @return 조회된 블록체인 정보
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public BlockChainResponse getBlockChain(String code) {
