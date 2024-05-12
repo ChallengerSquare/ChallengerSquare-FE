@@ -2,9 +2,13 @@ package com.ssafy.challs.domain.team.repository.impl;
 
 import static com.ssafy.challs.domain.team.entity.QTeamParticipants.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamLeaderResponseDto;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepositoryCustom;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,15 @@ public class TeamParticipantsRepositoryImpl implements TeamParticipantsRepositor
 			.set(teamParticipants.isLeader, isLeader)
 			.where(teamParticipants.id.eq(participantId))
 			.execute();
+	}
+
+	@Override
+	public List<MemberTeamLeaderResponseDto> searchTeamLeaderList(Long memberId) {
+		return queryFactory.select(Projections.constructor(MemberTeamLeaderResponseDto.class, teamParticipants.team.id,
+				teamParticipants.team.teamName))
+			.from(teamParticipants)
+			.where(teamParticipants.member.id.eq(memberId).and(teamParticipants.isLeader.isTrue()))
+			.fetch();
 	}
 
 }
