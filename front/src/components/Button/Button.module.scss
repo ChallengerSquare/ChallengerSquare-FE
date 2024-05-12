@@ -18,7 +18,7 @@
   }
 
   &:not(:disabled):hover {
-    background-color: $main-color; 
+    background-color: $main-color;
     font-weight: bold;
     opacity: 70%;
   }
@@ -28,7 +28,7 @@
   @include button();
 }
 
-.purple_reverse{
+.purple_reverse {
   @include button();
   border: 1px solid $main-color;
   background: white;
@@ -75,4 +75,29 @@
 
 .default {
   width: 100px;
+}
+
+@mixin competition_btn {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.competition_place_offline {
+  @include competition_btn();
+  width: 110px;
+}
+
+.competition_place_online {
+  @include competition_btn();
+  width: 90px;
+}
+
+.competition_btn_active {
+  border: 2px solid $main-forth-color;
+}
+.regist_competition_btn {
+  @include competition_btn();
+  width: 43px;
 }

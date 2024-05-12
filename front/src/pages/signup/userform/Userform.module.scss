@@ -12,13 +12,26 @@
   margin: 3rem auto; // 중앙 정렬
 }
 
+.name-box {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 130px;
+  margin-left: 100px;
+  outline: none;
+  text-align: center;
+}
+
 .input-box {
   padding: 10px;
   background: #fff;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  width: 200px;
+  width: 180px;
   margin-left: 100px;
+  outline: none;
+  text-align: center;
 }
 
 .title {
@@ -141,23 +154,38 @@
   }
 }
 
+.calendar {
+  margin-left: 100px;
+}
 .road-address {
   padding: 10px;
-  background: #fff;
+  background-color: rgba(0, 0, 0, 0.05);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   width: 500px;
   margin-left: 230px;
+  outline: none;
+}
+
+.postcode {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 200px;
+  margin-left: 100px;
+  outline: none;
 }
 
 .detail-address {
   padding: 10px;
-  background: #fff;
+  background-color: rgba(0, 0, 0, 0.05);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   width: 270px;
   margin-top: 20px;
   margin-left: 230px;
+  outline: none;
 }
 
 .dong-address {
@@ -168,6 +196,7 @@
   width: 200px;
   margin-top: 20px;
   margin-left: 30px;
+  outline: none;
 }
 
 .btn {

@@ -1,5 +1,14 @@
 @import '@styles/variables.scss';
 
+@mixin inputBox {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+}
+
 .header {
   display: flex;
   font-weight: bold;
@@ -15,12 +24,16 @@
   margin-left: 30px;
 }
 
+.period {
+  margin: 0 20px 0 20px;
+  font-weight: bold;
+}
 .form {
   position: relative;
   display: flex;
   flex-direction: column;
   margin-top: 50px;
-  margin-left: 300px;
+  margin-left: 200px;
 
   .required {
     color: red;
@@ -30,9 +43,7 @@
   .label {
     display: flex;
     align-items: center;
-    min-width: 100px; // 최소 너비 설정
-    margin-right: 10px; // 라벨과 입력 필드 사이 간격
-    min-width: 100px; // 최소 너비 설정
+    min-width: 120px;
     margin-right: 10px;
   }
 
@@ -44,11 +55,29 @@
     position: relative;
   }
 
+  .place {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
   .input_box {
-    padding: 10px;
-    background: #fff;
-    box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
-    border-radius: 8px;
-    width: 200px;
+    @include inputBox();
+    width: 220px;
+  }
+
+  .place_box_one {
+    @include inputBox();
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-left: 20px;
+    width: 230px;
+  }
+
+  .place_box_two {
+    @include inputBox();
+    margin-left: 20px;
+    width: 140px;
   }
 }
