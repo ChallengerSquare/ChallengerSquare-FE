@@ -102,7 +102,7 @@ public class ContestController {
 	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
 		@ModelAttribute ContestSearchRequestDto contestSearchRequestDto,
 		@PageableDefault Pageable pageable,
-		@RequestParam(required = false) Integer orderBy) {
+		@RequestParam(required = false, defaultValue = "3") Integer orderBy) {
 		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable,
 			orderBy);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, searchContest));

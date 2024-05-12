@@ -36,6 +36,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -126,7 +127,9 @@ class ContestControllerTest {
 		ContestSearchRequestDto searchRequestDto = new ContestSearchRequestDto("개발", '1', false);
 		Page<ContestSearchResponseDto> searchResponsePage = createSearchResponsePage();
 
-		given(contestService.searchContest(searchRequestDto, PageRequest.of(1, 10), 1))
+		if (searchResponsePage.isEmpty())
+			System.out.println("비어있는 값");
+		given(contestService.searchContest(searchRequestDto, PageRequest.of(0, 10), 3))
 			.willReturn(searchResponsePage);
 
 		// When
@@ -138,9 +141,10 @@ class ContestControllerTest {
 			.accept(MediaType.APPLICATION_JSON));
 
 		// Then
-		// TODO : 반환값 확인
 		result.andExpect(status().isOk())
-			.andDo(print());
+			.andExpect(jsonPath("$.data.size").value(2))
+			.andExpect(jsonPath("$.data.content[0].contestId").value(1))
+			.andExpect(jsonPath("$.data.content[1].contestId").value(2));
 	}
 
 	Page<ContestSearchResponseDto> createSearchResponsePage() {
