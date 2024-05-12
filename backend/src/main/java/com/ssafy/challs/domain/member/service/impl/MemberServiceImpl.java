@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.member.service.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,11 +18,13 @@ import com.ssafy.challs.domain.member.dto.request.MemberUpdateRequestDto;
 import com.ssafy.challs.domain.member.dto.response.MemberAwardsCodeResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
+import com.ssafy.challs.domain.member.dto.response.MemberTeamLeaderResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.AwardsCodeRepository;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.member.service.MemberService;
+import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
@@ -38,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
 	private final TeamRepository teamRepository;
 	private final ContestRepository contestRepository;
 	private final AwardsCodeRepository awardsCodeRepository;
+	private final TeamParticipantsRepository teamParticipantsRepository;
 
 	/**
 	 * refresh token을 기준으로 새로운 accessToken과 refreshToken 발급
@@ -176,6 +181,19 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional(readOnly = true)
 	public Page<MemberAwardsCodeResponseDto> searchAwardList(Long memberId, Pageable pageable) {
 		return awardsCodeRepository.searchAwardList(pageable, memberId);
+	}
+
+	/**
+	 * 멤버이 가입한 팀 중에서 리더인 팀의 목록을 조회
+	 *
+	 * @author 강태연
+	 * @param memberId 현재 요청 보낸 멤버 정보
+	 * @return 팀 정보 목록
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<MemberTeamLeaderResponseDto> searchTeamLeaderList(Long memberId) {
+		return teamParticipantsRepository.searchTeamLeaderList(memberId);
 	}
 
 }
