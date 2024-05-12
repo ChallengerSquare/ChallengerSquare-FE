@@ -1,19 +1,28 @@
 import React, { useState } from 'react'
-import { DropdownProps } from '@/types/dropdown'
 import dropdown from '@svgs/dropdown.svg'
 import styles from './Dropdown.module.scss'
 
-interface Team {
-  // 개최할 때 필요한 팀 관련 정보
+interface DropdownProps<T> {
+  options: T[]
+  onSelect: (value: T) => void
+  element: (item: T) => string
+  placeholder?: string
+  width?: string
 }
 
-const Dropdown = ({ options, onSelect }: DropdownProps) => {
+const Dropdown = <T extends unknown>({
+  options,
+  onSelect,
+  element,
+  placeholder,
+  width = '500px',
+}: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOption, setSelectedOption] = useState<T | null>(null)
 
   const toggleDropdown = () => setIsOpen(!isOpen)
 
-  const handleSelect = (option: string) => {
+  const handleSelect = (option: T) => {
     setSelectedOption(option)
     onSelect(option)
     setIsOpen(false)
@@ -21,17 +30,17 @@ const Dropdown = ({ options, onSelect }: DropdownProps) => {
 
   return (
     <>
-      <button type="button" className={styles.dropdown} onClick={toggleDropdown}>
+      <button type="button" className={styles.dropdown} style={{ width }} onClick={toggleDropdown}>
         <span className={selectedOption ? styles.selected : styles.placeholder}>
-          {selectedOption || '개최할 팀을 선택하세요.'}
+          {selectedOption ? element(selectedOption) : placeholder}
         </span>
         <img src={dropdown} alt="dd-btn" />
       </button>
       {isOpen && (
-        <ul className={styles.menu}>
-          {options.map((option) => (
-            <li key={option} onClick={() => handleSelect(option)} className={styles.item}>
-              {option}
+        <ul className={styles.menu} style={{ width }}>
+          {options.map((option, index) => (
+            <li key={index} onClick={() => handleSelect(option)} className={styles.item}>
+              {element(option)}
             </li>
           ))}
         </ul>

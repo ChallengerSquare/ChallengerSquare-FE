@@ -4,13 +4,13 @@
   position: relative;
   display: flex;
   padding: 8px;
+  height: 50px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
   justify-content: space-between;
   align-items: center;
-  width: 500px; // 버튼의 명시적 너비 지정
-  height: 50px;
+  z-index: 5;
 }
 
 .placeholder {
@@ -24,8 +24,8 @@
 .menu {
   position: absolute;
   top: 101%;
-  width: 500px;
   background-color: #fff;
+  width: 500px;
   border: 1px solid $main-second-color;
   border-radius: 8px;
   box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
