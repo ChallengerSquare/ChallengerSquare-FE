@@ -186,6 +186,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * 멤버이 가입한 팀 중에서 리더인 팀의 목록을 조회
 	 *
+	 * @author 강태연
 	 * @param memberId 현재 요청 보낸 멤버 정보
 	 * @return 팀 정보 목록
 	 */

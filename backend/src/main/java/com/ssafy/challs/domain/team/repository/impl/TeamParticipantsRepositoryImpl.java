@@ -35,6 +35,7 @@ public class TeamParticipantsRepositoryImpl implements TeamParticipantsRepositor
 			.execute();
 	}
 
+	// 멤버가 팀장인 팀 목록 조회
 	@Override
 	public List<MemberTeamLeaderResponseDto> searchTeamLeaderList(Long memberId) {
 		return queryFactory.select(Projections.constructor(MemberTeamLeaderResponseDto.class, teamParticipants.team.id,
