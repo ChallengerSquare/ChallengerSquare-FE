@@ -11,4 +11,6 @@ public interface QnaService {
 	void createQna(QnaCreateRequestDto qnaCreateRequestDto, Long memberId);
 
 	Page<QnaResponseDto> searchQna(Long contestId, Pageable pageable);
+
+	void updateQnaAnswer(Long qnaId, String answer);
 }

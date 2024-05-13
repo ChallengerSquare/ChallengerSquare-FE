@@ -55,4 +55,9 @@ public class QnaServiceImpl implements QnaService {
 	public Page<QnaResponseDto> searchQna(Long contestId, Pageable pageable) {
 		return qnaRepository.searchQna(contestId, pageable);
 	}
+
+	@Override
+	public void updateQnaAnswer(Long qnaId, String answer) {
+
+	}
 }
