@@ -4,28 +4,11 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.ssafy.challs.domain.WithCustomMockUser;
-import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
-import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
-import com.ssafy.challs.domain.contest.service.ContestService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,13 +19,29 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.ssafy.challs.domain.WithCustomMockUser;
+import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestCreateResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestFindResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestParticipantsResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestPeriodDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestSearchResponseDto;
+import com.ssafy.challs.domain.contest.dto.response.ContestTeamResponseDto;
+import com.ssafy.challs.domain.contest.service.ContestService;
 
 @WebMvcTest(ContestController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -67,7 +66,7 @@ class ContestControllerTest {
 	@WithCustomMockUser
 	void createContest() throws Exception {
 		// Given
-		ContestCreateRequestDto contestRequestDto = ContestCreateRequestDto.builder().build();
+		ContestCreateRequestDto contestRequestDto = createContestCreateRequestDto();
 		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestRequestDto);
 		MockMultipartFile contestImage = new MockMultipartFile("대회포스터", "대회포스터.jpg", "text/plain",
 			"test file".getBytes(StandardCharsets.UTF_8));
@@ -92,12 +91,31 @@ class ContestControllerTest {
 			.andExpect(jsonPath("$.data.contestId").value(1L));
 	}
 
+	ContestCreateRequestDto createContestCreateRequestDto() {
+		return ContestCreateRequestDto.builder()
+			.contestTitle("대회 제목")
+			.contestContent("대회 설명")
+			.contestLocation("서울시 역상동")
+			.teamId(1L)
+			.registrationPeriod(new ContestPeriodDto(LocalDate.of(2024, 05, 10), LocalDate.of(2024, 05, 22)))
+			.contestPeriod(new ContestPeriodDto(LocalDate.of(2024, 05, 25), LocalDate.of(2024, 05, 30)))
+			.contestRegistrationNum(10)
+			.contestFee(10000)
+			.contestPhone("010-1234-5678")
+			.isPriority(false)
+			.contestCategory('1')
+			.contestPeopleMin(1)
+			.contestPeopleMax(10)
+			.contestAwards(List.of())
+			.build();
+	}
+
 	@Test
 	@DisplayName("대회 수정_성공")
 	@WithCustomMockUser
 	void updateContest() throws Exception {
 		// Given
-		ContestUpdateRequestDto contestUpdateDto = ContestUpdateRequestDto.builder().build();
+		ContestUpdateRequestDto contestUpdateDto = createContestUpdateRequestDto();
 		String requestBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contestUpdateDto);
 		MockMultipartFile contestImage = new MockMultipartFile("대회포스터", "대회포스터.jpg", "text/plain",
 			"test file".getBytes(StandardCharsets.UTF_8));
@@ -117,6 +135,26 @@ class ContestControllerTest {
 
 		// Then
 		result.andExpect(status().isOk());
+	}
+
+	ContestUpdateRequestDto createContestUpdateRequestDto() {
+		return ContestUpdateRequestDto.builder()
+			.contestId(1L)
+			.contestTitle("대회 제목")
+			.contestContent("대회 설명")
+			.contestLocation("서울시 역상동")
+			.teamId(1L)
+			.registrationPeriod(new ContestPeriodDto(LocalDate.of(2024, 05, 10), LocalDate.of(2024, 05, 22)))
+			.contestPeriod(new ContestPeriodDto(LocalDate.of(2024, 05, 25), LocalDate.of(2024, 05, 30)))
+			.contestRegistrationNum(10)
+			.contestFee(10000)
+			.contestPhone("010-1234-5678")
+			.isPriority(false)
+			.contestCategory('1')
+			.contestPeopleMin(1)
+			.contestPeopleMax(10)
+			.contestAwards(List.of())
+			.build();
 	}
 
 	@Test
