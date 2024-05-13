@@ -12,6 +12,6 @@ public record TeamPublicResponseDto(
 	@Schema(description = "팀 설명", example = "팀 설명")
 	String teamDescription,
 	@Schema(description = "팀 로고 주소", example = "팀 로고")
-	String teamLogo
+	String teamImage
 ) {
 }

@@ -71,6 +71,9 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional
 	public TeamCreateResponseDto createTeam(TeamCreateRequestDto teamRequestDto, Long memberId,
 		MultipartFile teamImage) {
+
+		// TODO: 수정
+
 		// 팀 초대 링크 UUID로 생성
 		String teamCode = UUID.randomUUID().toString();
 		// 팀 대표 번호 팀장 번호로 저장
@@ -150,6 +153,9 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional
 	public void createParticipants(TeamCodeRequestDto teamCodeRequestDto, Long memberId) {
+
+		// TODO: 수정
+
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		Team team = getTeam(teamCodeRequestDto.code(), memberId);
@@ -234,6 +240,9 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TeamParticipantsResponseDto> searchTeamParticipantList(Long teamId, Long memberId) {
+
+		// TODO: 수정
+
 		checkLeader(memberId, teamId);
 
 		Sort sort = Sort.by(Sort.Direction.DESC, "isLeader")
@@ -264,6 +273,9 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TeamMemberResponseDto> searchTeamMemberList(Long teamId) {
+
+		// TODO: 수정
+
 		Sort sort = Sort.by(Sort.Direction.DESC, "isLeader")
 			.and(Sort.by(Sort.Direction.ASC, "id"));
 		List<TeamParticipants> teamMemberList = teamParticipantsRepository.findByTeamIdAndIsParticipantsTrue(
@@ -284,6 +296,9 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public TeamResponseDto findTeam(Long teamId, Long memberId) {
+
+		// TODO: 수정
+
 		TeamParticipants teamParticipants = teamParticipantsRepository.findByTeamIdAndMemberId(teamId, memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
 		if (!Objects.equals(teamParticipants.getTeam().getId(), teamId)) {
@@ -311,14 +326,7 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public TeamPublicResponseDto findTeamPublic(Long teamId) {
-		Team team = teamRepository.findById(teamId).orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
-		return TeamPublicResponseDto
-			.builder()
-			.teamName(team.getTeamName())
-			.teamLogo(awsS3Url + team.getTeamImage())
-			.teamDescription(team.getTeamDescription())
-			.teamId(team.getId())
-			.build();
+		return teamRepository.findTeamPublic(teamId).orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
 	}
 
 	/**
@@ -397,7 +405,7 @@ public class TeamServiceImpl implements TeamService {
 
 	/**
 	 * 팀장이 팀원을 방출
-	 * 
+	 *
 	 * @author 강태연
 	 * @param teamParticipantDeleteRequestDto 팀원의 팀 참가 번호
 	 * @param memberId 현재 접속한 멤버의 정보
