@@ -20,7 +20,6 @@ import com.ssafy.challs.domain.member.dto.response.MemberContestResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberFindResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamLeaderResponseDto;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
-import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.AwardsCodeRepository;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
 import com.ssafy.challs.domain.member.service.MemberService;
@@ -124,10 +123,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional(readOnly = true)
 	public MemberFindResponseDto findMember(Long memberId) {
-		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
-		return new MemberFindResponseDto(member.getMemberName(), member.getMemberBirth(), member.getMemberPhone(),
-			member.getMemberAddress());
+		return memberRepository.findMember(memberId).orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 	}
 
 	/**
