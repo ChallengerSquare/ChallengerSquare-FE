@@ -6,6 +6,7 @@ import static com.ssafy.challs.domain.team.entity.QTeam.*;
 import static com.ssafy.challs.domain.team.entity.QTeamParticipants.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamResponseDto;
 import com.ssafy.challs.domain.team.dto.request.TeamUpdateRequestDto;
+import com.ssafy.challs.domain.team.dto.response.TeamPublicResponseDto;
 import com.ssafy.challs.domain.team.repository.TeamRepositoryCustom;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class TeamRepositoryImpl implements TeamRepositoryCustom {
 
 	private final JPAQueryFactory queryFactory;
+	private final JPAQueryFactory jpaQueryFactory;
 
 	@Value("${cloud.aws.s3.url}")
 	private String s3Url;
@@ -90,6 +93,17 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 				.from(teamParticipants)
 				.where(teamParticipants.member.id.eq(memberId))));
 		return PageableExecutionUtils.getPage(memberTeamResponseDtoList, pageable, limit::fetchOne);
+	}
+
+	@Override
+	public Optional<TeamPublicResponseDto> findTeamPublic(Long teamId) {
+		TeamPublicResponseDto teamPublicResponseDto = jpaQueryFactory.select(
+				Projections.constructor(TeamPublicResponseDto.class, team.id, team.teamName, team.teamDescription,
+					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, team.teamImage)))
+			.from(team)
+			.where(team.id.eq(teamId))
+			.fetchOne();
+		return Optional.ofNullable(teamPublicResponseDto);
 	}
 
 }
