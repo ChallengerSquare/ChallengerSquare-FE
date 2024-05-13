@@ -37,7 +37,8 @@ public class QnaRepositoryImpl implements QnaRepositoryCustom {
 					qQna.qnaTitle,
 					qQna.qnaContent,
 					qQna.qnaAnswer,
-					Expressions.stringTemplate("CONCAT(SUBSTRING({0},1,1),'*',SUBSTRING({0},3))", qMember.memberName))
+					Expressions.stringTemplate(
+						"CONCAT(SUBSTRING({0},1,1), REPEAT('*', CHAR_LENGTH({0}) - 1))", qMember.memberName))
 			).from(qQna)
 			.leftJoin(qMember).on(qMember.id.eq(qQna.memberId))
 			.where(qQna.contest.id.eq(contestId))
