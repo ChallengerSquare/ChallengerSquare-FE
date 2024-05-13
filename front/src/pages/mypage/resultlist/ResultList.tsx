@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from '@/pages/mypage/resultlist/ResultList.module.scss'
 import { userState } from '@/stores/useState'
 import { Link } from 'react-router-dom'
+import EmptyImg from '@/components/EmptyImg/EmptyImg'
 
 interface CompetitionResultList {
   id: number
@@ -132,23 +133,29 @@ const ResultList = () => {
           <div className={styles.awardcode}>{'참가코드'}</div>
           <div className={styles.attendcode}>{'수상코드'}</div>
         </div>
-        <div className={styles.body}>
-          {resultList.map((result) => (
-            <div key={result.id} className={styles.line}>
-              <div className={styles.category}>{result.category}</div>
-              <Link to={`/competition/detail/${result.id}`} className={styles.name}>
-                <div className={styles.point}>{result.name}</div>
-              </Link>
-              <div className={styles.period}>{result.period}</div>
-              <Link to={`/competition-results/${result.awardCode}`} className={styles.awardcode}>
-                <div className={styles.point}>{result.awardCode}</div>
-              </Link>
-              <Link to={`/competition-results/${result.attendCode}`} className={styles.attendcode}>
-                <div className={styles.point}>{result.attendCode}</div>
-              </Link>
-            </div>
-          ))}
-        </div>
+        {resultList.length > 0 ? (
+          <div className={styles.body}>
+            {resultList.map((result) => (
+              <div key={result.id} className={styles.line}>
+                <div className={styles.category}>{result.category}</div>
+                <Link to={`/competition/detail/${result.id}`} className={styles.name}>
+                  <div className={styles.point}>{result.name}</div>
+                </Link>
+                <div className={styles.period}>{result.period}</div>
+                <Link to={`/competition-results/${result.awardCode}`} className={styles.awardcode}>
+                  <div className={styles.point}>{result.awardCode}</div>
+                </Link>
+                <Link to={`/competition-results/${result.attendCode}`} className={styles.attendcode}>
+                  <div className={styles.point}>{result.attendCode}</div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.empty}>
+            <EmptyImg text={'참가한 대회가 없습니다.'} />
+          </div>
+        )}
       </div>
     </div>
   )

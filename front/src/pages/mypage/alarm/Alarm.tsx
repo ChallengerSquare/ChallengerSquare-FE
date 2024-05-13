@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from '@/pages/mypage/alarm/Alarm.module.scss'
 import notificationsIcon from '@svgs/notifications.svg'
 import { isReadable } from 'stream'
+import EmptyImg from '@/components/EmptyImg/EmptyImg'
 
 interface alarmData {
   alertId: number
@@ -76,29 +77,35 @@ const Alarm = () => {
       <div className={styles.title}>
         <div>{'HOME > 알람'}</div>
       </div>
-      <div className={styles.content}>
-        {alramList.map((alarm, index) => (
-          <button
-            key={alarm.alertId}
-            type={'button'}
-            className={`${styles.notification} ${alarm.isRead ? '' : styles.unread}`}
-            disabled={alarm.isRead}
-            onClick={() => handleAlarm(index)}
-          >
-            <div>
-              <div className={styles.notice_title}>
-                <div className={`${styles.point} ${alarm.isRead ? '' : styles.unread}`}>{''}</div>
-                <div>{'SSAFY 자율 프로젝트'}</div>
+      {alramList.length > 0 ? (
+        <div className={styles.content}>
+          {alramList.map((alarm, index) => (
+            <button
+              key={alarm.alertId}
+              type={'button'}
+              className={`${styles.notification} ${alarm.isRead ? '' : styles.unread}`}
+              disabled={alarm.isRead}
+              onClick={() => handleAlarm(index)}
+            >
+              <div>
+                <div className={styles.notice_title}>
+                  <div className={`${styles.point} ${alarm.isRead ? '' : styles.unread}`}>{''}</div>
+                  <div>{'SSAFY 자율 프로젝트'}</div>
+                </div>
+                <div className={styles.notice_content}>{alarm.alertContent}</div>
               </div>
-              <div className={styles.notice_content}>{alarm.alertContent}</div>
-            </div>
-            <div className={styles.time}>
-              <img src={notificationsIcon} alt={'notificationsIcon'} />
-              {'1시간 전'}
-            </div>
-          </button>
-        ))}
-      </div>
+              <div className={styles.time}>
+                <img src={notificationsIcon} alt={'notificationsIcon'} />
+                {'1시간 전'}
+              </div>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.empty}>
+          <EmptyImg text={'알림이 없습니다.'} />
+        </div>
+      )}
     </div>
   )
 }
