@@ -1,0 +1,79 @@
+@import '@styles/variables.scss';
+
+.info{
+    // background-color: beige;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .title{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-bottom: 1px solid $sub-color;
+        font-weight: 600;
+    }
+
+    .content{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        overflow-y: auto;;
+        border-bottom: 1px solid $sub-color;
+    }
+    .head{
+        display: flex;
+        padding: 10px 0px;
+        background-color: $sub-color;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+    .body{
+
+        .line{
+            display: flex;
+            padding: 10px;
+            margin: 10px 0px;
+            border-bottom: 1px solid $sub-color;
+            // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            // border-radius: 20px;
+        }
+
+        .point{
+            font-weight: bold;
+            color: $main-color;
+            border-bottom: 1px solid $sub-color;
+        }
+    }
+    .empty{
+        width: 100%;
+        height: 100%;
+    }
+
+    .category{
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+    .name{
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+    .period{
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+    .awardcode{
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+    .attendcode{
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+}

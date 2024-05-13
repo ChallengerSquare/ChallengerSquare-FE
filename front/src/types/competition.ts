@@ -1,4 +1,4 @@
-export interface contestData {
+export interface ContestData {
   contestId: number
   contestTitle: string
   contestImage: string

@@ -13,6 +13,7 @@ import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
+import CreateTeam from './pages/createteam/CreateTeam'
 
 const queryClient = new QueryClient()
 
@@ -29,10 +30,11 @@ function App() {
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
             <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
             <Route path="/competition-results" element={<CompetitionResult />} />
+            <Route path="/competition-results/:code" element={<CompetitionResult />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/create-competition" element={<CreateCompetition />} />
-            <Route path="/create-team" element={<div>공사중..</div>} />
+            <Route path="/create-team" element={<CreateTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>
