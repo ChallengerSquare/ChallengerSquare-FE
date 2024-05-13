@@ -10,4 +10,6 @@ public interface TeamRepository extends JpaRepository<Team, Long>, TeamRepositor
 
 	Optional<Team> findByTeamCode(String teamCode);
 
+	boolean existsByIdAndTeamImageNotNull(Long id);
+
 }

@@ -31,6 +31,7 @@ import com.ssafy.challs.domain.team.dto.response.TeamResponseDto;
 import com.ssafy.challs.domain.team.entity.Team;
 import com.ssafy.challs.domain.team.entity.TeamParticipants;
 import com.ssafy.challs.domain.team.mapper.TeamMapper;
+import com.ssafy.challs.domain.team.mapper.TeamParticipantsMapper;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.domain.team.service.TeamService;
@@ -52,6 +53,7 @@ public class TeamServiceImpl implements TeamService {
 	private final S3ImageUploader s3ImageUploader;
 	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final ContestRepository contestRepository;
+	private final TeamParticipantsMapper teamParticipantsMapper;
 
 	@Value("${cloud.aws.s3.url}")
 	private String awsS3Url;
@@ -87,13 +89,8 @@ public class TeamServiceImpl implements TeamService {
 			teamRepository.updateImage(imageUrl, savedTeam.getId());
 		}
 
-		TeamParticipants teamParticipants = TeamParticipants
-			.builder()
-			.member(owner)
-			.team(savedTeam)
-			.isParticipants(true)
-			.isLeader(true)
-			.build();
+		TeamParticipants teamParticipants = teamParticipantsMapper.teamCodeRequestDtoToTeamParticipants(savedTeam,
+			owner, true, true);
 		teamParticipantsRepository.save(teamParticipants);
 
 		return new TeamCreateResponseDto(savedTeam.getId());
@@ -117,7 +114,10 @@ public class TeamServiceImpl implements TeamService {
 
 		// 이미지를 업로드 하는 경우
 		if (teamImage != null) {
-			s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
+			String teamImageName = s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
+			if (!teamRepository.existsByIdAndTeamImageNotNull(teamRequestDto.teamId())) {
+				teamRepository.updateImage(teamImageName, teamRequestDto.teamId());
+			}
 		}
 		// 팀 정보 수정
 		teamRepository.updateTeam(teamRequestDto);
@@ -153,13 +153,8 @@ public class TeamServiceImpl implements TeamService {
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		Team team = getTeam(teamCodeRequestDto.code(), memberId);
-		TeamParticipants teamParticipants = TeamParticipants
-			.builder()
-			.team(team)
-			.member(member)
-			.isLeader(false)
-			.isParticipants(false)
-			.build();
+		TeamParticipants teamParticipants = teamParticipantsMapper.teamCodeRequestDtoToTeamParticipants(team, member,
+			false, false);
 		teamParticipantsRepository.save(teamParticipants);
 	}
 
@@ -235,22 +230,13 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional(readOnly = true)
 	public List<TeamParticipantsResponseDto> searchTeamParticipantList(Long teamId, Long memberId) {
 		checkLeader(memberId, teamId);
-
 		Sort sort = Sort.by(Sort.Direction.DESC, "isLeader")
 			.and(Sort.by(Sort.Direction.DESC, "isParticipants")
 				.and(Sort.by(Sort.Direction.ASC, "id")));
-
-		List<TeamParticipants> teamMemberList = teamParticipantsRepository.findByTeamId(teamId, sort);
-
-		return teamMemberList.stream()
-			.map(teamParticipants -> TeamParticipantsResponseDto
-				.builder()
-				.participantsId(teamParticipants.getId())
-				.memberEmail(teamParticipants.getMember().getMemberEmail())
-				.isApprove(teamParticipants.getIsParticipants())
-				.memberCode(teamParticipants.getMember().getMemberCode())
-				.memberName(teamParticipants.getMember().getMemberName())
-				.build())
+		return teamParticipantsRepository.findByTeamId(teamId, sort)
+			.stream()
+			.map(teamParticipants -> teamMapper.teamParticipantsToTeamParticipantsResponseDto(teamParticipants.getId(),
+				teamParticipants.getMember(), teamParticipants.getIsParticipants()))
 			.toList();
 	}
 
@@ -290,15 +276,8 @@ public class TeamServiceImpl implements TeamService {
 			throw new BaseException(ErrorCode.TEAM_FOUND_ERROR);
 		}
 		Team team = teamParticipants.getTeam();
-		return TeamResponseDto
-			.builder()
-			.teamName(team.getTeamName())
-			.teamLogo(awsS3Url + team.getTeamImage())
-			.teamDescription(team.getTeamDescription())
-			.teamCode(redirectUrl + team.getTeamCode())
-			.teamId(team.getId())
-			.isLeader(teamParticipants.getIsLeader())
-			.build();
+		return teamMapper.teamToTeamResponseDto(team, teamParticipants.getIsLeader(), redirectUrl + team.getTeamCode(),
+			awsS3Url + team.getTeamImage());
 	}
 
 	/**
@@ -311,14 +290,7 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public TeamPublicResponseDto findTeamPublic(Long teamId) {
-		Team team = teamRepository.findById(teamId).orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
-		return TeamPublicResponseDto
-			.builder()
-			.teamName(team.getTeamName())
-			.teamLogo(awsS3Url + team.getTeamImage())
-			.teamDescription(team.getTeamDescription())
-			.teamId(team.getId())
-			.build();
+		return teamRepository.findTeamPublic(teamId).orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
 	}
 
 	/**
@@ -369,7 +341,7 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional
 	public void updateTeamLeader(TeamUpdateLeaderRequestDto teamUpdateLeaderRequestDto, Long memberId) {
 		checkLeader(memberId, teamUpdateLeaderRequestDto.teamId());
-		TeamParticipants teamParticipants = teamParticipantsRepository.findById(
+		TeamParticipants teamParticipants = teamParticipantsRepository.findByIdAndIsParticipantsTrue(
 				teamUpdateLeaderRequestDto.newLeaderParticipantsId())
 			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS));
 		if (!Objects.equals(teamParticipants.getTeam().getId(), teamUpdateLeaderRequestDto.teamId())) {
@@ -397,7 +369,7 @@ public class TeamServiceImpl implements TeamService {
 
 	/**
 	 * 팀장이 팀원을 방출
-	 * 
+	 *
 	 * @author 강태연
 	 * @param teamParticipantDeleteRequestDto 팀원의 팀 참가 번호
 	 * @param memberId 현재 접속한 멤버의 정보

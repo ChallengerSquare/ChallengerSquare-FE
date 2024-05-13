@@ -14,7 +14,7 @@ public record TeamResponseDto(
 	@Schema(description = "팀 초대 코드", example = "초대코드")
 	String teamCode,
 	@Schema(description = "팀 로고 주소", example = "팀 로고")
-	String teamLogo,
+	String teamImage,
 	@Schema(description = "팀장인지 여부", example = "true")
 	Boolean isLeader
 ) {
