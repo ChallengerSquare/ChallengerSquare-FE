@@ -101,3 +101,12 @@
   @include competition_btn();
   width: 43px;
 }
+
+.competition_fee {
+  @include competition_btn();
+  width: 70px;
+}
+
+.competition_fee_active {
+  background-color: gray;
+}

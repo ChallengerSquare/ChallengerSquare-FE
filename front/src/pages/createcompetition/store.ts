@@ -18,7 +18,7 @@ export const competitionForm = atom<CreateCompetitionDto>({
         start: '',
         end: '',
       },
-      contestRegistrationNum: 0,
+      contestRegistrationNum: 0, // 대회 모집인원
       contestFee: 0,
       contestPhone: '',
       isPriority: false,

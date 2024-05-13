@@ -49,7 +49,6 @@ const Calendar = ({
       selected={selectedDate}
       dayClassName={(date) => {
         const isSelected = selectedDate && isSameDay(date, selectedDate)
-        console.log(`Date: ${date}, Selected: ${selectedDate}, Is Selected: ${isSelected}`)
         return isSelected ? styles.selected : styles.unselected
       }}
       onChange={(date) => setSelectedDate(date)}

@@ -25,11 +25,12 @@
 
 .create_team {
   display: flex;
-  justify-content: end;
-  margin: 10px 212px;
+  margin-top: 10px;
+  margin-left: 600px;
   font-size: 13px;
   font-weight: bold;
   color: $main-color;
+  width: 120px;
 }
 
 .btn {

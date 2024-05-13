@@ -41,15 +41,10 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
       <div className={styles['main-box']}>
         <div className={styles.header}>
           <div className={styles.bold}>&nbsp; &nbsp; &nbsp; &nbsp; 개인정보 입력</div>
-          <div className={styles.side}>
-            <span className={styles.highlight}>*</span> &nbsp;필수입력사항
-          </div>
         </div>
         <div className={styles.form}>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 이름
-            </div>
+            <div className={styles.label}>&nbsp; 이름</div>
             <input
               type="text"
               className={styles['name-box']}
@@ -60,17 +55,13 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             />
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 생년월일
-            </div>
+            <div className={styles.label}>&nbsp; 생년월일</div>
             <div className={styles.calendar}>
               <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} maxDate={new Date()} />
             </div>
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 연락처
-            </div>
+            <div className={styles.label}>&nbsp; 연락처</div>
             <input
               type="text"
               className={styles['input-box']}
@@ -84,9 +75,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             </div>
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 주소
-            </div>
+            <div className={styles.label}>&nbsp; 주소</div>
             <input
               type="text"
               value={addressDetails.postcode}

@@ -90,7 +90,7 @@
 .help {
   position: relative; // 툴팁 위치 기준점 설정
   cursor: help;
-  margin-left: 40px; // 필요에 따라 조정
+  margin-left: 20px; // 필요에 따라 조정
 
   &::after {
     content: '전화번호와 주소는 대회 개최자에게 제공됩니다.';
