@@ -1,8 +1,5 @@
 package com.ssafy.challs.domain.contest.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
+import com.ssafy.challs.domain.contest.dto.request.ContestAwardsRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
@@ -210,38 +207,18 @@ public class ContestController {
 	}
 
 	/**
-	 * @param contestDisabledRequestDto
-	 * @return
-	 * @autohr
+	 * 대회 종료 후 수상 정보를 받아오는 API
+	 *
+	 * @author 강다솔
+	 * @param contestAwardsRequestDto 대회 수상 정보
+	 * @return 성공 여부
 	 */
-	@PutMapping("/registration")
-	@Operation(summary = "대회 모집 불가로 변경", description = "대회 모집을 불가능하게 변경 하는 API")
-	public ResponseEntity<SuccessResponse<String>> updateContestRegistration(
-		@RequestBody ContestRequestDto contestDisabledRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
-	}
-
-	/**
-	 * @param contestDisabledRequestDto
-	 * @return
-	 * @autohr
-	 */
-	@PutMapping("/cancel")
-	@Operation(summary = "대회 취소", description = "대회를 취소하는 API")
-	public ResponseEntity<SuccessResponse<String>> updateContestCancel(
-		@RequestBody ContestRequestDto contestDisabledRequestDto) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
-	}
-
-	/**
-	 * @param contestAwardsRequest
-	 * @return
-	 * @autohr
-	 */
-	@PostMapping("/end")
+	@PostMapping("/awards")
 	@Operation(summary = "대회 종료", description = "대회를 종료하는 API")
 	public ResponseEntity<SuccessResponse<String>> createAwardsAndEndContest(
-		@RequestBody @Schema(description = "수상정보 key 상이름, value 팀ID") Map<String, List<Integer>> contestAwardsRequest) {
+		@AuthenticationPrincipal SecurityMember securityMember,
+		@RequestBody @Schema(description = "수상정보 key 상이름, value 팀ID") ContestAwardsRequestDto contestAwardsRequestDto) {
+		contestService.updateAwardsAndParticipantsState(contestAwardsRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
