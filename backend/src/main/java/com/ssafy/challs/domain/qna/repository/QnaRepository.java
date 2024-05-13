@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.challs.domain.qna.entity.Qna;
 
-public interface QnaRepository extends JpaRepository<Qna, Long> {
+public interface QnaRepository extends JpaRepository<Qna, Long>, QnaRepositoryCustom {
 }
