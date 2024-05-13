@@ -7,18 +7,25 @@
 
     .teamdetail{
         width: 100%;
-        border-radius: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
         border-radius: 50%;
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
     }
 
     .edit{
+        width: 30%;
         position: absolute;
         right: 0;
         bottom: 0;
         z-index: 1;
         border-radius: 50px;
-        padding: 3px;
+        padding: 5px;
+        margin: 5px;
         background-color: $sub-color;
+
+        img{
+            width: 100%;
+        }
     }
 }
