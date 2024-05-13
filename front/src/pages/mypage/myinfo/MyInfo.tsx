@@ -6,18 +6,18 @@ import loadPostcode from '@/services/postcode'
 
 const MyInfo = () => {
   const [user, setUser] = useState<User>({
-    username: '',
-    birth: '',
-    contact: '',
-    address: '',
-    email: '',
+    userName: '',
+    userBirth: '',
+    userContact: '',
+    userAddress: '',
+    userEmail: '',
   })
   const [editUser, setEditUser] = useState<User>({
-    username: '',
-    birth: '',
-    contact: '',
-    address: '',
-    email: '',
+    userName: '',
+    userBirth: '',
+    userContact: '',
+    userAddress: '',
+    userEmail: '',
   })
   const [addressDetails, setAddressDetails] = useState({
     postcode: '',
@@ -29,11 +29,11 @@ const MyInfo = () => {
   useEffect(() => {
     /* User 가져오는 API 호출 */
     setUser({
-      username: '김땡땡',
-      birth: '2000-01-01',
-      contact: '010-1234-5678',
-      address: '06220 서울 강남구 테헤란로 212 (역삼동, 멀티캠퍼스) 멀티캠퍼스 8층',
-      email: 'multicampus@gmail.com',
+      userName: '김땡땡',
+      userBirth: '2000-01-01',
+      userContact: '010-1234-5678',
+      userAddress: '06220 서울 강남구 테헤란로 212 (역삼동, 멀티캠퍼스) 멀티캠퍼스 8층',
+      userEmail: 'multicampus@gmail.com',
     })
   }, [])
 
@@ -43,13 +43,13 @@ const MyInfo = () => {
 
   const settingData = () => {
     setEditUser(user)
-    if (user.address != '') {
+    if (user.userAddress != '') {
       setAddressDetails({
-        postcode: user.address.split(' ')[0],
-        roadAddress: `${user.address.split(' ').slice(1).join(' ').split(')')[0]})`,
+        postcode: user.userAddress.split(' ')[0],
+        roadAddress: `${user.userAddress.split(' ').slice(1).join(' ').split(')')[0]})`,
         detailAddress: '',
       })
-      setAddress(`${user.address.split(')')[1].split(' ').slice(1).join(' ')}`)
+      setAddress(`${user.userAddress.split(')')[1].split(' ').slice(1).join(' ')}`)
     }
   }
 
@@ -83,7 +83,7 @@ const MyInfo = () => {
             <input
               id={'username'}
               type={'text'}
-              value={editUser.username}
+              value={editUser.userName}
               onChange={(event) => handleUser('username', event)}
             />
           </div>
@@ -97,7 +97,7 @@ const MyInfo = () => {
               <input
                 id={'email'}
                 type={'text'}
-                value={editUser.email}
+                value={editUser.userEmail}
                 onBlur={(event) => handleUser('email', event)}
                 disabled
               />
@@ -113,7 +113,7 @@ const MyInfo = () => {
               <input
                 id={'birth'}
                 type={'text'}
-                value={editUser.birth}
+                value={editUser.userBirth}
                 onChange={(event) => handleUser('birth', event)}
                 disabled
               />
@@ -128,7 +128,7 @@ const MyInfo = () => {
             <input
               id={'contact'}
               type={'text'}
-              value={editUser.contact}
+              value={editUser.userContact}
               onChange={(event) => handleUser('contact', event)}
             />
           </div>

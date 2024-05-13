@@ -1,1 +1,54 @@
 @import '@styles/variables.scss';
+
+.header {
+  display: flex;
+  font-weight: bold;
+  font-size: 1.5rem;
+  justify-content: center;
+  margin: 20px 0 0 0;
+}
+
+.content {
+  display: flex;
+}
+.thumbnail {
+  margin-left: 30px;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 300px;
+
+  .required {
+    color: red;
+    font-weight: bolder;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    min-width: 100px; // 최소 너비 설정
+    margin-right: 10px; // 라벨과 입력 필드 사이 간격
+    min-width: 100px; // 최소 너비 설정
+    margin-right: 10px;
+  }
+
+  .element {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .input_box {
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
+    border-radius: 8px;
+    width: 200px;
+  }
+}

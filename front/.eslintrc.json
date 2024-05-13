@@ -25,6 +25,7 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": ["warn"], // 사용 안한 변수 warn
     "@typescript-eslint/no-explicit-any": "off", // any 허용
+    "@typescript-eslint/no-unnecessary-type-constraint": "off",
     // var 금지
     "no-var": "warn",
     // 일치 연산자 사용 필수
@@ -68,6 +69,7 @@
     "react/prefer-stateless-function": 0,
     "react/jsx-one-expression-per-line": 0,
     "react/jsx-no-useless-fragment": "off",
+    "react/no-array-index-key": "off",
     "no-nested-ternary": 0,
     // [error] Curly braces are unnecessary here
     "react/jsx-curly-brace-presence": ["warn", { "props": "always", "children": "ignore" }],

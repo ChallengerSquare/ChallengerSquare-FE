@@ -19,6 +19,7 @@
     "react-app-alias": "^2.2.2",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",

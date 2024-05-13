@@ -5,12 +5,12 @@ import HelpButton from '@svgs/help_button.svg'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@services/postcode'
 import { useSetRecoilState } from 'recoil'
-import { userState } from '@/stores/useState'
 import { stepProps } from '@/types/step'
+import { userForm } from '../store'
 import styles from './Userform.module.scss'
 
 const Userform = ({ prevStep, nextStep }: stepProps) => {
-  const setUserState = useSetRecoilState(userState)
+  const setUserFrom = useSetRecoilState(userForm)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [addressDetails, setAddressDetails] = useState({
     postcode: '',
@@ -30,7 +30,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
   useEffect(() => {
     const formattedDate = formateDate(selectedDate)
     if (selectedDate) {
-      setUserState((prev) => ({
+      setUserFrom((prev) => ({
         ...prev,
         birth: formattedDate,
       }))
@@ -38,7 +38,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
   }, [selectedDate])
 
   const handleUserState = (key: string, e: any) => {
-    setUserState((prev) => ({
+    setUserFrom((prev) => ({
       ...prev,
       [key]: e.target.value,
     }))
@@ -145,7 +145,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
                 const fullAddress =
                   `${addressDetails.postcode} ${addressDetails.roadAddress} ${addressDetails.detailAddress}`.trim() +
                   e.target.value
-                setUserState((prev) => ({
+                setUserFrom((prev) => ({
                   ...prev,
                   address: fullAddress,
                 }))

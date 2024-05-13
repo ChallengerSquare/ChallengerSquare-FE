@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import styles from '@/pages/mypage/resultlist/ResultList.module.scss'
-import { userState } from '@/stores/useState'
 import { Link } from 'react-router-dom'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
 
