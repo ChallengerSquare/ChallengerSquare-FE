@@ -14,6 +14,7 @@ import com.ssafy.challs.domain.auth.jwt.repository.RefreshTokenRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -51,7 +52,6 @@ public class TokenProvider {
 	private String createToken(String id, Duration time) {
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + time.toMillis());
-
 		return Jwts.builder().header().type("JWT").and().issuer("a205")
 			.issuedAt(now).expiration(validity).claim("id", id)
 			.signWith(secretKey)
@@ -77,6 +77,18 @@ public class TokenProvider {
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+
+	// 로그인 실패시 에러를 위함
+	public void validateToken(String token) {
+		try {
+			Jwts.parser().verifyWith(secretKey)
+				.build().parseSignedClaims(token);
+		} catch (ExpiredJwtException e) {
+			throw new BaseException(ErrorCode.EXPIRED_TOKEN_ERROR);
+		} catch (Exception e) {
+			throw new BaseException(ErrorCode.WRONG_TOKEN_ERROR);
 		}
 	}
 
