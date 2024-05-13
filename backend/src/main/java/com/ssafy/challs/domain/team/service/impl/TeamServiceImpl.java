@@ -120,7 +120,10 @@ public class TeamServiceImpl implements TeamService {
 
 		// 이미지를 업로드 하는 경우
 		if (teamImage != null) {
-			s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
+			String teamImageName = s3ImageUploader.uploadImage(teamImage, "team", teamRequestDto.teamId().toString());
+			if (!teamRepository.existsByIdAndTeamImageNotNull(teamRequestDto.teamId())) {
+				teamRepository.updateImage(teamImageName, teamRequestDto.teamId());
+			}
 		}
 		// 팀 정보 수정
 		teamRepository.updateTeam(teamRequestDto);
@@ -296,24 +299,14 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public TeamResponseDto findTeam(Long teamId, Long memberId) {
-
-		// TODO: 수정
-
 		TeamParticipants teamParticipants = teamParticipantsRepository.findByTeamIdAndMemberId(teamId, memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
 		if (!Objects.equals(teamParticipants.getTeam().getId(), teamId)) {
 			throw new BaseException(ErrorCode.TEAM_FOUND_ERROR);
 		}
 		Team team = teamParticipants.getTeam();
-		return TeamResponseDto
-			.builder()
-			.teamName(team.getTeamName())
-			.teamLogo(awsS3Url + team.getTeamImage())
-			.teamDescription(team.getTeamDescription())
-			.teamCode(redirectUrl + team.getTeamCode())
-			.teamId(team.getId())
-			.isLeader(teamParticipants.getIsLeader())
-			.build();
+		return teamMapper.teamToTeamResponseDto(team, teamParticipants.getIsLeader(), redirectUrl + team.getTeamCode(),
+			awsS3Url + team.getTeamImage());
 	}
 
 	/**
