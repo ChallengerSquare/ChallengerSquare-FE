@@ -30,7 +30,7 @@ const handleComplete = (
   })
 }
 
-const loadPostcode = (
+export const loadPostcode = (
   setAddress: React.Dispatch<
     React.SetStateAction<{
       postcode: string
