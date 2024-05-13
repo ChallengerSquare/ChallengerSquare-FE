@@ -3,4 +3,5 @@ export interface User {
   userBirth: string
   userContact: string
   userAddress: string
+  userEmail?: string
 }
