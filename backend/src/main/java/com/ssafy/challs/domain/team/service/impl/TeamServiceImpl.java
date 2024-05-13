@@ -73,9 +73,6 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional
 	public TeamCreateResponseDto createTeam(TeamCreateRequestDto teamRequestDto, Long memberId,
 		MultipartFile teamImage) {
-
-		// TODO: 수정
-
 		// 팀 초대 링크 UUID로 생성
 		String teamCode = UUID.randomUUID().toString();
 		// 팀 대표 번호 팀장 번호로 저장
@@ -92,13 +89,8 @@ public class TeamServiceImpl implements TeamService {
 			teamRepository.updateImage(imageUrl, savedTeam.getId());
 		}
 
-		TeamParticipants teamParticipants = TeamParticipants
-			.builder()
-			.member(owner)
-			.team(savedTeam)
-			.isParticipants(true)
-			.isLeader(true)
-			.build();
+		TeamParticipants teamParticipants = teamParticipantsMapper.teamCodeRequestDtoToTeamParticipants(savedTeam,
+			owner, true, true);
 		teamParticipantsRepository.save(teamParticipants);
 
 		return new TeamCreateResponseDto(savedTeam.getId());
