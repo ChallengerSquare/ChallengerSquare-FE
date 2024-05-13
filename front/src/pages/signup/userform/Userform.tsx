@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useEffect, useState } from 'react'
-import Calendar from '@components/Calendar/Calendar'
+import Calendar, { formatDate } from '@components/Calendar/Calendar'
 import HelpButton from '@svgs/help_button.svg'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@services/postcode'
+import ping from '@svgs/ping.svg'
 import { useSetRecoilState } from 'recoil'
 import { stepProps } from '@/types/step'
 import { userForm } from '../store'
@@ -18,17 +19,8 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
     detailAddress: '',
   })
 
-  const formateDate = (date: Date | null): string => {
-    if (!date) return ''
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-
-    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
-  }
-
   useEffect(() => {
-    const formattedDate = formateDate(selectedDate)
+    const formattedDate = formatDate(selectedDate)
     if (selectedDate) {
       setUserFrom((prev) => ({
         ...prev,
@@ -49,50 +41,41 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
       <div className={styles['main-box']}>
         <div className={styles.header}>
           <div className={styles.bold}>&nbsp; &nbsp; &nbsp; &nbsp; 개인정보 입력</div>
-          <div className={styles.side}>
-            <span className={styles.highlight}>*</span> &nbsp;필수입력사항
-          </div>
         </div>
         <div className={styles.form}>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 이름
-            </div>
+            <div className={styles.label}>&nbsp; 이름</div>
             <input
               type="text"
-              className={styles['input-box']}
+              className={styles['name-box']}
               onChange={(e) => {
                 handleUserState('username', e)
               }}
-              placeholder="이름을 입력하세요."
+              placeholder="이름 입력"
             />
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 생년월일
+            <div className={styles.label}>&nbsp; 생년월일</div>
+            <div className={styles.calendar}>
+              <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} maxDate={new Date()} />
             </div>
-            <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 연락처
-            </div>
+            <div className={styles.label}>&nbsp; 연락처</div>
             <input
               type="text"
               className={styles['input-box']}
               onChange={(e) => {
                 handleUserState('contact', e)
               }}
-              placeholder="000-000-000"
+              placeholder="000-0000-0000"
             />
             <div className={styles.help}>
               <img src={HelpButton} alt="도움말" />
             </div>
           </div>
           <div className={styles.input}>
-            <div className={styles.label}>
-              <span className={styles.highlight}>*</span> &nbsp; 주소
-            </div>
+            <div className={styles.label}>&nbsp; 주소</div>
             <input
               type="text"
               value={addressDetails.postcode}
@@ -102,13 +85,15 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
                   postcode: e.target.value,
                 }))
               }}
-              className={styles['input-box']}
+              className={styles.postcode}
               placeholder="우편번호"
               readOnly
             />
-            <Button variation="postcode" onClick={() => loadPostcode(setAddressDetails)}>
-              주소검색
-            </Button>
+            <div className="ml-4">
+              <Button variation="regist_competition_btn" onClick={() => loadPostcode(setAddressDetails)}>
+                <img src={ping} alt="ping" className={styles.ping} />
+              </Button>
+            </div>
           </div>
           <div>
             <input

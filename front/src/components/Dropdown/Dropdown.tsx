@@ -30,21 +30,23 @@ const Dropdown = <T extends unknown>({
 
   return (
     <>
-      <button type="button" className={styles.dropdown} style={{ width }} onClick={toggleDropdown}>
-        <span className={selectedOption ? styles.selected : styles.placeholder}>
-          {selectedOption ? element(selectedOption) : placeholder}
-        </span>
-        <img src={dropdown} alt="dd-btn" />
-      </button>
-      {isOpen && (
-        <ul className={styles.menu} style={{ width }}>
-          {options.map((option, index) => (
-            <li key={index} onClick={() => handleSelect(option)} className={styles.item}>
-              {element(option)}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div>
+        <button type="button" className={styles.dropdown} style={{ width }} onClick={toggleDropdown}>
+          <span className={selectedOption ? styles.selected : styles.placeholder}>
+            {selectedOption ? element(selectedOption) : placeholder}
+          </span>
+          <img src={dropdown} alt="dd-btn" />
+        </button>
+        {isOpen && (
+          <ul className={styles.menu} style={{ width }}>
+            {options.map((option, index) => (
+              <li key={index} onClick={() => handleSelect(option)} className={styles.item}>
+                {element(option)}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   )
 }
