@@ -243,26 +243,14 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TeamParticipantsResponseDto> searchTeamParticipantList(Long teamId, Long memberId) {
-
-		// TODO: 수정
-
 		checkLeader(memberId, teamId);
-
 		Sort sort = Sort.by(Sort.Direction.DESC, "isLeader")
 			.and(Sort.by(Sort.Direction.DESC, "isParticipants")
 				.and(Sort.by(Sort.Direction.ASC, "id")));
-
-		List<TeamParticipants> teamMemberList = teamParticipantsRepository.findByTeamId(teamId, sort);
-
-		return teamMemberList.stream()
-			.map(teamParticipants -> TeamParticipantsResponseDto
-				.builder()
-				.participantsId(teamParticipants.getId())
-				.memberEmail(teamParticipants.getMember().getMemberEmail())
-				.isApprove(teamParticipants.getIsParticipants())
-				.memberCode(teamParticipants.getMember().getMemberCode())
-				.memberName(teamParticipants.getMember().getMemberName())
-				.build())
+		return teamParticipantsRepository.findByTeamId(teamId, sort)
+			.stream()
+			.map(teamParticipants -> teamMapper.teamParticipantsToTeamParticipantsResponseDto(teamParticipants.getId(),
+				teamParticipants.getMember(), teamParticipants.getIsParticipants()))
 			.toList();
 	}
 
@@ -276,9 +264,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<TeamMemberResponseDto> searchTeamMemberList(Long teamId) {
-
-		// TODO: 수정
-
 		Sort sort = Sort.by(Sort.Direction.DESC, "isLeader")
 			.and(Sort.by(Sort.Direction.ASC, "id"));
 		List<TeamParticipants> teamMemberList = teamParticipantsRepository.findByTeamIdAndIsParticipantsTrue(

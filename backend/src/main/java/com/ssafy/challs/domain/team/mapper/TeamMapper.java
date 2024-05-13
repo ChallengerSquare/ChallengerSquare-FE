@@ -4,7 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.team.dto.request.TeamCreateRequestDto;
+import com.ssafy.challs.domain.team.dto.response.TeamParticipantsResponseDto;
 import com.ssafy.challs.domain.team.dto.response.TeamResponseDto;
 import com.ssafy.challs.domain.team.entity.Team;
 
@@ -17,4 +19,8 @@ public interface TeamMapper {
 	@Mapping(source = "teamCode", target = "teamCode")
 	@Mapping(source = "teamImage", target = "teamImage")
 	TeamResponseDto teamToTeamResponseDto(Team team, Boolean isLeader, String teamCode, String teamImage);
+
+	TeamParticipantsResponseDto teamParticipantsToTeamParticipantsResponseDto(Long participantsId, Member member,
+		Boolean isApprove);
+
 }
