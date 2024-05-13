@@ -1,12 +1,19 @@
 import { useRecoilState } from 'recoil'
+import { teamTapState, teamIdxState } from '@/pages/mypage/store'
 import { tapState } from '@/pages/mypage/store'
 import styles from './MyPage.module.scss'
 
 const MyPageTap = () => {
   const [tab, setTab] = useRecoilState(tapState)
+  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
+  const [teamTap, setTeamTap] = useRecoilState(teamTapState)
 
   const onClickTap = (state: string) => {
     setTab(state)
+    if (state === 'teamList') {
+      setTeamTap(false)
+      setTeamIdx(0)
+    }
   }
 
   return (
@@ -61,7 +68,7 @@ const MyPageTap = () => {
           </button>
         </div>
       </div>
-      <div className={styles.setting}>
+      {/* <div className={styles.setting}>
         <div className={styles.title}>{'Setting'}</div>
         <div className={styles.content}>
           <button
@@ -69,10 +76,10 @@ const MyPageTap = () => {
             onClick={() => onClickTap('setting')}
             className={tab === 'setting' ? styles.active : styles.inactive}
           >
-            {'설정'}
+            {'환경설정'}
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
