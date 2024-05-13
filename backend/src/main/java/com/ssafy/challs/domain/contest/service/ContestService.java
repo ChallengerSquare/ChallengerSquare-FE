@@ -4,10 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.contest.dto.request.ContestAwardsRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
@@ -37,4 +37,6 @@ public interface ContestService {
 	void updateContestParticipantsState(ContestParticipantAgreeDto agreeMembers, Long memberId);
 
 	void updateContestState(ContestUpdateStateRequestDto updateStateDto, Long memberId);
+
+	void updateAwardsAndParticipantsState(ContestAwardsRequestDto contestAwardsRequestDto, Long memberId);
 }
