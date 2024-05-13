@@ -322,7 +322,7 @@ class ContestControllerTest {
 		willDoNothing().given(contestService).updateContestState(updateStateDto, 1L);
 
 		// When
-		ResultActions result = mockMvc.perform(put("/contest/registration")
+		ResultActions result = mockMvc.perform(put("/contest/state")
 			.with(csrf())
 			.content(requestBody)
 			.contentType(MediaType.APPLICATION_JSON)

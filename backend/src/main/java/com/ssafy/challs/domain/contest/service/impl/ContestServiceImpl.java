@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.challs.domain.alert.service.AlertService;
 import com.ssafy.challs.domain.alert.service.SseService;
+import com.ssafy.challs.domain.blockchain.dto.request.AwardsChainRequestDto;
+import com.ssafy.challs.domain.blockchain.dto.request.ParticipantsChainRequestDto;
+import com.ssafy.challs.domain.blockchain.service.BlockChainService;
 import com.ssafy.challs.domain.contest.dto.ContestParticipantsInfoDto;
 import com.ssafy.challs.domain.contest.dto.ContestParticipantsLeaderStateDto;
 import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
+import com.ssafy.challs.domain.contest.dto.request.AwardsRequestDto;
+import com.ssafy.challs.domain.contest.dto.request.ContestAwardsRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
@@ -40,6 +46,9 @@ import com.ssafy.challs.domain.contest.repository.AwardsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.contest.service.ContestService;
+import com.ssafy.challs.domain.member.entity.AwardCode;
+import com.ssafy.challs.domain.member.repository.AwardsCodeRepository;
+import com.ssafy.challs.domain.team.dto.TeamMemberInfoDto;
 import com.ssafy.challs.domain.team.entity.Team;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
@@ -58,8 +67,10 @@ public class ContestServiceImpl implements ContestService {
 	@Value("${cloud.aws.s3.url}")
 	private String awsS3Url;
 
+	private final BlockChainService blockChainService;
 	private final AlertService alertService;
 	private final SseService sseService;
+	private final AwardsCodeRepository awardsCodeRepository;
 	private final ContestRepository contestRepository;
 	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final AwardsRepository awardsRepository;
@@ -402,6 +413,166 @@ public class ContestServiceImpl implements ContestService {
 				Map<String, Boolean> message = new HashMap<>();
 				message.put("unread", true);
 				sseService.send(members, message);
+			}
+		}
+	}
+
+	/**
+	 * 대회 수상 / 참가 정보 저장 -> 블록체인 발급
+	 *
+	 * @author 강다솔
+	 * @param contestAwardsRequestDto 대회 참가 / 수상 정보
+	 * @param memberId 정보 저장하는 회원 ID
+	 */
+	@Override
+	@Transactional
+	public void updateAwardsAndParticipantsState(ContestAwardsRequestDto contestAwardsRequestDto, Long memberId) {
+		// 대회 상태 F라면 (이미 정보 기록되어있다면) Exception
+		Contest contest = contestRepository.findById(contestAwardsRequestDto.contestId())
+			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+		if (contest.getContestState().equals('F'))
+			throw new BaseException(ErrorCode.ALREADY_DECIDED);
+
+		// 정보 저장하는 사람이 팀장인지 확인
+		Long teamId = contestRepository.findTeamIdByContestId(contestAwardsRequestDto.contestId());
+		isTeamLeader(memberId, teamId);
+
+		// 대회 상태 F로 변경
+		contestRepository.updateContestState(contestAwardsRequestDto.contestId(), 'F');
+
+		// 대회 참여자 정보 DB 업데이트 (참여 true로 변경)
+		List<Long> participantsTeams = contestAwardsRequestDto.contestInfo().stream()
+			.map(AwardsRequestDto::teamId).toList();
+		contestParticipantsRepository.updateContestIsParticipants(contestAwardsRequestDto.contestId(),
+			participantsTeams);
+
+		// 대회 수상 정보 숫자 일치하는지 확인
+		List<AwardsRequestDto> awardsInfo = contestAwardsRequestDto.contestInfo().stream()
+			.filter(a -> a.awardsId() != null).toList();
+		checkAwardsNum(awardsInfo);
+
+		// 대회 참가확인서 / 수상확인서 발급 -> 블록체인
+		for (AwardsRequestDto awardsRequestDto : contestAwardsRequestDto.contestInfo()) {
+			// 참가자 ID, 참가자 고유코드, 참가자 이름 받아오기
+			List<TeamMemberInfoDto> teamMemberInfoDtos = teamParticipantsRepository.searchMemberInfoByTeamId(
+				awardsRequestDto.teamId());
+			// 참가 확인서 / 수상 확인서 발급 -> 블록체인에 저장
+			createCertificate(awardsRequestDto, teamMemberInfoDtos, contest);
+		}
+	}
+
+	/**
+	 * 확인서 생성
+	 *
+	 * @author 강다솔
+	 * @param awardsRequestDto 수상/참가 정보
+	 * @param teamMemberInfoDtos 참가자 정보
+	 * @param contest 대회 정보
+	 */
+	private void createCertificate(AwardsRequestDto awardsRequestDto, List<TeamMemberInfoDto> teamMemberInfoDtos,
+		Contest contest) {
+		for (TeamMemberInfoDto members : teamMemberInfoDtos) {
+			// 참가 확인서 발급하기
+			// 블록체인 참가증 고유 코드 만들기 (UUID)
+			String blockchainCode = UUID.randomUUID().toString();
+			AwardCode participantsCertificate = createAwardCode(contest, blockchainCode, members, false);
+			awardsCodeRepository.save(participantsCertificate);
+
+			// 참가 확인서 블록체인 저장
+			saveBlockchain(contest, blockchainCode, members);
+
+			if (awardsRequestDto.awardsId() != null) {
+				String awardsBlockCode = UUID.randomUUID().toString();
+				AwardCode awardsCertificate = createAwardCode(contest, awardsBlockCode, members, true);
+				awardsCodeRepository.save(awardsCertificate);
+				Awards awards = awardsRepository.findById(awardsRequestDto.awardsId())
+					.orElseThrow(() -> new BaseException(ErrorCode.AWARDS_CODE_ERROR));
+
+				// 수상 확인서 블록체인 저장
+				saveBlockchain(contest, awardsBlockCode, members, awards);
+			}
+		}
+	}
+
+	/**
+	 * DB에 참가확인서 / 수상확인서 생성
+	 *
+	 * @author 강다솔
+	 * @param contest 대회정보
+	 * @param blockchainCode 수상/참가 코드 정보
+	 * @param memberInfo 참가자 정보
+	 * @param isAwards 수상 정보인지
+	 * @return AwardCode
+	 */
+	private AwardCode createAwardCode(Contest contest, String blockchainCode, TeamMemberInfoDto memberInfo,
+		Boolean isAwards) {
+		return AwardCode.builder().isAward(isAwards)
+			.contestId(contest.getId())
+			.awardCode(blockchainCode)
+			.memberId(memberInfo.memberId()).build();
+	}
+
+	/**
+	 * 블록체인에 참가확인서 저장
+	 *
+	 * @author 강다솔
+	 * @param contest 대회정보
+	 * @param blockchainCode 블록체인 코드 정보
+	 * @param memberInfo 참가자 정보
+	 */
+	private void saveBlockchain(Contest contest, String blockchainCode,
+		TeamMemberInfoDto memberInfo) {
+		ParticipantsChainRequestDto participation = ParticipantsChainRequestDto.builder()
+			.type("participation")
+			.organizer(contest.getTeam().getTeamName())
+			.eventName(contest.getContestTitle())
+			.eventDate(contest.getContestStart())
+			.attendeeName(memberInfo.memberName())
+			.attendeeCode(memberInfo.memberCode())
+			.code(blockchainCode).build();
+
+		blockChainService.createBlockChain(participation);
+	}
+
+	/**
+	 * 블록체인에 수상확인서 저장
+	 *
+	 * @author 강다솔
+	 * @param contest 대회정보
+	 * @param blockchainCode 블록체인 코드
+	 * @param memberInfo 참가자 정보
+	 * @param awards 수상 정보
+	 */
+	private void saveBlockchain(Contest contest, String blockchainCode,
+		TeamMemberInfoDto memberInfo, Awards awards) {
+		AwardsChainRequestDto award = AwardsChainRequestDto.builder()
+			.type("award")
+			.organizer(contest.getTeam().getTeamName())
+			.eventName(contest.getContestTitle())
+			.awardDate(LocalDate.now())
+			.recipientName(memberInfo.memberName())
+			.recipientCode(memberInfo.memberCode())
+			.code(blockchainCode)
+			.awardType(awards.getAwardsName()).build();
+
+		blockChainService.createBlockChain(award);
+	}
+
+	/**
+	 * 저장된 수상 정보와 일치하는지 확인
+	 * @param awardsInfo 수상정보
+	 */
+	private void checkAwardsNum(List<AwardsRequestDto> awardsInfo) {
+		// Awards ID와 개수 집계
+		Map<Long, Long> awardsNum = awardsInfo.stream()
+			.filter(award -> award.awardsId() != null)
+			.collect(Collectors.groupingBy(AwardsRequestDto::awardsId, Collectors.counting()));
+
+		for (Long awardsId : awardsNum.keySet()) {
+			Awards awards = awardsRepository.findById(awardsId)
+				.orElseThrow(() -> new BaseException(ErrorCode.AWARDS_CODE_ERROR));
+			if (awards.getAwardsCount() < awardsNum.get(awardsId)) {
+				throw new BaseException(ErrorCode.AWARD_INFO_MISMATCH);
 			}
 		}
 	}

@@ -193,4 +193,15 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.fetchOne();
 	}
 
+	@Override
+	public void updateContestIsParticipants(Long contestId, List<Long> participantsTeams) {
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+
+		queryFactory.update(qContestParticipants)
+			.set(qContestParticipants.isParticipants, true)
+			.where(qContestParticipants.contest.id.eq(contestId),
+				qContestParticipants.team.id.in(participantsTeams))
+			.execute();
+	}
+
 }
