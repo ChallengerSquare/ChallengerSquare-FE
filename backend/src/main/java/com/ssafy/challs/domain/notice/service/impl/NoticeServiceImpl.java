@@ -10,6 +10,7 @@ import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.notice.dto.request.NoticeCreateRequestDto;
 import com.ssafy.challs.domain.notice.dto.response.NoticeResponseDto;
 import com.ssafy.challs.domain.notice.entity.Notice;
+import com.ssafy.challs.domain.notice.mapper.NoticeMapper;
 import com.ssafy.challs.domain.notice.repository.NoticeRepository;
 import com.ssafy.challs.domain.notice.service.NoticeService;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
@@ -25,6 +26,7 @@ public class NoticeServiceImpl implements NoticeService {
 	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final ContestRepository contestRepository;
 	private final NoticeRepository noticeRepository;
+	private final NoticeMapper noticeMapper;
 
 	/**
 	 * 공지사항 작성
@@ -44,12 +46,9 @@ public class NoticeServiceImpl implements NoticeService {
 		if (!exists) {
 			throw new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS);
 		}
-		Notice notice = Notice
-			.builder()
-			.noticeTitle(noticeCreateRequestDto.title())
-			.noticeContent(noticeCreateRequestDto.content())
-			.contest(contest)
-			.build();
+
+		Notice notice = noticeMapper.noticeCreateRequestDtoToNotice(noticeCreateRequestDto, contest);
+
 		noticeRepository.save(notice);
 	}
 
