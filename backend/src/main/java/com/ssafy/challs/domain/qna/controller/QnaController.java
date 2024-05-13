@@ -1,7 +1,8 @@
 package com.ssafy.challs.domain.qna.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.challs.domain.auth.jwt.dto.SecurityMember;
 import com.ssafy.challs.domain.qna.dto.request.QnaCreateRequestDto;
 import com.ssafy.challs.domain.qna.dto.request.QnaUpdateRequestDto;
-import com.ssafy.challs.domain.qna.dto.response.QnaDetailResponseDto;
 import com.ssafy.challs.domain.qna.dto.response.QnaResponseDto;
 import com.ssafy.challs.domain.qna.service.QnaService;
 import com.ssafy.challs.global.common.response.SuccessResponse;
@@ -36,6 +36,7 @@ public class QnaController {
 	/**
 	 * 대회 질문 작성하는 API
 	 *
+	 * @author 강다솔
 	 * @param securityMember 질문 작성하는 회원 정보
 	 * @param qnaCreateRequestDto 등록하는 질문 정보
 	 * @return 성공 여부
@@ -48,16 +49,20 @@ public class QnaController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
+	/**
+	 * 대회 질문 목록을 가져오는 API
+	 *
+	 * @author 강다솔
+	 * @param contestId 질문 목록 가져올 대회 ID
+	 * @param pageable 페이징 정보
+	 * @return 질문 목록 리스트
+	 */
 	@GetMapping("/{contestId}")
 	@Operation(summary = "QNA 목록 조회", description = "QNA 목록을 조회하는 API")
-	public ResponseEntity<SuccessResponse<List<QnaResponseDto>>> searchQnaList(@PathVariable Long contestId) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, List.of(new QnaResponseDto(1L, "QNA1"))));
-	}
-
-	@GetMapping("/{qnaId}/detail")
-	@Operation(summary = "QNA 상세 조회", description = "QNA를 상세조회하는 API")
-	public ResponseEntity<SuccessResponse<QnaDetailResponseDto>> findQna(@PathVariable Long qnaId) {
-		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, new QnaDetailResponseDto("제목1", "질문1", "답변1")));
+	public ResponseEntity<SuccessResponse<Page<QnaResponseDto>>> searchQnaList(@PathVariable Long contestId,
+		@PageableDefault Pageable pageable) {
+		Page<QnaResponseDto> results = qnaService.searchQna(contestId, pageable);
+		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, results));
 	}
 
 	@PutMapping
