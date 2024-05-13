@@ -16,6 +16,15 @@
   margin: 20px 0 0 0;
 }
 
+.select {
+  font-size: 15px;
+}
+.notice {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -68,14 +77,16 @@
   }
 }
 
-.plus_btn {
+.award_btn {
   margin-left: 50px;
   width: 30px;
 }
+
 .footer {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 125px;
+  margin-bottom: 30px;
   & > div {
     margin: 0 40px;
     text-align: center; // 버튼을 가운데 정렬

@@ -1,0 +1,25 @@
+@import '@styles/variables.scss';
+
+.header {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+.sub_header {
+  margin-top: 20px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 125px;
+  margin-bottom: 30px;
+  & > div {
+    margin: 0 40px;
+    text-align: center; // 버튼을 가운데 정렬
+  }
+}

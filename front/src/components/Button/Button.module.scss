@@ -77,6 +77,11 @@
   width: 100px;
 }
 
+.competition_submit_btn {
+  @include button();
+  width: 120px;
+}
+
 @mixin competition_btn {
   padding: 10px;
   background: #fff;
