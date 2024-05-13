@@ -58,6 +58,6 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public void updateQnaAnswer(Long qnaId, String answer) {
-
+		qnaRepository.updateQnaAnswer(qnaId, answer);
 	}
 }
