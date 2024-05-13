@@ -14,6 +14,7 @@ import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
+import JoinTeam from './pages/jointeam/JoinTeam'
 
 const queryClient = new QueryClient()
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/create-competition" element={<CreateCompetition />} />
             <Route path="/create-team" element={<CreateTeam />} />
+            <Route path="/join/:code" element={<JoinTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>
