@@ -21,7 +21,6 @@ import com.ssafy.challs.domain.contest.dto.ContestTeamInfoDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestCreateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantAgreeDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestParticipantRequestDto;
-import com.ssafy.challs.domain.contest.dto.request.ContestRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestSearchRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateRequestDto;
 import com.ssafy.challs.domain.contest.dto.request.ContestUpdateStateRequestDto;
@@ -213,7 +212,7 @@ public class ContestServiceImpl implements ContestService {
 	 */
 	private Character isOpenContest(ContestPeriodDto contestRegistrationPeriod) {
 		LocalDate today = LocalDate.now();
-		if (!contestRegistrationPeriod.start().isBefore(today)) {
+		if (contestRegistrationPeriod.start().isBefore(today)) {
 			return 'J';
 		}
 		return 'P';
@@ -275,14 +274,14 @@ public class ContestServiceImpl implements ContestService {
 	 * 대회 참가 신청 취소
 	 *
 	 * @author 강다솔
-	 * @param contestRequestDto 참가취소하는 대회 PK
+	 * @param contestId 참가취소하는 대회 PK
 	 * @param memberId 참가 취소 신청하는 팀장 PK
 	 */
 	@Override
 	@Transactional
-	public void deleteContestParticipant(ContestRequestDto contestRequestDto, Long memberId) {
+	public void deleteContestParticipant(Long contestId, Long memberId) {
 		ContestParticipants contestParticipants = contestParticipantsRepository.findContestParticipants(
-			contestRequestDto.contestId(), memberId);
+			contestId, memberId);
 		contestParticipantsRepository.delete(contestParticipants);
 	}
 
@@ -290,16 +289,16 @@ public class ContestServiceImpl implements ContestService {
 	 * 대회에 참여하는 팀 정보 조회
 	 *
 	 * @author 강다솔
-	 * @param contestRequestDto 대회 PK
+	 * @param contestId 대회 PK
 	 * @param memberId 조회하는 회원 PK
 	 * @return 조회한 팀 정보 리스트
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto,
+	public ContestParticipantsResponseDto searchContestParticipants(Long contestId,
 		Long memberId) {
 		// 대회 상태 확인
-		Contest contest = contestRepository.findById(contestRequestDto.contestId())
+		Contest contest = contestRepository.findById(contestId)
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 
 		// 대회 참여자 목록을 보는 권한 있는지 확인 (개최 팀의 멤버인지 확인)
@@ -307,7 +306,7 @@ public class ContestServiceImpl implements ContestService {
 
 		// 팀 정보 조회 (팀 ID, 팀 name, 팀원목록)
 		List<ContestTeamInfoDto> contestTeamInfoDtos = contestParticipantsRepository.searchTeamInfoByContest(
-			contestRequestDto.contestId(), contest.getContestState());
+			contestId, contest.getContestState());
 
 		// 상태별로 반환값 가져오기
 		if (contest.getContestState().equals('J')) {

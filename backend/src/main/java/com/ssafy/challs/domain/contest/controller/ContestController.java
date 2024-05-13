@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -99,9 +100,9 @@ public class ContestController {
 	@GetMapping
 	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
 	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
-		@RequestParam(required = false) ContestSearchRequestDto contestSearchRequestDto,
+		@ModelAttribute ContestSearchRequestDto contestSearchRequestDto,
 		@PageableDefault Pageable pageable,
-		@RequestParam(required = false) Integer orderBy) {
+		@RequestParam(required = false, defaultValue = "3") Integer orderBy) {
 		Page<ContestSearchResponseDto> searchContest = contestService.searchContest(contestSearchRequestDto, pageable,
 			orderBy);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, searchContest));
@@ -143,15 +144,15 @@ public class ContestController {
 	 * 대회 참가를 취소하는 API
 	 *
 	 * @author 강다솔
-	 * @param contestDisabledRequestDto 참가 취소할 대회 PK
+	 * @param contestId 참가 취소할 대회 PK
 	 * @return 성공 여부
 	 */
-	@DeleteMapping("/participants")
+	@DeleteMapping("/participants/{contestId}")
 	@Operation(summary = "대회 참가 취소", description = "대회 참가를 취소하는 API")
 	public ResponseEntity<SuccessResponse<String>> deleteContestParticipant(
 		@AuthenticationPrincipal SecurityMember securityMember,
-		@RequestBody ContestRequestDto contestDisabledRequestDto) {
-		contestService.deleteContestParticipant(contestDisabledRequestDto, securityMember.id());
+		@PathVariable @Schema(description = "참가 취소할 대회 ID", example = "1") Long contestId) {
+		contestService.deleteContestParticipant(contestId, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 
@@ -160,16 +161,15 @@ public class ContestController {
 	 *
 	 * @author 강다솔
 	 * @param securityMember 로그인 회원 정보
-	 * @param contestRequestDto 조회할 대회 PK
+	 * @param contestId 조회할 대회 PK
 	 * @return 대회정보, 신청팀정보, 수상정보
 	 */
-	@GetMapping("/participants")
+	@GetMapping("/participants/{contestId}")
 	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestParticipantsResponseDto>> searchContestParticipants(
-		@AuthenticationPrincipal SecurityMember securityMember, @RequestBody ContestRequestDto contestRequestDto
-	) {
+		@AuthenticationPrincipal SecurityMember securityMember, @PathVariable Long contestId) {
 		ContestParticipantsResponseDto contestTeamParticipants = contestService.searchContestParticipants(
-			contestRequestDto, securityMember.id());
+			contestId, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contestTeamParticipants));
 	}
 

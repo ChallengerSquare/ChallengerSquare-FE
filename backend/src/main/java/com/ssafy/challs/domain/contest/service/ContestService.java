@@ -30,9 +30,9 @@ public interface ContestService {
 
 	void createContestParticipant(ContestParticipantRequestDto participantRequestDto, Long memberId);
 
-	void deleteContestParticipant(ContestRequestDto contestRequestDto, Long memberId);
+	void deleteContestParticipant(Long contestId, Long memberId);
 
-	ContestParticipantsResponseDto searchContestParticipants(ContestRequestDto contestRequestDto, Long memberId);
+	ContestParticipantsResponseDto searchContestParticipants(Long contestId, Long memberId);
 
 	void updateContestParticipantsState(ContestParticipantAgreeDto agreeMembers, Long memberId);
 
