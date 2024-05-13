@@ -102,33 +102,34 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     if (prevStep) prevStep()
   }
   const handleNextStep = () => {
-    const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
-    console.log(form.contestImage)
-    console.log(data.contestCategory)
-    console.log(data.contestTitle)
-    console.log(data.contestLocation)
-    console.log(data.contestRegistrationNum)
-    console.log(data.contestFee)
-    console.log(data.contestPhone)
-    if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
-      setRegistrationPeriod(startRecruitDate, endRecruitDate)
-      setContestPeriod(startDate, endDate)
-      if (
-        form.contestImage &&
-        data.contestCategory &&
-        data.contestTitle &&
-        data.contestLocation &&
-        data.contestRegistrationNum &&
-        data.contestPhone
-      ) {
-        updateLocation()
-        nextStep()
-      } else {
-        alert('전체 항목을 입력해주세요.')
-      }
-    } else {
-      alert('날짜를 입력해주세요.')
-    }
+    if (nextStep) nextStep()
+    // const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
+    // console.log(form.contestImage)
+    // console.log(data.contestCategory)
+    // console.log(data.contestTitle)
+    // console.log(data.contestLocation)
+    // console.log(data.contestRegistrationNum)
+    // console.log(data.contestFee)
+    // console.log(data.contestPhone)
+    // if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
+    //   setRegistrationPeriod(startRecruitDate, endRecruitDate)
+    //   setContestPeriod(startDate, endDate)
+    //   if (
+    //     form.contestImage &&
+    //     data.contestCategory &&
+    //     data.contestTitle &&
+    //     data.contestLocation &&
+    //     data.contestRegistrationNum &&
+    //     data.contestPhone
+    //   ) {
+    //     updateLocation()
+    //     nextStep()
+    //   } else {
+    //     alert('전체 항목을 입력해주세요.')
+    //   }
+    // } else {
+    //   alert('날짜를 입력해주세요.')
+    // }
   }
   return (
     <>
