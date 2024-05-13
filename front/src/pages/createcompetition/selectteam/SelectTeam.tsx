@@ -61,9 +61,9 @@ const SelectTeam = ({ nextStep }: stepProps) => {
           placeholder="개최할 팀을 선택하세요."
         />
       </div>
-      <Link to="/create-team">
-        <div className={styles.create_team}>팀 생성하러 가기&gt;</div>
-      </Link>
+      <div className={styles.create_team}>
+        <Link to="/create-team">팀 생성하러 가기&gt;</Link>
+      </div>
       <div className={styles.btn}>
         <Button variation="purple default" onClick={handleNextStep} disabled={!isCheck}>
           다음
