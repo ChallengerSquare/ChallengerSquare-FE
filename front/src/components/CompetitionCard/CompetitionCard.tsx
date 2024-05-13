@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { contestData } from '@/types/competition'
+import { ContestData } from '@/types/competition'
 import baseImg from '@images/baseImg.png'
 import Grid from '../Gird/Grid'
 import styles from './CompetitionCard.module.scss'
@@ -8,7 +8,7 @@ import styles from './CompetitionCard.module.scss'
 interface CompetitionCardProps {
   grid: string
   state: string
-  contestList: contestData[]
+  contestList: ContestData[]
 }
 const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => {
   return (
