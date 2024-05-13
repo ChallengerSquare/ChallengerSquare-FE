@@ -1,6 +1,6 @@
+import styles from '@/components/ProfileImg/ProfileImg.module.scss'
 import baseImg from '@images/baseImg.png'
 import camera from '@svgs/camera.svg'
-import styles from '@/components/Profile/Profile.module.scss'
 import { useRef } from 'react'
 
 interface ImgProps {
@@ -11,7 +11,7 @@ interface ImgProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Logo = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
+const ProfileImg = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
   const fileInput = useRef<HTMLInputElement>(null)
   const handleImageUpload = () => {
     fileInput.current?.click()
@@ -39,4 +39,4 @@ const Logo = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
   )
 }
 
-export default Logo
+export default ProfileImg

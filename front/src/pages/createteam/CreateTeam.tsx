@@ -1,11 +1,11 @@
 import styles from '@/pages/createteam/CreateTeam.module.scss'
-import Profile from '@/components/Profile/Profile'
 import Navbar from '@/components/Navbar/Navbar'
 import { useState } from 'react'
 import Button from '@/components/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { tapState } from '@/pages/mypage/store'
 import { useRecoilState } from 'recoil'
+import ProfileImg from '@/components/ProfileImg/ProfileImg'
 
 interface TeamData {
   name: string
@@ -64,7 +64,13 @@ const CreateTeam = () => {
         <div className={styles.head}>{'팀 생성하기'}</div>
         <div className={styles.body}>
           <div className={styles.profile}>
-            <Profile imgUrl={teamData.img} imgName={'팀이미지'} name={'teamdetail'} edit onChange={handleImageChange} />
+            <ProfileImg
+              imgUrl={teamData.img}
+              imgName={'팀이미지'}
+              name={'teamdetail'}
+              edit
+              onChange={handleImageChange}
+            />
             <p>{'팀 프로필 이미지'}</p>
           </div>
           <div className={styles.content}>
