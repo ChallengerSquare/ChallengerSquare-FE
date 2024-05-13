@@ -1,0 +1,24 @@
+@import '@/styles/variables.scss';
+
+.img{
+    padding: 5px;
+    position: relative;
+    width: 100%;
+
+    .teamdetail{
+        width: 100%;
+        border-radius: 100%;
+        border-radius: 50%;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .edit{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        border-radius: 50px;
+        padding: 3px;
+        background-color: $sub-color;
+    }
+}
