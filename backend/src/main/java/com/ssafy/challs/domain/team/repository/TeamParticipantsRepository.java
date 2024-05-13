@@ -34,4 +34,6 @@ public interface TeamParticipantsRepository
 
 	void deleteByTeamId(Long teamId);
 
+	Optional<TeamParticipants> findByIdAndIsParticipantsTrue(Long id);
+
 }

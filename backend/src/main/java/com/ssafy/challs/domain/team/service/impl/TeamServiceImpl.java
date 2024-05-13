@@ -31,6 +31,7 @@ import com.ssafy.challs.domain.team.dto.response.TeamResponseDto;
 import com.ssafy.challs.domain.team.entity.Team;
 import com.ssafy.challs.domain.team.entity.TeamParticipants;
 import com.ssafy.challs.domain.team.mapper.TeamMapper;
+import com.ssafy.challs.domain.team.mapper.TeamParticipantsMapper;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.domain.team.repository.TeamRepository;
 import com.ssafy.challs.domain.team.service.TeamService;
@@ -52,6 +53,7 @@ public class TeamServiceImpl implements TeamService {
 	private final S3ImageUploader s3ImageUploader;
 	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final ContestRepository contestRepository;
+	private final TeamParticipantsMapper teamParticipantsMapper;
 
 	@Value("${cloud.aws.s3.url}")
 	private String awsS3Url;
@@ -156,19 +158,11 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional
 	public void createParticipants(TeamCodeRequestDto teamCodeRequestDto, Long memberId) {
-
-		// TODO: 수정
-
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		Team team = getTeam(teamCodeRequestDto.code(), memberId);
-		TeamParticipants teamParticipants = TeamParticipants
-			.builder()
-			.team(team)
-			.member(member)
-			.isLeader(false)
-			.isParticipants(false)
-			.build();
+		TeamParticipants teamParticipants = teamParticipantsMapper.teamCodeRequestDtoToTeamParticipants(team, member,
+			false, false);
 		teamParticipantsRepository.save(teamParticipants);
 	}
 
@@ -355,7 +349,7 @@ public class TeamServiceImpl implements TeamService {
 	@Transactional
 	public void updateTeamLeader(TeamUpdateLeaderRequestDto teamUpdateLeaderRequestDto, Long memberId) {
 		checkLeader(memberId, teamUpdateLeaderRequestDto.teamId());
-		TeamParticipants teamParticipants = teamParticipantsRepository.findById(
+		TeamParticipants teamParticipants = teamParticipantsRepository.findByIdAndIsParticipantsTrue(
 				teamUpdateLeaderRequestDto.newLeaderParticipantsId())
 			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS));
 		if (!Objects.equals(teamParticipants.getTeam().getId(), teamUpdateLeaderRequestDto.teamId())) {
