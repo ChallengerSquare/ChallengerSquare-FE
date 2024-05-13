@@ -23,6 +23,7 @@ import com.ssafy.challs.global.common.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -44,7 +45,7 @@ public class QnaController {
 	@PostMapping
 	@Operation(summary = "QNA 작성", description = "QNA를 작성하는 API")
 	public ResponseEntity<SuccessResponse<String>> createQna(@AuthenticationPrincipal SecurityMember securityMember,
-		@RequestBody QnaCreateRequestDto qnaCreateRequestDto) {
+		@RequestBody @Valid QnaCreateRequestDto qnaCreateRequestDto) {
 		qnaService.createQna(qnaCreateRequestDto, securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
@@ -65,9 +66,17 @@ public class QnaController {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, results));
 	}
 
+	/**
+	 * 대회 질문 답변 작성하는 API
+	 *
+	 * @param qnaUpdateRequestDto 질문에 대한 답변 정보
+	 * @return 성공 여부
+	 */
 	@PutMapping
 	@Operation(summary = "QNA 답변 작성", description = "QNA의 답변을 작성하는 API")
-	public ResponseEntity<SuccessResponse<String>> updateQna(@RequestBody QnaUpdateRequestDto qnaUpdateRequestDto) {
+	public ResponseEntity<SuccessResponse<String>> updateQna(
+		@RequestBody @Valid QnaUpdateRequestDto qnaUpdateRequestDto) {
+		qnaService.updateQnaAnswer(qnaUpdateRequestDto.qnaId(), qnaUpdateRequestDto.answer());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 

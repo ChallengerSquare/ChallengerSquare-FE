@@ -55,4 +55,17 @@ public class QnaServiceImpl implements QnaService {
 	public Page<QnaResponseDto> searchQna(Long contestId, Pageable pageable) {
 		return qnaRepository.searchQna(contestId, pageable);
 	}
+
+	/**
+	 * 대회 질문 답변 작성
+	 *
+	 * @author 강다솔
+	 * @param qnaId 답변 등록할 질문 ID
+	 * @param answer 답변 정보
+	 */
+	@Override
+	@Transactional
+	public void updateQnaAnswer(Long qnaId, String answer) {
+		qnaRepository.updateQnaAnswer(qnaId, answer);
+	}
 }

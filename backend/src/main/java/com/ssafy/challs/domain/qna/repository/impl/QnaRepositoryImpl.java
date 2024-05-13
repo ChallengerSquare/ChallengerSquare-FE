@@ -56,4 +56,14 @@ public class QnaRepositoryImpl implements QnaRepositoryCustom {
 		return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
 	}
 
+	@Override
+	public void updateQnaAnswer(Long qnaId, String answer) {
+		QQna qQna = QQna.qna;
+		
+		queryFactory.update(qQna)
+			.set(qQna.qnaAnswer, answer)
+			.where(qQna.id.eq(qnaId))
+			.execute();
+	}
+
 }
