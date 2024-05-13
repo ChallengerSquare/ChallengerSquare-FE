@@ -14,10 +14,10 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 
 	@Override
 	public SecurityContext createSecurityContext(WithCustomMockUser annotation) {
-		SecurityMember member = new SecurityMember(1L, false);
+		SecurityMember member = new SecurityMember(Long.valueOf(annotation.id()), Boolean.valueOf(annotation.role()));
 
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(member, "password",
-			List.of(new SimpleGrantedAuthority("USER")));
+			member.getAuthorities());
 		SecurityContext context = SecurityContextHolder.getContext();
 		context.setAuthentication(token);
 		return context;
