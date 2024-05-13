@@ -123,6 +123,12 @@ public enum ErrorCode {
 	// 시상 정보가 없음
 	AWARDS_CODE_ERROR(404, "G-037", "Awards Code Error"),
 
+	// 이미 참여 / 수상 정보 등록되어 있는 경우
+	ALREADY_DECIDED(400, "G-038", "Awards State Already Decided"),
+
+	// 저장된 수상 정보와 다른 값으로 들어왔을 경우
+	AWARD_INFO_MISMATCH(400, "G-039", "Awards Info Mismatch"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 

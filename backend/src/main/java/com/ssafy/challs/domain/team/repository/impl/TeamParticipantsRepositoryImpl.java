@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.challs.domain.member.dto.response.MemberTeamLeaderResponseDto;
+import com.ssafy.challs.domain.team.dto.TeamMemberInfoDto;
+import com.ssafy.challs.domain.team.entity.QTeamParticipants;
 import com.ssafy.challs.domain.team.repository.TeamParticipantsRepositoryCustom;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,20 @@ public class TeamParticipantsRepositoryImpl implements TeamParticipantsRepositor
 				teamParticipants.team.teamName))
 			.from(teamParticipants)
 			.where(teamParticipants.member.id.eq(memberId).and(teamParticipants.isLeader.isTrue()))
+			.fetch();
+	}
+
+	@Override
+	public List<TeamMemberInfoDto> searchMemberInfoByTeamId(Long teamId) {
+		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+
+		return queryFactory.select(
+				Projections.constructor(TeamMemberInfoDto.class,
+					qTeamParticipants.member.id,
+					qTeamParticipants.member.memberCode,
+					qTeamParticipants.member.memberName)
+			).from(qTeamParticipants)
+			.where(qTeamParticipants.team.id.eq(teamId))
 			.fetch();
 	}
 
