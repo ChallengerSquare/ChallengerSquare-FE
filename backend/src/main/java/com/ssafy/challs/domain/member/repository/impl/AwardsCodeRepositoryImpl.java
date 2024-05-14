@@ -35,7 +35,8 @@ public class AwardsCodeRepositoryImpl implements AwardsCodeRepositoryCustom {
 
 		// 리스트 조회
 		List<MemberAwardsCodeResponseDto> list = queryFactory.select(
-				Projections.constructor(MemberAwardsCodeResponseDto.class, contest.id.castToNum(Integer.class),
+				Projections.constructor(MemberAwardsCodeResponseDto.class, contest.id,
+					contest.contestCategory,
 					contest.contestTitle, contest.contestStart, contest.contestEnd,
 					// 수상 코드
 					JPAExpressions.select(awardCode1.awardCode)
