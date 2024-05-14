@@ -9,6 +9,8 @@ public record MemberFindResponseDto(
 	String memberName,
 	@Schema(description = "회원의 생년월일", example = "1999-09-19")
 	LocalDate memberBirth,
+	@Schema(description = "회원의 이메일", example = "email@email.email")
+	String memberEmail,
 	@Schema(description = "회원의 전화번호", example = "010-0000-0000")
 	String memberPhone,
 	@Schema(description = "회원의 주소", example = "서울특별시 강남구 역삼동 멀티캠퍼스")
