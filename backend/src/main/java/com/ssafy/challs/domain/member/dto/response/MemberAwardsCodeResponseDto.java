@@ -7,6 +7,8 @@ import lombok.Builder;
 
 @Builder
 public record MemberAwardsCodeResponseDto(
+	@Schema(description = "대회 번호", example = "2")
+	Long contestId,
 	@Schema(description = "대회 카테고리", example = "2")
 	Integer contestCategory,
 	@Schema(description = "대회 제목", example = "대회입니다")
