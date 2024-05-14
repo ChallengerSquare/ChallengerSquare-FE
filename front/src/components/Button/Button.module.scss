@@ -1,6 +1,7 @@
 @import '@styles/variables.scss';
 
 @mixin button {
+  width: 100%;
   display: inline-block;
   padding: 0.4rem 1rem;
   font-size: 1.2rem;
