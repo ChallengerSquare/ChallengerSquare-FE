@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { stepProps } from '@/types/step'
 import Button from '@/components/Button/Button'
-import { Category, categorys } from '@/types/category'
+import { categorys } from '@/types/category'
 import CustomEditor from '@/components/Editor/CustomEditor'
 import Modal from '@components/Modal/Modal'
 import logoIcon from '@svgs/logo/challSv2.svg'
@@ -11,7 +11,6 @@ import { competitionForm } from '../store'
 import styles from './Promotion.module.scss'
 
 const Promotion = ({ prevStep }: stepProps) => {
-  const setCompetitionForm = useSetRecoilState(competitionForm)
   const form: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [isOpen, setIsOpen] = useState(false)
   const editorRef = useRef<{ handleStore: () => void }>(null)
@@ -35,7 +34,7 @@ const Promotion = ({ prevStep }: stepProps) => {
   }
 
   const handleRegisterCompeition = () => {}
-  console.log(form.contestCreateRequestDto.contestContent)
+  console.log(form.contestCreateRequestDto.contestPeriod.end)
   return (
     <>
       <div className={styles.header}>대회 세부 내용을 작성해주세요.</div>

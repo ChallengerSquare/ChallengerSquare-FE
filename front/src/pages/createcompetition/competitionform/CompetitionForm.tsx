@@ -7,7 +7,6 @@ import Button from '@/components/Button/Button'
 import Calendar, { formatDate } from '@/components/Calendar/Calendar'
 import ping from '@svgs/ping.svg'
 import uploadIcon from '@svgs/uploadIcon.svg'
-import updateNestedObject from '@/stores/updateNestedObject'
 import { CompetitionCreateRequestDto, CreateCompetitionDto } from '@/types/api'
 import postcode from './postcode'
 import { competitionForm } from '../store'
@@ -26,6 +25,13 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const form: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [locationDetail, setLocationDetail] = useState<string>('')
+
+  useEffect(() => {
+    console.log('Updated Registration Period Start:', formState.contestCreateRequestDto.registrationPeriod.start)
+  }, [formState.contestCreateRequestDto.registrationPeriod.start])
+  useEffect(() => {
+    console.log('Updated Contest Period Start:', formState.contestCreateRequestDto.registrationPeriod.start)
+  }, [formState.contestCreateRequestDto.contestPeriod.start])
 
   useEffect(() => {
     if (formState.contestCreateRequestDto.contestLocation) {
@@ -52,15 +58,37 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     fileInputRef.current?.click()
   }
 
-  const setRegistrationPeriod = (start: Date | null, end: Date | null) => {
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'registrationPeriod', 'start'], formatDate(start))
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'registrationPeriod', 'end'], formatDate(end))
+  const setRegistrationPeriod = (st: Date | null, en: Date | null) => {
+    const fst = formatDate(st)
+    const fen = formatDate(en)
+    setFormState({
+      ...formState,
+      contestCreateRequestDto: {
+        ...formState.contestCreateRequestDto,
+        registrationPeriod: {
+          ...formState.contestCreateRequestDto.registrationPeriod,
+          start: fst,
+          end: fen,
+        },
+      },
+    })
   }
 
-  const setContestPeriod = (start: Date | null, end: Date | null) => {
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'start'], formatDate(start))
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'end'], formatDate(end))
+  const setContestPeriod = (st: Date | null, en: Date | null) => {
+    const fst = formatDate(st)
+    const fen = formatDate(en)
+    setFormState({
+      ...formState,
+      contestCreateRequestDto: {
+        ...formState.contestCreateRequestDto,
+        contestPeriod: {
+          start: fst,
+          end: fen,
+        },
+      },
+    })
   }
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
@@ -76,7 +104,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
       reader.readAsDataURL(file)
     }
   }
-
   const updateLocation = () => {
     const fullLocation = `${formState.contestCreateRequestDto.contestLocation} . ${locationDetail}`.trim()
     handleInputChange('contestLocation', fullLocation)
@@ -90,6 +117,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const handleNextStep = () => {
     const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
     if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
+      console.log(startRecruitDate)
       setRegistrationPeriod(startRecruitDate, endRecruitDate)
       setContestPeriod(startDate, endDate)
       if (
@@ -98,6 +126,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
         data.contestTitle &&
         data.contestLocation &&
         data.contestRegistrationNum &&
+        data.contestPeriod.end &&
         data.contestPhone
       ) {
         updateLocation()

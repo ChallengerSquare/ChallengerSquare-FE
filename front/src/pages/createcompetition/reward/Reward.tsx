@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { stepProps } from '@/types/step'
 import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil'
+import { CreateCompetitionDto } from '@/types/api'
 import Button from '@/components/Button/Button'
 import plusIcon from '@svgs/plus_icon.svg'
 import minusIcon from '@svgs/minus_icon.svg'
-import { CreateCompetitionDto } from '@/types/api'
 import { competitionForm } from '../store'
 import styles from './Reward.module.scss'
 
 const Reward = ({ prevStep, nextStep }: stepProps) => {
+  const ss: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [form, setForm] = useRecoilState(competitionForm)
   const [awards, setAwards] = useState(() => {
     if (form.contestCreateRequestDto.contestAwards.length === 0) {
@@ -40,6 +41,7 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     setAwards(awards.filter((_, idx) => idx !== index))
   }
 
+  console.log(form.contestCreateRequestDto.contestPeriod.end)
   const handleInputChange = (index: number, field: string, value: string) => {
     const updatedAwards = awards.map((award, idx) => {
       if (idx === index) {
