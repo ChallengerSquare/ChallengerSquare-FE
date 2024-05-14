@@ -1,18 +1,23 @@
 import styles from '@/components/Competition/CompetitionCategory.module.scss'
-import SearchImg from '@/assets/search.svg'
+import All from '@svgs/category/all.svg'
+import IT from '@svgs/category/it.svg'
+import Art from '@svgs/category/art.svg'
+import Idea from '@svgs/category/idea.svg'
+import Sport from '@svgs/category/sport.svg'
+import Game from '@svgs/category/game.svg'
+import More from '@svgs/category/more.svg'
 import { useRecoilState } from 'recoil'
-import { Search } from '@/types/search'
 import { useEffect, useState } from 'react'
 import { searchState } from '@/pages/competition-search/store'
 
 const iconsData = [
-  { id: 0, name: '전체', image: SearchImg },
-  { id: 1, name: 'IT', image: SearchImg },
-  { id: 2, name: '게임', image: SearchImg },
-  { id: 3, name: '예술', image: SearchImg },
-  { id: 4, name: '스포츠', image: SearchImg },
-  { id: 5, name: '아이디어', image: SearchImg },
-  { id: 6, name: '기타', image: SearchImg },
+  { id: 0, name: '전체', image: All },
+  { id: 1, name: 'IT', image: IT },
+  { id: 2, name: '게임', image: Game },
+  { id: 3, name: '예술', image: Art },
+  { id: 4, name: '스포츠', image: Sport },
+  { id: 5, name: '아이디어', image: Idea },
+  { id: 6, name: '기타', image: More },
 ]
 
 const CompetitionCategory = () => {
@@ -35,12 +40,13 @@ const CompetitionCategory = () => {
         <div key={icon.name} className={styles.icon}>
           <button
             type="button"
-            className={categoryId === icon.id ? styles.active : styles.inactive}
+            className={`${styles.btn} ${categoryId === icon.id ? styles.active : ''}`}
+            // className={categoryId === icon.id ? styles.active : styles.inactive}
             onClick={() => handleChangeCategoryId(icon.id)}
           >
             <img src={icon.image} alt={icon.name} />
+            <p>{icon.name}</p>
           </button>
-          <p>{icon.name}</p>
         </div>
       ))}
     </div>
