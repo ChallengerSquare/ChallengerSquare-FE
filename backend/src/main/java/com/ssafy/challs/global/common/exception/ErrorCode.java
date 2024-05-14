@@ -129,6 +129,9 @@ public enum ErrorCode {
 	// 저장된 수상 정보와 다른 값으로 들어왔을 경우
 	AWARD_INFO_MISMATCH(400, "G-039", "Awards Info Mismatch"),
 
+	// 저장된 수상 정보와 다른 값으로 들어왔을 경우
+	QNA_NOT_FOUND(400, "G-040", "Qna Not Found"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
