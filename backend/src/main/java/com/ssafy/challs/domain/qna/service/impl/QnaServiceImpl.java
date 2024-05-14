@@ -83,6 +83,15 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	@Transactional
 	public void updateQnaAnswer(Long qnaId, String answer) {
+		Qna qna = qnaRepository.findById(qnaId).orElseThrow(() -> new BaseException(ErrorCode.QNA_NOT_FOUND));
 		qnaRepository.updateQnaAnswer(qnaId, answer);
+
+		// 질문 등록 시 질문 등록자에게 알림 전송
+		List<Long> members = List.of(qna.getMemberId());
+		alertService.createAlert(members, 'Q', qna.getId(),
+			qna.getContest().getContestTitle() + " 대회에 등록한 질문에 답변이 도착했습니다!");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put("unread", true);
+		sseService.send(members, message);
 	}
 }
