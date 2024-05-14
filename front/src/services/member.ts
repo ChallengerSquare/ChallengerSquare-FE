@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { User } from '@/types/user'
+import { User, UserInfo } from '@/types/user'
 import { ApiResponse, MemberDto } from '@/types/api'
 
 const api = axios.create({
@@ -91,6 +91,100 @@ export const getTeamsinLeader = async (): Promise<ApiResponse> => {
     }
   } catch (error: any) {
     console.error('팀 리스트(팀장) API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const getTeamList = async (): Promise<ApiResponse> => {
+  try {
+    const response = await api.get('/teams')
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 목록 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const getCompetitinoList = async (): Promise<ApiResponse> => {
+  try {
+    const response = await api.get('/contest')
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('대회 목록 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const getResultList = async (): Promise<ApiResponse> => {
+  try {
+    const response = await api.get('/awards')
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 목록 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const deleteUser = async (): Promise<ApiResponse> => {
+  try {
+    const response = await api.delete('')
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('회원 탈퇴 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const updateUser = async (userInfo: UserInfo): Promise<ApiResponse> => {
+  try {
+    const response = await api.put('/update', {
+      memberName: userInfo.memberName,
+      memberPhone: userInfo.memberPhone,
+      memberAddress: userInfo.memberAddress,
+    })
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('회원 정보 수정 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,
