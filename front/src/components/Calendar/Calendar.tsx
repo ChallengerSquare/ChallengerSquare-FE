@@ -10,12 +10,31 @@ import styles from './Calendar.module.scss'
 interface Props {
   selectedDate: Date | null
   setSelectedDate: Dispatch<SetStateAction<Date | null>>
+  minDate?: Date | null
+  maxDate?: Date | null
+  width?: string
 }
 
-const YEARS = Array.from({ length: getYear(new Date()) + 1 - 1900 }, (_, i) => getYear(new Date()) - i)
+export const formatDate = (date: Date | null): string => {
+  if (!date) return ''
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+}
+
 const MONTHS = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 
-const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
+const Calendar = ({
+  selectedDate,
+  setSelectedDate,
+  minDate = new Date('1924-01-01'),
+  maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 10)),
+}: Props) => {
+  const minYear = minDate ? getYear(minDate) : getYear(new Date('1924-01-01'))
+  const maxYear = maxDate ? getYear(maxDate) : getYear(new Date().setFullYear(new Date().getFullYear() + 10))
+  const YEARS = Array.from({ length: maxYear - minYear + 1 }, (_, index) => minYear + index)
   return (
     <div className={styles.datePickerWrapper}>
       <DatePicker

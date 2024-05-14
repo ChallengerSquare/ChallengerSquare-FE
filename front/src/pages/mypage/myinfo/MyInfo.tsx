@@ -53,7 +53,7 @@ const MyInfo = () => {
     }
   }
 
-  const handleUser = (key: string, event: any) => {
+  const handleUser = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
     if (key === 'address') {
       const fullAddress = `${addressDetails.postcode} ${addressDetails.roadAddress} ${event.target.value}`
       setAddress(event.target.value)

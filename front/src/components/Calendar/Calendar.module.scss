@@ -2,21 +2,16 @@
 
 .datePicker {
   display: flex;
-  align-items: center;
-  background: #fff; // 배경색을 흰색으로 설정
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1); // 그림자 추가
-  border-radius: 8px; // 둥근 모서리 추가
-  border: 1px solid white; // 테두리를 검정색으로 설정
-  box-sizing: border-box; // 박스 모델 설정
-  width: 200px; // 너비 설정
-  margin-left: 100px; // 왼쪽 여백 설정
-  height: 46px; // 높이 설정
-  color: black; // 글자 색상 설정
-  padding: 10px; // 패딩 설정
-
-  &:focus {
-    border: 2px solid blue; // 포커스 상태의 테두리 색상 변경
-  }
+  background: #fff;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid white;
+  box-sizing: border-box;
+  width: 140px;
+  height: 46px;
+  color: black;
+  text-align: center;
+  outline: none;
 }
 
 .customHeaderContainer {
@@ -26,6 +21,7 @@
   background-color: #ffffff;
   height: 100%;
   padding: 0 0 0 24px;
+  color: blue;
 
   .month {
     font-size: 18px;
@@ -48,14 +44,13 @@
     width: 34px;
     height: 34px;
     padding: 5px;
-    border-radius: 50%;
 
     + .monthButton {
       margin-left: 24px;
     }
 
     &:hover {
-      background-color: rgba(white, 0.08);
+      background-color: rgba(purple, 0.08);
     }
 
     &:disabled {
@@ -63,7 +58,7 @@
       background-color: #ffffff;
 
       svg {
-        fill: #575757;
+        fill: black;
       }
     }
   }

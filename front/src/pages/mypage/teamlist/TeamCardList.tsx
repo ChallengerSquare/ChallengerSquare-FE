@@ -5,6 +5,7 @@ import { teamIdxState, teamTapState, teamDetailTapState } from '@/pages/mypage/s
 import TeamCard from '@/components/TeamCard/TeamCard'
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
+import { Link } from 'react-router-dom'
 
 interface TeamCardListProps {
   teamListData: TeamListData[]
@@ -30,9 +31,9 @@ const TeamCardList = ({ teamListData }: TeamCardListProps) => {
     <div className={styles.teamlist}>
       <div className={styles.head}>
         <div>{'Team > 팀목록'}</div>
-        <button type={'button'} className={styles.btn}>
+        <Link to={'/create-team'} className={styles.btn}>
           {'+ 팀 생성하기'}
-        </button>
+        </Link>
       </div>
       <div className={styles.body}>
         {teamList.length > 0 ? (
