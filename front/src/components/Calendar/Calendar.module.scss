@@ -18,7 +18,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(248, 239, 239, 0.1);
+  background-color: #ffffff;
   height: 100%;
   padding: 0 0 0 24px;
   color: blue;
@@ -26,11 +26,12 @@
   .month {
     font-size: 18px;
     font-weight: 500;
+    color: #000000;
   }
 
   .year {
-    background-color: black;
-    color: white;
+    background-color: #ffffff;
+    color: #000000;
     border: none;
     font-size: 16px;
     font-weight: 500;
@@ -53,7 +54,9 @@
     }
 
     &:disabled {
-      cursor: not-allowed;
+      cursor: default;
+      background-color: #ffffff;
+
       svg {
         fill: black;
       }
@@ -62,22 +65,83 @@
 }
 
 .calenderWrapper {
-  background-color: $main-third-color;
+  background-color: #ffffff;
+  color: white;
+
+  :global {
+    .react-datepicker__day-names {
+      display: flex !important;
+      justify-content: space-between !important;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background-color: #8930fd !important;
+      color: #ffffff !important;
+      font-weight: bold !important;
+      text-transform: uppercase !important;
+    }
+    .react-datepicker__day-name {
+      color: #ffffff;
+    }
+
+    .react-datepicker__header--custom {
+      border-bottom: none !important;
+    }
+
+    .react-datepicker__day,
+    .selectedDay,
+    .unselectedDay {
+    padding: 3px 1px 0 0;
+    width: 36px;
+    height: 36px;
+      &:hover {
+        background-color: #8930fd;
+        border-radius: 50%;
+      }
+    }
+
+    .react-datepicker__day--keyboard-selected{
+      background-color: #ffffff !important;
+      font-weight: 500;
+      &:hover {
+        background-color: #8930fd !important;
+        border-radius: 50% !important;
+      }
+    }
+
+  }
 }
 
-.selected {
-  background-color: blue;
+.selectedDay {
+  background-color: #8930fd;
   border-radius: 50%;
 
   &:hover {
     border-radius: 50%;
-    background-color: blueviolet;
+    background-color: rgba(rgb(138, 183, 252), 0.8) !important;
   }
 }
 
-.unselected {
+.unselectedDay {
+  background-color: none;
+  border-radius: 50%;
   &:hover {
     border-radius: 50%;
-    background-color: rgba(red, 0.08);
+    background-color: rgba(white, 0.8);
+  }
+}
+
+.disabledDay {
+  color: #ffffff;
+  padding: 3px 1px 0 0;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.0);
+  border-radius: 50%;
+  cursor: default;
+  &:hover {
+    border-radius: 50%;
+    background-color: #ffffff !important;
   }
 }

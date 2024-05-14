@@ -1,36 +1,43 @@
-import React, { useEffect, useState } from 'react'
-// import { useNavigate } from 'react-router-dom';
-import styles from '@/components/Search/SearachBar.module.scss'
+import React from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styles from '@/components/SearchBar/SearachBar.module.scss'
 import searchIcon from '@/assets/search.svg'
+import { useRecoilState } from 'recoil'
+import { Search } from '@/types/search'
+import { searchState } from '@/pages/competition-search/store'
 
 interface SearchBarProps {
   text: string
-  openBtn: boolean
-  openBtnColor: string
+  openBtn?: boolean
+  openBtnColor?: string
+  onClick: (searchQuery: string | undefined) => void
+  onChange?: (keyword: string) => void
 }
 
-const SearchBar = ({ text, openBtn, openBtnColor }: SearchBarProps) => {
-  // const navigate = useNavigate()
-  const [keyword, setKeyword] = useState('')
+const SearchBar = ({ text, openBtn, openBtnColor, onClick }: SearchBarProps) => {
+  const navigate = useNavigate()
+  const [search, setSearch] = useRecoilState<Search>(searchState)
+  const [keyword, setKeyword] = useState(search.keyword)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value)
   }
 
   const moveToComtetitionOpen = () => {
-    // navigate(`/competition/create`)
-  }
-
-  const handleSearch = async (searchQuery: string) => {
-    // navigate(`/competition/search?keyword=${searchQuery}`)
+    navigate(`/create-competition`)
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && keyword) {
       // 'Enter' 키를 눌렀을 때만 검색 실행
-      handleSearch(keyword)
+      onClick(keyword)
     }
   }
+
+  useEffect(() => {
+    setKeyword(search.keyword)
+  }, [search])
 
   let checkColor = ''
   if (openBtnColor === 'white') checkColor = styles.white
@@ -47,8 +54,8 @@ const SearchBar = ({ text, openBtn, openBtnColor }: SearchBarProps) => {
           onKeyDown={handleKeyDown}
           maxLength={25}
         />
-        <button type="button" onClick={() => handleSearch(keyword)}>
-          <img src={searchIcon} alt="검색" />
+        <button type="button" onClick={() => onClick(keyword)}>
+          <img className={styles.searchimg} src={searchIcon} alt="검색" />
         </button>
       </div>
       {openBtn == true ? (
