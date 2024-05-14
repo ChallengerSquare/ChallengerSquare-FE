@@ -1,6 +1,11 @@
 import { CreateCompetitionDto } from '@/types/api'
 import { atom } from 'recoil'
 
+export interface CreateCompetitionButtonState {
+  offLine: string
+  free: boolean
+}
+
 export const competitionForm = atom<CreateCompetitionDto>({
   key: 'competitionForm',
   default: {
@@ -33,5 +38,13 @@ export const competitionForm = atom<CreateCompetitionDto>({
         },
       ],
     },
+  },
+})
+
+export const formButtonState = atom<CreateCompetitionButtonState>({
+  key: 'createCompetitionButtonState',
+  default: {
+    offLine: '',
+    free: false,
   },
 })
