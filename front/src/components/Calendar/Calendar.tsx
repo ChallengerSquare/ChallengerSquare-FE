@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 import DatePicker from 'react-datepicker'
 import { getMonth, getYear } from 'date-fns'
+import { ko } from 'date-fns/locale'
 import 'react-datepicker/dist/react-datepicker.css'
 import LeftArrow from '@svgs/left_arrow.svg'
 import RightArrow from '@svgs/right_arrow.svg'
@@ -18,9 +19,9 @@ const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
   return (
     <div className={styles.datePickerWrapper}>
       <DatePicker
+        locale={ko}
         placeholderText="YYYY.MM.DD"
         dateFormat="yyyy.MM.dd"
-        formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
         showYearDropdown
         scrollableYearDropdown
         shouldCloseOnSelect
@@ -29,9 +30,21 @@ const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
         maxDate={new Date()}
         selected={selectedDate}
         calendarClassName={styles.calenderWrapper}
-        dayClassName={(d) =>
-          selectedDate && (d.getDate() === selectedDate.getDate() ? styles.selectedDay : styles.unselectedDay)
-        }
+        dayClassName={(d) => {
+          const day = new Date()
+          if (d > day) {
+            return styles.disabledDay
+          }
+          return (
+            selectedDate &&
+            (d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString() ===
+            selectedDate.getFullYear().toString() +
+              selectedDate.getMonth().toString() +
+              selectedDate.getDate().toString()
+              ? styles.selectedDay
+              : styles.unselectedDay)
+          )
+        }}
         onChange={(date) => setSelectedDate(date)}
         className={styles.datePicker}
         renderCustomHeader={({
@@ -64,7 +77,7 @@ const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
                 className={styles.monthButton}
                 disabled={prevMonthButtonDisabled}
               >
-                <img src={LeftArrow} alt="Left Arrow" />
+                {!prevMonthButtonDisabled && <img src={LeftArrow} alt="Left Arrow" />}
               </button>
               <button
                 type="button"
@@ -72,7 +85,7 @@ const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
                 className={styles.monthButton}
                 disabled={nextMonthButtonDisabled}
               >
-                <img src={RightArrow} alt="Right Arrow" />
+                {!nextMonthButtonDisabled && <img src={RightArrow} alt="Right Arrow" />}
               </button>
             </div>
           </div>
