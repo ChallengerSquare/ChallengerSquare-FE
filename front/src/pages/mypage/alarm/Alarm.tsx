@@ -31,11 +31,9 @@ const Alarm = () => {
   }, [])
 
   const handleAlarm = (idx: number) => {
-    /* alertId 조회 API 호출 */
-    readAlarm(1)
+    readAlarm(alramList[idx].alertId)
     const updatedAlarms = [...alramList]
     updatedAlarms[idx] = { ...updatedAlarms[idx], isRead: true }
-    console.log(alramList)
     setAlarmList(updatedAlarms)
   }
 
