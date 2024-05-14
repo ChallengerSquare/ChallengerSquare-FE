@@ -35,7 +35,7 @@ const SelectTeam = ({ nextStep }: stepProps) => {
   }
 
   const handleNextStep = () => {
-    if (selectedTeam && nextStep) {
+    if (selectedTeam) {
       setCompetitionForm((prev) => ({
         ...prev,
         contestCreateRequestDto: {
@@ -43,7 +43,7 @@ const SelectTeam = ({ nextStep }: stepProps) => {
           teamId: selectedTeam.teamId,
         },
       }))
-      nextStep()
+      nextStep?.()
     }
   }
   if (isLoading) console.log('loading...')

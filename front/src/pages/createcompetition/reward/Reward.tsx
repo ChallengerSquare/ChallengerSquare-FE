@@ -9,6 +9,7 @@ import { competitionForm } from '../store'
 import styles from './Reward.module.scss'
 
 const Reward = ({ prevStep, nextStep }: stepProps) => {
+  const [formState, setFormState] = useRecoilState(competitionForm)
   const ss: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [form, setForm] = useRecoilState(competitionForm)
   const [awards, setAwards] = useState(() => {
@@ -22,6 +23,7 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     }))
   })
 
+  console.log(formState)
   useEffect(() => {
     const initialAwards = form.contestCreateRequestDto.contestAwards.map((award) => ({
       name: award.awardsName,
@@ -41,10 +43,6 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     setAwards(awards.filter((_, idx) => idx !== index))
   }
 
-  console.log(form.contestCreateRequestDto.registrationPeriod.start)
-  console.log(form.contestCreateRequestDto.registrationPeriod.end)
-  console.log(form.contestCreateRequestDto.contestPeriod.start)
-  console.log(form.contestCreateRequestDto.contestPeriod.end)
   const handleInputChange = (index: number, field: string, value: string) => {
     const updatedAwards = awards.map((award, idx) => {
       if (idx === index) {
@@ -72,7 +70,7 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
         contestAwards: validAwards,
       },
     })
-    if (nextStep) nextStep()
+    nextStep?.()
   }
   return (
     <>

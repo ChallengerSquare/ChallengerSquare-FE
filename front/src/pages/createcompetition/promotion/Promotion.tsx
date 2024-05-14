@@ -69,7 +69,11 @@ const Promotion = ({ prevStep }: stepProps) => {
                 </div>
                 <div className={styles.element}>
                   <div className={styles.label}>장소 : </div>
-                  <div className={styles.content}>{form.contestCreateRequestDto.contestLocation}</div>
+                  <div className={styles.content}>
+                    {form.contestCreateRequestDto.contestLocation
+                      ? form.contestCreateRequestDto.contestLocation
+                      : '온라인'}
+                  </div>
                 </div>
                 <div className={styles.element}>
                   <div className={styles.label}>모집 기간 : </div>
