@@ -1,22 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
+import { Category, categorys } from '@/types/category'
 import { stepProps } from '@/types/step'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Button from '@/components/Button/Button'
 import Calendar, { formatDate } from '@/components/Calendar/Calendar'
 import ping from '@svgs/ping.svg'
 import uploadIcon from '@svgs/uploadIcon.svg'
-import updateNestedObject from '@/stores/updateNestedObject'
-import { CompetitionCreateRequestDto, CreateCompetitionDto } from '@/types/api'
 import postcode from './postcode'
 import { competitionForm } from '../store'
 import styles from './CompetitionForm.module.scss'
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
-interface Category {
-  index: number
-  category: string
-}
 
 const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const [formState, setFormState] = useRecoilState(competitionForm)
@@ -28,8 +22,14 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const [isOffLine, setIsOffLine] = useState<boolean>(false)
   const [free, setFree] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const form: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [locationDetail, setLocationDetail] = useState<string>('')
+
+  useEffect(() => {
+    console.log('Updated Registration Period Start:', formState.contestCreateRequestDto.registrationPeriod.start)
+  }, [formState.contestCreateRequestDto.registrationPeriod.start])
+  useEffect(() => {
+    console.log('Updated Contest Period Start:', formState.contestCreateRequestDto.registrationPeriod.start)
+  }, [formState.contestCreateRequestDto.contestPeriod.start])
 
   useEffect(() => {
     if (formState.contestCreateRequestDto.contestLocation) {
@@ -42,15 +42,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
       }
     }
   }, [formState.contestCreateRequestDto.contestLocation])
-
-  const categorys: Category[] = [
-    { index: 1, category: 'IT' },
-    { index: 2, category: '게임' },
-    { index: 3, category: '예술' },
-    { index: 4, category: '스포츠' },
-    { index: 5, category: '아이디어' },
-    { index: 6, category: '기타' },
-  ]
 
   const handleInputChange = (field: keyof typeof formState.contestCreateRequestDto, value: any) => {
     setFormState({
@@ -65,14 +56,34 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     fileInputRef.current?.click()
   }
 
-  const setRegistrationPeriod = (start: Date | null, end: Date | null) => {
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'registrationPeriod', 'start'], formatDate(start))
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'registrationPeriod', 'end'], formatDate(end))
+  const setContestPeriod = async (st: Date | null, en: Date | null) => {
+    const fst = formatDate(st)
+    const fen = formatDate(en)
+    setFormState({
+      ...formState,
+      contestCreateRequestDto: {
+        ...formState.contestCreateRequestDto,
+        contestPeriod: {
+          start: fst,
+          end: fen,
+        },
+      },
+    })
   }
 
-  const setContestPeriod = (start: Date | null, end: Date | null) => {
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'start'], formatDate(start))
-    updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'end'], formatDate(end))
+  const setRegistrationPeriod = async (st: Date | null, en: Date | null) => {
+    const fst = formatDate(st)
+    const fen = formatDate(en)
+    setFormState({
+      ...formState,
+      contestCreateRequestDto: {
+        ...formState.contestCreateRequestDto,
+        registrationPeriod: {
+          start: fst,
+          end: fen,
+        },
+      },
+    })
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +101,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
       reader.readAsDataURL(file)
     }
   }
-
   const updateLocation = () => {
     const fullLocation = `${formState.contestCreateRequestDto.contestLocation} . ${locationDetail}`.trim()
     handleInputChange('contestLocation', fullLocation)
@@ -102,24 +112,22 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     if (prevStep) prevStep()
   }
   const handleNextStep = () => {
-    const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
-    console.log(form.contestImage)
-    console.log(data.contestCategory)
-    console.log(data.contestTitle)
-    console.log(data.contestLocation)
-    console.log(data.contestRegistrationNum)
-    console.log(data.contestFee)
-    console.log(data.contestPhone)
+    console.log(startRecruitDate)
+    console.log(endRecruitDate)
+    console.log(startDate)
+    console.log(endDate)
     if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
       setRegistrationPeriod(startRecruitDate, endRecruitDate)
       setContestPeriod(startDate, endDate)
+
       if (
-        form.contestImage &&
-        data.contestCategory &&
-        data.contestTitle &&
-        data.contestLocation &&
-        data.contestRegistrationNum &&
-        data.contestPhone
+        formState.contestImage &&
+        formState.contestCreateRequestDto.contestCategory &&
+        formState.contestCreateRequestDto.contestTitle &&
+        formState.contestCreateRequestDto.contestLocation &&
+        formState.contestCreateRequestDto.contestRegistrationNum &&
+        formState.contestCreateRequestDto.contestPeriod.end &&
+        formState.contestCreateRequestDto.contestPhone
       ) {
         updateLocation()
         nextStep()
@@ -137,8 +145,8 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
         <div className={styles.thumbnail}>
           <div className={styles.poster}>포스터(썸네일)</div>
           <div className={styles.upload} onClick={handleUploadClick}>
-            {form.contestImage ? (
-              <img src={form.contestImage} alt="Uploaded Poster" />
+            {formState.contestImage ? (
+              <img src={formState.contestImage} alt="Uploaded Poster" />
             ) : (
               <img src={uploadIcon} alt="Unloaded Poster" className={styles.default} />
             )}
@@ -156,6 +164,11 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <div className={styles.label}>&nbsp; 분류</div>
             <Dropdown<Category>
               options={categorys}
+              placeholder={
+                formState.contestCreateRequestDto.contestCategory
+                  ? categorys[parseInt(formState.contestCreateRequestDto.contestCategory, 10) - 1].category
+                  : ''
+              }
               onSelect={(category: Category) => {
                 handleInputChange('contestCategory', category.index)
               }}
@@ -208,11 +221,10 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <div className={styles.place}>
               <input
                 type="text"
-                value={form.contestCreateRequestDto.contestLocation}
+                value={formState.contestCreateRequestDto.contestLocation}
                 className={styles.place_box_one}
                 onChange={(e) => {
                   handleInputChange('contestLocation', e.target.value)
-                  console.log(form.contestCreateRequestDto.contestLocation)
                 }}
                 readOnly
               />
@@ -238,7 +250,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <Calendar selectedDate={endDate} setSelectedDate={setEndDate} minDate={startDate} />
           </div>
           <div className={styles.element}>
-            <div className={styles.label}>&nbsp; 인원</div>
+            <div className={styles.label}>&nbsp; 인원(팀)</div>
             <input
               type="text"
               className={styles.input_box_two}
@@ -246,7 +258,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
               onChange={(e) => handleInputChange('contestRegistrationNum', e.target.value)}
               placeholder="인원"
             />
-            &nbsp; &nbsp;명
+            &nbsp; &nbsp;명(팀)
           </div>
           <div className={styles.element}>
             <div className={styles.label}>&nbsp; 참가비</div>
@@ -258,7 +270,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
                 handleInputChange('contestFee', e.target.value)
                 setFree(false)
               }}
-              value={form.contestCreateRequestDto.contestFee}
+              value={formState.contestCreateRequestDto.contestFee}
               placeholder="참가비"
             />
             &nbsp; &nbsp;원&nbsp;&nbsp;&nbsp;
@@ -277,6 +289,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               className={styles.input_box_four}
+              value={formState.contestCreateRequestDto.contestPhone}
               onChange={(e) => {
                 handleInputChange('contestPhone', e.target.value)
               }}
