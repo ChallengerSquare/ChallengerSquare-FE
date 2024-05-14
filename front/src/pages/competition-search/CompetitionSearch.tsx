@@ -67,11 +67,9 @@ const CompetitionSearch = () => {
   }
 
   useEffect(() => {
-    if (search.category != 0 || search.keyword !== '') {
-      navigate(
-        `/competition/search?${search.keyword != '' ? `key=${search.keyword}&` : ''}${search.category != 0 ? `category=${search.category}&` : ''}&orderBy=${search.orderBy}`,
-      )
-    }
+    navigate(
+      `/competition/search?${search.keyword != '' ? `key=${search.keyword}&` : ''}${search.category != 0 ? `category=${search.category}&` : ''}&orderBy=${search.orderBy}`,
+    )
   }, [search])
 
   return (

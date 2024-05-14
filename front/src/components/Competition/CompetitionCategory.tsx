@@ -25,7 +25,6 @@ const CompetitionCategory = () => {
   const [categoryId, setCategoryId] = useState<number | undefined>(0)
 
   const handleChangeCategoryId = (id: number) => {
-    console.log(`API 호출: ${id}`)
     setCategoryId(id)
     setSearch((prev) => ({ ...prev, category: id }))
   }
