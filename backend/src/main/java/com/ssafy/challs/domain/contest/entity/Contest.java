@@ -40,8 +40,6 @@ public class Contest extends BaseEntity {
 	Integer contestFee;
 	String contestImage;
 	Character contestCategory;
-	Integer contestPeopleMin;
-	Integer contestPeopleMax;
 	Character contestState;
 	Boolean isPriority;
 
