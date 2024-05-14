@@ -11,8 +11,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -35,14 +33,10 @@ public class AwardsCodeRepositoryImpl implements AwardsCodeRepositoryCustom {
 			.from(awardCode1)
 			.where(awardCode1.memberId.eq(memberId)).fetch();
 
-		// char 형태를 Integer 형태로 전환
-		NumberExpression<Integer> charToInteger = Expressions.numberTemplate(Integer.class, "CAST({0} AS INTEGER)",
-			contest.contestCategory);
-
 		// 리스트 조회
 		List<MemberAwardsCodeResponseDto> list = queryFactory.select(
 				Projections.constructor(MemberAwardsCodeResponseDto.class, contest.id,
-					charToInteger,
+					contest.contestCategory,
 					contest.contestTitle, contest.contestStart, contest.contestEnd,
 					// 수상 코드
 					JPAExpressions.select(awardCode1.awardCode)
