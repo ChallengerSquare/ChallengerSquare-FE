@@ -41,6 +41,9 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     setAwards(awards.filter((_, idx) => idx !== index))
   }
 
+  console.log(form.contestCreateRequestDto.registrationPeriod.start)
+  console.log(form.contestCreateRequestDto.registrationPeriod.end)
+  console.log(form.contestCreateRequestDto.contestPeriod.start)
   console.log(form.contestCreateRequestDto.contestPeriod.end)
   const handleInputChange = (index: number, field: string, value: string) => {
     const updatedAwards = awards.map((award, idx) => {

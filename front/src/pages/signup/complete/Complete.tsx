@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { User } from '@/types/user'
 import { registerUser } from '@services/member'
 import { userState } from '@/stores/userState'
@@ -12,6 +12,7 @@ import styles from './Complete.module.scss'
 
 const Complete = () => {
   const user: User = useRecoilValue(userForm)
+  console.log(user.userName)
   const setUserState = useSetRecoilState(userState)
   const navigate = useNavigate()
 

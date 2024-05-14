@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import DatePicker from 'react-datepicker'
-import { getMonth, getYear } from 'date-fns'
+import { getMonth, getYear, max } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import 'react-datepicker/dist/react-datepicker.css'
 import LeftArrow from '@svgs/left_arrow.svg'
@@ -45,15 +45,12 @@ const Calendar = ({
         scrollableYearDropdown
         shouldCloseOnSelect
         yearDropdownItemNumber={100}
-        minDate={new Date('1900-01-01')}
-        maxDate={new Date()}
+        minDate={minDate}
+        maxDate={maxDate}
         selected={selectedDate}
         calendarClassName={styles.calenderWrapper}
         dayClassName={(d) => {
           const day = new Date()
-          if (d > day) {
-            return styles.disabledDay
-          }
           return (
             selectedDate &&
             (d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString() ===
