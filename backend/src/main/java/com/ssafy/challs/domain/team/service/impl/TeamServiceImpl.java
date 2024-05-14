@@ -1,6 +1,8 @@
 package com.ssafy.challs.domain.team.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.challs.domain.alert.service.AlertService;
+import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.member.entity.Member;
 import com.ssafy.challs.domain.member.repository.MemberRepository;
@@ -54,12 +58,16 @@ public class TeamServiceImpl implements TeamService {
 	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final ContestRepository contestRepository;
 	private final TeamParticipantsMapper teamParticipantsMapper;
+	private final AlertService alertService;
+	private final SseService sseService;
 
 	@Value("${cloud.aws.s3.url}")
 	private String awsS3Url;
 
 	@Value("${redirect-url}")
 	private String redirectUrl;
+
+	private static final String UN_READ = "unread";
 
 	/**
 	 * 팀 생성
@@ -155,6 +163,19 @@ public class TeamServiceImpl implements TeamService {
 		Team team = getTeam(teamCodeRequestDto.code(), memberId);
 		TeamParticipants teamParticipants = teamParticipantsMapper.teamCodeRequestDtoToTeamParticipants(team, member,
 			false, false);
+
+		// 알림 생성, sse 전송
+		Long leaderId = teamParticipantsRepository.findByTeamIdAndIsLeaderTrue(team.getId())
+			.orElseThrow(() -> new BaseException(ErrorCode.LEADER_NOT_FOUND)).getId();
+		alertService.createAlert(List.of(leaderId), 'T', team.getId(), team.getTeamName() + "에 가입 신청이 도착했습니다!");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put(UN_READ, true);
+		try {
+			sseService.send(List.of(leaderId), message);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+
 		teamParticipantsRepository.save(teamParticipants);
 	}
 
@@ -328,6 +349,21 @@ public class TeamServiceImpl implements TeamService {
 			throw new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS);
 		}
 		teamParticipantsRepository.deleteById(teamParticipants.getId());
+		// 알림 생성, sse 전송
+		List<Long> list = teamParticipantsRepository.findByTeamIdAndIsParticipantsTrue(teamId, Sort.unsorted())
+			.stream()
+			.map(data -> data.getMember().getId())
+			.toList();
+		alertService.createAlert(list, 'T', teamId,
+			teamParticipants.getTeam().getTeamName() + "에서 " + teamParticipants.getMember().getMemberName()
+				+ "님이 탈퇴 하셨습니다.");
+		try {
+			Map<String, Boolean> message = new HashMap<>();
+			message.put(UN_READ, true);
+			sseService.send(list, message);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
 	}
 
 	/**
@@ -349,6 +385,18 @@ public class TeamServiceImpl implements TeamService {
 		}
 		Long id = teamParticipantsRepository.findByTeamIdAndMemberId(teamUpdateLeaderRequestDto.teamId(), memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS)).getId();
+
+		// 알림 생성, sse 전송
+		alertService.createAlert(List.of(teamParticipants.getMember().getId()), 'T', teamParticipants.getTeam().getId(),
+			teamParticipants.getTeam().getTeamName() + "의 팀장이 되었습니다!");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put(UN_READ, true);
+		try {
+			sseService.send(List.of(teamParticipants.getMember().getId()), message);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+
 		teamParticipantsRepository.updateLeader(id, false);
 		teamParticipantsRepository.updateLeader(teamUpdateLeaderRequestDto.newLeaderParticipantsId(), true);
 	}
@@ -377,11 +425,24 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	@Transactional
 	public void deleteTeamParticipant(TeamParticipantDeleteRequestDto teamParticipantDeleteRequestDto, Long memberId) {
-		Long teamId = teamParticipantsRepository.findById(teamParticipantDeleteRequestDto.participantsId())
+		Team team = teamParticipantsRepository.findById(teamParticipantDeleteRequestDto.participantsId())
 			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS))
-			.getTeam()
-			.getId();
-		checkLeader(memberId, teamId);
+			.getTeam();
+		checkLeader(memberId, team.getId());
+		Member member = teamParticipantsRepository.findById(teamParticipantDeleteRequestDto.participantsId())
+			.orElseThrow(() -> new BaseException(ErrorCode.PARTICIPANTS_NOT_EXISTS))
+			.getMember();
+
+		// 알림 생성, sse 전송
+		alertService.createAlert(List.of(member.getId()), 'T', 0L, team.getTeamName() + "에서 추방 당하셨습니다.");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put(UN_READ, true);
+		try {
+			sseService.send(List.of(member.getId()), message);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+
 		teamParticipantsRepository.deleteById(teamParticipantDeleteRequestDto.participantsId());
 	}
 
