@@ -1,3 +1,5 @@
+@import '@/styles/variables.scss';
+
 .title{
   display: flex;
   justify-content: space-between;
@@ -18,7 +20,7 @@
 }
 
 .content{
-  margin-bottom: 3rem;
+  margin-bottom: 10px;
 
   .grid {
     display: grid;
@@ -45,5 +47,10 @@
         color: grey;
       }
     }
+  }
+  .empty{
+    height: 400px;
+    background-color: $main-second-color;
+    border-radius: 20px;
   }
 }

@@ -38,22 +38,16 @@
 
         .content_item{
           width: 24%;
-
-          img{
-            width: 100%;
-            height: 12rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.2rem;
-          }
-
           p{
             color: grey;
             font-size: 1.1vw;
+            margin-left: 10px;
           }
 
           span{
             font-weight: bold;
             font-size: 1.3vw;
+            margin-left: 10px;
           }
         }
       }

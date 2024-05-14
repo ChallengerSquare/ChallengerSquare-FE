@@ -15,7 +15,7 @@
     input {
       flex: 1;
       background-color: transparent;
-      padding : 0rem 1.5rem;
+      padding : 10px 30px;
       font-size: 16px;
 
       &:focus {
@@ -24,10 +24,10 @@
     }
 
     button{
-      margin : 0.8rem 1.5rem;
+      margin: 10px 20px;
 
-      img{
-        width: 2rem;
+      .searchimg{
+        width: 30px;
       }
     }
   }

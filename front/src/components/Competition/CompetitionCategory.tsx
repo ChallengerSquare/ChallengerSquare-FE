@@ -1,27 +1,43 @@
 import styles from '@/components/Competition/CompetitionCategory.module.scss'
-import Search from '@/assets/search.svg'
+import SearchImg from '@/assets/search.svg'
+import { useRecoilState } from 'recoil'
+import { Search } from '@/types/search'
+import { useEffect, useState } from 'react'
+import { searchState } from '@/pages/competition-search/store'
 
 const iconsData = [
-  { name: '전체', image: Search, apiEndpoint: '/api/all' },
-  { name: 'IT', image: Search, apiEndpoint: '/api/it' },
-  { name: '게임', image: Search, apiEndpoint: '/api/game' },
-  { name: '예술', image: Search, apiEndpoint: '/api/movie' },
-  { name: '스포츠', image: Search, apiEndpoint: '/api/sports' },
-  { name: '아이디어', image: Search, apiEndpoint: '/api/media' },
-  { name: '기타', image: Search, apiEndpoint: '/api/etc' },
+  { id: 0, name: '전체', image: SearchImg },
+  { id: 1, name: 'IT', image: SearchImg },
+  { id: 2, name: '게임', image: SearchImg },
+  { id: 3, name: '예술', image: SearchImg },
+  { id: 4, name: '스포츠', image: SearchImg },
+  { id: 5, name: '아이디어', image: SearchImg },
+  { id: 6, name: '기타', image: SearchImg },
 ]
 
-const moveToCompetitionOpen = (apiEndpoint: string) => {
-  console.log(`API 호출: ${apiEndpoint}`)
-  // 실제 API 호출 로직은 여기에 구현}
-}
-
 const CompetitionCategory = () => {
+  const [search, setSearch] = useRecoilState(searchState)
+  const [categoryId, setCategoryId] = useState<number | undefined>(0)
+
+  const handleChangeCategoryId = (id: number) => {
+    console.log(`API 호출: ${id}`)
+    setCategoryId(id)
+    setSearch((prev) => ({ ...prev, category: id }))
+  }
+
+  useEffect(() => {
+    setCategoryId(search.category)
+  }, [])
+
   return (
     <div className={styles.icons_container}>
       {iconsData.map((icon) => (
         <div key={icon.name} className={styles.icon}>
-          <button type="button" onClick={() => moveToCompetitionOpen(icon.apiEndpoint)}>
+          <button
+            type="button"
+            className={categoryId === icon.id ? styles.active : styles.inactive}
+            onClick={() => handleChangeCategoryId(icon.id)}
+          >
             <img src={icon.image} alt={icon.name} />
           </button>
           <p>{icon.name}</p>
