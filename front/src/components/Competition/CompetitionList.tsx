@@ -1,26 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ContestData } from '@/types/competition'
 import navigateBefore from '@/assets/navigate_before.svg'
 import navigateNext from '@/assets/navigate_next.svg'
 import styles from '@/components/Competition/CompetitionList.module.scss'
-import backImg from '../../../public/images/competition/background.png'
+import ProfileImg from '../ProfileImg/ProfileImg'
 
-interface Item {
-  id: number
-  image: string
-  name: string
-  date: string
-}
-interface Props {
+interface CompetitoinListProps {
   text: string
-  items: Item[]
+  contestList: ContestData[]
 }
 
-const CompetitoinList = ({ text, items }: Props) => {
+const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
   const itemPerPage = 4
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [length] = useState(items.length)
-  const [nextBtn, setNextBtn] = useState('next')
+  const [length, setLength] = useState(contestList.length)
+
+  useEffect(() => {
+    setLength(contestList.length)
+  }, [contestList])
 
   // 슬라이드를 다음으로 이동
   const nextSlide = () => {
@@ -37,12 +35,12 @@ const CompetitoinList = ({ text, items }: Props) => {
   }
 
   // 슬라이스된 아이템을 보여주는 렌더링 부분
-  const slicedItems = items.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
-    <div className={styles.content_item} key={item.id}>
-      <Link to={`/competition/detail/${item.id}`}>
-        <img src={backImg} alt="competImg" />
-        <p>{item.date}</p>
-        <span>{item.name}</span>
+  const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
+    <div className={styles.content_item} key={item.contestId}>
+      <Link to={`/competition/detail/${item.contestId}`}>
+        <ProfileImg imgUrl={item.contestImage} imgName={'대회이미지'} name={'competition'} />
+        <p>{item.contestDate}</p>
+        <span>{item.contestTitle}</span>
       </Link>
     </div>
   ))
@@ -61,9 +59,6 @@ const CompetitoinList = ({ text, items }: Props) => {
         <div className={styles.content}>
           <div className={styles.more}>
             <Link to="/competition/search"> 더보기 </Link>
-            {/* <button type="button" onClick={movetoCompetitionList}>
-              더보기
-            </button> */}
           </div>
           <div className={styles.content_items}>{slicedItems}</div>
         </div>

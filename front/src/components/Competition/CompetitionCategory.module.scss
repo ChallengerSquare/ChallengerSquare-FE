@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import '@/styles/variables.scss';
 
 .icons_container {
   display: flex;
@@ -11,15 +11,24 @@
     cursor: pointer;
     text-align: center;
 
+    .active{
+      img{
+        background-color: $main-third-color;
+      }
+    }
+    .inactive{
+      img{
+        background-color: $main-second-color;
+      }
+    }
     img {
-      background-color: $main-second-color;
-      border-radius: 1rem;
-      padding: 1rem;
-      width: 4rem; // 이미지 크기는 적절히 조절
+      border-radius: 20px;
+      padding: 10px;
+      width: 50px;
     }
 
     p{
-      font-size:12px;
+      font-size: 1rem;
     }
   }
 }
