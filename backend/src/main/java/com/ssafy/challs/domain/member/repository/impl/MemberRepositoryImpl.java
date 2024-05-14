@@ -58,7 +58,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 	public Optional<MemberFindResponseDto> findMember(Long memberId) {
 		MemberFindResponseDto memberFindResponseDto = jpaQueryFactory.select(
 				Projections.constructor(MemberFindResponseDto.class, member.memberName, member.memberBirth,
-					member.memberPhone, member.memberAddress))
+					member.memberEmail, member.memberPhone, member.memberAddress))
 			.from(member)
 			.where(member.id.eq(memberId))
 			.fetchOne();
