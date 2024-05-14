@@ -1,39 +1,58 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
 import Calendar, { formatDate } from '@components/Calendar/Calendar'
 import HelpButton from '@svgs/help_button.svg'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@services/postcode'
 import ping from '@svgs/ping.svg'
-import { useSetRecoilState } from 'recoil'
 import { stepProps } from '@/types/step'
-import { userForm } from '../store'
+import { userState } from '@stores/userState'
+import { User } from '@/types/user'
+import { registerUser } from '@/services/member'
 import styles from './Userform.module.scss'
 
 const Userform = ({ prevStep, nextStep }: stepProps) => {
-  const setUserFrom = useSetRecoilState(userForm)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const setUser = useSetRecoilState(userState)
+  const [name, setName] = useState<string>('')
+  const [contact, setContact] = useState<string>('')
+  const [birth, setBirth] = useState<Date | null>(null)
   const [addressDetails, setAddressDetails] = useState({
     postcode: '',
     roadAddress: '',
     detailAddress: '',
   })
+  const [selectAddress, setSelectAddress] = useState<string>('')
 
-  useEffect(() => {
-    const formattedDate = formatDate(selectedDate)
-    if (selectedDate) {
-      setUserFrom((prev) => ({
+  const handleSetMember = () => {
+    if (name && contact && birth && addressDetails.postcode) {
+      const fullAddress = `${addressDetails.postcode} ${addressDetails.roadAddress} ${addressDetails.detailAddress} ${selectAddress}`
+
+      const birthDate = formatDate(birth)
+      const member: User = {
+        userName: name,
+        userBirth: birthDate,
+        userContact: contact,
+        userAddress: fullAddress,
+      }
+      setUser((prev) => ({
         ...prev,
-        birth: formattedDate,
+        userName: member.userName,
+        userBirth: member.userBirth,
+        userContact: member.userContact,
+        userAddress: member.userAddress,
       }))
+      registerUser(member).then((response) => {
+        if (response) {
+          console.log('회원가입 성공', response)
+          nextStep?.()
+        } else {
+          console.error('회원가입 실패')
+        }
+      })
+    } else {
+      alert('항목을 모두 입력해주세요.')
     }
-  }, [selectedDate])
-
-  const handleUserState = (key: string, e: any) => {
-    setUserFrom((prev) => ({
-      ...prev,
-      [key]: e.target.value,
-    }))
   }
 
   return (
@@ -48,8 +67,8 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               className={styles['name-box']}
-              onChange={(e) => {
-                handleUserState('username', e)
+              onChange={(item) => {
+                setName(item.target.value)
               }}
               placeholder="이름 입력"
             />
@@ -57,7 +76,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
           <div className={styles.input}>
             <div className={styles.label}>&nbsp; 생년월일</div>
             <div className={styles.calendar}>
-              <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} maxDate={new Date()} />
+              <Calendar selectedDate={birth} setSelectedDate={setBirth} maxDate={new Date()} />
             </div>
           </div>
           <div className={styles.input}>
@@ -65,8 +84,8 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               className={styles['input-box']}
-              onChange={(e) => {
-                handleUserState('contact', e)
+              onChange={(item) => {
+                setContact(item.target.value)
               }}
               placeholder="000-0000-0000"
             />
@@ -79,11 +98,11 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               value={addressDetails.postcode}
-              onChange={(e) => {
-                setAddressDetails((prev) => ({
-                  ...prev,
-                  postcode: e.target.value,
-                }))
+              onChange={(item) => {
+                setAddressDetails({
+                  ...addressDetails,
+                  postcode: item.target.value,
+                })
               }}
               className={styles.postcode}
               placeholder="우편번호"
@@ -100,11 +119,11 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
               type="text"
               value={addressDetails.roadAddress}
               className={styles['road-address']}
-              onChange={(e) => {
-                setAddressDetails((prev) => ({
-                  ...prev,
-                  roadAddress: e.target.value,
-                }))
+              onChange={(item) => {
+                setAddressDetails({
+                  ...addressDetails,
+                  roadAddress: item.target.value,
+                })
               }}
               placeholder="도로명 주소"
               readOnly
@@ -115,25 +134,19 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
               type="text"
               className={styles['detail-address']}
               value={addressDetails.detailAddress}
-              onChange={(e) => {
-                setAddressDetails((prev) => ({
-                  ...prev,
-                  detailAddress: e.target.value,
-                }))
+              onChange={(item) => {
+                setAddressDetails({
+                  ...addressDetails,
+                  detailAddress: item.target.value,
+                })
               }}
               placeholder="상세 주소"
               readOnly
             />
             <input
               type="text"
-              onChange={(e) => {
-                const fullAddress =
-                  `${addressDetails.postcode} ${addressDetails.roadAddress} ${addressDetails.detailAddress}`.trim() +
-                  e.target.value
-                setUserFrom((prev) => ({
-                  ...prev,
-                  address: fullAddress,
-                }))
+              onChange={(item) => {
+                setSelectAddress(item.target.value)
               }}
               className={styles['dong-address']}
               placeholder="(직접 입력)"
@@ -148,7 +161,7 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             </Button>
           </div>
           <div>
-            <Button variation="purple default" onClick={nextStep}>
+            <Button variation="purple default" onClick={handleSetMember}>
               다음
             </Button>
           </div>
