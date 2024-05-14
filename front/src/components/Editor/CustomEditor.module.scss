@@ -1,5 +1,21 @@
 @import '@styles/variables.scss';
 
 .editor {
-  margin-top: 40px;
+  margin-top: 10px;
+}
+
+.btn {
+  display: flex;
+  justify-content: end;
+  margin-top: 20px;
+}
+
+.saveMessage {
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  margin-top: 6px;
+  font-size: 15px;
+  height: 100%;
+  color: rgba(237, 20, 20, 0.674);
 }

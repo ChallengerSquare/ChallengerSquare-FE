@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
+import { Category, categorys } from '@/types/category'
 import { stepProps } from '@/types/step'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Button from '@/components/Button/Button'
@@ -12,11 +13,6 @@ import postcode from './postcode'
 import { competitionForm } from '../store'
 import styles from './CompetitionForm.module.scss'
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
-interface Category {
-  index: number
-  category: string
-}
 
 const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const [formState, setFormState] = useRecoilState(competitionForm)
@@ -43,15 +39,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     }
   }, [formState.contestCreateRequestDto.contestLocation])
 
-  const categorys: Category[] = [
-    { index: 1, category: 'IT' },
-    { index: 2, category: '게임' },
-    { index: 3, category: '예술' },
-    { index: 4, category: '스포츠' },
-    { index: 5, category: '아이디어' },
-    { index: 6, category: '기타' },
-  ]
-
   const handleInputChange = (field: keyof typeof formState.contestCreateRequestDto, value: any) => {
     setFormState({
       ...formState,
@@ -74,7 +61,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'start'], formatDate(start))
     updateNestedObject(setFormState, ['contestCreateRequestDto', 'contestPeriod', 'end'], formatDate(end))
   }
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
@@ -102,34 +88,26 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     if (prevStep) prevStep()
   }
   const handleNextStep = () => {
-    if (nextStep) nextStep()
-    // const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
-    // console.log(form.contestImage)
-    // console.log(data.contestCategory)
-    // console.log(data.contestTitle)
-    // console.log(data.contestLocation)
-    // console.log(data.contestRegistrationNum)
-    // console.log(data.contestFee)
-    // console.log(data.contestPhone)
-    // if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
-    //   setRegistrationPeriod(startRecruitDate, endRecruitDate)
-    //   setContestPeriod(startDate, endDate)
-    //   if (
-    //     form.contestImage &&
-    //     data.contestCategory &&
-    //     data.contestTitle &&
-    //     data.contestLocation &&
-    //     data.contestRegistrationNum &&
-    //     data.contestPhone
-    //   ) {
-    //     updateLocation()
-    //     nextStep()
-    //   } else {
-    //     alert('전체 항목을 입력해주세요.')
-    //   }
-    // } else {
-    //   alert('날짜를 입력해주세요.')
-    // }
+    const data: CompetitionCreateRequestDto = form.contestCreateRequestDto
+    if (startRecruitDate && endRecruitDate && startDate && endDate && nextStep) {
+      setRegistrationPeriod(startRecruitDate, endRecruitDate)
+      setContestPeriod(startDate, endDate)
+      if (
+        form.contestImage &&
+        data.contestCategory &&
+        data.contestTitle &&
+        data.contestLocation &&
+        data.contestRegistrationNum &&
+        data.contestPhone
+      ) {
+        updateLocation()
+        nextStep()
+      } else {
+        alert('전체 항목을 입력해주세요.')
+      }
+    } else {
+      alert('날짜를 입력해주세요.')
+    }
   }
   return (
     <>
@@ -157,6 +135,11 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <div className={styles.label}>&nbsp; 분류</div>
             <Dropdown<Category>
               options={categorys}
+              placeholder={
+                formState.contestCreateRequestDto.contestCategory
+                  ? categorys[parseInt(formState.contestCreateRequestDto.contestCategory, 10) - 1].category
+                  : ''
+              }
               onSelect={(category: Category) => {
                 handleInputChange('contestCategory', category.index)
               }}
@@ -213,7 +196,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
                 className={styles.place_box_one}
                 onChange={(e) => {
                   handleInputChange('contestLocation', e.target.value)
-                  console.log(form.contestCreateRequestDto.contestLocation)
                 }}
                 readOnly
               />
@@ -239,7 +221,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <Calendar selectedDate={endDate} setSelectedDate={setEndDate} minDate={startDate} />
           </div>
           <div className={styles.element}>
-            <div className={styles.label}>&nbsp; 인원</div>
+            <div className={styles.label}>&nbsp; 인원(팀)</div>
             <input
               type="text"
               className={styles.input_box_two}
@@ -247,7 +229,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
               onChange={(e) => handleInputChange('contestRegistrationNum', e.target.value)}
               placeholder="인원"
             />
-            &nbsp; &nbsp;명
+            &nbsp; &nbsp;명(팀)
           </div>
           <div className={styles.element}>
             <div className={styles.label}>&nbsp; 참가비</div>
@@ -278,6 +260,7 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               className={styles.input_box_four}
+              value={form.contestCreateRequestDto.contestPhone}
               onChange={(e) => {
                 handleInputChange('contestPhone', e.target.value)
               }}

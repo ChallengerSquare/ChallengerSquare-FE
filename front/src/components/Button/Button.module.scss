@@ -57,6 +57,16 @@
   }
 }
 
+.pink {
+  @include button();
+  background-color: #e8aee9;
+  width: 120px;
+
+  &:not(:disabled):hover {
+    background-color: #e8aee9;
+  }
+}
+
 .agreement {
   width: 900px;
   margin-left: 10px;

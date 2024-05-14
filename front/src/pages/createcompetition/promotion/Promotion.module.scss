@@ -23,3 +23,55 @@
     text-align: center; // 버튼을 가운데 정렬
   }
 }
+
+.modal_header {
+  .logo {
+    display: flex;
+    width: 100px;
+    margin: auto;
+  }
+  .modal_header_title {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $main-color;
+  }
+}
+
+.modal_container {
+  margin-top: 20px;
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+  .modal_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+  }
+  .label {
+    padding-left: 230px;
+    padding-right: 10px;
+    display: flex;
+    flex: 1;
+    min-width: 120px;
+    margin-right: 10px;
+    justify-content: end;
+  }
+
+  .element {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .content {
+    display: flex;
+    flex: 3;
+  }
+
+  .reward {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+  }
+}
