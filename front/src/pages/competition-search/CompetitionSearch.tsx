@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { Search } from '@/types/search'
 import { ContestData } from '@/types/competition'
 import { searchState } from '@/pages/competition-search/store'
@@ -43,10 +43,11 @@ const CompetitionSearch = () => {
   ])
 
   useEffect(() => {
+    const temp: ContestData[] = data
     /* GET `api/contest?keyword=${search.keyword}&category=${search.category}&isEnd=false&page=0&size=12&orderBys=${search.orderBy}` */
-    setProgressCompetitionList(data)
+    setProgressCompetitionList(temp)
     /* GET `api/contest?keyword=${search.keyword}&category=${search.category}&isEnd=true&page=0&size=12&orderBy=${search.orderBy}` */
-    setFinishCompetitionList(data)
+    setFinishCompetitionList(temp)
   }, [])
 
   const handleMore = (key: string) => {
@@ -85,17 +86,25 @@ const CompetitionSearch = () => {
       <div className={styles.list}>
         <div className={styles.progress_list}>
           <CompetitionSearchList title="진행 중인 대회" data={progressCompetitionList} />
-          <div className={styles.more_btn}>
-            <Button variation={'purple'} onClick={() => handleMore('progress')}>
-              {'더보기'}
-            </Button>
-          </div>
+          {progressCompetitionList.length > 0 ? (
+            <div className={styles.more_btn}>
+              <Button variation={'purple'} onClick={() => handleMore('progress')}>
+                {'더보기'}
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
           <CompetitionSearchList title="마감된 대회" data={finishCompetitionList} />
-          <div className={styles.more_btn}>
-            <Button variation={'purple'} onClick={() => handleMore('finish')}>
-              {'더보기'}
-            </Button>
-          </div>
+          {finishCompetitionList.length > 0 ? (
+            <div className={styles.more_btn}>
+              <Button variation={'purple'} onClick={() => handleMore('finish')}>
+                {'더보기'}
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

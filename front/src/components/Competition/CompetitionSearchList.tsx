@@ -7,6 +7,7 @@ import useScrollTop from '@/hooks/useScrollTop'
 import styles from '@/components/Competition/CompetitionSearchList.module.scss'
 import img from '../../../public/images/competition/background.png'
 import ProfileImg from '../ProfileImg/ProfileImg'
+import EmptyImg from '../EmptyImg/EmptyImg'
 
 interface SearchListProps {
   title: string
@@ -36,18 +37,24 @@ const CompetitionSearchList = ({ title, data }: SearchListProps) => {
         </select>
       </div>
       <div className={styles.content}>
-        <div className={styles.grid}>
-          {items.map((item: ContestData) => (
-            <div key={item.contestId} className={styles.grid_item}>
-              <Link to={`/competition/detail/${item.contestId}`}>
-                {/* <img src={img} alt={item.contestTitle} /> */}
-                <ProfileImg imgUrl={item.contestImage} imgName={item.contestTitle} name={'competition'} />
-                <p>{item.contestTitle}</p>
-                <span>{item.contestDate}</span>
-              </Link>
-            </div>
-          ))}
-        </div>
+        {items.length > 0 ? (
+          <div className={styles.grid}>
+            {items.map((item: ContestData) => (
+              <div key={item.contestId} className={styles.grid_item}>
+                <Link to={`/competition/detail/${item.contestId}`}>
+                  {/* <img src={img} alt={item.contestTitle} /> */}
+                  <ProfileImg imgUrl={item.contestImage} imgName={item.contestTitle} name={'competition'} />
+                  <p>{item.contestTitle}</p>
+                  <span>{item.contestDate}</span>
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.empty}>
+            <EmptyImg text={'검색된 결과가 없습니다.'} />
+          </div>
+        )}
       </div>
     </div>
   )
