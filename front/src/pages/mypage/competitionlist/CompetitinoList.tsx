@@ -3,6 +3,7 @@ import { ContestData } from '@/types/competition'
 import CompetitionCard from '@/components/CompetitionCard/CompetitionCard'
 import styles from '@/pages/mypage/competitionlist/CompetitionList.module.scss'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
+import { getCompetitinoList } from '@services/member'
 
 const CompetitionList = () => {
   const [contestList, setContestList] = useState<ContestData[]>([
@@ -14,50 +15,10 @@ const CompetitionList = () => {
   ])
 
   useEffect(() => {
-    /* 대회 목록 API 호출 */
-    const contestDataList = () => [
-      {
-        contestId: 1,
-        contestTitle: '대회1',
-        contestImage: '',
-      },
-      {
-        contestId: 2,
-        contestTitle: '대회2',
-        contestImage: '',
-      },
-      {
-        contestId: 3,
-        contestTitle: '대회3',
-        contestImage: '',
-      },
-      {
-        contestId: 4,
-        contestTitle: '대회4',
-        contestImage: '',
-      },
-      {
-        contestId: 5,
-        contestTitle: '대회5',
-        contestImage: '',
-      },
-      {
-        contestId: 6,
-        contestTitle: '대회6',
-        contestImage: '',
-      },
-      {
-        contestId: 7,
-        contestTitle: '대회7',
-        contestImage: '',
-      },
-      {
-        contestId: 8,
-        contestTitle: '대회8',
-        contestImage: '',
-      },
-    ]
-    setContestList(contestDataList)
+    getCompetitinoList().then(({ data }) => {
+      const contestDataList: ContestData[] = data.content
+      setContestList(contestDataList)
+    })
   }, [])
 
   return (

@@ -1,8 +1,9 @@
 import { useState, useEffect, useInsertionEffect } from 'react'
-import { User } from '@/types/user'
+import { User, UserInfo } from '@/types/user'
 import styles from '@/pages/mypage/myinfo/MyInfo.module.scss'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@/services/postcode'
+import { getUser, updateUser } from '@services/member'
 
 const MyInfo = () => {
   const [user, setUser] = useState<User>({
@@ -27,13 +28,14 @@ const MyInfo = () => {
   const [address, setAddress] = useState('')
 
   useEffect(() => {
-    /* User 가져오는 API 호출 */
-    setUser({
-      userName: '김땡땡',
-      userBirth: '2000-01-01',
-      userContact: '010-1234-5678',
-      userAddress: '06220 서울 강남구 테헤란로 212 (역삼동, 멀티캠퍼스) 멀티캠퍼스 8층',
-      userEmail: 'multicampus@gmail.com',
+    getUser().then(({ data }) => {
+      setUser({
+        userName: data.memberName,
+        userBirth: data.memberBirth,
+        userContact: data.memberPhone,
+        userAddress: data.memberAddress,
+        userEmail: data.memberEmail,
+      })
     })
   }, [])
 
@@ -54,7 +56,7 @@ const MyInfo = () => {
   }
 
   const handleUser = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    if (key === 'address') {
+    if (key === 'userAddress') {
       const fullAddress = `${addressDetails.postcode} ${addressDetails.roadAddress} ${event.target.value}`
       setAddress(event.target.value)
       setEditUser((prev) => ({ ...prev, [key]: fullAddress }))
@@ -62,7 +64,12 @@ const MyInfo = () => {
   }
 
   const handelePostRequest = () => {
-    /* 수정된 user post API 호출 */
+    const userInfo: UserInfo = {
+      memberName: editUser.userName,
+      memberPhone: editUser.userContact,
+      memberAddress: editUser.userAddress,
+    }
+    updateUser(userInfo)
     setUser(editUser)
   }
 
@@ -83,8 +90,8 @@ const MyInfo = () => {
             <input
               id={'username'}
               type={'text'}
-              value={editUser.userName}
-              onChange={(event) => handleUser('username', event)}
+              value={editUser.userName || ''}
+              onChange={(event) => handleUser('userName', event)}
             />
           </div>
         </div>
@@ -97,8 +104,8 @@ const MyInfo = () => {
               <input
                 id={'email'}
                 type={'text'}
-                value={editUser.userEmail}
-                onBlur={(event) => handleUser('email', event)}
+                value={editUser.userEmail || ''}
+                onBlur={(event) => handleUser('userEmail', event)}
                 disabled
               />
             </div>
@@ -113,8 +120,8 @@ const MyInfo = () => {
               <input
                 id={'birth'}
                 type={'text'}
-                value={editUser.userBirth}
-                onChange={(event) => handleUser('birth', event)}
+                value={editUser.userBirth || ''}
+                onChange={(event) => handleUser('userBirth', event)}
                 disabled
               />
             </div>
@@ -128,8 +135,8 @@ const MyInfo = () => {
             <input
               id={'contact'}
               type={'text'}
-              value={editUser.userContact}
-              onChange={(event) => handleUser('contact', event)}
+              value={editUser.userContact || ''}
+              onChange={(event) => handleUser('userContact', event)}
             />
           </div>
         </div>
@@ -162,7 +169,7 @@ const MyInfo = () => {
               id={'address'}
               type={'text'}
               value={address}
-              onChange={(event) => handleUser('address', event)}
+              onChange={(event) => handleUser('userAddress', event)}
             />
           </div>
         </div>

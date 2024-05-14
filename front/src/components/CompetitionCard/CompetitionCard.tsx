@@ -18,7 +18,7 @@ const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => 
           <div key={contest.contestId}>
             <div className={styles.contest}>
               <p>{contest.contestTitle}</p>
-              <img src={contest.contestImage === '' ? baseImg : contest.contestImage} alt="대회 로고" />
+              <img src={contest.contestImage === null ? baseImg : contest.contestImage} alt="대회 로고" />
             </div>
             <div className={styles.btn}>
               {state === 'create' ? (
