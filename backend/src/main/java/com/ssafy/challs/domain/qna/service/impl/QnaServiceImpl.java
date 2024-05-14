@@ -1,11 +1,18 @@
 package com.ssafy.challs.domain.qna.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.challs.domain.alert.service.AlertService;
+import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.entity.Contest;
+import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.qna.dto.request.QnaCreateRequestDto;
 import com.ssafy.challs.domain.qna.dto.response.QnaResponseDto;
@@ -23,6 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class QnaServiceImpl implements QnaService {
 
 	private final ContestRepository contestRepository;
+	private final AlertService alertService;
+	private final SseService sseService;
+	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final QnaRepository qnaRepository;
 	private final QnaMapper qnaMapper;
 
@@ -39,6 +49,13 @@ public class QnaServiceImpl implements QnaService {
 		Contest contest = contestRepository.findById(qnaCreateRequestDto.contestId())
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 		Qna qna = qnaMapper.qnaCreateRequestDtoToQna(qnaCreateRequestDto, contest, memberId);
+
+		// 질문 등록시 대회 개최팀 모두에게 알림 전송
+		List<Long> members = contestParticipantsRepository.searchMemberIdFromTeamId(contest.getTeam().getId());
+		alertService.createAlert(members, 'Q', qna.getId(), "새로운 질문이 등록되었습니다. 확인해주세요!");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put("unread", true);
+		sseService.send(members, message);
 		qnaRepository.save(qna);
 	}
 
