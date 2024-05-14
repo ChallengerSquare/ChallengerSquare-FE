@@ -104,8 +104,6 @@ class ContestControllerTest {
 			.contestPhone("010-1234-5678")
 			.isPriority(false)
 			.contestCategory('1')
-			.contestPeopleMin(1)
-			.contestPeopleMax(10)
 			.contestAwards(List.of())
 			.build();
 	}
@@ -151,8 +149,6 @@ class ContestControllerTest {
 			.contestPhone("010-1234-5678")
 			.isPriority(false)
 			.contestCategory('1')
-			.contestPeopleMin(1)
-			.contestPeopleMax(10)
 			.contestAwards(List.of())
 			.build();
 	}

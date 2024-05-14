@@ -48,12 +48,6 @@ public record ContestUpdateRequestDto(
 	@Schema(description = "대회 카테고리", example = "3")
 	@NotNull
 	Character contestCategory,
-	@Schema(description = "대회 최소 신청 인원", example = "1")
-	@NotNull
-	Integer contestPeopleMin,
-	@Schema(description = "대회 최대 신청 인원", example = "6")
-	@NotNull
-	Integer contestPeopleMax,
 	@Schema(description = "시상 정보")
 	@NotNull
 	List<ContestAwardsDto> contestAwards

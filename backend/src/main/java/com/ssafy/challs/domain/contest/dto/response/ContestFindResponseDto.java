@@ -31,10 +31,6 @@ public record ContestFindResponseDto(
 	Boolean isPriority,
 	@Schema(description = "대회 카테고리", example = "2")
 	String contestCategory,
-	@Schema(description = "대회 최소 신청 인원", example = "1")
-	Integer contestPeopleMin,
-	@Schema(description = "대회 최대 신청 인원", example = "6")
-	Integer contestPeopleMax,
 	@Schema(description = "대회 신청한 팀장인지 여부", example = "true")
 	Boolean isLeader,
 	@Schema(description = "B :참가 신청 안한 상태, W : 참가 신청 후 승인 대기중, A : 참가 신청 후 승인 완료, R : 참가 신청 후 승인 거절", example = "BEFORE")
