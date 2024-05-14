@@ -24,6 +24,17 @@ def check_port():
 host = check_ip() # 서버의 IP 주소 또는 도메인 이름
 port = check_port() # 포트 번호
 
+
+def send_chain(IP, PORT, chain):
+    print(str(IP) + ':' + str(PORT) + ' 에 요청을 보낼 게요')
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+            client_socket.connect((IP, PORT))
+            name = "chain"
+            message = chain
+    except ConnectionRefusedError:
+        print("연결을 거부당했습니다. 서버가 실행 중인지 확인해주세요.")
+
 def run_server():
     # 서버 소켓 생성 및 바인딩, 리스닝
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:

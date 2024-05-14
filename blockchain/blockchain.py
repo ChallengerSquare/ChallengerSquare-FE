@@ -35,18 +35,47 @@ class Blockchain:
             Blockchain._instance = Blockchain()
         return Blockchain._instance
 
-    def create_block(self, proof, previous_hash):
+
+    def create_blocks(self):
+        previous_block = self.get_previous_block()
         # define Block
-        block = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
+        body = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
+                 'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
+                 'proof': 1,  # nonce 값
+                 'previous_hash': previous_block['hash'],  # 이전 블록의 hash값
+                 'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
+        block = {
+            'hash': '',
+            'body': body
+        }
+        self.proof_of_works(block)
+        # block_string = json.dumps(block, sort_keys=True).encode()
+        # block_hash = hashlib.sha256(block_string).hexdigest()
+        # block['hash'] = block_hash
+        # print('니가 들어가는 해시니? : ' + block_hash)
+        self.chain.append(block)  # 체인에 새로운 블록 추가
+        self.transactions.clear()  # 트랜잭션 멤풀 비우기
+
+        return block
+
+    def create_block(self, proof, previous_hash):
+        # previous_block = self.get_previous_block()
+        # define Block
+        body = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
                  'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
                  'proof': proof,  # nonce 값
                  'previous_hash': previous_hash,  # 이전 블록의 hash값
                  'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
-
-        block_string = json.dumps(block, sort_keys=True).encode()
+        block_string = json.dumps(body, sort_keys=True).encode()
         block_hash = hashlib.sha256(block_string).hexdigest()
-        block['hash'] = block_hash
-
+        block = {
+            'hash': block_hash,
+            'body': body
+        }
+        # block_string = json.dumps(block, sort_keys=True).encode()
+        # block_hash = hashlib.sha256(block_string).hexdigest()
+        # block['hash'] = block_hash
+        print('니가 들어가는 해시니? : ' + block_hash)
         self.chain.append(block)  # 체인에 새로운 블록 추가
         self.transactions.clear()  # 트랜잭션 멤풀 비우기
 
@@ -56,13 +85,28 @@ class Blockchain:
     def get_previous_block(self):
         return self.chain[-1]  # 현재 체인에 있는 블록 중 가장 끝 블록 반환
 
+
+    def proof_of_works(self, block):
+        body = block['body']
+        check_proof = False
+
+        while check_proof is False:
+            body_string = json.dumps(body, sort_keys=True).encode()
+            block_hash = hashlib.sha256(body_string).hexdigest()
+            if block_hash[:4] == '0000':
+                print('찾아낸 hash : ' + block_hash)
+                block['hash'] = block_hash
+                check_proof = True
+            else:
+                body['proof'] += 1  # nonce 값 +1 증가
+
+
     # 작업 증명
     # 새로운 블록을 채굴하기 위한 nonce 값을 찾아내는 것
     '''
     :param previous_proof: 이전 블록의 nonce 값
     :return new_proof: 새로운 nonce값
     '''
-
     def proof_of_work(self, previous_proof):  # todo : 해쉬값 찾는걸 더 어렵게 만들어서 시간이 걸리도록 할건지, 일정한 주기를 정할건지 추가
         new_proof = 1  # 새로운 nonce 값을 저장할 변수
         check_proof = False  # 신규 증명의 유효성을 저장할 변수
@@ -77,6 +121,7 @@ class Blockchain:
                 str(new_proof ** 2 - previous_proof ** 2).encode()).hexdigest()  # nonce를 포함해서 해싱
             # todo : difficulty가 지금 4인데 이거 상수로 빼도 좋을 거 같아요
             if hash_operation[:4] == '0000':  # difficulty에 맞게 해싱 값 검증
+                print('찾아낸 hash : ' + hash_operation)
                 check_proof = True
             else:
                 new_proof += 1  # nonce 값 +1 증가
@@ -101,15 +146,17 @@ class Blockchain:
             block = chain[block_index]
 
             # 현재 블록이 가진 previous_hash가 실제로 이전 블록을 해싱했을 떄의 값과 같은지 확인
-            if block['previous_hash'] != self.hash(previous_block):
+            if block['body']['previous_hash'] != self.hash(previous_block['body']):
+                print('!!!여기서 옳지 않음!!!')
                 return False
 
-            previous_proof = previous_block['proof']  # 이전 블록의 nonce 값
-            proof = block['proof']  # 현재 블록의 nonce 값
+            # previous_proof = previous_block['proof']  # 이전 블록의 nonce 값
+            # proof = block['proof']  # 현재 블록의 nonce 값
 
             # todo: nonce를 이용한 작업증명인데 이거 로직 바꿔야 할듯
-            hash_operation = hashlib.sha256(str(proof ** 2 - previous_proof ** 2).encode()).hexdigest()
-            if hash_operation[:4] != '0000':
+            block_string = json.dumps(block['body'], sort_keys=True).encode()
+            block_hash = hashlib.sha256(block_string).hexdigest()
+            if block_hash[:4] != '0000':
                 return False
 
             previous_block = block

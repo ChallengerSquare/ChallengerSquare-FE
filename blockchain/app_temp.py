@@ -3,7 +3,6 @@ from flask import Flask, jsonify, request, render_template
 from blockchain import Blockchain
 from smart_contract import SmartContract
 from schedule import start_scheduler
-from apies import *
 
 app = Flask(__name__)
 
@@ -14,22 +13,21 @@ smart_contract = SmartContract()
 
 @app.route('/mine-block', methods=['GET'])
 def mine_block():
-    # previous_block = blockchain.get_previous_block()
-    # previous_proof = previous_block['proof']
-    # proof = blockchain.proof_of_work(previous_proof)
-    # previous_hash = previous_block['hash']
-    # print('체인의 마지막 블록의 해시 : ' + previous_hash)
-    block = blockchain.create_blocks()
+    previous_block = blockchain.get_previous_block()    # 가장 마지막 블록
+    previous_proof = previous_block['proof']    # 가장 마지막 블록의 nonce
+    proof = blockchain.proof_of_work(previous_proof)    # 작업 증
+    previous_hash = blockchain.hash(previous_block)
+    block = blockchain.create_block(proof, previous_hash)
 
-    # response = {'message': 'Congratulations, you just mine a block!!',
-    #             'hash': block['hash'],
-    #             'index': block['index'],
-    #             'timestamp': block['timestamp'],
-    #             'proof': block['proof'],
-    #             'previous_hash': block['previous_hash'],
-    #             'transactions': block['transactions']}
+    response = {'message': 'Congratulations, you just mine a block!!',
+                'hash': block['hash'],
+                'index': block['index'],
+                'timestamp': block['timestamp'],
+                'proof': block['proof'],
+                'previous_hash': block['previous_hash'],
+                'transactions': block['transactions']}
 
-    return jsonify(block), 200
+    return jsonify(response), 200
 
 
 @app.route('/get-chain', methods=['GET'])
@@ -148,4 +146,3 @@ def get_awards(code):
 if __name__ == '__main__':
     start_scheduler()
     app.run(host='0.0.0.0', port=5000)
-    list()
