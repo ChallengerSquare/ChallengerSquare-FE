@@ -1,5 +1,6 @@
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { useEffect, useState } from 'react'
+import { getLeaderUserList, getUserList } from '@services/team'
 
 interface TeamMemberProps {
   id: number
@@ -22,37 +23,21 @@ const TeamMember = ({ id }: TeamMemberProps) => {
   ])
 
   useEffect(() => {
-    /* 팀 목록 API 호출 */
-    const dummyData = [
-      {
-        memberName: '김땡땡',
-        memberEmail: '김땡땡@gmail.com',
-        isApprove: false,
-      },
-      {
-        memberName: '이땡땡',
-        memberEmail: '이땡땡@gmail.com',
-      },
-      {
-        memberName: '최땡땡',
-        memberEmail: '최땡땡@gmail.com',
-      },
-      {
-        memberName: '최땡땡',
-        memberEmail: '최땡땡@gmail.com',
-      },
-      {
-        memberName: '최땡땡',
-        memberEmail: '최땡땡@gmail.com',
-      },
-    ]
-    setMemberList(dummyData)
+    getLeaderUserList(id).then((response) => {
+      if (response.status === 200) {
+        setMemberList(response.data)
+      } else if (response.code === 'G-029') {
+        getUserList(id).then(({ data }) => {
+          setMemberList(data)
+        })
+      }
+    })
   }, [])
 
   return (
     <div className={styles.team_member}>
-      {memberList.map((member) => (
-        <div className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
+      {memberList.map((member, index) => (
+        <div key={index} className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
           <div className={styles.line_head}>{''}</div>
           <div className={styles.line_body}>
             <div>
