@@ -75,7 +75,6 @@ class Blockchain:
         # block_string = json.dumps(block, sort_keys=True).encode()
         # block_hash = hashlib.sha256(block_string).hexdigest()
         # block['hash'] = block_hash
-        print('니가 들어가는 해시니? : ' + block_hash)
         self.chain.append(block)  # 체인에 새로운 블록 추가
         self.transactions.clear()  # 트랜잭션 멤풀 비우기
 
@@ -94,7 +93,6 @@ class Blockchain:
             body_string = json.dumps(body, sort_keys=True).encode()
             block_hash = hashlib.sha256(body_string).hexdigest()
             if block_hash[:4] == '0000':
-                print('찾아낸 hash : ' + block_hash)
                 block['hash'] = block_hash
                 check_proof = True
             else:
@@ -226,30 +224,30 @@ class Blockchain:
         network = self.nodes
         longest_chain = None
         max_length = len(self.chain)
-        for node in network:
-            response = requests.get(f'http://{node}/get_chain')  # todo : https 통신으로 추후 변경
-            if response.status_code == 200:
-                length = response.json()['length']
-                chain = response.json()['chain']
-                if length > max_length and self.is_chain_valid(chain):
-                    max_length = length
-                    longest_chain = chain
+        # for node in network:
+        response = requests.get(f'http://127.0.0.1:5000/get-chain')  # todo : https 통신으로 추후 변경
+        if response.status_code == 200:
+            length = response.json()['length']
+            chain = response.json()['chain']
+            if length > max_length and self.is_chain_valid(chain):
+                max_length = length
+                longest_chain = chain
 
-        if longest_chain:  # 고아블록 처리 과정
-            index = len(longest_chain) - 1  # 체인의 끝 인덱스 가져오기
-            is_done = False
-            while not is_done and index >= 0:  # 작업이 완료되지 않고, 인덱스가 0이상이면
-                if len(self.chain) - 1 >= index:  # 내가 원래 가진 chain에 현재 인덱스를 가진 블록이 존재하면
+        # if longest_chain:  # 고아블록 처리 과정
+        #     index = len(longest_chain) - 1  # 체인의 끝 인덱스 가져오기
+        #     is_done = False
+        #     while not is_done and index >= 0:  # 작업이 완료되지 않고, 인덱스가 0이상이면
+        #         if len(self.chain) - 1 >= index:  # 내가 원래 가진 chain에 현재 인덱스를 가진 블록이 존재하면
+        #
+        #             if longest_chain[index]['hash'] != self.chain[index]['hash']:  # 맨 뒤쪽 블록부터 내용을 비교해서 다르면
+        #                 self.transactions.append(self.chain[index]['transactions'])  # 내 블록(교체되는 블록)의 트랜잭션을 멤풀로 되돌리기
+        #             else:
+        #                 is_done = True  # 내용이 같다면 앞쪽 내용은 같을 수 밖에 없으므로, 작업을 완료
+        #
+        #         index -= 1  # index를 1 감소
 
-                    if longest_chain[index]['hash'] != self.chain[index]['hash']:  # 맨 뒤쪽 블록부터 내용을 비교해서 다르면
-                        self.transactions.append(self.chain[index]['transactions'])  # 내 블록(교체되는 블록)의 트랜잭션을 멤풀로 되돌리기
-                    else:
-                        is_done = True  # 내용이 같다면 앞쪽 내용은 같을 수 밖에 없으므로, 작업을 완료
-
-                index -= 1  # index를 1 감소
-
-            self.chain = longest_chain
-            return True
+                self.chain = longest_chain
+                return True
 
         return False
 

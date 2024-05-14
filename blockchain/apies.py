@@ -20,7 +20,7 @@ def list():
 
 if __name__ == '__main__':
     blockchain = Blockchain.get_blockchain()
-    # connect("127.0.0.1", 50001)
+    # connect("127.0.0.1", 5000)
     # connect("127.0.0.1", 50002)
     # connect("127.0.0.1", 50003)
     # connect("127.0.0.1", 50004)

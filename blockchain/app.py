@@ -3,7 +3,9 @@ from flask import Flask, jsonify, request, render_template
 from blockchain import Blockchain
 from smart_contract import SmartContract
 from schedule import start_scheduler
-from apies import *
+from apies import connect, list
+from socket_server import run_server
+import threading
 
 app = Flask(__name__)
 
@@ -34,6 +36,7 @@ def mine_block():
 
 @app.route('/get-chain', methods=['GET'])
 def get_chain():
+    list()
     response = {'chain': blockchain.chain,
                 'length': len(blockchain.chain)}
 
@@ -147,5 +150,8 @@ def get_awards(code):
 # Running the app
 if __name__ == '__main__':
     start_scheduler()
+    threading.Thread(target=run_server).start()
     app.run(host='0.0.0.0', port=5000)
-    list()
+
+
+

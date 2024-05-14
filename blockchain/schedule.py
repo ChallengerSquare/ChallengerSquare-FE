@@ -1,6 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 from blockchain import Blockchain
+from socket_server import send_block
 import pytz
 
 
@@ -8,12 +9,16 @@ blockchain = Blockchain.get_blockchain()
 
 
 def mine_block_regularly():
-    previous_block = blockchain.get_previous_block()
-    previous_proof = previous_block['proof']
-    proof = blockchain.proof_of_work(previous_proof)
-    previous_hash = blockchain.hash(previous_block)
-    blockchain.create_block(proof, previous_hash)
+    # previous_block = blockchain.get_previous_block()
+    # previous_proof = previous_block['proof']
+    # proof = blockchain.proof_of_work(previous_proof)
+    # previous_hash = blockchain.hash(previous_block)
+    # blockchain.create_block(proof, previous_hash)
+    block = blockchain.create_blocks()
     print("Block has been mined")
+    for node in blockchain.nodes:
+        node_dict = dict(node)
+        send_block(node_dict['IP'], int(node_dict['PORT']), block)
     pass
 
 
