@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { teamDetailTapState } from '@/pages/mypage/store'
 import { TeamData } from '@/types/team'
-import Profile from '@/components/Profile/Profile'
 import TeamContest from '@/pages/mypage/teamlist/TeamContest'
 import TeamMember from '@/pages/mypage/teamlist/TeamMember'
+import ProfileImg from '@/components/ProfileImg/ProfileImg'
 
 interface TeamDetailProps {
   teamData: TeamData
@@ -32,7 +32,7 @@ const TeamDetail = ({ teamData }: TeamDetailProps) => {
       <div className={styles.body}>
         <div className={styles.team}>
           <div className={styles.team_logo}>
-            <Profile imgUrl={team.img} imgName={'팀이미지'} name={'teamdetail'} edit />
+            <ProfileImg imgUrl={team.img} imgName={'팀이미지'} name={'teamdetail'} edit />
           </div>
           <div className={styles.team_summary}>
             <div>
