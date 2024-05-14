@@ -1,4 +1,4 @@
-const postcode = (setFormState: (updateFn: (prevState: any) => any) => void) => {
+const postcode = (callback: (fullAddress: string) => void) => {
   const script = document.createElement('script')
   script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
   document.body.appendChild(script)
@@ -20,14 +20,8 @@ const postcode = (setFormState: (updateFn: (prevState: any) => any) => void) => 
             fullAddress += detailAddress !== '' ? ` (${detailAddress})` : ''
           }
 
-          // Recoil 상태 업데이트
-          setFormState((prevState) => ({
-            ...prevState,
-            contestCreateRequestDto: {
-              ...prevState.contestCreateRequestDto,
-              contestLocation: fullAddress,
-            },
-          }))
+          // 콜백 함수 호출
+          callback(fullAddress)
         },
       }).open()
     })
