@@ -5,3 +5,9 @@ export interface User {
   userAddress: string
   userEmail?: string
 }
+
+export interface UserInfo {
+  memberName: string
+  memberPhone: string
+  memberAddress: string
+}

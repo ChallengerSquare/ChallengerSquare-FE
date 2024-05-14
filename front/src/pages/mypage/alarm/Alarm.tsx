@@ -3,6 +3,7 @@ import styles from '@/pages/mypage/alarm/Alarm.module.scss'
 import notificationsIcon from '@svgs/notifications.svg'
 import { isReadable } from 'stream'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
+import { getAlarmList, readAlarm } from '@/services/Alarm'
 
 interface alarmData {
   alertId: number
@@ -24,48 +25,14 @@ const Alarm = () => {
   ])
 
   useEffect(() => {
-    /* 공지 API 호출 */
-    setAlarmList([
-      {
-        alertId: 1,
-        alertType: 'Notification',
-        alertContent: 'You have a new message',
-        isRead: false,
-        alertTargetId: 123,
-      },
-      {
-        alertId: 2,
-        alertType: 'Reminder',
-        alertContent: "Don't forget to complete your tasks",
-        isRead: true,
-        alertTargetId: 456,
-      },
-      {
-        alertId: 3,
-        alertType: 'Notification',
-        alertContent: 'You have a meeting at 2 PM',
-        isRead: false,
-        alertTargetId: 789,
-      },
-      {
-        alertId: 4,
-        alertType: 'Notification',
-        alertContent: 'Your payment was successful',
-        isRead: true,
-        alertTargetId: 101112,
-      },
-      {
-        alertId: 5,
-        alertType: 'Reminder',
-        alertContent: 'Call mom on her birthday',
-        isRead: false,
-        alertTargetId: 131415,
-      },
-    ])
+    getAlarmList().then(({ data }) => {
+      setAlarmList(data)
+    })
   }, [])
 
   const handleAlarm = (idx: number) => {
     /* alertId 조회 API 호출 */
+    readAlarm(1)
     const updatedAlarms = [...alramList]
     updatedAlarms[idx] = { ...updatedAlarms[idx], isRead: true }
     console.log(alramList)
