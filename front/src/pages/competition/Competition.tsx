@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { ContestData } from '@/types/competition'
 import { SearchResponse, SearchRequest } from '@/types/api'
 import { getCompetitionList } from '@/services/competition'
-import useScrollTop from '@/hooks/useScrollTop'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionList from '@/components/Competition/CompetitionList'
 import SearchBar from '@/components/SearchBar/SearchBar'
@@ -10,7 +9,6 @@ import LandingImg from '@images/competition/SearchPageLanding.gif'
 import styles from './Competition.module.scss'
 
 const Competition = () => {
-  useScrollTop()
   const [famousCompetitionList, setfamousCompetitionList] = useState<ContestData[]>([
     {
       contestId: 0,
