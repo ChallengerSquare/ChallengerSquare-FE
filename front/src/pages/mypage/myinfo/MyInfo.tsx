@@ -71,6 +71,9 @@ const MyInfo = () => {
     }
     updateUser(userInfo)
     setUser(editUser)
+    if (editUser != user) {
+      alert('내 정보가 수정되었습니다.')
+    }
   }
 
   return (
