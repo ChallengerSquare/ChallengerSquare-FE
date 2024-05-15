@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
 import { Page, SearchRequest, SearchResponse } from '@/types/api'
 import { ContestData } from '@/types/competition'
 import { getCompetitionList } from '@/services/competition'
@@ -17,7 +16,7 @@ const CompetitionSearch = () => {
   const searchParams = new URLSearchParams(location.search)
   const keywordFromUrl = searchParams.get('keyword') || ''
   const categoryFromUrl = searchParams.get('category') || ''
-  const [searchKeyword, setSearchKeyword] = useState<undefined | string>('')
+  const [searchKeyword, setSearchKeyword] = useState<string>(keywordFromUrl)
   const [searchCategory, setSearchCategory] = useState(0)
   const [progressOrderBy, setProgressOrderBy] = useState(3)
   const [finishOrderBy, setFinishOrderBy] = useState(3)
@@ -54,7 +53,7 @@ const CompetitionSearch = () => {
   useEffect(() => {
     const progressCompetitionListParams: SearchRequest = {
       // orderBy: progressOrderBy,
-      keyword: keywordFromUrl === '' ? null : keywordFromUrl,
+      keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: false,
       page: 0,
@@ -63,7 +62,7 @@ const CompetitionSearch = () => {
     getProgressCompetitionListData(progressCompetitionListParams, true)
     const finishCompetitionListParams: SearchRequest = {
       // orderBy: finishOrderBy,
-      keyword: keywordFromUrl === '' ? null : keywordFromUrl,
+      keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: true,
       page: 0,
