@@ -6,9 +6,7 @@ import Idea from '@svgs/category/idea.svg'
 import Sport from '@svgs/category/sport.svg'
 import Game from '@svgs/category/game.svg'
 import More from '@svgs/category/more.svg'
-import { useRecoilState } from 'recoil'
-import { useEffect, useState } from 'react'
-import { searchState } from '@/pages/competition-search/store'
+import { Dispatch, SetStateAction } from 'react'
 
 const iconsData = [
   { id: 0, name: '전체', image: All },
@@ -20,28 +18,20 @@ const iconsData = [
   { id: 6, name: '기타', image: More },
 ]
 
-const CompetitionCategory = () => {
-  const [search, setSearch] = useRecoilState(searchState)
-  const [categoryId, setCategoryId] = useState<number | undefined>(0)
+interface CompetitionCategoryProps {
+  category: number
+  setCategory: Dispatch<SetStateAction<number>>
+}
 
-  const handleChangeCategoryId = (id: number) => {
-    setCategoryId(id)
-    setSearch((prev) => ({ ...prev, category: id }))
-  }
-
-  useEffect(() => {
-    setCategoryId(search.category)
-  }, [])
-
+const CompetitionCategory = ({ category, setCategory }: CompetitionCategoryProps) => {
   return (
     <div className={styles.icons_container}>
-      {iconsData.map((icon) => (
-        <div key={icon.name} className={styles.icon}>
+      {iconsData.map((icon, index) => (
+        <div key={index} className={styles.icon}>
           <button
             type="button"
-            className={`${styles.btn} ${categoryId === icon.id ? styles.active : ''}`}
-            // className={categoryId === icon.id ? styles.active : styles.inactive}
-            onClick={() => handleChangeCategoryId(icon.id)}
+            className={`${styles.btn} ${category === index ? styles.active : ''}`}
+            onClick={() => setCategory(index)}
           >
             <img src={icon.image} alt={icon.name} />
             <p>{icon.name}</p>

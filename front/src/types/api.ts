@@ -60,12 +60,12 @@ export interface SearchResponse {
 }
 
 export interface SearchRequest {
-  keyword?: string
-  orderBy?: number
-  category?: number
+  keyword?: string | null
+  category?: number | null
   isEnd?: boolean
   page?: number
   size?: number
+  orderBy?: number
 }
 
 export interface Page {
