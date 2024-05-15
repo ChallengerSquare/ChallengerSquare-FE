@@ -36,3 +36,47 @@
     transform: rotate(360deg);
   }
 }
+
+.Footer {
+  background-color: #260063;
+  color: white;
+  padding: 20px 3rem 20px 3rem;
+  text-align: center;
+  font-family: 'Pretendard-Regular';
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .left{
+    margin-right: 50px;
+    /* 컴포넌트를 위쪽 왼쪽 정렬되게 해줘 */
+  }
+
+  .right {
+    text-align: right;
+    margin-top : 2rem;
+  }
+
+  .logo {
+    margin-top : 1rem;
+  }
+
+  .team,
+  .address,
+  .copyright,
+  .powered {
+    margin: 5px 0;
+  }
+
+  .information{
+    margin-bottom: 4rem;
+  }
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
