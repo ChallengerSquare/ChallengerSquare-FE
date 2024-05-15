@@ -49,3 +49,26 @@ export interface CreateCompetitionDto {
   contestImage: string
   contestCreateRequestDto: CompetitionCreateRequestDto
 }
+
+export interface SearchResponse {
+  contestId: number
+  contestTitle: string
+  contestImage: string
+  teamName: string
+  registrationPeriod: CompetitionPeriod
+  contestPeriod: RegistrationPeriod
+}
+
+export interface SearchRequest {
+  keyword?: string | null
+  category?: number | null
+  isEnd?: boolean
+  page?: number
+  size?: number
+  orderBy?: number
+}
+
+export interface Page {
+  currentPage: number
+  totalPage: number
+}

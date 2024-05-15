@@ -1,27 +1,32 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from '@/components/SearchBar/SearachBar.module.scss'
 import searchIcon from '@/assets/search.svg'
-import { useRecoilState } from 'recoil'
-import { Search } from '@/types/search'
-import { searchState } from '@/pages/competition-search/store'
 
 interface SearchBarProps {
   text: string
+  url: string
   openBtn?: boolean
   openBtnColor?: string
-  onClick: (searchQuery: string | undefined) => void
-  onChange?: (keyword: string) => void
 }
 
-const SearchBar = ({ text, openBtn, openBtnColor, onClick }: SearchBarProps) => {
+const SearchBar = ({ text, openBtn, openBtnColor, url }: SearchBarProps) => {
   const navigate = useNavigate()
-  const [search, setSearch] = useRecoilState<Search>(searchState)
-  const [keyword, setKeyword] = useState(search.keyword)
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const keywordFromUrl = searchParams.get('keyword')
+  const categoryFromUrl = searchParams.get('category') || ''
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    if (keywordFromUrl) {
+      setSearch(keywordFromUrl)
+    }
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(event.target.value)
+    setSearch(event.target.value)
   }
 
   const moveToComtetitionOpen = () => {
@@ -29,15 +34,21 @@ const SearchBar = ({ text, openBtn, openBtnColor, onClick }: SearchBarProps) => 
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && keyword) {
-      // 'Enter' 키를 눌렀을 때만 검색 실행
-      onClick(keyword)
+    if (event.key === 'Enter') {
+      handleClick()
     }
   }
 
-  useEffect(() => {
-    setKeyword(search.keyword)
-  }, [search])
+  const handleClick = () => {
+    const params = new URLSearchParams()
+    if (search && search != '') {
+      params.append('keyword', search)
+    }
+    if (categoryFromUrl) {
+      params.append('category', categoryFromUrl)
+    }
+    navigate(`${url}?${params.toString()}`)
+  }
 
   let checkColor = ''
   if (openBtnColor === 'white') checkColor = styles.white
@@ -49,12 +60,12 @@ const SearchBar = ({ text, openBtn, openBtnColor, onClick }: SearchBarProps) => 
         <input
           type="text"
           placeholder={text}
-          value={keyword}
+          value={search}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           maxLength={25}
         />
-        <button type="button" onClick={() => onClick(keyword)}>
+        <button type="button" onClick={handleClick}>
           <img className={styles.searchimg} src={searchIcon} alt="검색" />
         </button>
       </div>
