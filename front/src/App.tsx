@@ -11,6 +11,7 @@ import Auth from '@pages/auth/Auth'
 import Signup from '@/pages/signup/Signup'
 import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
+import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
 import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
@@ -30,6 +31,7 @@ function App() {
             <Route path="/competition/search" element={<CompetitionSearch />} />
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
             <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
+            <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
             <Route path="/competition-results" element={<CompetitionResult />} />
             <Route path="/competition-results/:code" element={<CompetitionResult />} />
             <Route path="/auth" element={<Auth />} />

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { ApiResponse } from '@/types/api'
+import { ApiResponse, CompetitionCreateRequestDto } from '@/types/api'
 import { reissueCookie } from './member'
 
 const api = axios.create({
@@ -39,6 +39,42 @@ export const registerCompetition = async (formData: FormData): Promise<ApiRespon
     }
   } catch (error: any) {
     console.error('대회 생성 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const getCompetitionDetails = async (id: string): Promise<ApiResponse> => {
+  try {
+    const response = await api.get<ApiResponse>(`/${id}`)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('대회 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const modifyContestContent = async (competition: CompetitionCreateRequestDto): Promise<ApiResponse> => {
+  try {
+    const response = await api.put<ApiResponse>('', competition)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('대회 수정 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,
