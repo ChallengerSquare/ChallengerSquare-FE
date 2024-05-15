@@ -4,7 +4,7 @@ import Stepper from '@components/Stepper/Stepper'
 import SelectTeam from './selectteam/SelectTeam'
 import CompetitionForm from './competitionform/CompetitionForm'
 import Reward from './reward/Reward'
-import Editor from './editor/Editor'
+import Promotion from './promotion/Promotion'
 import styles from './CreateCompetition.module.scss'
 
 const Signup = () => {
@@ -13,8 +13,8 @@ const Signup = () => {
   const stepsConfig = [
     { name: '팀 선택', component: <SelectTeam nextStep={nextStep} /> },
     { name: '개최 정보 입력', component: <CompetitionForm prevStep={prevStep} nextStep={nextStep} /> },
-    { name: '시상 정보 입력', component: <Reward prevStep={prevStep} nextStep={nextStep} /> },
-    { name: '홍보글 작성', component: <Editor prevStep={prevStep} /> },
+    { name: '시상 정보 입력(선택)', component: <Reward prevStep={prevStep} nextStep={nextStep} /> },
+    { name: '홍보글 작성', component: <Promotion prevStep={prevStep} /> },
   ]
 
   return (

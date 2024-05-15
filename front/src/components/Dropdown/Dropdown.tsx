@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dropdown from '@svgs/dropdown.svg'
 import styles from './Dropdown.module.scss'
 
@@ -32,7 +32,7 @@ const Dropdown = <T extends unknown>({
     <>
       <div>
         <button type="button" className={styles.dropdown} style={{ width }} onClick={toggleDropdown}>
-          <span className={selectedOption ? styles.selected : styles.placeholder}>
+          <span className={selectedOption ? styles.selected : ''}>
             {selectedOption ? element(selectedOption) : placeholder}
           </span>
           <img src={dropdown} alt="dd-btn" />
