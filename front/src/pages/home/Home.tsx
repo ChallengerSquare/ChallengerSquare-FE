@@ -4,6 +4,7 @@ import { getUser } from '@/services/member'
 import Navbar from '@components/Navbar/Navbar'
 import { ApiResponse } from '@/types/api'
 import title from '../../../public/images/home/home-title.webp'
+import description from '../../../public/images/home/description.webp'
 import styles from './Home.module.scss'
 
 const Home = () => {
@@ -29,7 +30,25 @@ const Home = () => {
       <div className={styles.contents}>
         <div className={styles.contentContainer}>
           <div className={styles.photo}>
-            <div>이미지가 들어갈 거에요</div>
+            <img src={description} alt="description" />
+          </div>
+          <div className={styles.content}>
+            <div className={styles.contentTitle}>행사 개최</div>
+            <div className={styles.contentDescription}>행사를 쉽게 개최하고 관리하세요.</div>
+          </div>
+        </div>
+        <div className={styles.contentContainer}>
+          <div className={styles.content}>
+            <div className={styles.contentTitle}>행사 개최</div>
+            <div className={styles.contentDescription}>행사를 쉽게 개최하고 관리하세요.</div>
+          </div>
+          <div className={styles.photo}>
+            <img src={description} alt="description" />
+          </div>
+        </div>
+        <div className={styles.contentContainer}>
+          <div className={styles.photo}>
+            <img src={description} alt="description" />
           </div>
           <div className={styles.content}>
             <div className={styles.contentTitle}>행사 개최</div>
