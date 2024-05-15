@@ -13,6 +13,24 @@ const Home = () => {
   // console.log(userData?.data)
   // if (isLoading) return <div>loading...</div>
   // if (isError) return <div>error:{error.message}</div>
+
+  const mainContents = [
+    {
+      title: '손쉬운 행사 관리',
+      description: '행사를 쉽게 관리해보세요!',
+      imageURL: description,
+    },
+    {
+      title: '손쉬운 참가',
+      description: '행사에 참가하기 쉽게!',
+      imageURL: description,
+    },
+    {
+      title: '블록체인 기록 보장',
+      description: '수상, 참가 기록은 블록체인으로 보장해드려요!',
+      imageURL: description,
+    },
+  ]
   return (
     <div className={styles.home}>
       <div className={styles.main}>
@@ -28,33 +46,29 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.contents}>
-        <div className={styles.contentContainer}>
-          <div className={styles.photo}>
-            <img src={description} alt="description" />
-          </div>
-          <div className={styles.content}>
-            <div className={styles.contentTitle}>행사 개최</div>
-            <div className={styles.contentDescription}>행사를 쉽게 개최하고 관리하세요.</div>
-          </div>
-        </div>
-        <div className={styles.contentContainer}>
-          <div className={styles.content}>
-            <div className={styles.contentTitle}>행사 개최</div>
-            <div className={styles.contentDescription}>행사를 쉽게 개최하고 관리하세요.</div>
-          </div>
-          <div className={styles.photo}>
-            <img src={description} alt="description" />
-          </div>
-        </div>
-        <div className={styles.contentContainer}>
-          <div className={styles.photo}>
-            <img src={description} alt="description" />
-          </div>
-          <div className={styles.content}>
-            <div className={styles.contentTitle}>행사 개최</div>
-            <div className={styles.contentDescription}>행사를 쉽게 개최하고 관리하세요.</div>
-          </div>
-        </div>
+        {mainContents.map((mainContent, index) => {
+          return index % 2 == 0 ? (
+            <div className={styles.contentContainer}>
+              <div className={styles.photo}>
+                <img src={mainContent.imageURL} alt="description" />
+              </div>
+              <div className={styles.content}>
+                <div className={styles.contentTitle}>{mainContent.title}</div>
+                <div className={styles.contentDescription}>{mainContent.description}</div>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.contentContainer}>
+              <div className={styles.content}>
+                <div className={styles.contentTitle}>{mainContent.title}</div>
+                <div className={styles.contentDescription}>{mainContent.description}</div>
+              </div>
+              <div className={styles.photo}>
+                <img src={mainContent.imageURL} alt="description" />
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

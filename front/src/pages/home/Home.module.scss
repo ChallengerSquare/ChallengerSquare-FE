@@ -50,8 +50,8 @@
 
         .contentContainer{
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: start;
+            align-items: stretch;
             width: 100%;
             margin-bottom: 4rem;
             
@@ -61,11 +61,12 @@
             }
 
             .content{
-                width: 50%;
+                flex-grow: 1;
                 display: flex;
+                padding-top: 8rem;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                justify-content: start;
+                align-items: stretch;
 
                 .contentTitle{
                     font-size: 2rem;
@@ -90,6 +91,7 @@
                 text-align: right;
                 margin-right: 4rem;
             }
+
 
 
         }
