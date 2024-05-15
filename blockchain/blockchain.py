@@ -3,8 +3,10 @@ import hashlib
 import json
 import uuid
 from urllib.parse import urlparse
-
+import copy
 import requests
+
+import socket
 
 
 # Building a Blockchain
@@ -35,6 +37,16 @@ class Blockchain:
             Blockchain._instance = Blockchain()
         return Blockchain._instance
 
+
+    def add_new_block(self, block):
+        new_chain = copy.deepcopy(self.chain)
+        new_chain.append(block)
+        flag = self.is_chain_valid(new_chain)
+        if not flag:
+            print("Blockchain 노드 추가 실패")
+            for node in self.nodes:
+                node_dict = dict(node)
+                self.request_chain(node_dict['IP'], int(node_dict['PORT']))
 
     def create_blocks(self):
         previous_block = self.get_previous_block()
@@ -185,7 +197,7 @@ class Blockchain:
 
         previous_block = self.get_previous_block()
 
-        return previous_block['index'] + 1
+        return previous_block['body']['index'] + 1
 
     # 참가기록 트랜잭션 추가
     def add_participation_transaction(self, data):  # todo : 함수 테스트
@@ -212,26 +224,57 @@ class Blockchain:
 
         previous_block = self.get_previous_block()
 
-        return previous_block['index'] + 1
+        return previous_block['body']['index'] + 1
 
     # 노드 목록에 새로운 노드를 추가하는 함수
     def add_node(self, address):
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
 
+    def request_chain(self, IP, PORT):
+        print(str(IP) + ':' + str(PORT) + ' 에 체인을 달라는 요청을 보낼 게요')
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+                client_socket.settimeout(1)
+                client_socket.connect((IP, PORT))
+                message = {
+                    'type': 'chain_requst',
+                    'data': 'please'
+                }
+                # JSON 객체를 문자열로 인코딩
+                encoded_message = json.dumps(message).encode('utf-8')
+                # 데이터 전송
+                client_socket.sendall(encoded_message)
+
+                response = ""
+                while True:
+                    data = client_socket.recv(1024).decode("utf-8")
+                    # todo : 나중에 여기서 요청을 파싱함
+                    if not data:
+                        break  # 데이터가 없으면 하트비트로 간주
+                    response += data
+                received_data = json.loads(response)
+                print(received_data['data'])
+                # return received_data['data']
+        except socket.timeout:
+            print("클라이언트 연결 대기 시간 초과.")
+        except ConnectionRefusedError:
+            print("연결을 거부당했습니다. 서버가 실행 중인지 확인해주세요.")
     #
     def replace_chain(self):
         network = self.nodes
         longest_chain = None
         max_length = len(self.chain)
-        # for node in network:
-        response = requests.get(f'http://127.0.0.1:5000/get-chain')  # todo : https 통신으로 추후 변경
-        if response.status_code == 200:
-            length = response.json()['length']
-            chain = response.json()['chain']
-            if length > max_length and self.is_chain_valid(chain):
-                max_length = length
-                longest_chain = chain
+        # response = requests.get(f'http://127.0.0.1:5000/get-chain')  # todo : https 통신으로 추후 변경
+
+        for node in network:
+            node_dict = dict(node)
+            self.request_chain(node_dict['IP'], int(node_dict['PORT']))
+            # length = response['length']
+            # chain = response['chain']
+            # if length > max_length and self.is_chain_valid(chain):
+            #     max_length = length
+            #     longest_chain = chain
 
         # if longest_chain:  # 고아블록 처리 과정
         #     index = len(longest_chain) - 1  # 체인의 끝 인덱스 가져오기
@@ -246,8 +289,8 @@ class Blockchain:
         #
         #         index -= 1  # index를 1 감소
 
-                self.chain = longest_chain
-                return True
+            self.chain = longest_chain
+            return True
 
         return False
 

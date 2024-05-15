@@ -154,7 +154,7 @@ if __name__ == '__main__':
     threading.Thread(target=run_server).start()
     # blockchain = Blockchain().get_blockchain()
     # blockchain.replace_chain()
-    socket_server.request_chain('127.0.0.1', 5000)
-    app.run(host='0.0.0.0', port=5001)
+    # socket_server.request_chain('127.0.0.1', 52731)
+    app.run(host='0.0.0.0', port=5002)
 
 

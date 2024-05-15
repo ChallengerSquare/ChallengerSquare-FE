@@ -1,7 +1,9 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
+
+import apies
 from blockchain import Blockchain
-from socket_server import send_block
+from socket_server import send_block, send_chain
 import pytz
 
 
@@ -15,10 +17,12 @@ def mine_block_regularly():
     # previous_hash = blockchain.hash(previous_block)
     # blockchain.create_block(proof, previous_hash)
     block = blockchain.create_blocks()
+    # blockchain.chain.append(block)
+    apies.list()
     print("Block has been mined")
     for node in blockchain.nodes:
         node_dict = dict(node)
-        send_block(node_dict['IP'], int(node_dict['PORT']), block)
+        send_chain(node_dict['IP'], int(node_dict['PORT']))
     pass
 
 
@@ -41,7 +45,7 @@ def start_scheduler():
     }
     scheduler = BackgroundScheduler(executors=executors, timezone=pytz.timezone('Asia/Seoul'))
     scheduler.add_job(func=mine_block_regularly, trigger="interval", seconds=10, max_instances=1)
-    scheduler.add_job(func=replace_chain_regularly, trigger="interval", minutes=1, max_instances=1)
+    # scheduler.add_job(func=replace_chain_regularly, trigger="interval", minutes=1, max_instances=1)
     scheduler.start()
 
 
