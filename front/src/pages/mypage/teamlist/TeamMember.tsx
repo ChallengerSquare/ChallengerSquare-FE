@@ -1,6 +1,6 @@
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { useEffect, useState } from 'react'
-import { getLeaderUserList, getUserList } from '@services/team'
+import { getLeaderUserList, getUserList, updateMemberParticipants } from '@services/team'
 
 interface TeamMemberProps {
   id: number
@@ -22,7 +22,7 @@ const TeamMember = ({ id }: TeamMemberProps) => {
     },
   ])
 
-  useEffect(() => {
+  const setUserList = () => {
     getLeaderUserList(id).then((response) => {
       if (response.status === 200) {
         setMemberList(response.data)
@@ -32,7 +32,21 @@ const TeamMember = ({ id }: TeamMemberProps) => {
         })
       }
     })
+  }
+
+  useEffect(() => {
+    setUserList()
   }, [])
+
+  const updateMemberStatus = (id: number | undefined, isApprove: boolean) => {
+    if (id != undefined) {
+      updateMemberParticipants(id, isApprove).then((response) => {
+        if (response.status === 200) {
+          setUserList()
+        }
+      })
+    }
+  }
 
   return (
     <div className={styles.team_member}>
@@ -47,10 +61,18 @@ const TeamMember = ({ id }: TeamMemberProps) => {
           </div>
           {member.isApprove === false ? (
             <div className={styles.line_tail}>
-              <button type={'button'} className={styles.approve}>
+              <button
+                type={'button'}
+                className={styles.approve}
+                onClick={() => updateMemberStatus(member.participantsId, true)}
+              >
                 {'승인'}
               </button>
-              <button type={'button'} className={styles.reject}>
+              <button
+                type={'button'}
+                className={styles.reject}
+                onClick={() => updateMemberStatus(member.participantsId, false)}
+              >
                 {'거부'}
               </button>
             </div>
