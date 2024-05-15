@@ -1,9 +1,7 @@
-import { useRecoilState } from 'recoil'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ContestData } from '@/types/competition'
-import { searchState } from '@/pages/competition-search/store'
-import { Search } from '@/types/search'
+import { SearchResponse, SearchRequest } from '@/types/api'
+import { getCompetitionList } from '@/services/competition'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionList from '@/components/Competition/CompetitionList'
 import SearchBar from '@/components/SearchBar/SearchBar'
@@ -11,9 +9,7 @@ import LandingImg from '@images/competition/SearchPageLanding.gif'
 import styles from './Competition.module.scss'
 
 const Competition = () => {
-  const navigate = useNavigate()
-  const [search, setSearch] = useRecoilState<Search>(searchState)
-  const [famousTeamList, setFamousTeamList] = useState<ContestData[]>([
+  const [famousCompetitionList, setfamousCompetitionList] = useState<ContestData[]>([
     {
       contestId: 0,
       contestTitle: '',
@@ -21,7 +17,7 @@ const Competition = () => {
       contestDate: '',
     },
   ])
-  const [dueTeamList, setDueTeamList] = useState<ContestData[]>([
+  const [dueCompetitionList, setDueCompetitionList] = useState<ContestData[]>([
     {
       contestId: 0,
       contestTitle: '',
@@ -32,34 +28,39 @@ const Competition = () => {
 
   useEffect(() => {
     /* 인기 있는 대회 조회 API */
-    const famousTeamListData = [
-      { contestId: 1, contestImage: '', contestTitle: '이미지1', contestDate: '2024-04-29' },
-      { contestId: 2, contestImage: '', contestTitle: '이미지2', contestDate: '2024-04-29' },
-      { contestId: 3, contestImage: '', contestTitle: '이미지3', contestDate: '2024-04-29' },
-      { contestId: 4, contestImage: '', contestTitle: '이미지4', contestDate: '2024-04-29' },
-      { contestId: 5, contestImage: '', contestTitle: '이미지5', contestDate: '2024-04-29' },
-    ]
-    setFamousTeamList(famousTeamListData)
-    /* 인기 있는 대회 조회 API */
-    const dueTeamListData = [
-      { contestId: 1, contestImage: '', contestTitle: '이미지1', contestDate: '2024-04-29' },
-      { contestId: 2, contestImage: '', contestTitle: '이미지2', contestDate: '2024-04-29' },
-      { contestId: 3, contestImage: '', contestTitle: '이미지3', contestDate: '2024-04-29' },
-      { contestId: 4, contestImage: '', contestTitle: '이미지4', contestDate: '2024-04-29' },
-      { contestId: 5, contestImage: '', contestTitle: '이미지5', contestDate: '2024-04-29' },
-    ]
-    setDueTeamList(dueTeamListData)
-    setSearch((prev) => ({ ...prev, keyword: '', category: 0 }))
+    const famousCompetitionListParams: SearchRequest = {
+      // orderBy: 2,
+      isEnd: false,
+      page: 0,
+      size: 12,
+    }
+    getCompetitionList(famousCompetitionListParams).then(({ data }) => {
+      const famousTeamListData: ContestData[] = data.content.map((item: SearchResponse) => ({
+        contestId: item.contestId,
+        contestTitle: item.contestTitle,
+        contestImage: `${item.contestImage === 'https://challengersquare.s3.ap-northeast-2.amazonaws.com/null' ? '' : item.contestImage}`,
+        contestDate: `${item.contestPeriod.start} ~ ${item.contestPeriod.end}`,
+      }))
+      setfamousCompetitionList(famousTeamListData)
+    })
+
+    /* 마감 임박 대회 조회 API */
+    const dueTeamListParams: SearchRequest = {
+      // orderBy: 1,
+      isEnd: false,
+      page: 0,
+      size: 12,
+    }
+    getCompetitionList(dueTeamListParams).then(({ data }) => {
+      const dueCompetitionListData: ContestData[] = data.content.map((item: SearchResponse) => ({
+        contestId: item.contestId,
+        contestTitle: item.contestTitle,
+        contestImage: `${item.contestImage === 'https://challengersquare.s3.ap-northeast-2.amazonaws.com/null' ? '' : item.contestImage}`,
+        contestDate: `${item.contestPeriod.start} ~ ${item.contestPeriod.end}`,
+      }))
+      setDueCompetitionList(dueCompetitionListData)
+    })
   }, [])
-
-  const handleSearch = async (searchQuery: string | undefined) => {
-    setSearch((prev) => ({ ...prev, keyword: searchQuery }))
-    navigate(`/competition/search?keyword=${searchQuery}`)
-  }
-
-  const handlekeyword = (key: string) => {
-    setSearch((prev) => ({ ...prev, keyword: key }))
-  }
 
   return (
     <div className={styles.container}>
@@ -77,18 +78,12 @@ const Competition = () => {
               수상 내역, 참가 확인은 <span>블록체인</span>으로 안전하고 확실하게.
             </div>
           </div>
-          <SearchBar
-            text={'원하는 대회를 입력해주세요'}
-            openBtn
-            openBtnColor={'white'}
-            onClick={handleSearch}
-            onChange={handlekeyword}
-          />
+          <SearchBar text={'원하는 대회를 입력해주세요'} openBtn openBtnColor={'white'} url={'search'} />
         </div>
       </div>
       <div className={styles.searchlist}>
-        <CompetitionList text={'인기 있는 대회를 살펴보세요'} contestList={famousTeamList} />
-        <CompetitionList text={'마감 임박한 대회를 살펴보세요'} contestList={dueTeamList} />
+        <CompetitionList text={'인기 있는 대회를 살펴보세요'} contestList={famousCompetitionList} />
+        <CompetitionList text={'마감 임박한 대회를 살펴보세요'} contestList={dueCompetitionList} />
       </div>
     </div>
   )

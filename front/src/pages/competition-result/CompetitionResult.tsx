@@ -2,11 +2,9 @@ import styles from '@/pages/competition-result/CompetitionResult.module.scss'
 import Navbar from '@/components/Navbar/Navbar'
 import blockchain from '@images/blockchain.jpg'
 import SearchBar from '@/components/SearchBar/SearchBar'
+import { useState } from 'react'
 
 const CompetitionResult = () => {
-  const handleSearch = () => {
-    console.log('test')
-  }
   return (
     <div className={styles.container}>
       <div className={styles.navbar}>
@@ -22,7 +20,7 @@ const CompetitionResult = () => {
             <p>참가/내역 조회 찾기</p>
           </div>
           <div className={styles.searchbar}>
-            <SearchBar text="원하는 대회를 입력해주세요." onClick={handleSearch} />
+            <SearchBar text="원하는 대회를 입력해주세요." url={'search'} />
           </div>
         </div>
       </div>

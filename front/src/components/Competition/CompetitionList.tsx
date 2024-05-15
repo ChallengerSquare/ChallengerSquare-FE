@@ -11,10 +11,11 @@ interface CompetitoinListProps {
   contestList: ContestData[]
 }
 
+const itemPerPage = 4
+
 const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
-  const itemPerPage = 4
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [length, setLength] = useState(contestList.length)
+  const [length, setLength] = useState(0)
 
   useEffect(() => {
     setLength(contestList.length)
@@ -22,6 +23,7 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
 
   // 슬라이드를 다음으로 이동
   const nextSlide = () => {
+    console.log(currentIndex)
     if (currentIndex < length - 1) {
       setCurrentIndex((prevState) => prevState + itemPerPage)
     }
@@ -35,8 +37,8 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
   }
 
   // 슬라이스된 아이템을 보여주는 렌더링 부분
-  const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
-    <div className={styles.content_item} key={item.contestId}>
+  const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item, index) => (
+    <div className={styles.content_item} key={index}>
       <Link to={`/competition/detail/${item.contestId}`}>
         <ProfileImg imgUrl={item.contestImage} imgName={'대회이미지'} name={'competition'} />
         <p>{item.contestDate}</p>
@@ -53,12 +55,12 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
       <div className={styles.content_wrap}>
         <div className={styles.btn}>
           <button className={styles.left_btn} type="button" onClick={prevSlide} disabled={currentIndex <= 0}>
-            {currentIndex >= length - itemPerPage ? <img src={navigateBefore} alt="이전" /> : null}
+            {currentIndex > 0 ? <img src={navigateBefore} alt="이전" /> : null}
           </button>
         </div>
         <div className={styles.content}>
           <div className={styles.more}>
-            <Link to="/competition/search"> 더보기 </Link>
+            <Link to="/competition/search">{' + 더보기 '}</Link>
           </div>
           <div className={styles.content_items}>{slicedItems}</div>
         </div>
@@ -69,7 +71,7 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
             onClick={nextSlide}
             disabled={currentIndex >= length - itemPerPage}
           >
-            {currentIndex <= 0 ? <img src={navigateNext} alt="다음" /> : null}
+            {currentIndex < length - itemPerPage ? <img src={navigateNext} alt="다음" /> : null}
           </button>
         </div>
       </div>
