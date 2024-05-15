@@ -6,14 +6,15 @@ interface ModalProps {
   isOpen: boolean
   onClose: () => void
   children: React.ReactNode
+  width?: number
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({ isOpen, onClose, children, width }: ModalProps) => {
   if (!isOpen) return null
 
   return (
     <div className={styles['modal-overlay']} onClick={onClose}>
-      <div className={styles['modal-content']} onClick={(e) => e.stopPropagation()}>
+      <div className={styles['modal-content']} style={{ width }} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>
