@@ -63,7 +63,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
     setContact(contestCreateRequestDto.contestPhone)
     setIsOffLine(buttonState.offLine)
     setIsFree(buttonState.free)
-    console.log(location)
   }, [])
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +79,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   }
 
   const handleSetData = (type: 'prev' | 'next', step?: () => void) => {
-    console.log(location)
     const isValid = () => {
       return (
         postImage &&

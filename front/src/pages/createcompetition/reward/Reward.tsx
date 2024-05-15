@@ -23,7 +23,6 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     }))
   })
 
-  console.log(formState)
   useEffect(() => {
     const initialAwards = form.contestCreateRequestDto.contestAwards.map((award) => ({
       name: award.awardsName,

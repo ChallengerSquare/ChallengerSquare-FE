@@ -6,9 +6,10 @@ interface ButtonProps {
   // size: "login" | ;
   children: React.ReactNode
   disabled?: boolean
+  width?: number
 }
 
-const Button = ({ variation, onClick, children, disabled, ...props }: ButtonProps) => {
+const Button = ({ variation, onClick, children, disabled, width, ...props }: ButtonProps) => {
   const className = variation
     .split(' ')
     .map((v) => styles[v])
@@ -16,7 +17,7 @@ const Button = ({ variation, onClick, children, disabled, ...props }: ButtonProp
 
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className={className} onClick={onClick} disabled={disabled} {...props}>
+    <button className={className} onClick={onClick} style={{ width }} disabled={disabled} {...props}>
       {children}
     </button>
   )
