@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
-import { Search } from '@/types/search'
+import { SearchRequest } from '@/types/api'
 
-export const searchState = atom<Search>({
+export const searchState = atom<SearchRequest>({
   key: 'searchState',
   default: {
     keyword: '',

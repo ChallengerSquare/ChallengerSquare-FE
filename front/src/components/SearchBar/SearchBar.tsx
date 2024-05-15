@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from '@/components/SearchBar/SearachBar.module.scss'
 import searchIcon from '@/assets/search.svg'
 import { useRecoilState } from 'recoil'
-import { Search } from '@/types/search'
+import { SearchRequest } from '@/types/api'
 import { searchState } from '@/pages/competition-search/store'
 
 interface SearchBarProps {
@@ -17,7 +17,7 @@ interface SearchBarProps {
 
 const SearchBar = ({ text, openBtn, openBtnColor, onClick }: SearchBarProps) => {
   const navigate = useNavigate()
-  const [search, setSearch] = useRecoilState<Search>(searchState)
+  const [search, setSearch] = useRecoilState<SearchRequest>(searchState)
   const [keyword, setKeyword] = useState(search.keyword)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
