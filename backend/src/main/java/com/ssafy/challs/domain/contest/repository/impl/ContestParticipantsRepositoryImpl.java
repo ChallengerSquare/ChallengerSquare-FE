@@ -1,5 +1,9 @@
 package com.ssafy.challs.domain.contest.repository.impl;
 
+import static com.ssafy.challs.domain.contest.entity.QContestParticipants.*;
+import static com.ssafy.challs.domain.team.entity.QTeam.*;
+import static com.ssafy.challs.domain.team.entity.QTeamParticipants.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -26,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class ContestParticipantsRepositoryImpl implements ContestParticipantsRepositoryCustom {
 
 	private final JPAQueryFactory queryFactory;
+	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
 	public boolean checkAlreadyParticipantsMember(Long contestId, Long teamId) {
@@ -78,8 +83,8 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public List<ContestTeamInfoDto> searchTeamInfoByContest(Long contestId, Character state) {
-		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
-		QTeam qTeam = QTeam.team;
+		QContestParticipants qContestParticipants = contestParticipants;
+		QTeam qTeam = team;
 
 		// 조건적 쿼리 생성
 		BooleanExpression whereClause = qContestParticipants.contest.id.eq(contestId);
@@ -107,7 +112,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public List<ContestTeamMemberInfoDto> searchTeamMemberByTeamId(Long teamId) {
-		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+		QTeamParticipants qTeamParticipants = teamParticipants;
 		QMember qMember = QMember.member;
 
 		// 쿼리 실행
@@ -131,7 +136,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public void updateContestParticipantsState(Long contestId, List<Long> agreeMembers) {
-		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+		QContestParticipants qContestParticipants = contestParticipants;
 
 		queryFactory.update(qContestParticipants)
 			.set(qContestParticipants.contestParticipantsState,
@@ -146,7 +151,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public List<ContestParticipantsInfoDto> findAllTeamFromContestId(Long contestId) {
-		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+		QContestParticipants qContestParticipants = contestParticipants;
 
 		// 쿼리 실행
 		return queryFactory
@@ -164,7 +169,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public List<Long> searchMemberIdFromTeamId(Long teamId) {
-		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+		QTeamParticipants qTeamParticipants = teamParticipants;
 
 		return queryFactory
 			.select(qTeamParticipants.member.id)
@@ -175,8 +180,8 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public ContestParticipantsLeaderStateDto isLeaderAndParticipantsState(Long contestId, Long memberId) {
-		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
-		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+		QTeamParticipants qTeamParticipants = teamParticipants;
+		QContestParticipants qContestParticipants = contestParticipants;
 
 		// 하나의 쿼리로 리더 여부와 대회 참여 상태 가져오기
 		return queryFactory
@@ -195,13 +200,24 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public void updateContestIsParticipants(Long contestId, List<Long> participantsTeams) {
-		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
+		QContestParticipants qContestParticipants = contestParticipants;
 
 		queryFactory.update(qContestParticipants)
 			.set(qContestParticipants.isParticipants, true)
 			.where(qContestParticipants.contest.id.eq(contestId),
 				qContestParticipants.team.id.in(participantsTeams))
 			.execute();
+	}
+
+	@Override
+	public List<Long> searchMemberIdListFromContestId(Long contestId) {
+		List<Long> teamIdList = jpaQueryFactory.select(contestParticipants.team.id)
+			.from(contestParticipants)
+			.where(contestParticipants.contest.id.eq(contestId)).fetch();
+		return jpaQueryFactory.select(teamParticipants.member.id)
+			.from(teamParticipants)
+			.where(teamParticipants.team.id.in(teamIdList))
+			.fetch();
 	}
 
 }
