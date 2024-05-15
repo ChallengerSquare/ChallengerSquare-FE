@@ -1,1 +1,70 @@
-$main-color: #8930fd;
+
+
+.home {
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Pretendard-Regular';
+        background-image: url('../../../public/images/home/home.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        
+        .nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 2rem;
+            padding: 0 2rem; // Adjust padding as necessary
+        }
+
+        .title{
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-top: 8rem;
+            margin-bottom: 8rem;
+        }
+
+        .mainDescription{
+            font-size: 20px;
+            color: black;
+            text-align: center;
+            margin-bottom: 8rem;
+            line-height: 1.6;
+        }
+    }
+
+    .contents{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+
+        .contentContainer{
+            //왼쪽 또는 오른쪽에 이미지
+            //반대쪽에는 설명이 있고, 설명의 제목은 크게, 내용은 작게
+            //이미지가 왼쪽에 있으면 설명도 왼쪽정렬, 이미지가 오른쪽에 있으면 설명도 오른쪽 정렬
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 4rem;
+
+            
+        }
+    }
+}
+
+
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
