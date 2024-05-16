@@ -160,12 +160,18 @@ public class ContestServiceImpl implements ContestService {
 			contestId, memberId);
 
 		// 대회 정보 가져오기
+		boolean isLeader = false;
+		char state = 'B';
+		if (info != null) {
+			isLeader = info.isLeader();
+			state = info.contestParticipantsState();
+		}
 		Contest contest = contestRepository.findById(contestId)
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		return contestMapper.contestToFindResponseDto(contest, awsS3Url + contest.getContestImage(), awardsList,
-			info.isLeader(), info.contestParticipantsState());
+			isLeader, state);
 	}
 
 	/**
