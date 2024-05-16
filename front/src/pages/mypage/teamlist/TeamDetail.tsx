@@ -8,17 +8,16 @@ import TeamMember from '@/pages/mypage/teamlist/TeamMember'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
 
 interface TeamDetailProps {
-  teamListData: TeamListData[]
+  teamData: TeamListData
 }
 
-const TeamDetail = ({ teamListData }: TeamDetailProps) => {
+const TeamDetail = ({ teamData }: TeamDetailProps) => {
   const [teamDetailTap, setTeamDetailTap] = useRecoilState(teamDetailTapState)
-  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
-  const [team, setTeam] = useState<TeamListData>(teamListData[teamIdx])
+  const [team, setTeam] = useState<TeamListData>(teamData)
 
   useEffect(() => {
-    setTeam(teamListData[teamIdx])
-  }, [teamListData])
+    setTeam(teamData)
+  }, [teamData])
 
   const handleTapState = (state: boolean) => {
     setTeamDetailTap(state)

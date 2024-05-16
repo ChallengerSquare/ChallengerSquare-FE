@@ -1,4 +1,4 @@
-import styles from '@/pages/mypage/competitionlist/CompetitionList.module.scss'
+import styles from '@/pages/mypage/setting/Setting.module.scss'
 
 const Setting = () => {
   return (

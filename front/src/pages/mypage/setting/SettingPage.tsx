@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar/Navbar'
 import MyPageTab from '@/pages/mypage/MyPageTab'
 import styles from '@/pages/mypage/MyPage.module.scss'
-import Setting from '@/pages/mypage/mysetting/MySetting'
+import Setting from '@/pages/mypage/setting/Setting'
 
 const TempSetting = () => {
   return (

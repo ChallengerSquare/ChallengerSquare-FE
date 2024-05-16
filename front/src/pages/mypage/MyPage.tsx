@@ -10,7 +10,7 @@ import styles from '@/pages/mypage/MyPage.module.scss'
 import TeamList from './teamlist/TeamList'
 import CompetitinoList from './competitionlist/CompetitionList'
 import ResultList from './resultlist/ResultList'
-import Setting from './mysetting/MySetting'
+import Setting from './setting/Setting'
 
 const MyPage = () => {
   const [tab] = useRecoilState(tapState)

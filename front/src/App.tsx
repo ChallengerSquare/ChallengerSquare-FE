@@ -15,12 +15,12 @@ import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
-import TempMyInfo from './pages/mypage/TempMyInfo'
-import TempAlarm from './pages/mypage/TempAlarm'
-import TempCompetitionList from './pages/mypage/TempCompetitionList'
-import TempTeamList from './pages/mypage/TempTeamList'
-import TempResultList from './pages/mypage/TempResultList'
-import TempSetting from './pages/mypage/TempSetting'
+import TempMyInfo from './pages/mypage/myinfo/MyInfoPage'
+import TempAlarm from './pages/mypage/alarm/AlarmPage'
+import TempCompetitionList from './pages/mypage/competitionlist/CompetitionListPage'
+import TempTeamList from './pages/mypage/teamlist/TeamListPage'
+import TempResultList from './pages/mypage/resultlist/ResultListPage'
+import TempSetting from './pages/mypage/setting/SettingPage'
 
 const queryClient = new QueryClient()
 
