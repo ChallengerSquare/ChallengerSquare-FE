@@ -16,6 +16,7 @@ import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
+import EventStreamManager from './components/EventStreamManager/EventStreamManager'
 
 const queryClient = new QueryClient()
 
@@ -23,6 +24,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
+        <EventStreamManager />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
