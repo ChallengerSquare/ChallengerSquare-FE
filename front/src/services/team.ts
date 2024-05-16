@@ -98,3 +98,21 @@ export const createTeam = async (formData: FormData): Promise<ApiResponse> => {
     }
   }
 }
+
+export const getTeamInfo = async (teamId: number): Promise<ApiResponse> => {
+  try {
+    const response = await api.get(`/${teamId}/public`)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('공개된 팀 정보 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}

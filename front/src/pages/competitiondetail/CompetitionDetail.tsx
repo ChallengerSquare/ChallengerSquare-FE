@@ -1,16 +1,57 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { getCompetitionDetails } from '@services/contest'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionDetailContent from './CompetitoinDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
 
+interface Contest {
+  contestId: number
+  contestTitle: string
+  contestContent: string
+  contestImage: string
+  teamName: string
+  teamId: number
+  registrationPeriod: {
+    start: string
+    end: string
+  }
+  contestPeriod: {
+    start: string
+    end: string
+  }
+  contestRegistrationNum: number
+  contestFee: number
+  contestPhone: string
+  isPriority: boolean
+  contestCategory: string
+  contestLocation: string
+  isLeader: boolean
+  participantState: string
+  contestState: string
+  contestAwards: Award[]
+}
+
+interface Award {
+  awardsId: number
+  awardsName: string
+  awardsCount: number
+  awardsPrize: number
+}
+
 const CompetitionDetail = () => {
-  const { competitionId } = useParams()
+  const { competitionId } = useParams<{ competitionId: string }>()
+  const [competition, setCompetition] = useState<Contest>()
   const path = process.env.PUBLIC_URL
 
   useEffect(() => {
-    // API 호출 코드 ...
+    if (competitionId != null) {
+      getCompetitionDetails(competitionId).then(({ data }) => {
+        console.log(data)
+        setCompetition(data)
+      })
+    }
   }, [])
 
   return (
@@ -25,10 +66,10 @@ const CompetitionDetail = () => {
             </Link>
           </div>
           <div className={styles.content_container}>
-            <CompetitionDetailContent competitionId={competitionId} />
+            {competition && <CompetitionDetailContent competition={competition} />}
           </div>
           <div className={styles.info_container}>
-            <CompetitionDetailTab />
+            {competition && <CompetitionDetailTab teamId={competition.teamId} content={competition.contestContent} />}
           </div>
         </div>
       </div>
