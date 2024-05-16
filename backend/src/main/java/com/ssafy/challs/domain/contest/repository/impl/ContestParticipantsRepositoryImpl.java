@@ -179,8 +179,8 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public ContestParticipantsLeaderStateDto isLeaderAndParticipantsState(Long contestId, Long memberId) {
-		QTeamParticipants qTeamParticipants = teamParticipants;
-		QContestParticipants qContestParticipants = contestParticipants;
+		QTeamParticipants qTeamParticipants = QTeamParticipants.teamParticipants;
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
 
 		// 하나의 쿼리로 리더 여부와 대회 참여 상태 가져오기
 		return queryFactory
@@ -190,10 +190,12 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 					qTeamParticipants.isLeader, qContestParticipants.contestParticipantsState
 				)
 			)
-			.from(qTeamParticipants)
-			.join(qTeamParticipants.team, qContestParticipants.team)
-			.where(qContestParticipants.contest.id.eq(contestId)
-				.and(qTeamParticipants.member.id.eq(memberId)))
+			.from(qContestParticipants, qTeamParticipants)
+			.where(
+				qContestParticipants.team.id.eq(qTeamParticipants.team.id)
+					.and(qContestParticipants.contest.id.eq(contestId))
+					.and(qTeamParticipants.member.id.eq(memberId))
+			)
 			.fetchOne();
 	}
 
