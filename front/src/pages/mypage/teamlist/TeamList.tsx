@@ -18,7 +18,6 @@ interface TeamListDataBack {
 }
 
 const TeamList = () => {
-  const [teamIdx] = useRecoilState(teamIdxState)
   const [teamTap, setTeamTap] = useRecoilState(teamTapState)
   const [teamList, setTeamList] = useState<TeamListData[]>([
     {
@@ -31,12 +30,6 @@ const TeamList = () => {
       description: '',
     },
   ])
-  const [team, setTeam] = useState<TeamData>({
-    id: 0,
-    name: '',
-    description: '',
-    img: '',
-  })
 
   useEffect(() => {
     setTeamTap(false)
@@ -55,23 +48,9 @@ const TeamList = () => {
     })
   }, [])
 
-  useEffect(() => {
-    handleSetTeam()
-  }, [teamList, teamIdx])
-
-  const handleSetTeam = () => {
-    if (teamList.length > 0)
-      setTeam({
-        id: teamList[teamIdx].teamId,
-        name: teamList[teamIdx].teamName,
-        description: teamList[teamIdx].description,
-        img: teamList[teamIdx].teamImg,
-      })
-  }
-
   return (
     <div className={styles.teamlist_wrap}>
-      {teamTap === false ? <TeamCardList teamListData={teamList} /> : <TeamDetail teamData={team} />}
+      {teamTap === false ? <TeamCardList teamListData={teamList} /> : <TeamDetail teamListData={teamList} />}
     </div>
   )
 }

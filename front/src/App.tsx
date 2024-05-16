@@ -15,6 +15,12 @@ import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
+import TempMyInfo from './pages/mypage/TempMyInfo'
+import TempAlarm from './pages/mypage/TempAlarm'
+import TempCompetitionList from './pages/mypage/TempCompetitionList'
+import TempTeamList from './pages/mypage/TempTeamList'
+import TempResultList from './pages/mypage/TempResultList'
+import TempSetting from './pages/mypage/TempSetting'
 
 const queryClient = new QueryClient()
 
@@ -26,6 +32,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage/myinfo" element={<TempMyInfo />} />
+            <Route path="/mypage/alarm" element={<TempAlarm />} />
+            <Route path="/mypage/teamlist" element={<TempTeamList />} />
+            <Route path="/mypage/competitionlist" element={<TempCompetitionList />} />
+            <Route path="/mypage/resultlist" element={<TempResultList />} />
+            <Route path="/mypage/setting" element={<TempSetting />} />
             <Route path="/competition" element={<Competition />} />
             <Route path="/competition/search" element={<CompetitionSearch />} />
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />

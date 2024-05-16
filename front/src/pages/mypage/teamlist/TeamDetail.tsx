@@ -1,24 +1,24 @@
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { teamDetailTapState } from '@/pages/mypage/store'
-import { TeamData } from '@/types/team'
+import { teamDetailTapState, teamIdxState } from '@/pages/mypage/store'
+import { TeamData, TeamListData } from '@/types/team'
 import TeamContest from '@/pages/mypage/teamlist/TeamContest'
 import TeamMember from '@/pages/mypage/teamlist/TeamMember'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
 
 interface TeamDetailProps {
-  teamData: TeamData
+  teamListData: TeamListData[]
 }
 
-const TeamDetail = ({ teamData }: TeamDetailProps) => {
+const TeamDetail = ({ teamListData }: TeamDetailProps) => {
   const [teamDetailTap, setTeamDetailTap] = useRecoilState(teamDetailTapState)
-  const [team, setTeam] = useState(teamData)
+  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
+  const [team, setTeam] = useState<TeamListData>(teamListData[teamIdx])
 
   useEffect(() => {
-    setTeam(teamData)
-    console.log(teamData)
-  }, [teamData])
+    setTeam(teamListData[teamIdx])
+  }, [teamListData])
 
   const handleTapState = (state: boolean) => {
     setTeamDetailTap(state)
@@ -27,16 +27,16 @@ const TeamDetail = ({ teamData }: TeamDetailProps) => {
   return (
     <div className={styles.teamlist}>
       <div className={styles.head}>
-        <div>{`Team > 팀목록 > ${team.name}`}</div>
+        <div>{`Team > 팀목록 > ${team.teamName}`}</div>
       </div>
       <div className={styles.body}>
         <div className={styles.team}>
           <div className={styles.team_logo}>
-            <ProfileImg imgUrl={team.img} imgName={'팀이미지'} name={'teamdetail'} edit />
+            <ProfileImg imgUrl={team.teamImg} imgName={'팀이미지'} name={'teamdetail'} edit />
           </div>
           <div className={styles.team_summary}>
             <div>
-              <span>{team.name}</span>
+              <span>{team.teamName}</span>
             </div>
             <div>{team.description}</div>
           </div>
@@ -61,7 +61,7 @@ const TeamDetail = ({ teamData }: TeamDetailProps) => {
             </button>
           </div>
           <div className={styles.content}>
-            {teamDetailTap === false ? <TeamContest id={team.id} /> : <TeamMember id={team.id} />}
+            {teamDetailTap === false ? <TeamContest id={team.teamId} /> : <TeamMember id={team.teamId} />}
           </div>
         </div>
       </div>
