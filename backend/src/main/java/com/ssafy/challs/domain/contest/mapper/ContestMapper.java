@@ -71,7 +71,7 @@ public interface ContestMapper {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(source = "contest", target = "contest")
 	@Mapping(source = "team", target = "team")
-	@Mapping(target = "contestParticipantsState", expression = "java(Character.valueOf('W'))")  // 'W'로 설정
+	@Mapping(target = "contestParticipantsState", constant = "W")
 	@Mapping(target = "isParticipants", constant = "false")
 		// 항상 false로 설정
 	ContestParticipants contestParticipantsDtoToEntity(ContestParticipantRequestDto participantRequestDto,

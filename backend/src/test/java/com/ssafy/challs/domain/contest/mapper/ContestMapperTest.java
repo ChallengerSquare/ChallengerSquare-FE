@@ -78,7 +78,7 @@ class ContestMapperTest {
 		assertNotNull(entity);
 		assertEquals("대회이름", entity.getContest().getContestTitle());
 		assertEquals("팀이름", entity.getTeam().getTeamName());
-		assertEquals('W', entity.getContestParticipantsState());
+		assertEquals("W", entity.getContestParticipantsState());
 		assertFalse(entity.getIsParticipants());
 		assertEquals("정말 대회에 참가 하고 싶어요", entity.getContestParticipantsReason());
 	}

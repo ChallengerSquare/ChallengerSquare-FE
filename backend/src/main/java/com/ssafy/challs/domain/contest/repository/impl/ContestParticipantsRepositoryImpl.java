@@ -88,7 +88,7 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 		// 조건적 쿼리 생성
 		BooleanExpression whereClause = qContestParticipants.contest.id.eq(contestId);
 		if (state != null && !state.equals('J')) {
-			whereClause = whereClause.and(qContestParticipants.contestParticipantsState.eq('A'));
+			whereClause = whereClause.and(qContestParticipants.contestParticipantsState.eq("A"));
 		}
 
 		// 쿼리 실행
@@ -141,8 +141,8 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 			.set(qContestParticipants.contestParticipantsState,
 				new CaseBuilder()
 					.when(qContestParticipants.team.id.in(agreeMembers))
-					.then('A')
-					.otherwise('R')
+					.then("A")
+					.otherwise("R")
 			)
 			.where(qContestParticipants.contest.id.eq(contestId))
 			.execute();
