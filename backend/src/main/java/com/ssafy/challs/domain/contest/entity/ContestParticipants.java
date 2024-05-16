@@ -29,6 +29,7 @@ public class ContestParticipants extends BaseEntity {
 	Contest contest;
 	@ManyToOne(fetch = FetchType.LAZY)
 	Team team;
+	@Column(columnDefinition = "CHAR(1)")
 	Character contestParticipantsState;
 	@Column(columnDefinition = "TEXT")
 	String contestParticipantsReason;
