@@ -11,5 +11,5 @@ public interface AwardsRepository extends JpaRepository<Awards, Long> {
 
 	List<Awards> findAllByContest(Contest contest);
 
-	boolean deleteAllByContest(Contest contest);
+	void deleteAllByContest(Contest contest);
 }
