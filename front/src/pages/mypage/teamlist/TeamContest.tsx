@@ -21,7 +21,7 @@ const TeamContest = ({ id }: TeamContestProps) => {
     getContestList(id).then(({ data }) => {
       setContestList(data.content)
     })
-  }, [id])
+  }, [])
 
   return (
     <div>

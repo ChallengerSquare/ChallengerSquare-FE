@@ -9,23 +9,15 @@ import { Link } from 'react-router-dom'
 
 interface TeamCardListProps {
   teamListData: TeamListData[]
+  onClick: (idx: number) => void
 }
 
-const TeamCardList = ({ teamListData }: TeamCardListProps) => {
-  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
-  const [teamTap, setTeamTap] = useRecoilState(teamTapState)
-  const [teamDeatilTap, setTeamDetailTap] = useRecoilState(teamDetailTapState)
+const TeamCardList = ({ teamListData, onClick }: TeamCardListProps) => {
   const [teamList, setTeamList] = useState<TeamListData[]>(teamListData)
 
   useEffect(() => {
     setTeamList(teamListData)
   }, [teamListData])
-
-  const handleTeamNumber = (idx: number) => {
-    setTeamIdx(idx)
-    setTeamTap(true)
-    setTeamDetailTap(false)
-  }
 
   return (
     <div className={styles.teamlist}>
@@ -37,7 +29,7 @@ const TeamCardList = ({ teamListData }: TeamCardListProps) => {
       </div>
       <div className={styles.body}>
         {teamList.length > 0 ? (
-          <TeamCard team={teamList} onClick={handleTeamNumber} />
+          <TeamCard team={teamList} onClick={onClick} />
         ) : (
           <EmptyImg text={'팀 목록이 없습니다.'} />
         )}

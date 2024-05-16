@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
 import { Page, SearchRequest, SearchResponse } from '@/types/api'
 import { ContestData } from '@/types/competition'
 import { getCompetitionList } from '@/services/competition'
@@ -17,7 +16,7 @@ const CompetitionSearch = () => {
   const searchParams = new URLSearchParams(location.search)
   const keywordFromUrl = searchParams.get('keyword') || ''
   const categoryFromUrl = searchParams.get('category') || ''
-  const [searchKeyword, setSearchKeyword] = useState<undefined | string>('')
+  const [searchKeyword, setSearchKeyword] = useState<string>(keywordFromUrl)
   const [searchCategory, setSearchCategory] = useState(0)
   const [progressOrderBy, setProgressOrderBy] = useState(3)
   const [finishOrderBy, setFinishOrderBy] = useState(3)
@@ -53,8 +52,8 @@ const CompetitionSearch = () => {
 
   useEffect(() => {
     const progressCompetitionListParams: SearchRequest = {
-      // orderBy: progressOrderBy,
-      keyword: keywordFromUrl === '' ? null : keywordFromUrl,
+      orderBy: progressOrderBy,
+      keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: false,
       page: 0,
@@ -62,15 +61,15 @@ const CompetitionSearch = () => {
     }
     getProgressCompetitionListData(progressCompetitionListParams, true)
     const finishCompetitionListParams: SearchRequest = {
-      // orderBy: finishOrderBy,
-      keyword: keywordFromUrl === '' ? null : keywordFromUrl,
+      orderBy: finishOrderBy,
+      keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: true,
       page: 0,
       size: 8,
     }
     getFinishCompetitionListData(finishCompetitionListParams, true)
-  }, [searchKeyword, searchCategory])
+  }, [searchKeyword, searchCategory, progressOrderBy, finishOrderBy])
 
   const getProgressCompetitionListData = (param: SearchRequest, clear: boolean) => {
     getCompetitionList(param).then(({ data }) => {
@@ -108,8 +107,9 @@ const CompetitionSearch = () => {
 
   const handleMore = (key: string) => {
     if (key === 'progress') {
+      console.log(progressOrderBy)
       const progressCompetitionListParams: SearchRequest = {
-        // orderBy: progressOrderBy,
+        orderBy: progressOrderBy,
         keyword: searchKeyword,
         category: searchCategory === 0 ? null : searchCategory,
         isEnd: false,
@@ -119,7 +119,7 @@ const CompetitionSearch = () => {
       getProgressCompetitionListData(progressCompetitionListParams, false)
     } else if (key === 'finish') {
       const finishCompetitionListParams: SearchRequest = {
-        // orderBy: finishOrderBy,
+        orderBy: finishOrderBy,
         keyword: searchKeyword,
         category: searchCategory === 0 ? null : searchCategory,
         isEnd: true,

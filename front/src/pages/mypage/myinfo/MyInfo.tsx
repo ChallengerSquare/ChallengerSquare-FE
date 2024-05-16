@@ -3,9 +3,14 @@ import { User, UserInfo } from '@/types/user'
 import styles from '@/pages/mypage/myinfo/MyInfo.module.scss'
 import Button from '@/components/Button/Button'
 import loadPostcode from '@/services/postcode'
-import { getUser, updateUser } from '@services/member'
+import { getUser, logoutUser, updateUser } from '@services/member'
+import { useNavigate } from 'react-router-dom'
+import { useRecoilState, useResetRecoilState } from 'recoil'
+import { userState } from '@/stores/userState'
 
 const MyInfo = () => {
+  const navigate = useNavigate()
+  const resetUserState = useResetRecoilState(userState)
   const [user, setUser] = useState<User>({
     userName: '',
     userBirth: '',
@@ -71,14 +76,23 @@ const MyInfo = () => {
     }
     updateUser(userInfo)
     setUser(editUser)
+    if (editUser != user) {
+      alert('내 정보가 수정되었습니다.')
+    }
+  }
+
+  const handleLogout = () => {
+    logoutUser()
+    resetUserState()
+    navigate('/competition')
   }
 
   return (
     <div className={styles.info}>
       <div className={styles.title}>
         <div>{'HOME > 내정보'}</div>
-        <button type={'button'} className={styles.btn}>
-          {'회원탈퇴'}
+        <button type={'button'} className={styles.btn} onClick={handleLogout}>
+          {'로그아웃'}
         </button>
       </div>
       <div className={styles.content}>
