@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { ApiResponse, CompetitionCreateRequestDto } from '@/types/api'
+import { ApiResponse, UpdateCompetitionRequestDto } from '@/types/api'
 import { reissueCookie } from './member'
 
 const api = axios.create({
@@ -65,9 +65,9 @@ export const getCompetitionDetails = async (id: string): Promise<ApiResponse> =>
   }
 }
 
-export const modifyContestContent = async (competition: CompetitionCreateRequestDto): Promise<ApiResponse> => {
+export const modifyContestContent = async (data: UpdateCompetitionRequestDto): Promise<ApiResponse> => {
   try {
-    const response = await api.put<ApiResponse>('', competition)
+    const response = await api.put<ApiResponse>('', data)
     return {
       status: response.status,
       code: response.data.code,

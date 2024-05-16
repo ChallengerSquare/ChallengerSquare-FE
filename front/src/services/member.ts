@@ -144,7 +144,7 @@ export const getResultList = async (): Promise<ApiResponse> => {
       data: response.data.data,
     }
   } catch (error: any) {
-    console.error('팀 목록 조회 API 에러', error)
+    console.error('대회 내역 조회 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,

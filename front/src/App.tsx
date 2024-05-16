@@ -16,8 +16,6 @@ import Dashboard from './pages/blockchain/dashboard'
 import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
-// import Footer from './components/Footer/Footer'
-import logo from '../public/images/footerLogo.webp'
 
 const queryClient = new QueryClient()
 
@@ -44,23 +42,6 @@ function App() {
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>
-          <div className="Footer">
-            <div className="left">
-              <div className="logo">
-                <img src={logo} alt="logo" />
-              </div>
-            </div>
-            <div className="right">
-              <div className="information">
-                <div className="team">Created by Team Buzzer Beater: 안준현 강다솔 강태연 김재윤 남혜미 이성목</div>
-                <div className="address">서울특별시 강남구 테헤란로 212 멀티캠퍼스 802호</div>
-              </div>
-              <div className="copy">
-                <div className="copyright">Copyright © Buzzer Beater All Rights Reserved</div>
-                <div className="powered">Powered by SSAFY</div>
-              </div>
-            </div>
-          </div>
         </BrowserRouter>
       </RecoilRoot>
     </QueryClientProvider>

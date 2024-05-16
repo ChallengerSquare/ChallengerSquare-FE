@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import { getCompetitionDetails, modifyContestContent } from '@/services/contest'
 import Button from '@/components/Button/Button'
 import CustomEditor from '@/components/Editor/CustomEditor'
-import { ApiResponse } from '@/types/api'
+import { ApiResponse, UpdateCompetitionRequestDto } from '@/types/api'
 import ModifyModal from './ModifyModal/ModifyModal'
 import styles from './ModifyPromotion.module.scss'
 
@@ -43,11 +43,26 @@ const ModifyPromotion = () => {
   }, [isOpen, response])
 
   const handleOpen = () => {
-    const request = { ...response?.data }
-
+    const responseDto = { ...response?.data }
     if (editorRef.current) {
       const markdown = editorRef.current.getMarkdown()
-      request.contestContent = markdown
+      responseDto.contestContent = markdown
+      const request: UpdateCompetitionRequestDto = {
+        contestId: responseDto.contestId,
+        contestTitle: responseDto.contestTitle,
+        contestContent: responseDto.contestContent,
+        contestLocation: responseDto.contestLocation,
+        teamId: responseDto.teamId,
+        registrationPeriod: responseDto.registrationPeriod,
+        contestPeriod: responseDto.contestPeriod,
+        contestRegistrationNum: responseDto.contestRegistrationNum,
+        contestFee: responseDto.contestFee,
+        contestPhone: responseDto.contestPhone,
+        isPriority: responseDto.isPriority,
+        contestCategory: responseDto.contestCategory,
+        contestAwards: responseDto.contestAwards,
+      }
+
       modifyData.mutate(request)
     }
   }
