@@ -62,6 +62,7 @@ public class TeamController {
 	@PostMapping
 	@Operation(summary = "팀 생성", description = "대회 참가/개최를 위한 팀을 생성하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> createTeam(
+		@Schema(description = "이미지 파일", example = "MultipartFile")
 		@RequestPart(required = false) MultipartFile teamImage,
 		@RequestPart TeamCreateRequestDto teamRequestDto,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -190,6 +191,7 @@ public class TeamController {
 	@PutMapping
 	@Operation(summary = "팀 정보 수정", description = "팀의 정보를 수정하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> updateTeam(
+		@Schema(description = "이미지 파일", example = "MultipartFile")
 		@RequestPart(required = false) MultipartFile teamImage,
 		@RequestPart TeamUpdateRequestDto teamRequestDto,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -262,7 +264,7 @@ public class TeamController {
 
 	/**
 	 * 팀 리더가 팀원 방출
-	 * 
+	 *
 	 * @author 강태연
 	 * @param teamParticipantDeleteRequestDto 팀원의 팀 참가 번호
 	 * @param securityMember 현재 요청한 멤버의 정보
