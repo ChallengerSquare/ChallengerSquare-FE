@@ -29,6 +29,7 @@ public interface ContestMapper {
 	@Mapping(source = "contestRequestDto.registrationPeriod.end", target = "contestRegistrationEnd")
 	@Mapping(source = "contestRequestDto.contestPeriod.start", target = "contestStart")
 	@Mapping(source = "contestRequestDto.contestPeriod.end", target = "contestEnd")
+	@Mapping(target = "id", ignore = true)
 	Contest contestCreateDtoToContest(ContestCreateRequestDto contestRequestDto, Team team, Character contestState);
 
 	@Mapping(source = "contest", target = "contest")

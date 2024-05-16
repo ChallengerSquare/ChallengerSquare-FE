@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ContestAwardsDto(
+	@Schema(description = "상 ID", example = "1")
+	@NotNull
+	Long awardsId,
 	@Schema(description = "상 이름", example = "최우수상")
 	@NotEmpty
 	String awardsName,

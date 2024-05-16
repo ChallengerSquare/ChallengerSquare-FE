@@ -103,9 +103,11 @@ public class ContestServiceImpl implements ContestService {
 		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestState);
 		// DB에 대회, 수상 정보 저장
 		Contest savedContest = contestRepository.save(contest);
-		// 대회 포스터 S3에 저장 후 URL 가져오기
-		String savedImage = imageConfig.uploadImage(contestImage, "contest", savedContest.getId().toString());
-		savedContest.setContestImage(savedImage);
+		// 대회 포스터 있다면 S3에 저장 후 URL 가져오기
+		if (!contestImage.isEmpty()) {
+			String savedImage = imageConfig.uploadImage(contestImage, "contest", savedContest.getId().toString());
+			savedContest.setContestImage(savedImage);
+		}
 		createAwards(savedContest, contestRequestDto.contestAwards());
 		return new ContestCreateResponseDto(savedContest.getId());
 	}

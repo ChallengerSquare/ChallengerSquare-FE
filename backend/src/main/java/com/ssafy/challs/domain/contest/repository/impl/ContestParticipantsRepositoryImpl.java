@@ -135,12 +135,12 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public void updateContestParticipantsState(Long contestId, List<Long> agreeMembers) {
-		QContestParticipants qContestParticipants = contestParticipants;
+		QContestParticipants qContestParticipants = QContestParticipants.contestParticipants;
 
 		queryFactory.update(qContestParticipants)
 			.set(qContestParticipants.contestParticipantsState,
 				new CaseBuilder()
-					.when(qContestParticipants.id.in(agreeMembers))
+					.when(qContestParticipants.team.id.in(agreeMembers))
 					.then('A')
 					.otherwise('R')
 			)
