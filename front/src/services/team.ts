@@ -80,3 +80,21 @@ export const updateMemberParticipants = async (id: number, isAgree: boolean): Pr
     }
   }
 }
+
+export const createTeam = async (formData: FormData): Promise<ApiResponse> => {
+  try {
+    const response = await api.post<ApiResponse>('', formData)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 생성 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}

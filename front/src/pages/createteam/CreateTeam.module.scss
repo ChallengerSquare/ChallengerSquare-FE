@@ -1,81 +1,81 @@
 @import '@/styles/variables.scss';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  font-weight: bold;
 
-.container{
+  .head {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 50px;
-    font-weight: bold;
+    width: 1200px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid $sub-color;
+    font-size: 1.5rem;
+  }
+  .body {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 150px;
+    width: 1200px;
+    font-size: 1.2rem;
 
-    .head{
-        display: flex;
-        justify-content: center;
-        width: 1200px;
-        padding-bottom: 50px;
-        border-bottom: 1px solid $sub-color;
-        font-size: 1.5rem;
+    .profile {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 150px;
+      p {
+        padding-top: 20px;
+      }
     }
-    .body{
-        display: flex;
-        justify-content: space-around;
-        padding: 50px 150px;
-        width: 1200px;
-        font-size: 1.2rem;
+    .content {
+      width: 650px;
 
-        .profile{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 150px;
-            p{
-                padding-top: 20px;
-            }
+      .input_line {
+        display: flex;
+        padding: 10px;
+
+        .input_title {
+          padding: 10px;
+          margin-right: 20px;
+          span {
+            color: red;
+            margin: 0px 10px;
+          }
         }
-        .content{
-            width:650px;
 
-            .input_line{
-                display: flex;
-                padding: 10px;
-
-                .input_title{
-                    padding: 10px;
-                    margin-right: 20px;
-                    span{
-                        color: red;
-                        margin: 0px 10px;
-                    }
-                }
-
-                .input_name{
-                    outline: none;
-                    width: 250px;
-                    padding: 10px;
-                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-                    font-size: 1rem;
-                    font-weight: 500;
-                }
-                
-                .input_description{
-                    resize: none;
-                    padding: 10px;
-                    width: 500px;
-                    height: 150px;
-                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-                    font-weight: 500;
-                    font-size: 1rem;
-                }
-            }
+        .input_name {
+          outline: none;
+          width: 250px;
+          padding: 10px;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+          font-size: 1rem;
+          font-weight: 500;
         }
+
+        .input_description {
+          outline: none;
+          resize: none;
+          padding: 10px;
+          width: 500px;
+          height: 150px;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+          font-weight: 500;
+          font-size: 1rem;
+        }
+      }
     }
-    .tail{
-        display: flex;
-        justify-content: center;
-        width: 1200px;
-        padding-bottom: 50px;
-        border-bottom: 1px solid $sub-color;
-    }
+  }
+  .tail {
+    display: flex;
+    justify-content: center;
+    width: 1200px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid $sub-color;
+  }
 }
