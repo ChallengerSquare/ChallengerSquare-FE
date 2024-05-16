@@ -28,7 +28,8 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 	@Transactional(readOnly = true)
 	public Page<NoticeResponseDto> searchNoticeList(Pageable pageable, Long contestId) {
 		List<NoticeResponseDto> noticeResponseDtoList = queryFactory
-			.select(Projections.constructor(NoticeResponseDto.class, notice.noticeTitle, notice.noticeContent))
+			.select(Projections.constructor(NoticeResponseDto.class, notice.noticeTitle, notice.noticeContent,
+				notice.createDate))
 			.from(notice)
 			.where(notice.contest.id.eq(contestId))
 			.offset(pageable.getOffset())
