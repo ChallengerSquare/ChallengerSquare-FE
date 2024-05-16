@@ -50,6 +50,7 @@ public interface ContestMapper {
 	@Mapping(source = "contest.contestStart", target = "contestPeriod.start")
 	@Mapping(source = "contest.contestEnd", target = "contestPeriod.end")
 	@Mapping(source = "imageUrl", target = "contestImage")
+	@Mapping(source = "contest.id", target = "contestId")
 	ContestSearchResponseDto contestToSearchResponseDto(Contest contest, String imageUrl);
 
 	@Mapping(source = "contest.team.id", target = "teamId")
@@ -59,6 +60,7 @@ public interface ContestMapper {
 	@Mapping(source = "contest.contestStart", target = "contestPeriod.start")
 	@Mapping(source = "contest.contestEnd", target = "contestPeriod.end")
 	@Mapping(source = "imageUrl", target = "contestImage")
+	@Mapping(source = "contest.id", target = "contestId")
 	ContestFindResponseDto contestToFindResponseDto(Contest contest, String imageUrl, List<Awards> contestAwards,
 		Boolean isLeader, Character participantState);
 
