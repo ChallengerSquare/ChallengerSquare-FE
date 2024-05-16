@@ -75,7 +75,7 @@ public class ContestController {
 	 * @return 성공 여부
 	 */
 	@PutMapping
-	@Operation(summary = "대회 수정", description = "대회를 수정하는 API")
+	@Operation(summary = "대회 수정 (O)", description = "대회를 수정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody @Valid ContestUpdateRequestDto contestUpdateRequestDto) {
@@ -112,7 +112,7 @@ public class ContestController {
 	 * @return 대회 상세 정보
 	 */
 	@GetMapping("/{contestId}")
-	@Operation(summary = "대회 상세조회", description = "대회를 상세조회하는 API")
+	@Operation(summary = "대회 상세조회 (O)", description = "대회를 상세조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestFindResponseDto>> findContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@PathVariable @Schema(description = "검색할 대회의 ID", example = "1") Long contestId) {
