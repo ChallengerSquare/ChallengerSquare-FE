@@ -16,6 +16,8 @@ public record MemberTeamResponseDto(
 	@Schema(description = "팀 참가 완료한 대회 수", example = "2")
 	Integer teamParticipantsCount,
 	@Schema(description = "팀 설명", example = "팀 설명 입니다")
-	String teamDescription
+	String teamDescription,
+	@Schema(description = "팀 초대코드", example = "UUID")
+	String teamCode
 ) {
 }
