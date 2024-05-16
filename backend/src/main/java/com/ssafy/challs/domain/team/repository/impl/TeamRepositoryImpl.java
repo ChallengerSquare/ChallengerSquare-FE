@@ -76,7 +76,7 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 					JPAExpressions.select(contestParticipants.count().castToNum(Integer.class))
 						.from(contestParticipants)
 						.where(contestParticipants.team.id.eq(team.id)
-							.and(contestParticipants.contestParticipantsState.eq('A'))),
+							.and(contestParticipants.contestParticipantsState.eq("A"))),
 					team.teamDescription))
 			.from(team)
 			.where(team.id.in(JPAExpressions.select(teamParticipants.team.id)

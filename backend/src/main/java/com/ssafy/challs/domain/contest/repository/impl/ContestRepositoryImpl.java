@@ -216,7 +216,7 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		// 팀의 번호 리스트가 포함된 대회 참가 내역을 조회후 대회의 번호 조회 (참가 상태가 대기, 승인)
 		JPQLQuery<Long> searchContestIdList = JPAExpressions.select(contestParticipants.contest.id)
 			.from(contestParticipants)
-			.where(contestParticipants.contestParticipantsState.in('A', 'W')
+			.where(contestParticipants.contestParticipantsState.in("A", "W")
 				.and(contestParticipants.team.id.in(searchTeamIdList)));
 
 		// 해당 대회의 정보를 반환
