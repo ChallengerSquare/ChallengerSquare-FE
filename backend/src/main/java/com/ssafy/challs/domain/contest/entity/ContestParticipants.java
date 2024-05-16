@@ -30,7 +30,7 @@ public class ContestParticipants extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	Team team;
 	@Column(columnDefinition = "CHAR(1)")
-	Character contestParticipantsState;
+	String contestParticipantsState;
 	@Column(columnDefinition = "TEXT")
 	String contestParticipantsReason;
 	Boolean isParticipants;
