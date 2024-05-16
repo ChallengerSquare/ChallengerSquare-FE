@@ -52,7 +52,7 @@ const CompetitionSearch = () => {
 
   useEffect(() => {
     const progressCompetitionListParams: SearchRequest = {
-      // orderBy: progressOrderBy,
+      orderBy: progressOrderBy,
       keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: false,
@@ -61,7 +61,7 @@ const CompetitionSearch = () => {
     }
     getProgressCompetitionListData(progressCompetitionListParams, true)
     const finishCompetitionListParams: SearchRequest = {
-      // orderBy: finishOrderBy,
+      orderBy: finishOrderBy,
       keyword: searchKeyword === '' ? null : searchKeyword,
       category: searchCategory === 0 ? null : searchCategory,
       isEnd: true,
@@ -69,7 +69,7 @@ const CompetitionSearch = () => {
       size: 8,
     }
     getFinishCompetitionListData(finishCompetitionListParams, true)
-  }, [searchKeyword, searchCategory])
+  }, [searchKeyword, searchCategory, progressOrderBy, finishOrderBy])
 
   const getProgressCompetitionListData = (param: SearchRequest, clear: boolean) => {
     getCompetitionList(param).then(({ data }) => {
@@ -107,8 +107,9 @@ const CompetitionSearch = () => {
 
   const handleMore = (key: string) => {
     if (key === 'progress') {
+      console.log(progressOrderBy)
       const progressCompetitionListParams: SearchRequest = {
-        // orderBy: progressOrderBy,
+        orderBy: progressOrderBy,
         keyword: searchKeyword,
         category: searchCategory === 0 ? null : searchCategory,
         isEnd: false,
@@ -118,7 +119,7 @@ const CompetitionSearch = () => {
       getProgressCompetitionListData(progressCompetitionListParams, false)
     } else if (key === 'finish') {
       const finishCompetitionListParams: SearchRequest = {
-        // orderBy: finishOrderBy,
+        orderBy: finishOrderBy,
         keyword: searchKeyword,
         category: searchCategory === 0 ? null : searchCategory,
         isEnd: true,
