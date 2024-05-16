@@ -44,7 +44,7 @@ public class MemberController {
 	private static final String SUCCESS_STRING = "success";
 
 	@GetMapping("/refresh")
-	@Operation(summary = "토큰 재발급 API", description = "refreshToken을 이용해서 토큰을 재발급 하는 API")
+	@Operation(summary = "토큰 재발급 API (O)", description = "refreshToken을 이용해서 토큰을 재발급 하는 API")
 	public ResponseEntity<SuccessResponse<String>> createToken(@CookieValue String refreshToken) {
 		// refresh token이 없으면 에러
 		if (refreshToken == null) {
@@ -66,7 +66,7 @@ public class MemberController {
 	}
 
 	@PutMapping("/create")
-	@Operation(summary = "회원가입 API", description = "소셜 로그인 후 회원가입을 하는 API")
+	@Operation(summary = "회원가입 API (O)", description = "소셜 로그인 후 회원가입을 하는 API")
 	public ResponseEntity<SuccessResponse<String>> createMember(@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody MemberCreateRequestDto memberCreateRequestDto) {
 		memberService.createMember(memberCreateRequestDto, securityMember.id());
@@ -74,7 +74,7 @@ public class MemberController {
 	}
 
 	@PutMapping("/update")
-	@Operation(summary = "회원수정 API", description = "회원 정보를 수정하는 API")
+	@Operation(summary = "회원수정 API (O)", description = "회원 정보를 수정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateMember(@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody MemberUpdateRequestDto memberUpdateRequestDto) {
 		memberService.updateMember(memberUpdateRequestDto, securityMember.id());
@@ -82,7 +82,7 @@ public class MemberController {
 	}
 
 	@GetMapping
-	@Operation(summary = "회원조회 API", description = "회원 정보를 조회하는 API")
+	@Operation(summary = "회원조회 API (O)", description = "회원 정보를 조회하는 API")
 	public ResponseEntity<SuccessResponse<MemberFindResponseDto>> findMember(
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, memberService.findMember(securityMember.id())));
@@ -105,7 +105,7 @@ public class MemberController {
 	 * @return 팀 정보 목록
 	 */
 	@GetMapping("/teams")
-	@Operation(summary = "팀 목록 조회 API", description = "회원이 가입한 팀의 목록을 조회하는 API")
+	@Operation(summary = "팀 목록 조회 API (O)", description = "회원이 가입한 팀의 목록을 조회하는 API")
 	public ResponseEntity<SuccessResponse<Page<MemberTeamResponseDto>>> searchTeamList(
 		@PageableDefault Pageable pageable,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -122,7 +122,7 @@ public class MemberController {
 	 * @return 팀 정보 목록
 	 */
 	@GetMapping("/contest")
-	@Operation(summary = "대회 목록 조회", description = "멤버가 포함된 팀이 참가 신청한 대회 목록 조회")
+	@Operation(summary = "대회 목록 조회 (O)", description = "멤버가 포함된 팀이 참가 신청한 대회 목록 조회")
 	public ResponseEntity<SuccessResponse<Page<MemberContestResponseDto>>> searchContestList(
 		@PageableDefault Pageable pageable,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -139,7 +139,7 @@ public class MemberController {
 	 * @return 시상 정보 목록
 	 */
 	@GetMapping("/awards")
-	@Operation(summary = "대회 내역 조회", description = "멤버가 가입한 모든 팀이 참여한 대회 목록을 조회하는 API")
+	@Operation(summary = "대회 내역 조회 (O)", description = "멤버가 가입한 모든 팀이 참여한 대회 목록을 조회하는 API")
 	public ResponseEntity<SuccessResponse<Page<MemberAwardsCodeResponseDto>>> searchAwardList(
 		@PageableDefault Pageable pageable, @AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(
@@ -154,7 +154,7 @@ public class MemberController {
 	 * @return 팀 정보 목록
 	 */
 	@GetMapping("/teams/leader")
-	@Operation(summary = "리더인 팀 목록 조회 API", description = "회원이 가입한 팀 중에서 리더인 팀의 목록을 조회하는 API")
+	@Operation(summary = "리더인 팀 목록 조회 API (O)", description = "회원이 가입한 팀 중에서 리더인 팀의 목록을 조회하는 API")
 	public ResponseEntity<SuccessResponse<List<MemberTeamLeaderResponseDto>>> searchTeamLeaderList(
 		@AuthenticationPrincipal SecurityMember securityMember) {
 		return ResponseEntity.ok(
