@@ -39,4 +39,4 @@ def listNodes(request):
     # todo : 무작위 랜덤 추출 추가
     nodes = Node.objects.all()
     serializer = serializers.NodeSerializer(nodes, many=True)
-    return Response(serializer.data)
+    return Response({'nodes': serializer.data})
