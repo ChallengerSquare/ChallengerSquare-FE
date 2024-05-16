@@ -37,7 +37,6 @@ class Blockchain:
             Blockchain._instance = Blockchain()
         return Blockchain._instance
 
-
     def add_new_block(self, block):
         new_chain = copy.deepcopy(self.chain)
         new_chain.append(block)
@@ -52,10 +51,10 @@ class Blockchain:
         previous_block = self.get_previous_block()
         # define Block
         body = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
-                 'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
-                 'proof': 1,  # nonce 값
-                 'previous_hash': previous_block['hash'],  # 이전 블록의 hash값
-                 'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
+                'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
+                'proof': 1,  # nonce 값
+                'previous_hash': previous_block['hash'],  # 이전 블록의 hash값
+                'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
         block = {
             'hash': '',
             'body': body
@@ -74,10 +73,10 @@ class Blockchain:
         # previous_block = self.get_previous_block()
         # define Block
         body = {'index': len(self.chain) + 1,  # 블록의 번호를 하나 증가
-                 'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
-                 'proof': proof,  # nonce 값
-                 'previous_hash': previous_hash,  # 이전 블록의 hash값
-                 'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
+                'timestamp': str(datetime.datetime.now()),  # 블록 생성 시점
+                'proof': proof,  # nonce 값
+                'previous_hash': previous_hash,  # 이전 블록의 hash값
+                'transactions': self.transactions[:]}  # 트랜잭션 목록을 가져와서 블록의 데이터로 넣음
         block_string = json.dumps(body, sort_keys=True).encode()
         block_hash = hashlib.sha256(block_string).hexdigest()
         block = {
@@ -96,7 +95,6 @@ class Blockchain:
     def get_previous_block(self):
         return self.chain[-1]  # 현재 체인에 있는 블록 중 가장 끝 블록 반환
 
-
     def proof_of_works(self, block):
         body = block['body']
         check_proof = False
@@ -110,13 +108,13 @@ class Blockchain:
             else:
                 body['proof'] += 1  # nonce 값 +1 증가
 
-
     # 작업 증명
     # 새로운 블록을 채굴하기 위한 nonce 값을 찾아내는 것
     '''
     :param previous_proof: 이전 블록의 nonce 값
     :return new_proof: 새로운 nonce값
     '''
+
     def proof_of_work(self, previous_proof):  # todo : 해쉬값 찾는걸 더 어렵게 만들어서 시간이 걸리도록 할건지, 일정한 주기를 정할건지 추가
         new_proof = 1  # 새로운 nonce 값을 저장할 변수
         check_proof = False  # 신규 증명의 유효성을 저장할 변수
@@ -260,6 +258,7 @@ class Blockchain:
             print("클라이언트 연결 대기 시간 초과.")
         except ConnectionRefusedError:
             print("연결을 거부당했습니다. 서버가 실행 중인지 확인해주세요.")
+
     #
     def replace_chain(self):
         network = self.nodes
@@ -276,18 +275,18 @@ class Blockchain:
             #     max_length = length
             #     longest_chain = chain
 
-        # if longest_chain:  # 고아블록 처리 과정
-        #     index = len(longest_chain) - 1  # 체인의 끝 인덱스 가져오기
-        #     is_done = False
-        #     while not is_done and index >= 0:  # 작업이 완료되지 않고, 인덱스가 0이상이면
-        #         if len(self.chain) - 1 >= index:  # 내가 원래 가진 chain에 현재 인덱스를 가진 블록이 존재하면
-        #
-        #             if longest_chain[index]['hash'] != self.chain[index]['hash']:  # 맨 뒤쪽 블록부터 내용을 비교해서 다르면
-        #                 self.transactions.append(self.chain[index]['transactions'])  # 내 블록(교체되는 블록)의 트랜잭션을 멤풀로 되돌리기
-        #             else:
-        #                 is_done = True  # 내용이 같다면 앞쪽 내용은 같을 수 밖에 없으므로, 작업을 완료
-        #
-        #         index -= 1  # index를 1 감소
+            # if longest_chain:  # 고아블록 처리 과정
+            #     index = len(longest_chain) - 1  # 체인의 끝 인덱스 가져오기
+            #     is_done = False
+            #     while not is_done and index >= 0:  # 작업이 완료되지 않고, 인덱스가 0이상이면
+            #         if len(self.chain) - 1 >= index:  # 내가 원래 가진 chain에 현재 인덱스를 가진 블록이 존재하면
+            #
+            #             if longest_chain[index]['hash'] != self.chain[index]['hash']:  # 맨 뒤쪽 블록부터 내용을 비교해서 다르면
+            #                 self.transactions.append(self.chain[index]['transactions'])  # 내 블록(교체되는 블록)의 트랜잭션을 멤풀로 되돌리기
+            #             else:
+            #                 is_done = True  # 내용이 같다면 앞쪽 내용은 같을 수 밖에 없으므로, 작업을 완료
+            #
+            #         index -= 1  # index를 1 감소
 
             self.chain = longest_chain
             return True
@@ -361,3 +360,9 @@ class Blockchain:
 
     def get_transactions(self):
         return self.transactions
+
+    def get_all_transactions(self):
+        all_transactions = []
+        for block in self.chain:
+            all_transactions.extend(block['body']['transactions'])
+        return all_transactions
