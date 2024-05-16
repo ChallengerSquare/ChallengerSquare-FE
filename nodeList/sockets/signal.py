@@ -1,16 +1,19 @@
 import socket
 from django.utils import timezone
-from apies.models import Node  # 'Node' 모델의 실제 경로로 교체해야 합니다.
+from apies.models import Node
+from apies.serializers import NodeSerializer
 def signal(IP, PORT):
-    print(str(IP) + '에 요청을 보낼 게요')
+    print(str(IP) + ':' + str(PORT) + ' 에 요청을 보낼 게요')
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             client_socket.connect((IP, PORT))
             # reader, writer = await asyncio.open_connection(IP, PORT)
 
             # 데이터 전송
-            name = "미니몬"
-            message = "안녕, 서버!"
+            name = 'name'
+            message = 'message'
+            # nodes = Node.objects.all()
+            # serializer = NodeSerializer(nodes, many=True)
 
             request = f"{name}&&{message}"
             client_socket.send(request.encode("utf-8"))

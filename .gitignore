@@ -42,6 +42,7 @@ out/
 
 # dependencies
 /node_modules
+./node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
