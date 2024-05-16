@@ -10,6 +10,8 @@ import com.ssafy.challs.domain.team.dto.response.TeamContestResponseDto;
 
 public interface ContestRepositoryCustom {
 
+	String findContestImageByContestId(Long contestId);
+
 	Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable, Integer orderBy);
 
 	Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable);

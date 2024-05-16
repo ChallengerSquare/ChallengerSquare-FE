@@ -130,7 +130,10 @@ public class ContestServiceImpl implements ContestService {
 		// 대회 날짜 수정과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// 대회 수정
+		// 이미지 정보 가져오기
+		String contestImage = contestRepository.findContestImageByContestId(contestRequestDto.contestId());
 		Contest contest = contestMapper.contestUpdateDtoToContest(contestRequestDto, team, contestState);
+		contest.setContestImage(contestImage);
 		contestRepository.save(contest);
 		// 수상 정보 수정
 		updateAwards(contest, contestRequestDto.contestAwards());
