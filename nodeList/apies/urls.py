@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     path('connect', views.connectNode),  # 노드 연결 요청
     path('list', views.listNodes),
-    path('getNodeCount', views.getNodeCount, name='getNodeCount')
+    path('getNodeCount', views.getNodeCount, name='getNodeCount'),
+    path('getNetworkStatus', views.getNetworkStatus, name='getNetworkStatus')
 ]
