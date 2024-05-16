@@ -1,11 +1,18 @@
 package com.ssafy.challs.domain.notice.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.challs.domain.alert.service.AlertService;
+import com.ssafy.challs.domain.alert.service.SseService;
 import com.ssafy.challs.domain.contest.entity.Contest;
+import com.ssafy.challs.domain.contest.repository.ContestParticipantsRepository;
 import com.ssafy.challs.domain.contest.repository.ContestRepository;
 import com.ssafy.challs.domain.notice.dto.request.NoticeCreateRequestDto;
 import com.ssafy.challs.domain.notice.dto.response.NoticeResponseDto;
@@ -18,7 +25,9 @@ import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
@@ -27,6 +36,9 @@ public class NoticeServiceImpl implements NoticeService {
 	private final ContestRepository contestRepository;
 	private final NoticeRepository noticeRepository;
 	private final NoticeMapper noticeMapper;
+	private final ContestParticipantsRepository contestParticipantsRepository;
+	private final AlertService alertService;
+	private final SseService sseService;
 
 	/**
 	 * 공지사항 작성
@@ -49,7 +61,19 @@ public class NoticeServiceImpl implements NoticeService {
 
 		Notice notice = noticeMapper.noticeCreateRequestDtoToNotice(noticeCreateRequestDto, contest);
 
+		List<Long> memberIdList = contestParticipantsRepository.searchMemberIdListFromContestId(contest.getId());
 		noticeRepository.save(notice);
+
+		// 알림 생성, sse 전송
+		alertService.createAlert(memberIdList, 'N', notice.getId(),
+			contest.getContestTitle() + " 대회에 새로운 공지사항이 작성되었습니다.");
+		Map<String, Boolean> message = new HashMap<>();
+		message.put("unread", true);
+		try {
+			sseService.send(memberIdList, message);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
 	}
 
 	/**
