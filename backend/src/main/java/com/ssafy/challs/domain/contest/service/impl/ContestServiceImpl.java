@@ -329,16 +329,17 @@ public class ContestServiceImpl implements ContestService {
 			contestId, contest.getContestState());
 
 		// 상태별로 반환값 가져오기
+		// 수상 정보 가져오기
+		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		if (contest.getContestState().equals('J')) {
 			// 모집 중일 때 (팀정보, 승인상태, 신청 사유)
 			List<ContestTeamResponseDto> contestTeamList = contestTeamInfoDtos.stream()
 				.map(this::createContestTeamResponseDto)
 				.toList();
-			return contestMapper.dtoToContestTeamResponseDto(contest, contestTeamList, null);
+			return contestMapper.dtoToContestTeamResponseDto(contest, contestTeamList,
+				contestMapper.awardsToDtoList(awardsList));
 		} else {
 			// 대회 시작 ~ 끝일 때 (팀정보, 참석여부, 시상정보)
-			// 수상 정보 가져오기
-			List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 			List<ContestTeamResponseDto> contestTeamList = contestTeamInfoDtos.stream()
 				.map(this::createContestTeamResponseDto)
 				.collect(Collectors.toList());
