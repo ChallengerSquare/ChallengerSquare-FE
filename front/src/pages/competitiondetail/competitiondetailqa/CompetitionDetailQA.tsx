@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getCompetitionQnA } from '@/services/qna'
 import Pagination from '@/components/Pagination/Pagination'
 import styles from './CompetitionDetailQA.module.scss'
 
@@ -60,6 +61,10 @@ const CompetitionDetailQA = () => {
   ]
 
   useEffect(() => {
+    const id = 1
+    getCompetitionQnA(id).then(({ data }) => {
+      console.log()
+    })
     // const fetchData = async () => {
     //     const response = await fetch(`https://api.example.com/items?page=${currentPage}&size=10`)
     //     setNotices(response.json().data)
@@ -133,7 +138,7 @@ const CompetitionDetailQA = () => {
               ))}
             </ul>
           </div>
-          <Pagination limit={limit} page={1} totalPages={totalPages} onPageChange={PageChange} />
+          <Pagination limit={limit} page={1} totalPage={totalPages} onPageChange={PageChange} />
         </div>
       )}
     </div>
