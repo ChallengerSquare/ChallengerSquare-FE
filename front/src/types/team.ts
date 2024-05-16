@@ -6,6 +6,7 @@ export interface TeamListData {
   createContest: number
   participateContest: number
   description: string
+  teamCode?: string
 }
 
 export interface TeamData {
