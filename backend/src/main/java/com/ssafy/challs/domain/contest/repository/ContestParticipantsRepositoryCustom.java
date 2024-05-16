@@ -27,4 +27,6 @@ public interface ContestParticipantsRepositoryCustom {
 	ContestParticipantsLeaderStateDto isLeaderAndParticipantsState(Long contestId, Long memberId);
 
 	void updateContestIsParticipants(Long contestId, List<Long> participantsTeams);
+
+	List<Long> searchMemberIdListFromContestId(Long contestId);
 }
