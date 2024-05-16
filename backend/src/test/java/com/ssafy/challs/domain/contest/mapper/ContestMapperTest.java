@@ -89,7 +89,7 @@ class ContestMapperTest {
 		// 준비
 		Contest contest = Contest.builder().id(1L).contestTitle("대회이름").contestState('J').build();
 		ContestTeamInfoDto contestTeamInfoDto = new ContestTeamInfoDto(
-			1L, "버저비터", 'A', true, "대회 참가하고 싶어요");
+			1L, "버저비터", "A", true, "대회 참가하고 싶어요");
 		Awards awards = Awards.builder().awardsName("최우수상").awardsCount(1).awardsPrize(10000).build();
 		Awards awards2 = Awards.builder().awardsName("우수상").awardsCount(5).awardsPrize(300).build();
 		List<Awards> awardsList = List.of(awards, awards2);
@@ -109,7 +109,7 @@ class ContestMapperTest {
 		assertEquals(1L, contestTeamParticipantsDto.contestId());
 		assertEquals("대회이름", contestTeamParticipantsDto.contestTitle());
 		assertEquals("버저비터", contestTeamParticipantsDto.teamInfo().get(0).teamName());
-		assertEquals('A', contestTeamParticipantsDto.teamInfo().get(0).contestParticipantsState());
+		assertEquals("A", contestTeamParticipantsDto.teamInfo().get(0).contestParticipantsState());
 		assertEquals(true, contestTeamParticipantsDto.teamInfo().get(0).isParticipants());
 		assertEquals("대회 참가하고 싶어요", contestTeamParticipantsDto.teamInfo().get(0).contestParticipantsReason());
 		assertEquals(awardsDto, contestTeamParticipantsDto.awards());
