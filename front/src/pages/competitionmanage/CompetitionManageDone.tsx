@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { updateCompetitionParticipants, updateCompetitionState } from '@services/competition'
 import Button from '@/components/Button/Button'
 import styles from './CompetitionManage.module.scss'
 
@@ -56,9 +57,19 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
 
   // 시작하기 버튼
   const handleStateChange = () => {
-    console.log('API 호출 (state DONE -> START 변경)')
-    onChangeCompetitionState('START')
-    handleAccept()
+    const teamIdList: number[] = competitionData.teamList
+      .filter((team: Team) => team.accept)
+      .map((team: Team) => team.id)
+    updateCompetitionParticipants(competition.id, teamIdList).then((response) => {
+      if (response.status === 200) {
+        updateCompetitionState(competition.id, 'S').then((response) => {
+          if (response.status === 200) {
+            onChangeCompetitionState('S')
+            handleAccept()
+          }
+        })
+      }
+    })
   }
 
   // 체크 박스
@@ -104,7 +115,7 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
         </div>
         <div className={styles.content_teamlist}>
           {competitionData.teamList.map((team, index) => (
-            <div className={styles.content_team}>
+            <div className={styles.content_team} key={index}>
               <div className={styles.content_info}>
                 <span className={styles.content_index}>{team.id}</span>
                 <span className={styles.content_classify}>{team.name}</span>
@@ -124,8 +135,8 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
               </div>
               {expandedIndexes.includes(team.id) && (
                 <div className={styles.content_members}>
-                  {team.members.map((member) => (
-                    <div className={styles.content_member}>
+                  {team.members.map((member, index) => (
+                    <div className={styles.content_member} key={index}>
                       <span className={styles.content_index}>{''}</span>
                       <span className={styles.content_classify}>{''}</span>
                       <span className={styles.content_name}>{member.name}</span>
