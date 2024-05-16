@@ -6,7 +6,7 @@ const EventStreamManager = () => {
   const [notification, setNotification] = useRecoilState(notificationState)
 
   useEffect(() => {
-    const eventSource = new EventSource(`${process.env.REACT_APP_API_ROOT}`)
+    const eventSource = new EventSource(`${process.env.REACT_APP_API_ROOT}/sse/subscribe`)
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data)
