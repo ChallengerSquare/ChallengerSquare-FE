@@ -1,20 +1,27 @@
 @import '@styles/variables.scss';
 
-.container{
-    padding: 1rem;
+.container {
+  padding: 1rem;
 
-    .empty{
-       height: 20rem;
-       background-color: white;
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       color: $main-forth-color;
-       
-       p{
-        font-size: xx-large;
-        color: $main-forth-color;
-       }
+  .empty {
+    height: 20rem;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $main-forth-color;
+
+    p {
+      font-size: xx-large;
+      color: $main-forth-color;
     }
+  }
 
+  .content {
+    height: 20rem;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

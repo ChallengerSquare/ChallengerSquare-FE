@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { Viewer } from '@toast-ui/react-editor'
+import '@toast-ui/editor/dist/toastui-editor-viewer.css' // 스타일 추가
 import styles from './CompetitionDetailInfo.module.scss'
 
 interface Props {
@@ -11,12 +13,14 @@ const CompetitionDetailInfo = ({ content }: Props) => {
 
   return (
     <div className={styles.container}>
-      {content == undefined ? (
+      {content === undefined ? (
         <div className={styles.empty}>
-          <p> 등록된 상세정보가 없습니다. </p>
+          <p>등록된 상세정보가 없습니다.</p>
         </div>
       ) : (
-        <div className={styles.empty}> {content} </div>
+        <div className={styles.content}>
+          <Viewer initialValue={content || ''} />
+        </div>
       )}
     </div>
   )
