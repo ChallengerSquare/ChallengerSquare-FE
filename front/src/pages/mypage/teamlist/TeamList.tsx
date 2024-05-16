@@ -15,6 +15,7 @@ interface TeamListDataBack {
   teamContestCount: number
   teamParticipantsCount: number
   teamDescription: string
+  teamCode: string
 }
 
 const TeamList = () => {
@@ -29,6 +30,7 @@ const TeamList = () => {
     createContest: 1,
     participateContest: 1,
     description: '',
+    teamCode: '',
   })
   const [teamList, setTeamList] = useState<TeamListData[]>([
     {
@@ -39,6 +41,7 @@ const TeamList = () => {
       createContest: 1,
       participateContest: 1,
       description: '',
+      teamCode: '',
     },
   ])
 
@@ -61,6 +64,7 @@ const TeamList = () => {
 
         participateContest: element.teamParticipantsCount,
         description: element.teamDescription,
+        teamCode: element.teamCode,
       }))
       setTeamList(TeamList)
     })
