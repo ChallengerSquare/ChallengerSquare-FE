@@ -1,10 +1,12 @@
 package com.ssafy.challs.domain.qna.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
 public record QnaResponseDto(
 	@Schema(description = "QNA ID", example = "1")
-	String qnaId,
+	Long qnaId,
 	@Schema(description = "QNA 제목", example = "QNA 제목1")
 	String title,
 	@Schema(description = "질문 내용", example = "질문1")
