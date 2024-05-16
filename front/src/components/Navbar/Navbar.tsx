@@ -73,7 +73,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
           </NavLink>
         </nav>
         {user.userName ? (
-          <Link to="/mypage">
+          <Link to="/mypage/myinfo">
             <Button variation="white">마이페이지</Button>
           </Link>
         ) : (

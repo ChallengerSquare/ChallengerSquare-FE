@@ -1,6 +1,7 @@
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { useEffect, useState } from 'react'
 import { getLeaderUserList, getUserList, updateMemberParticipants } from '@services/team'
+import EmptyImg from '@/components/EmptyImg/EmptyImg'
 
 interface TeamMemberProps {
   id: number
@@ -25,9 +26,11 @@ const TeamMember = ({ id }: TeamMemberProps) => {
   const setUserList = () => {
     getLeaderUserList(id).then((response) => {
       if (response.status === 200) {
+        console.log(response.data)
         setMemberList(response.data)
       } else if (response.code === 'G-029') {
         getUserList(id).then(({ data }) => {
+          console.log(data)
           setMemberList(data)
         })
       }
@@ -50,37 +53,43 @@ const TeamMember = ({ id }: TeamMemberProps) => {
 
   return (
     <div className={styles.team_member}>
-      {memberList.map((member, index) => (
-        <div key={index} className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
-          <div className={styles.line_head}>{''}</div>
-          <div className={styles.line_body}>
-            <div>
-              <span>{member.memberName}</span>
-              {member.memberEmail}
+      {memberList.length > 0 ? (
+        <div>
+          {memberList.map((member, index) => (
+            <div key={index} className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
+              <div className={styles.line_head}>{''}</div>
+              <div className={styles.line_body}>
+                <div>
+                  <span>{member.memberName}</span>
+                  {member.memberEmail}
+                </div>
+              </div>
+              {member.isApprove === false ? (
+                <div className={styles.line_tail}>
+                  <button
+                    type={'button'}
+                    className={styles.approve}
+                    onClick={() => updateMemberStatus(member.participantsId, true)}
+                  >
+                    {'승인'}
+                  </button>
+                  <button
+                    type={'button'}
+                    className={styles.reject}
+                    onClick={() => updateMemberStatus(member.participantsId, false)}
+                  >
+                    {'거부'}
+                  </button>
+                </div>
+              ) : (
+                <div className={styles.line_tail}>{''}</div>
+              )}
             </div>
-          </div>
-          {member.isApprove === false ? (
-            <div className={styles.line_tail}>
-              <button
-                type={'button'}
-                className={styles.approve}
-                onClick={() => updateMemberStatus(member.participantsId, true)}
-              >
-                {'승인'}
-              </button>
-              <button
-                type={'button'}
-                className={styles.reject}
-                onClick={() => updateMemberStatus(member.participantsId, false)}
-              >
-                {'거부'}
-              </button>
-            </div>
-          ) : (
-            <div className={styles.line_tail}>{''}</div>
-          )}
+          ))}
         </div>
-      ))}
+      ) : (
+        <EmptyImg text={'팀원 목록이 비었습니다.'} />
+      )}
     </div>
   )
 }

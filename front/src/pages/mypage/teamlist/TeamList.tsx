@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { TeamListData, TeamData } from '@/types/team'
-import { teamTapState, teamIdxState } from '@/pages/mypage/store'
+import { teamTapState, teamIdxState, teamDetailTapState } from '@/pages/mypage/store'
 import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { getTeamList } from '@services/member'
 import TeamCardList from './TeamCardList'
@@ -18,8 +18,18 @@ interface TeamListDataBack {
 }
 
 const TeamList = () => {
-  const [teamIdx] = useRecoilState(teamIdxState)
+  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
   const [teamTap, setTeamTap] = useRecoilState(teamTapState)
+  const [teamDeatilTap, setTeamDetailTap] = useRecoilState(teamDetailTapState)
+  const [team, setTeam] = useState<TeamListData>({
+    teamId: 1,
+    teamImg: '',
+    teamName: '',
+    teamMember: 1,
+    createContest: 1,
+    participateContest: 1,
+    description: '',
+  })
   const [teamList, setTeamList] = useState<TeamListData[]>([
     {
       teamId: 1,
@@ -31,12 +41,13 @@ const TeamList = () => {
       description: '',
     },
   ])
-  const [team, setTeam] = useState<TeamData>({
-    id: 0,
-    name: '',
-    description: '',
-    img: '',
-  })
+
+  const handleTeamNumber = (idx: number) => {
+    setTeamIdx(idx)
+    setTeamTap(true)
+    setTeamDetailTap(false)
+    setTeam(teamList[idx])
+  }
 
   useEffect(() => {
     setTeamTap(false)
@@ -55,23 +66,13 @@ const TeamList = () => {
     })
   }, [])
 
-  useEffect(() => {
-    handleSetTeam()
-  }, [teamList, teamIdx])
-
-  const handleSetTeam = () => {
-    if (teamList.length > 0)
-      setTeam({
-        id: teamList[teamIdx].teamId,
-        name: teamList[teamIdx].teamName,
-        description: teamList[teamIdx].description,
-        img: teamList[teamIdx].teamImg,
-      })
-  }
-
   return (
     <div className={styles.teamlist_wrap}>
-      {teamTap === false ? <TeamCardList teamListData={teamList} /> : <TeamDetail teamData={team} />}
+      {teamTap === false ? (
+        <TeamCardList teamListData={teamList} onClick={handleTeamNumber} />
+      ) : (
+        <TeamDetail teamData={team} />
+      )}
     </div>
   )
 }

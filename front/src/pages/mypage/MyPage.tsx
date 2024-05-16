@@ -8,9 +8,9 @@ import MyInfo from '@/pages/mypage/myinfo/MyInfo'
 import Alarm from '@/pages/mypage/alarm/Alarm'
 import styles from '@/pages/mypage/MyPage.module.scss'
 import TeamList from './teamlist/TeamList'
-import CompetitinoList from './competitionlist/CompetitinoList'
+import CompetitinoList from './competitionlist/CompetitionList'
 import ResultList from './resultlist/ResultList'
-import Setting from './mysetting/MySetting'
+import Setting from './setting/Setting'
 
 const MyPage = () => {
   const [tab] = useRecoilState(tapState)
@@ -22,7 +22,7 @@ const MyPage = () => {
         <div className={styles.head}>{'마이페이지'}</div>
         <div className={styles.body}>
           <div className={styles.tap}>
-            <MyPageTab />
+            <MyPageTab tab={'myInfo'} />
           </div>
           <div className={styles.content_wrap}>
             {tab === 'myInfo' && <MyInfo />}

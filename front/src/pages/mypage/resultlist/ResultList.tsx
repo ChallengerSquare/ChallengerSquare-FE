@@ -69,14 +69,21 @@ const ResultList = () => {
               <div key={result.id} className={styles.line}>
                 <div className={styles.category}>{result.category}</div>
                 <Link to={`/competition/detail/${result.id}`} className={styles.name}>
-                  <div className={styles.point}>{result.name}</div>
+                  <div>
+                    <span>{result.name}</span>
+                  </div>
                 </Link>
                 <div className={styles.period}>{result.period}</div>
                 <Link to={`/competition-results/${result.awardCode}`} className={styles.awardcode}>
-                  <div className={styles.point}>{result.awardCode}</div>
+                  <div>
+                    {/* {result.awardCode.length > 20 ? `${result.attendCode.substring(1, 20)}...` : result.attendCode} */}
+                    <span>{result.awardCode}</span>
+                  </div>
                 </Link>
                 <Link to={`/competition-results/${result.attendCode}`} className={styles.attendcode}>
-                  <div className={styles.point}>{result.attendCode}</div>
+                  <div>
+                    <span>{result.attendCode}</span>
+                  </div>
                 </Link>
               </div>
             ))}
