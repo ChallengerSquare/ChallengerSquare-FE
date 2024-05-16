@@ -40,3 +40,9 @@ def listNodes(request):
     nodes = Node.objects.all()
     serializer = serializers.NodeSerializer(nodes, many=True)
     return Response({'nodes': serializer.data})
+
+@api_view(['GET'])
+def getNodeCount(request):
+    # 참여 중인 노드의 총 개수 계산
+    node_count = Node.objects.count()
+    return Response({"참여 중인 노드 수": node_count})
