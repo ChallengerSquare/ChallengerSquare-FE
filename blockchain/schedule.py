@@ -44,7 +44,7 @@ def start_scheduler():
         'default': ThreadPoolExecutor(1)  # 동시에 하나의 작업만 실행
     }
     scheduler = BackgroundScheduler(executors=executors, timezone=pytz.timezone('Asia/Seoul'))
-    scheduler.add_job(func=mine_block_regularly, trigger="interval", seconds=10, max_instances=1)
+    scheduler.add_job(func=mine_block_regularly, trigger="interval", seconds=600, max_instances=1)
     # scheduler.add_job(func=replace_chain_regularly, trigger="interval", minutes=1, max_instances=1)
     scheduler.start()
 
