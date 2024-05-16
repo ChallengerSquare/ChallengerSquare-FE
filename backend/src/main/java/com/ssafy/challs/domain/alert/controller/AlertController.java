@@ -38,7 +38,7 @@ public class AlertController {
 	 * @return 조건에 맞는 Alert 정보 리스트
 	 */
 	@GetMapping
-	@Operation(summary = "알림 조회 API", description = "사용자에게 왔었던 모든 알림/안 읽은 알림 조회")
+	@Operation(summary = "알림 조회 API (O)", description = "사용자에게 왔었던 모든 알림/안 읽은 알림 조회")
 	public ResponseEntity<SuccessResponse<List<AlertResponseDto>>> searhAlertList(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestParam(required = false, defaultValue = "false") @Schema(description = "안읽은 알림만 조회하기 위한 조건", example = "true") Boolean unread) {
@@ -54,7 +54,7 @@ public class AlertController {
 	 * @return 성공 여부
 	 */
 	@PutMapping
-	@Operation(summary = "알림을 읽음처리하는 API", description = "해당 알림을 조회하여 읽음처리")
+	@Operation(summary = "알림을 읽음처리하는 API (O)", description = "해당 알림을 조회하여 읽음처리")
 	public ResponseEntity<SuccessResponse<String>> updateAlertReadState(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody AlertUpdateRequestDto alertUpdateRequestDto) {
