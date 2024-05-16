@@ -7,6 +7,7 @@ import static com.ssafy.challs.domain.team.entity.QTeamParticipants.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -35,6 +37,9 @@ import lombok.RequiredArgsConstructor;
 public class ContestRepositoryImpl implements ContestRepositoryCustom {
 
 	private final JPAQueryFactory queryFactory;
+
+	@Value("${cloud.aws.s3.url}")
+	private String s3Url;
 
 	@Override
 	public Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable, Integer orderBy) {
@@ -153,7 +158,9 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 	public Page<TeamContestResponseDto> searchTeamContestList(Long teamId, Pageable pageable) {
 		List<TeamContestResponseDto> response = queryFactory.select(
 				Projections.constructor(
-					TeamContestResponseDto.class, contest.id, contest.contestTitle, contest.contestImage))
+					TeamContestResponseDto.class, contest.id, contest.contestTitle,
+					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, contest.contestImage)
+				))
 			.from(contest)
 			.where(contest.team.id.eq(teamId))
 			.offset(pageable.getOffset())
