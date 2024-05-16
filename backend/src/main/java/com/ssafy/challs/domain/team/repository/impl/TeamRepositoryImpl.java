@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -35,6 +37,9 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 
 	@Value("${cloud.aws.s3.url}")
 	private String s3Url;
+
+	@Value("${redirect-url}")
+	private String redirectUrl;
 
 	@Override
 	public void updateImage(String imageUrl, Long teamId) {
@@ -62,7 +67,7 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 					team.id,
 					team.teamName,
 					// 팀 로고 prefix 붙이기
-					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, team.teamImage),
+					getStringTemplate(s3Url, team.teamImage),
 					// 팀 인원수
 					JPAExpressions.select(teamParticipants.count().castToNum(Integer.class))
 						.from(teamParticipants)
@@ -77,7 +82,8 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 						.from(contestParticipants)
 						.where(contestParticipants.team.id.eq(team.id)
 							.and(contestParticipants.contestParticipantsState.eq("A"))),
-					team.teamDescription))
+					team.teamDescription,
+					getStringTemplate(redirectUrl, team.teamCode)))
 			.from(team)
 			.where(team.id.in(JPAExpressions.select(teamParticipants.team.id)
 				.from(teamParticipants)
@@ -99,11 +105,15 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 	public Optional<TeamPublicResponseDto> findTeamPublic(Long teamId) {
 		TeamPublicResponseDto teamPublicResponseDto = jpaQueryFactory.select(
 				Projections.constructor(TeamPublicResponseDto.class, team.id, team.teamName, team.teamDescription,
-					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, team.teamImage)))
+					getStringTemplate(s3Url, team.teamImage)))
 			.from(team)
 			.where(team.id.eq(teamId))
 			.fetchOne();
 		return Optional.ofNullable(teamPublicResponseDto);
+	}
+
+	private StringTemplate getStringTemplate(String first, StringPath second) {
+		return Expressions.stringTemplate("CONCAT({0}, {1})", first, second);
 	}
 
 }
