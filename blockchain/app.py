@@ -162,6 +162,15 @@ def get_block_count():
     return jsonify(response), 200
 
 
+@app.route('/get-all-transactions', methods=['GET'])
+def get_all_transactions():
+    transactions = blockchain.get_all_transactions()
+    if transactions:
+        return jsonify(transactions), 200
+    else:
+        return jsonify({'error': 'No transactions found'}), 404
+
+
 # Running the app
 if __name__ == '__main__':
     start_scheduler()
