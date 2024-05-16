@@ -56,7 +56,7 @@ public class ContestController {
 	 * @return 성공여부
 	 */
 	@PostMapping
-	@Operation(summary = "대회 생성", description = "대회를 개최하는 API")
+	@Operation(summary = "대회 생성 (O)", description = "대회를 개최하는 API")
 	public ResponseEntity<SuccessResponse<ContestCreateResponseDto>> createContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestPart(required = false) MultipartFile contestImage,
@@ -95,7 +95,7 @@ public class ContestController {
 	 * @return 검색된 대회
 	 */
 	@GetMapping
-	@Operation(summary = "대회 검색", description = "대회를 검색하는 API")
+	@Operation(summary = "대회 검색 (O)", description = "대회를 검색하는 API")
 	public ResponseEntity<SuccessResponse<Page<ContestSearchResponseDto>>> searchContestList(
 		@ModelAttribute ContestSearchRequestDto contestSearchRequestDto,
 		@PageableDefault Pageable pageable,
@@ -162,7 +162,7 @@ public class ContestController {
 	 * @return 대회정보, 신청팀정보, 수상정보
 	 */
 	@GetMapping("/participants/{contestId}")
-	@Operation(summary = "대회 참가 신청한 팀 조회", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
+	@Operation(summary = "대회 참가 신청한 팀 조회 (O)", description = "대회에 참가 신청한 팀 리스트를 조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestParticipantsResponseDto>> searchContestParticipants(
 		@AuthenticationPrincipal SecurityMember securityMember, @PathVariable Long contestId) {
 		ContestParticipantsResponseDto contestTeamParticipants = contestService.searchContestParticipants(
@@ -179,7 +179,7 @@ public class ContestController {
 	 * @return 성공 여부
 	 */
 	@PutMapping("/participants")
-	@Operation(summary = "대회 참가 신청 승인/거절", description = "대회에 참가 신청한 팀의 선발 여부를 결정하는 API")
+	@Operation(summary = "대회 참가 신청 승인/거절 (O)", description = "대회에 참가 신청한 팀의 선발 여부를 결정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContestParticipantsState(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody @Valid ContestParticipantAgreeDto agreeTeams
@@ -197,7 +197,7 @@ public class ContestController {
 	 * @return 성공 여부
 	 */
 	@PutMapping("/state")
-	@Operation(summary = "대회 상태 변경", description = "대회 상태를 변경하는 API")
+	@Operation(summary = "대회 상태 변경 (O)", description = "대회 상태를 변경하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContestState(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody @Valid ContestUpdateStateRequestDto contestUpdateStateRequestDto
@@ -214,7 +214,7 @@ public class ContestController {
 	 * @return 성공 여부
 	 */
 	@PostMapping("/awards")
-	@Operation(summary = "대회 종료", description = "대회를 종료하는 API")
+	@Operation(summary = "대회 종료 (O)", description = "대회를 종료하는 API")
 	public ResponseEntity<SuccessResponse<String>> createAwardsAndEndContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody @Schema(description = "수상정보 key 상이름, value 팀ID") ContestAwardsRequestDto contestAwardsRequestDto) {

@@ -110,7 +110,7 @@ public class TeamController {
 	 * @return 성공 메세지
 	 */
 	@PutMapping("/participants")
-	@Operation(summary = "팀 참가 수락", description = "팀 참가 요청을 보낸 멤버의 요청 수락 API")
+	@Operation(summary = "팀 참가 수락 (O)", description = "팀 참가 요청을 보낸 멤버의 요청 수락 API")
 	public ResponseEntity<SuccessResponse<String>> updateParticipants(
 		@RequestBody TeamParticipantsRequestDto teamParticipantsRequestDto,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -208,7 +208,7 @@ public class TeamController {
 	 * @return 해당 팀의 팀장을 제일 처음, 그 다음은 팀원들, 그 다음은 참가 신청한 사람을 돌려준다
 	 */
 	@GetMapping("/{teamId}/participants")
-	@Operation(summary = "팀장인 경우 팀원 조회", description = "팀의 구성원을 조회하는 API")
+	@Operation(summary = "팀장인 경우 팀원 조회 (O)", description = "팀의 구성원을 조회하는 API")
 	public ResponseEntity<SuccessResponse<List<TeamParticipantsResponseDto>>> searchTeamParticipantList(
 		@PathVariable @Schema(description = "팀원을 조회할 팀의 ID") Long teamId,
 		@AuthenticationPrincipal SecurityMember securityMember) {
@@ -224,7 +224,7 @@ public class TeamController {
 	 * @return 팀원의 이름, 팀장이 제일 처음, 그 다음은 팀원들 (PK 기준 정렬)
 	 */
 	@GetMapping("/{teamId}/members")
-	@Operation(summary = "팀원 조회", description = "팀의 구성원을 조회하는 API")
+	@Operation(summary = "팀원 조회 (O)", description = "팀의 구성원을 조회하는 API")
 	public ResponseEntity<SuccessResponse<List<TeamMemberResponseDto>>> searchTeamMemberList(
 		@PathVariable Long teamId) {
 		return ResponseEntity.ok(
@@ -255,7 +255,7 @@ public class TeamController {
 	 * @return 팀이 개최한 대회 목록(로고, 이름)
 	 */
 	@GetMapping("/{teamId}/contest")
-	@Operation(summary = "개최한 대회 목록 조회", description = "해당 팀이 개최한 대회 목록 조회")
+	@Operation(summary = "개최한 대회 목록 조회 (O)", description = "해당 팀이 개최한 대회 목록 조회")
 	public ResponseEntity<SuccessResponse<Page<TeamContestResponseDto>>> searchTeamContestList(
 		@PathVariable Long teamId, @PageableDefault Pageable pageable) {
 		return ResponseEntity.ok(
