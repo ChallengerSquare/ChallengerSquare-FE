@@ -30,21 +30,19 @@
         font-weight: 600;
     }
     .body{
-
         .line{
             display: flex;
-            padding: 10px;
-            margin: 10px 0px;
+            padding: 10px 0px;  
             border-bottom: 1px solid $sub-color;
-            // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            // border-radius: 20px;
         }
 
-        .point{
+        span{
+            border-bottom: 1px solid $main-color;
             font-weight: bold;
             color: $main-color;
-            border-bottom: 1px solid $sub-color;
+            padding: 1px;
         }
+
     }
     .empty{
         width: 100%;
@@ -52,7 +50,7 @@
     }
 
     .category{
-        flex:1;
+        flex:2;
         display: flex;
         justify-content: center;
     }
@@ -62,17 +60,17 @@
         justify-content: center;
     }
     .period{
-        flex:1;
+        flex:2;
         display: flex;
         justify-content: center;
     }
     .awardcode{
-        flex:1;
+        flex:4;
         display: flex;
         justify-content: center;
     }
     .attendcode{
-        flex:1;
+        flex:4;
         display: flex;
         justify-content: center;
     }

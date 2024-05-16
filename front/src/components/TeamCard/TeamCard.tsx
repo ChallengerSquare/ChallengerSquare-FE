@@ -19,7 +19,7 @@ const TeamCard = ({ team, onClick }: TeamCardProps) => {
   return (
     <Grid grid={'grid_3'}>
       {teamList.map((team, index) => (
-        <div key={team.teamId} className={styles.containter}>
+        <div key={index} className={styles.containter}>
           <div className={styles.team_img}>
             <img src={team.teamImg === '' ? baseImg : team.teamImg} alt="팀이미지" />
           </div>

@@ -29,7 +29,7 @@ const Competition = () => {
   useEffect(() => {
     /* 인기 있는 대회 조회 API */
     const famousCompetitionListParams: SearchRequest = {
-      // orderBy: 2,
+      orderBy: 2,
       isEnd: false,
       page: 0,
       size: 12,
@@ -46,7 +46,7 @@ const Competition = () => {
 
     /* 마감 임박 대회 조회 API */
     const dueTeamListParams: SearchRequest = {
-      // orderBy: 1,
+      orderBy: 1,
       isEnd: false,
       page: 0,
       size: 12,

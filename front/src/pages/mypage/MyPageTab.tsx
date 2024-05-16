@@ -1,18 +1,22 @@
+import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { teamTapState, teamIdxState } from '@/pages/mypage/store'
 import { tapState } from '@/pages/mypage/store'
 import styles from './MyPage.module.scss'
 
-const MyPageTap = () => {
-  const [tab, setTab] = useRecoilState(tapState)
+interface MyPageTapParams {
+  tab: string
+}
+
+const MyPageTap = ({ tab }: MyPageTapParams) => {
+  const navigate = useNavigate()
+  // const [tab, setTab] = useRecoilState(tapState)
   const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
   const [teamTap, setTeamTap] = useRecoilState(teamTapState)
 
-  const onClickTap = (state: string) => {
-    setTab(state)
-    if (state === 'teamList') {
+  const handleClick = (state: string) => {
+    if (state === 'teamlist') {
       setTeamTap(false)
-      setTeamIdx(0)
     }
   }
 
@@ -21,63 +25,43 @@ const MyPageTap = () => {
       <div className={styles.home}>
         <div className={styles.title}>{'Home'}</div>
         <div className={styles.content}>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('myInfo')}
-            className={tab === 'myInfo' ? styles.active : styles.inactive}
-          >
+          <Link to="/mypage/myinfo" className={tab === 'myInfo' ? styles.active : styles.inactive}>
             {'내 정보'}
-          </button>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('alarm')}
-            className={tab === 'alarm' ? styles.active : styles.inactive}
-          >
+          </Link>
+          <Link to="/mypage/alarm" className={tab === 'alarm' ? styles.active : styles.inactive}>
             {'알림'}
-          </button>
+          </Link>
         </div>
       </div>
       <div className={styles.team}>
         <div className={styles.title}>{'Team'}</div>
         <div className={styles.content}>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('teamList')}
+          <Link
+            to="/mypage/teamlist"
             className={tab === 'teamList' ? styles.active : styles.inactive}
+            onClick={() => handleClick('teamlist')}
           >
             {'팀 목록'}
-          </button>
+          </Link>
         </div>
       </div>
       <div className={styles.competition}>
         <div className={styles.title}>{'Competition'}</div>
         <div className={styles.content}>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('competitinoList')}
-            className={tab === 'competitinoList' ? styles.active : styles.inactive}
-          >
+          <Link to="/mypage/competitionlist" className={tab === 'competitionList' ? styles.active : styles.inactive}>
             {'신청한 대회'}
-          </button>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('resultList')}
-            className={tab === 'resultList' ? styles.active : styles.inactive}
-          >
+          </Link>
+          <Link to="/mypage/resultlist" className={tab === 'resultList' ? styles.active : styles.inactive}>
             {'참가한 대회'}
-          </button>
+          </Link>
         </div>
       </div>
-      {/* <div className={styles.setting}>
+      {/* <div className={styles.competition}>
         <div className={styles.title}>{'Setting'}</div>
         <div className={styles.content}>
-          <button
-            type={'button'}
-            onClick={() => onClickTap('setting')}
-            className={tab === 'setting' ? styles.active : styles.inactive}
-          >
+          <Link to="/mypage/setting" className={tab === 'setting' ? styles.active : styles.inactive}>
             {'환경설정'}
-          </button>
+          </Link>
         </div>
       </div> */}
     </div>
