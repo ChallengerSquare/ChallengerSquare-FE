@@ -36,4 +36,7 @@ public interface TeamParticipantsRepository
 
 	Optional<TeamParticipants> findByIdAndIsParticipantsTrue(Long id);
 
+	// 팀 번호로 팀장 조회
+	Optional<TeamParticipants> findByTeamIdAndIsLeaderTrue(Long teamId);
+
 }
