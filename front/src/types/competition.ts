@@ -9,3 +9,15 @@ export interface ContestInfo {
   teamId: number
   awardsId: number
 }
+
+export interface NoticeResponse {
+  title: string
+  content: string
+  date: string
+}
+
+export interface NoticeRequset {
+  id: number
+  page: number
+  size: number
+}

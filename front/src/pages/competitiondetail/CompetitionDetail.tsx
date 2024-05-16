@@ -44,7 +44,6 @@ interface Award {
 const CompetitionDetail = () => {
   const { competitionId } = useParams<{ competitionId: string }>()
   const [competition, setCompetition] = useState<Contest>()
-  const path = process.env.PUBLIC_URL
 
   useEffect(() => {
     if (competitionId != null) {
@@ -70,7 +69,13 @@ const CompetitionDetail = () => {
             {competition && <CompetitionDetailContent competition={competition} />}
           </div>
           <div className={styles.info_container}>
-            {competition && <CompetitionDetailTab teamId={competition.teamId} content={competition.contestContent} />}
+            {competition && (
+              <CompetitionDetailTab
+                contestId={competition.contestId}
+                teamId={competition.teamId}
+                content={competition.contestContent}
+              />
+            )}
           </div>
         </div>
       </div>

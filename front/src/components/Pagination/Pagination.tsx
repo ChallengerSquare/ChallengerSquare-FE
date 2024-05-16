@@ -4,14 +4,14 @@ import styles from './Pagination.module.scss'
 interface PaginationProps {
   limit: number
   page: number
-  totalPages: number
+  totalPage: number
   onPageChange: (page: number) => void
 }
 
-const Pagination = ({ limit, page, totalPages, onPageChange }: PaginationProps) => {
+const Pagination = ({ limit, page, totalPage, onPageChange }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(page)
   const [firstNumOfPage, setFirstNumOfPage] = useState(1)
-  const [lastNumOfPage, setLastNumOfPage] = useState(5)
+  const [lastNumOfPage, setLastNumOfPage] = useState(4)
 
   const pageChange = (page: number) => {
     setCurrentPage(page)
@@ -20,14 +20,14 @@ const Pagination = ({ limit, page, totalPages, onPageChange }: PaginationProps) 
 
   const nextPageChange = () => {
     pageChange(firstNumOfPage + limit)
+    setLastNumOfPage(firstNumOfPage + limit)
     setFirstNumOfPage((prePage) => prePage + limit)
-    setLastNumOfPage((prePage) => prePage + limit)
   }
 
   const prePageChange = () => {
-    pageChange(lastNumOfPage - limit)
+    pageChange(firstNumOfPage - 1)
+    setLastNumOfPage(firstNumOfPage - limit)
     setFirstNumOfPage((prePage) => prePage - limit)
-    setLastNumOfPage((prePage) => prePage - limit)
   }
 
   return (
@@ -39,7 +39,7 @@ const Pagination = ({ limit, page, totalPages, onPageChange }: PaginationProps) 
           ‹
         </button>
       )}
-      {Array.from({ length: Math.min(limit, totalPages - firstNumOfPage + 1) }, (_, i) => {
+      {Array.from({ length: Math.min(limit, totalPage - firstNumOfPage + 1) }, (_, i) => {
         const pageNumber = firstNumOfPage + i
         return (
           <button
@@ -52,10 +52,10 @@ const Pagination = ({ limit, page, totalPages, onPageChange }: PaginationProps) 
           </button>
         )
       })}
-      {firstNumOfPage + limit >= totalPages ? (
+      {firstNumOfPage + limit > totalPage ? (
         ''
       ) : (
-        <button type="button" onClick={() => nextPageChange()} disabled={firstNumOfPage + limit >= totalPages}>
+        <button type="button" onClick={() => nextPageChange()} disabled={firstNumOfPage + limit > totalPage}>
           ›
         </button>
       )}
