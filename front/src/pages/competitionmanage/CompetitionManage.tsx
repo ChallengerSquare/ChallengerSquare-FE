@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import Nav from '@components/Navbar/Navbar'
+import { getTeamList } from '@services/competition'
+import { useParams } from 'react-router-dom'
 import CompetitionManageDone from './CompetitionManageDone'
 import CompetitionManageEnd from './CompetitionManageEnd'
 import styles from './CompetitionManage.module.scss'
@@ -27,6 +29,44 @@ interface Competition {
   contestState: string // DONE, START, END
   contestTitle: string
   teamList: Team[]
+  awardList: Award[]
+}
+
+interface MemberBack {
+  memberName: string
+  memberBirth: string
+  memberPhone: string
+  memberAddress: string
+  isLeader: boolean
+}
+
+interface TeamBack {
+  teamId: number
+  teamName: string
+  teamMembers: MemberBack[]
+  contestParticipantsState: string
+  isParticipants: boolean
+  contestParticipantsReason: string
+}
+
+interface CompetitionBack {
+  contestId: number
+  contestTitle: string
+  contestState: string
+  teamInfo: TeamBack[]
+  awards: Awards[]
+}
+
+interface Awards {
+  awardsId: number
+  awardsName: string
+  awardsCount: number
+  awardsPrize: number
+}
+
+interface Award {
+  id: number
+  name: string
 }
 
 const CompetitionManage = () => {
@@ -36,76 +76,54 @@ const CompetitionManage = () => {
     contestState: '',
     contestTitle: '',
     teamList: [],
+    awardList: [],
   })
-  useEffect(() => {
-    console.log('대회 참가자 현황 페이지')
-    /*
-    // API 호출
-    */
-    const dumpData: Competition = {
-      id: 1,
-      contestState: 'DONE',
-      contestTitle: '대회이름',
-      teamList: [
-        {
-          id: 1,
-          name: 'Team A',
-          accept: true,
-          attend: true,
-          award: 1,
-          members: [
-            { name: 'John', birthday: '1990-01-01', phone: '123-4567-8901', address: '123 Main St' },
-            { name: 'Alice', birthday: '1992-05-15', phone: '234-5678-9012', address: '456 Oak Ave' },
-          ],
-          reason: '참여하고 싶습니다.',
-        },
-        {
-          id: 2,
-          name: 'Team B',
-          accept: false,
-          attend: true,
-          award: 2,
-          members: [
-            { name: 'Bob', birthday: '1988-03-20', phone: '345-6789-0123', address: '789 Elm St' },
-            { name: 'Eva', birthday: '1995-11-10', phone: '456-7890-1234', address: '901 Pine Ave' },
-          ],
-          reason: '대회 오픈만을 기다렸습니다.',
-        },
-        {
-          id: 3,
-          name: 'Team B',
-          accept: false,
-          attend: true,
-          award: 3,
-          members: [
-            { name: 'Bob', birthday: '1988-03-20', phone: '345-6789-0123', address: '789 Elm St' },
-            { name: 'Eva', birthday: '1995-11-10', phone: '456-7890-1234', address: '901 Pine Ave' },
-          ],
-          reason: '대회 오픈만을 기다렸습니다.',
-        },
-        {
-          id: 4,
-          name: 'Team B',
-          accept: false,
-          attend: false,
-          award: 3,
-          members: [
-            { name: 'Bob', birthday: '1988-03-20', phone: '345-6789-0123', address: '789 Elm St' },
-            { name: 'Eva', birthday: '1995-11-10', phone: '456-7890-1234', address: '901 Pine Ave' },
-          ],
-          reason: '대회 오픈만을 기다렸습니다.',
-        },
-      ],
+  const { competitionId } = useParams<{ competitionId: string }>()
+  const competitionIdNumber: number | undefined = competitionId ? parseInt(competitionId, 10) : undefined
+  const getList = () => {
+    if (competitionIdNumber != undefined) {
+      getTeamList(competitionIdNumber).then(({ data }) => {
+        if (data != null) {
+          const response: CompetitionBack = data
+
+          console.log(response)
+          console.log(response.awards)
+
+          const competition: Competition = {
+            id: response.contestId,
+            contestState: response.contestState,
+            contestTitle: response.contestTitle,
+            teamList: response.teamInfo.map((element: TeamBack) => ({
+              id: element.teamId,
+              name: element.teamName,
+              accept: element.contestParticipantsState === 'A',
+              attend: element.isParticipants,
+              award: 0,
+              reason: element.contestParticipantsReason,
+              members: element.teamMembers.map((member: MemberBack) => ({
+                name: member.memberName,
+                birthday: member.memberBirth,
+                phone: member.memberPhone,
+                address: member.memberAddress,
+              })),
+            })),
+            awardList: response.awards.map((data) => ({
+              id: data.awardsId,
+              name: data.awardsName,
+            })),
+          }
+          setCompetition(competition)
+          setCompetitionState(response.contestState)
+        }
+      })
     }
-    setCompetition(dumpData)
-    setCompetitionState(dumpData.contestState)
+  }
+  useEffect(() => {
+    getList()
   }, [])
 
   useEffect(() => {
-    /*
-    // API 호출
-    */
-    console.log('API 재호출')
+    getList()
   }, [competitionState])
 
   const CompetitionStateChange = (state: string) => {
@@ -118,12 +136,12 @@ const CompetitionManage = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <p>{'대회 관리'}</p>
-          <span>{competitionState === 'START' ? '진행중' : competitionState === 'END' ? '종료' : ''}</span>
+          <span>{competitionState === 'S' ? '진행중' : competitionState === 'E' ? '종료' : ''}</span>
         </div>
         <div className={styles.body}>
-          {competitionState === 'START' ? (
+          {competitionState === 'S' ? (
             <CompetitionManageStart competition={competition} onChangeCompetitionState={CompetitionStateChange} />
-          ) : competitionState === 'END' ? (
+          ) : competitionState === 'E' ? (
             <CompetitionManageEnd competition={competition} onChangeCompetitionState={CompetitionStateChange} />
           ) : (
             <CompetitionManageDone competition={competition} onChangeCompetitionState={CompetitionStateChange} />

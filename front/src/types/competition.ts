@@ -3,5 +3,9 @@ export interface ContestData {
   contestTitle: string
   contestImage: string
   contestDate?: string
-  teamName?:string
+}
+
+export interface ContestInfo {
+  teamId: number
+  awardsId: number
 }

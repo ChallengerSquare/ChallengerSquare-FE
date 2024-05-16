@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { updateCompetitionState, updateCompetitionEnd } from '@services/competition'
+import { ContestInfo } from '@/types/competition'
 import Button from '@/components/Button/Button'
 import styles from './CompetitionManage.module.scss'
 
@@ -30,6 +32,7 @@ interface Competition {
   contestState: string // DONE, START, END
   contestTitle: string
   teamList: Team[]
+  awardList: Award[]
 }
 
 interface Props {
@@ -44,20 +47,9 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
   const [awardList, setAwardList] = useState<Award[]>([])
 
   useEffect(() => {
-    console.log(`대회 시상 목록 조회 API 호출`)
-    /*
-    // API 호출
-    */
-    const data = [
-      { id: 1, name: '최우수상' },
-      { id: 2, name: '우수상' },
-      { id: 3, name: '장려상' },
-    ]
-    setAwardList(data)
-  }, [])
-
-  useEffect(() => {
     setCompetitionData(competition)
+    setAwardList(competition.awardList)
+    console.log(awardList)
   }, [competition])
 
   const toggleExpand = (index: number) => {
@@ -73,11 +65,22 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
     console.log('competitionData 데이터 시상 정보 저장 API')
   }
 
-  // 시작하기 버튼
+  // 종료하기 버튼
   const handleStateChange = () => {
-    console.log('API 호출 (state START -> END 변경)')
-    onChangeCompetitionState('END')
-    handleAccept()
+    const requestAwardList: ContestInfo[] = competitionData.teamList
+      .filter((data: Team) => data.award != null)
+      .map((team: Team) => ({
+        teamId: team.id,
+        awardsId: team.award,
+      }))
+    updateCompetitionEnd(competition.id, requestAwardList).then((response) => {
+      if (response.status === 200) {
+        updateCompetitionState(competition.id, 'E').then((response) => {
+          onChangeCompetitionState('E')
+          handleAccept()
+        })
+      }
+    })
   }
 
   useEffect(() => {
@@ -85,15 +88,15 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
   }, [competitionData])
 
   // 체크 박스
-  const onChangeAccept = (index: number) => {
-    console.log('accept 변경')
+  const onChangeAttend = (index: number) => {
+    console.log('attend 변경')
     setCompetitionData((prevState) => ({
       ...prevState,
       teamList: prevState.teamList.map((team, idx) => {
         if (idx === index) {
           return {
             ...team,
-            accept: !team.accept,
+            attend: !team.attend,
           }
         }
         return team
@@ -144,7 +147,7 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
         </div>
         <div className={styles.content_teamlist}>
           {competitionData.teamList.map((team, index) => (
-            <div className={styles.content_team}>
+            <div className={styles.content_team} key={index}>
               <div className={styles.content_info}>
                 <span className={styles.content_index}>{team.id}</span>
                 <span className={styles.content_classify}>{team.name}</span>
@@ -156,29 +159,32 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
                   type={'checkbox'}
                   className={styles.content_attend}
                   checked={team.attend}
-                  onChange={() => onChangeAccept(index)}
+                  onChange={() => onChangeAttend(index)}
                 />
+
                 <select
                   name="award"
                   id="award"
                   className={styles.content_award}
+                  value={team.award || ''}
                   onChange={(event) => onChangeAward(index, event)}
                 >
                   <option value="">{'해당없음'}</option>
                   {awardList.map((award) => (
-                    <option value={award.id} selected={team.award === award.id}>
+                    <option value={award.id} key={award.id}>
                       {award.name}
                     </option>
                   ))}
                 </select>
+
                 <div className={styles.content_btn} role={'button'} tabIndex={0} onClick={() => toggleExpand(team.id)}>
                   {expandedIndexes.includes(team.id) ? '▲' : '▼'}
                 </div>
               </div>
               {expandedIndexes.includes(team.id) && (
                 <div className={styles.content_members}>
-                  {team.members.map((member) => (
-                    <div className={styles.content_member}>
+                  {team.members.map((member, index) => (
+                    <div className={styles.content_member} key={index}>
                       <span className={styles.content_index}>{''}</span>
                       <span className={styles.content_classify}>{''}</span>
                       <span className={styles.content_name}>{member.name}</span>
