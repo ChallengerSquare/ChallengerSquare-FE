@@ -58,7 +58,6 @@ public class AlertController {
 	public ResponseEntity<SuccessResponse<String>> updateAlertReadState(
 		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody AlertUpdateRequestDto alertUpdateRequestDto) {
-		// TODO : 추후 토큰에서 로그인한 member 정보 가져오기
 		alertService.updateAlert(securityMember.id(), alertUpdateRequestDto.alertId());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
