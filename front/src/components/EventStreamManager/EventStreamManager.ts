@@ -6,15 +6,17 @@ const EventStreamManager = () => {
   const [notification, setNotification] = useRecoilState(notificationState)
 
   useEffect(() => {
-    const eventSource = new EventSource(`${process.env.REACT_APP_API_ROOT}/sse/subscribe`)
+    const options = {
+      withCredentials: true,
+    }
+    const eventSource = new EventSource(`${process.env.REACT_APP_API_ROOT}/sse/subscribe`, options)
 
-    eventSource.onmessage = (event) => {
+    eventSource.addEventListener('sse', (event) => {
       const data = JSON.parse(event.data)
-      console.log(data)
-      if (data.unRead) {
+      if (data.unRead || data.unread) {
         setNotification(true)
       }
-    }
+    })
 
     eventSource.onerror = (error) => {
       console.error('EventSource failed:', error)
