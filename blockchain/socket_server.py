@@ -26,7 +26,7 @@ def check_port():
                 continue
 
 # 서버 설정
-host = "127.0.0.1" # 서버의 IP 주소 또는 도메인 이름
+host = check_ip() # 서버의 IP 주소 또는 도메인 이름
 port = check_port() # 포트 번호
 
 def send_chain(IP, PORT):
