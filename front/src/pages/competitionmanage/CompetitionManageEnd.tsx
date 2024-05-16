@@ -67,8 +67,8 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
           <div className={styles.content_btn}>{''}</div>
         </div>
         <div className={styles.content_teamlist}>
-          {competitionData.teamList.map((team) => (
-            <div className={styles.content_team}>
+          {competitionData.teamList.map((team, index) => (
+            <div className={styles.content_team} key={index}>
               <div className={styles.content_info}>
                 <span className={styles.content_index}>{team.id}</span>
                 <span className={styles.content_classify}>{team.name}</span>
@@ -84,8 +84,8 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
               </div>
               {expandedIndexes.includes(team.id) && (
                 <div className={styles.content_members}>
-                  {team.members.map((member) => (
-                    <div className={styles.content_member}>
+                  {team.members.map((member, index) => (
+                    <div className={styles.content_member} key={index}>
                       <span className={styles.content_index}>{''}</span>
                       <span className={styles.content_classify}>{''}</span>
                       <span className={styles.content_name}>{member.name}</span>
