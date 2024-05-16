@@ -42,6 +42,7 @@ const CustomEditor = forwardRef(({ initialContent = '' }: EditorProps, ref) => {
 
   useImperativeHandle(ref, () => ({
     handleStore,
+    getMarkdown,
   }))
 
   return (

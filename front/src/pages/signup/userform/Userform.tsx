@@ -24,6 +24,23 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
   })
   const [selectAddress, setSelectAddress] = useState<string>('')
 
+  const formatPhoneNumber = (value: string) => {
+    const numbers = value.replace(/\D/g, '').slice(0, 11)
+    let formattedNumber = ''
+
+    if (numbers.length > 0) {
+      formattedNumber += numbers.slice(0, 3)
+    }
+    if (numbers.length > 3) {
+      formattedNumber += `-${numbers.slice(3, 7)}`
+    }
+    if (numbers.length > 7) {
+      formattedNumber += `-${numbers.slice(7, 11)}`
+    }
+
+    return formattedNumber
+  }
+
   const handleSetMember = () => {
     if (name && contact && birth && addressDetails.postcode) {
       const fullAddress = `${addressDetails.postcode} ${addressDetails.roadAddress} ${addressDetails.detailAddress} ${selectAddress}`
@@ -84,10 +101,13 @@ const Userform = ({ prevStep, nextStep }: stepProps) => {
             <input
               type="text"
               className={styles['input-box']}
+              value={contact}
               onChange={(item) => {
-                setContact(item.target.value)
+                const formattedNumber = formatPhoneNumber(item.target.value)
+                setContact(formattedNumber)
               }}
               placeholder="000-0000-0000"
+              maxLength={13}
             />
             <div className={styles.help}>
               <img src={HelpButton} alt="도움말" />

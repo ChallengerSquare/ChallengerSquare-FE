@@ -45,6 +45,22 @@ export interface CompetitionCreateRequestDto {
   contestAwards: CompetitionAwards[]
 }
 
+export interface UpdateCompetitionRequestDto {
+  contestId: number
+  contestTitle: string
+  contestContent: string
+  contestLocation: string
+  teamId: number
+  registrationPeriod: RegistrationPeriod
+  contestPeriod: CompetitionPeriod
+  contestRegistrationNum: number
+  contestFee: number
+  contestPhone: string
+  isPriority: boolean
+  contestCategory: string
+  contestAwards: CompetitionAwards[]
+}
+
 export interface CreateCompetitionDto {
   contestImage: string
   contestCreateRequestDto: CompetitionCreateRequestDto
@@ -55,8 +71,8 @@ export interface SearchResponse {
   contestTitle: string
   contestImage: string
   teamName: string
-  registrationPeriod: CompetitionPeriod
-  contestPeriod: RegistrationPeriod
+  registrationPeriod: RegistrationPeriod
+  contestPeriod: CompetitionPeriod
 }
 
 export interface SearchRequest {
@@ -71,4 +87,14 @@ export interface SearchRequest {
 export interface Page {
   currentPage: number
   totalPage: number
+}
+
+export interface TeamRequestDto {
+  teamName: string
+  teamDescription: string
+}
+
+export interface TeamRequest {
+  teamImage: FormData
+  teamRequestDto: TeamRequestDto
 }

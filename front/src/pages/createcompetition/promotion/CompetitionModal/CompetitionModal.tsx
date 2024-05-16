@@ -27,6 +27,7 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
     },
     onError: (error) => {
       console.error('대회 등록 실패:', error)
+      alert('대회 등록에 실패하였습니다.')
     },
   })
 
