@@ -30,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 public class ContestParticipantsRepositoryImpl implements ContestParticipantsRepositoryCustom {
 
 	private final JPAQueryFactory queryFactory;
-	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
 	public boolean checkAlreadyParticipantsMember(Long contestId, Long teamId) {
@@ -211,10 +210,10 @@ public class ContestParticipantsRepositoryImpl implements ContestParticipantsRep
 
 	@Override
 	public List<Long> searchMemberIdListFromContestId(Long contestId) {
-		List<Long> teamIdList = jpaQueryFactory.select(contestParticipants.team.id)
+		List<Long> teamIdList = queryFactory.select(contestParticipants.team.id)
 			.from(contestParticipants)
 			.where(contestParticipants.contest.id.eq(contestId)).fetch();
-		return jpaQueryFactory.select(teamParticipants.member.id)
+		return queryFactory.select(teamParticipants.member.id)
 			.from(teamParticipants)
 			.where(teamParticipants.team.id.in(teamIdList))
 			.fetch();
