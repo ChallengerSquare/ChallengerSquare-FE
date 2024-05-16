@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Viewer } from '@toast-ui/react-editor'
-import '@toast-ui/editor/dist/toastui-editor-viewer.css' // 스타일 추가
+import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import styles from './CompetitionDetailInfo.module.scss'
 
 interface Props {
