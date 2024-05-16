@@ -19,7 +19,15 @@ const ProfileImg = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
   const className = `${styles[name]}`
   return (
     <div className={styles.img}>
-      <img src={imgUrl === '' || imgUrl === null ? baseImg : imgUrl} alt={imgName} className={className} />
+      <img
+        src={
+          imgUrl === '' || imgUrl === null || imgUrl === 'https://challengersquare.s3.ap-northeast-2.amazonaws.com/null'
+            ? baseImg
+            : imgUrl
+        }
+        alt={imgName}
+        className={className}
+      />
       {edit ? (
         <button type={'button'} className={styles.edit}>
           <img src={camera} alt={'사진편집'} onClick={handleImageUpload} />

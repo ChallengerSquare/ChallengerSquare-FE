@@ -1,3 +1,4 @@
+import useScrollTop from '@/hooks/useScrollTop'
 import Navbar from '@components/Navbar/Navbar'
 import Footer from '@/components/Footer/Footer'
 import title from '../../../public/images/home/home-title.webp'
@@ -5,6 +6,7 @@ import description from '../../../public/images/home/description.webp'
 import styles from './Home.module.scss'
 
 const Home = () => {
+  useScrollTop()
   const mainContents = [
     {
       title: '손쉬운 행사 관리',

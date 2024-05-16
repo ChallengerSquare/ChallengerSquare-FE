@@ -1,4 +1,5 @@
 import Button from '@/components/Button/Button'
+import baseImg from '@images/baseImg.png'
 import styles from './CompetitoinDetailContent.module.scss'
 
 interface Props {
@@ -40,8 +41,6 @@ interface Award {
 }
 
 const CompetitoinContent = ({ competition }: Props) => {
-  const path = process.env.PUBLIC_URL
-
   const isRegistrationOpen = () => {
     const currentDate = new Date()
     const startDate = new Date(competition.registrationPeriod.start)
@@ -53,7 +52,16 @@ const CompetitoinContent = ({ competition }: Props) => {
   return (
     <>
       <div className={styles.poster}>
-        <img src={competition.contestImage} alt="포스터" />
+        <img
+          src={
+            competition.contestImage === '' ||
+            competition.contestImage === null ||
+            competition.contestImage === 'https://challengersquare.s3.ap-northeast-2.amazonaws.com/null'
+              ? baseImg
+              : competition.contestImage
+          }
+          alt={'포스터'}
+        />
       </div>
       <div className={styles.content}>
         <div className={styles.title}>
@@ -80,19 +88,14 @@ const CompetitoinContent = ({ competition }: Props) => {
             <li>
               <span>모집인원</span> {competition.contestRegistrationNum}
               {' 명 '}
-              {competition.isPriority && <p className="point">선착순</p>}
             </li>
           </ul>
         </div>
       </div>
       <div className={styles.btn}>
-        {/* 현재 날짜가 해당하지 않으면 비활성화 */}
-        {/* 버튼 클릭시 참가 신청 폼으로 이동 */}
-
         <Button variation="purple" disabled={isRegistrationOpen() && competition.isLeader}>
           참가하기
         </Button>
-
         <p>
           {competition.registrationPeriod.start} ~ {competition.registrationPeriod.end}
         </p>

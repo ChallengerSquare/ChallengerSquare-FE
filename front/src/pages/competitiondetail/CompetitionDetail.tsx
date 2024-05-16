@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
+import BeforeNav from '@svgs/navigate_before.svg'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionDetailContent from './CompetitoinDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
@@ -43,7 +44,6 @@ interface Award {
 const CompetitionDetail = () => {
   const { competitionId } = useParams<{ competitionId: string }>()
   const [competition, setCompetition] = useState<Contest>()
-  const path = process.env.PUBLIC_URL
 
   useEffect(() => {
     if (competitionId != null) {
@@ -61,7 +61,7 @@ const CompetitionDetail = () => {
         <div className={styles.full_container}>
           <div className={styles.link_container}>
             <Link to="/competition/search" className={styles.backBtn}>
-              <img src={`${path}/svgs/navigate_before.svg`} alt="대회검색" />
+              <img src={BeforeNav} alt="대회검색" />
               <p>대회 검색하러가기</p>
             </Link>
           </div>
@@ -69,7 +69,13 @@ const CompetitionDetail = () => {
             {competition && <CompetitionDetailContent competition={competition} />}
           </div>
           <div className={styles.info_container}>
-            {competition && <CompetitionDetailTab teamId={competition.teamId} content={competition.contestContent} />}
+            {competition && (
+              <CompetitionDetailTab
+                contestId={competition.contestId}
+                teamId={competition.teamId}
+                content={competition.contestContent}
+              />
+            )}
           </div>
         </div>
       </div>
