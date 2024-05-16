@@ -5,7 +5,12 @@ import CompetitionDetailQA from './CompetitionDetailQA'
 import CompetitionDetailTeam from './CompetitionDetailTeam'
 import styles from './CompetitionDetailTab.module.scss'
 
-const CompetitionDetailTab = () => {
+interface Props {
+  teamId: number
+  content: string | undefined
+}
+
+const CompetitionDetailTab = ({ teamId, content }: Props) => {
   const [activeTab, setActiveTab] = useState('info')
 
   const handleTabClick = (tab: string) => {
@@ -46,10 +51,10 @@ const CompetitionDetailTab = () => {
 
       {/* 선택된 탭에 따라 해당 컴포넌트를 렌더링 */}
       <div className={styles.tab_content}>
-        {activeTab === 'info' && <CompetitionDetailInfo />}
+        {activeTab === 'info' && <CompetitionDetailInfo content={content} />}
         {activeTab === 'notice' && <CompetitionDetailNotice />}
         {activeTab === 'qa' && <CompetitionDetailQA />}
-        {activeTab === 'team' && <CompetitionDetailTeam />}
+        {activeTab === 'team' && teamId != undefined && <CompetitionDetailTeam teamId={teamId} />}
       </div>
     </div>
   )
