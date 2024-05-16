@@ -155,11 +155,15 @@ def get_awards(code):
         return jsonify({'error': 'No awards found'}), 404
 
 
+@app.route('/get-block-count', methods=['GET'])
+def get_block_count():
+    block_count = len(blockchain.chain)
+    response = {'block_count': block_count}
+    return jsonify(response), 200
+
+
 # Running the app
 if __name__ == '__main__':
     start_scheduler()
     threading.Thread(target=run_server).start()
     app.run(host='0.0.0.0', port=5000)
-
-
-
