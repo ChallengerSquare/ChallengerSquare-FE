@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Qna Controller", description = "QNA 관리 컨트롤러")
 public class QnaController {
 
-	private QnaService qnaService;
+	private final QnaService qnaService;
 
 	/**
 	 * 대회 질문 작성하는 API
