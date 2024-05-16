@@ -21,7 +21,7 @@ public interface ContestService {
 	ContestCreateResponseDto createContest(ContestCreateRequestDto contestRequestDto, MultipartFile contestImage,
 		Long memberId);
 
-	void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId);
+	void updateContest(ContestUpdateRequestDto contestRequestDto, Long memberId);
 
 	Page<ContestSearchResponseDto> searchContest(ContestSearchRequestDto contestSearchRequestDto, Pageable pageable,
 		Integer orderBy);
