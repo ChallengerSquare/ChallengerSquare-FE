@@ -85,7 +85,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
                 </button>
               </div>
               <div className={styles.button}>
-                <Link to="/mypage">
+                <Link to="/mypage/myinfo">
                   <Button variation="user">마이페이지</Button>
                 </Link>
               </div>

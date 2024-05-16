@@ -13,7 +13,6 @@ import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
 import Dashboard from './pages/blockchain/dashboard'
-import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
 import TempMyInfo from './pages/mypage/myinfo/MyInfoPage'
@@ -34,7 +33,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/myinfo" element={<TempMyInfo />} />
             <Route path="/mypage/alarm" element={<TempAlarm />} />
             <Route path="/mypage/teamlist" element={<TempTeamList />} />
