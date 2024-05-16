@@ -42,6 +42,7 @@ public class Contest extends BaseEntity {
 	Character contestCategory;
 	Character contestState;
 	Boolean isPriority;
+	String contestPhone;
 
 	public void setContestImage(String contestImage) {
 		this.contestImage = contestImage;

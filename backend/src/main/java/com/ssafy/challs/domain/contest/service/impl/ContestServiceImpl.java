@@ -189,9 +189,10 @@ public class ContestServiceImpl implements ContestService {
 		Pageable pageable, Integer orderBy) {
 		Page<Contest> contests;
 		if (orderBy > 2) {
-			// 전체 대회 정렬조건으로 조회
+			// 전체 대회 정렬조건으로 조회 (3: 마감 임박, 4: 가나다순)
 			contests = contestRepository.searchContest(contestSearchRequestDto, pageable, orderBy);
 		} else {
+			// 1: 마감 임박, 2: 신청 인원 순
 			if (orderBy == 1)
 				contests = contestRepository.searchContestOrderByRegistrationEnd(pageable);
 			else
