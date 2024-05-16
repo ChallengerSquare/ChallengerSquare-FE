@@ -78,10 +78,9 @@ public class ContestController {
 	@Operation(summary = "대회 수정", description = "대회를 수정하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateContest(
 		@AuthenticationPrincipal SecurityMember securityMember,
-		@RequestPart(required = false) MultipartFile contestImage,
-		@RequestPart @Valid ContestUpdateRequestDto contestUpdateRequestDto) {
+		@RequestBody @Valid ContestUpdateRequestDto contestUpdateRequestDto) {
 		Long memberId = securityMember.id();
-		contestService.updateContest(contestUpdateRequestDto, contestImage, memberId);
+		contestService.updateContest(contestUpdateRequestDto, memberId);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 

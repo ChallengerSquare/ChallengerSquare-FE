@@ -117,12 +117,11 @@ public class ContestServiceImpl implements ContestService {
 	 *
 	 * @author 강다솔
 	 * @param contestRequestDto 수정된 대회 정보
-	 * @param contestImage 수정된 대회 포스터 이미지
 	 * @param memberId 회원 PK
 	 */
 	@Override
 	@Transactional
-	public void updateContest(ContestUpdateRequestDto contestRequestDto, MultipartFile contestImage, Long memberId) {
+	public void updateContest(ContestUpdateRequestDto contestRequestDto, Long memberId) {
 		// 수정시도하는 사람이 팀장인지 확인
 		Team team = teamRepository.findById(contestRequestDto.teamId())
 			.orElseThrow(() -> new BaseException(ErrorCode.TEAM_FOUND_ERROR));
@@ -132,13 +131,6 @@ public class ContestServiceImpl implements ContestService {
 		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
 		// 대회 수정
 		Contest contest = contestMapper.contestUpdateDtoToContest(contestRequestDto, team, contestState);
-		// 사진 있다면 S3에 업로드
-		if (!contestImage.isEmpty()) {
-			imageConfig.uploadImage(contestImage, "contest", contest.getId().toString());
-		}
-
-		// 수정된 대회 포스터 S3에 저장 후 URL 가져오기
-		String teamImage = "teamImage";
 		contestRepository.save(contest);
 		// 수상 정보 수정
 		updateAwards(contest, contestRequestDto.contestAwards());

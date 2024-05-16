@@ -122,7 +122,7 @@ class ContestControllerTest {
 		// 요청 Content-Type 명시
 		requestPart.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-		willDoNothing().given(contestService).updateContest(contestUpdateDto, contestImage, 1L);
+		willDoNothing().given(contestService).updateContest(contestUpdateDto, 1L);
 
 		// When
 		ResultActions result = mockMvc.perform(multipart("/contest")
