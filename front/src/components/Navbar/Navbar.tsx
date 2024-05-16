@@ -10,7 +10,7 @@ import { ApiResponse, MemberDto } from '@/types/api'
 import { notificationState } from '@/stores/notificationState'
 import challS from '@svgs/logo/challS.svg'
 import bellOn from '@svgs/bellon.svg'
-import bellOff from '@svgs/belloff.svg'
+import bellOff from '@svgs/bell.svg'
 import styles from './Navbar.module.scss'
 
 interface NavbarProps {
