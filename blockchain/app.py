@@ -117,6 +117,7 @@ def get_transactions_by_code(code):
         response = {'message': 'No transactions'}
         return jsonify(response), 404
 
+
 @app.route('/get-transactions/user/<code>', methods=['GET'])
 def get_transactions_by_user(code):
     transactions = blockchain.get_transactions_by_user_code(code)
@@ -138,6 +139,13 @@ def get_transactions():
         return jsonify({'error': 'No transactions found'}), 404
 
 
+@app.route('/get-transactions-count', methods=['GET'])
+def get_transactions_count():
+    count = len(blockchain.get_transactions())
+    response = {'transactions count in mem pool': count}
+    return jsonify(response), 200
+
+
 @app.route('/get-awards/<code>', methods=['GET'])
 def get_awards(code):
     awards = blockchain.get_awards(code)
@@ -147,11 +155,31 @@ def get_awards(code):
         return jsonify({'error': 'No awards found'}), 404
 
 
+@app.route('/get-block-count', methods=['GET'])
+def get_block_count():
+    block_count = len(blockchain.chain)
+    response = {'block_count': block_count}
+    return jsonify(response), 200
+
+
+@app.route('/get-all-transactions', methods=['GET'])
+def get_all_transactions():
+    transactions = blockchain.get_all_transactions()
+    if transactions:
+        return jsonify(transactions), 200
+    else:
+        return jsonify({'error': 'No transactions found'}), 404
+
+
+@app.route('/get-all-transactions-count', methods=['GET'])
+def get_all_transactions_count():
+    transactions = blockchain.get_all_transactions()
+    count = len(transactions)
+    response = {'all_transactions_count': count}
+    return jsonify(response), 200
+
 # Running the app
 if __name__ == '__main__':
     start_scheduler()
     threading.Thread(target=run_server).start()
     app.run(host='0.0.0.0', port=5000)
-
-
-
