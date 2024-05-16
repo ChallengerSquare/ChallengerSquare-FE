@@ -121,10 +121,11 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 
 		// 대회를 그룹화 & 참가신청 인원 수를 기준으로 정렬
 		List<Contest> results = queryFactory
-			.selectFrom(contest)
+			.select(contest)
+			.from(contestParticipants)
 			.innerJoin(contestParticipants.contest, contest)
 			.where(contest.contestState.eq('J'))
-			.groupBy(contest)
+			.groupBy(contest.id)
 			.orderBy(contestParticipants.count().desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
