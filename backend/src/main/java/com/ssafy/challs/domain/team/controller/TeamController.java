@@ -60,7 +60,7 @@ public class TeamController {
 	 * @return TeamCreateResponseDto 생성된 팀의 아이디
 	 */
 	@PostMapping
-	@Operation(summary = "팀 생성", description = "대회 참가/개최를 위한 팀을 생성하는 API")
+	@Operation(summary = "팀 생성 (O)", description = "대회 참가/개최를 위한 팀을 생성하는 API")
 	public ResponseEntity<SuccessResponse<TeamCreateResponseDto>> createTeam(
 		@Schema(description = "이미지 파일", example = "MultipartFile")
 		@RequestPart(required = false) MultipartFile teamImage,
