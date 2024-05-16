@@ -80,9 +80,11 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
           <>
             <div className={styles.user}>
               <div className={styles.bell}>
-                <button type="button">
-                  <img src={alarm ? bellOn : bellOff} alt="bellIcon" className={styles.size} />
-                </button>
+                <Link to="/mypage/alarm">
+                  <button type="button" className={styles.btn}>
+                    <img src={alarm ? bellOn : bellOff} alt="bellIcon" className={styles.size} />
+                  </button>
+                </Link>
               </div>
               <div className={styles.button}>
                 <Link to="/mypage/myinfo">
