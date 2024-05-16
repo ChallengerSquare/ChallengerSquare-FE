@@ -13,7 +13,6 @@ import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
 import Dashboard from './pages/blockchain/dashboard'
-import MyPage from './pages/mypage/MyPage'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
 import TempMyInfo from './pages/mypage/myinfo/MyInfoPage'
@@ -22,6 +21,7 @@ import TempCompetitionList from './pages/mypage/competitionlist/CompetitionListP
 import TempTeamList from './pages/mypage/teamlist/TeamListPage'
 import TempResultList from './pages/mypage/resultlist/ResultListPage'
 import TempSetting from './pages/mypage/setting/SettingPage'
+import EventStreamManager from './components/EventStreamManager/EventStreamManager'
 
 const queryClient = new QueryClient()
 
@@ -29,10 +29,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
+        <EventStreamManager />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/myinfo" element={<TempMyInfo />} />
             <Route path="/mypage/alarm" element={<TempAlarm />} />
             <Route path="/mypage/teamlist" element={<TempTeamList />} />

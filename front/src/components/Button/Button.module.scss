@@ -125,3 +125,15 @@
 .competition_fee_active {
   background-color: gray;
 }
+
+.user {
+  padding: 10px 10px;
+  color: $main-color;
+  border: none;
+  cursor: pointer;
+  transition: font-weight 0.3s;
+  font-size: 1.2rem;
+  &:hover {
+    font-weight: bold;
+  }
+}
