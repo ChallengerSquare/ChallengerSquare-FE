@@ -153,7 +153,7 @@ public class ContestServiceImpl implements ContestService {
 
 		// 대회 정보 가져오기
 		boolean isLeader = false;
-		char state = 'B';
+		String state = "B";
 		if (info != null) {
 			isLeader = info.isLeader();
 			state = info.contestParticipantsState();
