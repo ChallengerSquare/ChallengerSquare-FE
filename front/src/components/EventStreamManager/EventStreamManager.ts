@@ -10,7 +10,7 @@ const EventStreamManager = () => {
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      if (data.unread) {
+      if (data.unRead) {
         setNotification(true)
       }
     }
