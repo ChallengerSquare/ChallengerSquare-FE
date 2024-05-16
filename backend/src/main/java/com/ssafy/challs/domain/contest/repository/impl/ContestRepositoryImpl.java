@@ -42,6 +42,16 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 	private String s3Url;
 
 	@Override
+	public String findContestImageByContestId(Long contestId) {
+		QContest qContest = QContest.contest;
+
+		return queryFactory
+			.select(qContest.contestImage)
+			.from(qContest)
+			.where(qContest.id.eq(contestId)).fetchOne();
+	}
+
+	@Override
 	public Page<Contest> searchContest(ContestSearchRequestDto searchRequestDto, Pageable pageable, Integer orderBy) {
 		QContest contest = QContest.contest;
 		QTeam team = QTeam.team;

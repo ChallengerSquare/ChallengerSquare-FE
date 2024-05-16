@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -32,8 +31,7 @@ public class SseController {
 	 */
 	@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	@Operation(summary = "SSE 연결 요청 API", description = "SSE 알림을 받기 위한 객체 생성(구독) 요청")
-	public ResponseEntity<SseEmitter> subscribe(@AuthenticationPrincipal SecurityMember securityMember,
-		@RequestParam String memberCode) {
+	public ResponseEntity<SseEmitter> subscribe(@AuthenticationPrincipal SecurityMember securityMember) {
 		SseEmitter emitter = sseService.subscribe(securityMember.id());
 		return ResponseEntity.ok(emitter);
 	}
