@@ -9,6 +9,7 @@ from . import serializers
 from django.http.response import HttpResponse
 import requests
 
+
 # Create your views here.
 
 @api_view(['POST'])
@@ -34,6 +35,7 @@ def connectNode(request):
     # node.save()
     return Response(data)
 
+
 @api_view(['GET'])
 def listNodes(request):
     # todo : 무작위 랜덤 추출 추가
@@ -41,8 +43,19 @@ def listNodes(request):
     serializer = serializers.NodeSerializer(nodes, many=True)
     return Response({'nodes': serializer.data})
 
+
 @api_view(['GET'])
 def getNodeCount(request):
     # 참여 중인 노드의 총 개수 계산
     node_count = Node.objects.count()
     return Response({"참여 중인 노드 수": node_count})
+
+
+@api_view(['GET'])
+def getNetworkStatus(request):
+    try:
+        # 네트워크 상태를 확인하는 로직을 추가할 수 있습니다.
+        # 현재는 에러가 없음을 가정하고 "GOOD"을 반환합니다.
+        return Response({"status": "GOOD"})
+    except Exception as e:
+        return Response({"status": "ERROR", "detail": str(e)}, status=500)
