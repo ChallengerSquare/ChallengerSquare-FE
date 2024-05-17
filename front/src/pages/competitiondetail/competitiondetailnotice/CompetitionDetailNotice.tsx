@@ -7,9 +7,10 @@ import styles from './CompetitionDetailNotice.module.scss'
 
 interface CompetitionDetailNoticeProps {
   contestId: number
+  isLeader: boolean
 }
 
-const CompetitionDetailNotice = ({ contestId }: CompetitionDetailNoticeProps) => {
+const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNoticeProps) => {
   const sizeofPage = 7
   const limitofPagenation = 5
   const [openIndex, setOpenIndex] = useState<number | null>(null)
