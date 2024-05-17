@@ -40,7 +40,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
     }
 
     checkUser()
-  }, [user.userName, setUser])
+  }, [user])
 
   return (
     <header className={styles.header} style={{ backgroundColor: navbarScroll }}>

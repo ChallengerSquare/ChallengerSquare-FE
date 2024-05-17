@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { ApiResponse, UpdateCompetitionRequestDto } from '@/types/api'
+import { ApiResponse, ParticipateTeamRequest, UpdateCompetitionRequestDto } from '@/types/api'
 import { reissueCookie } from './member'
 
 const api = axios.create({
@@ -75,6 +75,24 @@ export const modifyContestContent = async (data: UpdateCompetitionRequestDto): P
     }
   } catch (error: any) {
     console.error('대회 수정 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const participateContest = async (data: ParticipateTeamRequest): Promise<ApiResponse> => {
+  try {
+    const response = await api.post<ApiResponse>('/participants', data)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('대회 참가 신청 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,

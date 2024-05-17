@@ -7,6 +7,7 @@ interface DropdownProps<T> {
   onSelect: (value: T) => void
   element: (item: T) => string
   placeholder?: string
+  border?: boolean
   width?: string
 }
 
@@ -15,6 +16,7 @@ const Dropdown = <T extends unknown>({
   onSelect,
   element,
   placeholder,
+  border = false,
   width = '500px',
 }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -31,21 +33,26 @@ const Dropdown = <T extends unknown>({
   return (
     <>
       <div>
-        <button type="button" className={styles.dropdown} style={{ width }} onClick={toggleDropdown}>
+        <button
+          type="button"
+          className={border ? styles.dropdownBorder : styles.dropdown}
+          style={{ width }}
+          onClick={toggleDropdown}
+        >
           <span className={selectedOption ? styles.selected : ''}>
             {selectedOption ? element(selectedOption) : placeholder}
           </span>
           <img src={dropdown} alt="dd-btn" />
+          {isOpen && (
+            <ul className={styles.menu} style={{ width }}>
+              {options.map((option, index) => (
+                <li key={index} onClick={() => handleSelect(option)} className={styles.item}>
+                  {element(option)}
+                </li>
+              ))}
+            </ul>
+          )}
         </button>
-        {isOpen && (
-          <ul className={styles.menu} style={{ width }}>
-            {options.map((option, index) => (
-              <li key={index} onClick={() => handleSelect(option)} className={styles.item}>
-                {element(option)}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </>
   )
