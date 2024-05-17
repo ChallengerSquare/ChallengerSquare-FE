@@ -38,9 +38,16 @@ const ResultModal = ({ isOpen, handleClose, data }: ParticipateTeamProps) => {
           <div className={styles.modal_header_title}>참가신청하시겠습니까?</div>
         </div>
         <div className={styles.footer}>
-          <Button variation="purple default" width={80} onClick={handleData}>
-            확인
-          </Button>
+          <div>
+            <Button variation="purple default" width={90} onClick={handleData}>
+              네
+            </Button>
+          </div>
+          <div>
+            <Button variation="white default" width={90} onClick={handleClose}>
+              아니오
+            </Button>
+          </div>
         </div>
       </Modal>
     </>

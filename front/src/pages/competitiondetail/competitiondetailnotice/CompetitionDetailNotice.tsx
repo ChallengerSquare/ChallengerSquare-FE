@@ -8,9 +8,10 @@ import styles from './CompetitionDetailNotice.module.scss'
 interface CompetitionDetailNoticeProps {
   contestId: number
   isLeader: boolean
+  participateState: string
 }
 
-const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNoticeProps) => {
+const CompetitionDetailNotice = ({ contestId, isLeader, participateState }: CompetitionDetailNoticeProps) => {
   const sizeofPage = 7
   const limitofPagenation = 5
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -48,6 +49,8 @@ const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNotic
   }
 
   const handleNewPost = () => {
+    const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+    window.open(`/competition/notice/${contestId}`, '_blank', features)
     // 공지사항 작성 api
   }
 
@@ -57,9 +60,13 @@ const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNotic
         <div className={styles.empty}>
           <div>
             <p> 등록된 공지사항이 없습니다.</p>
-            <button type={'button'} onClick={handleNewPost}>
-              {'작성하러 가기 >'}
-            </button>
+            {participateState === 'O' ? (
+              <button type={'button'} onClick={handleNewPost}>
+                {'작성하러 가기 >'}
+              </button>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       ) : (
@@ -68,7 +75,13 @@ const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNotic
             <p>
               총 <span>{totalItem}개</span>의 공지사항이 있습니다.
             </p>
-            <button type="button">+ 작성하기</button>
+            {participateState === 'O' ? (
+              <button type="button" onClick={handleNewPost}>
+                + 작성하기
+              </button>
+            ) : (
+              ''
+            )}
           </div>
           <div className={styles.body}>
             <ul>

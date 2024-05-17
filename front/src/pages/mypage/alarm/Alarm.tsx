@@ -18,19 +18,34 @@ interface alarmData {
 const Alarm = () => {
   const [notification, setNotification] = useRecoilState(notificationState)
   const [alramList, setAlarmList] = useState<alarmData[]>([])
+  const [unread, setUnread] = useState<number | null>(null)
 
   useEffect(() => {
     getAlarmList().then(({ data }) => {
       setAlarmList(data)
+      const unreadCount = data.filter((alarm: alarmData) => !alarm.isRead).length
+      setUnread(unreadCount)
     })
   }, [])
+
+  useEffect(() => {
+    if (unread === 0) {
+      setNotification(false)
+    }
+  }, [unread])
 
   const handleAlarm = (idx: number) => {
     readAlarm(alramList[idx].alertId)
     const updatedAlarms = [...alramList]
     updatedAlarms[idx] = { ...updatedAlarms[idx], isRead: true }
     setAlarmList(updatedAlarms)
-    setNotification(false)
+    if (unread !== null && unread > 0) {
+      const newUnread = unread - 1
+      setUnread(newUnread)
+      if (newUnread === 0) {
+        setNotification(false)
+      }
+    }
   }
 
   return (
