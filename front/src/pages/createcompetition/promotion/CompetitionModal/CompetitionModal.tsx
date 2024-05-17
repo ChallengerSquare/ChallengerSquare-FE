@@ -47,6 +47,15 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
     return new Blob([byteArray], { type: mime })
   }
 
+  const getCategory = (categoryId: string) => {
+    const index = parseInt(categoryId, 10) - 1
+    if (index >= 0 && index < categorys.length) {
+      return categorys[index].category
+    }
+    console.error('Invalid category index:', index)
+    return '카테고리 정보 없음' // 기본값 또는 오류 메시지
+  }
+
   const handleFormData = () => {
     const competitionDto = { ...competition }
     if (!competitionDto.contestLocation) competitionDto.contestLocation = '온라인'
@@ -83,7 +92,7 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
             </div>
             <div className={styles.element}>
               <div className={styles.label}>카테고리 : </div>
-              <div className={styles.content}>{categorys[parseInt(competition.contestCategory, 10) - 1].category}</div>
+              <div className={styles.content}>{getCategory(competition.contestCategory)}</div>
             </div>
             <div className={styles.element}>
               <div className={styles.label}>대회명 : </div>
