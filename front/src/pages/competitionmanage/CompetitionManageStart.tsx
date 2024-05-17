@@ -41,7 +41,6 @@ interface Props {
 }
 
 const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props) => {
-  const { competitionId } = useParams()
   const [competitionData, setCompetitionData] = useState<Competition>(competition)
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>([])
   const [awardList, setAwardList] = useState<Award[]>([])
@@ -49,6 +48,7 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
   useEffect(() => {
     setCompetitionData(competition)
     setAwardList(competition.awardList)
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!', competition)
     console.log(awardList)
   }, [competition])
 
@@ -98,7 +98,7 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
     }))
   }
   const onChangeAward = (index: number, event: any) => {
-    console.log('award 변경')
+    console.log('award 변경', event.target.value)
     const selectedAwardId = parseInt(event.target.value, 10)
     setCompetitionData((prevState) => ({
       ...prevState,

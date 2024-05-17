@@ -16,12 +16,7 @@ interface MemberData {
 }
 
 const TeamMember = ({ id }: TeamMemberProps) => {
-  const [memberList, setMemberList] = useState<MemberData[]>([
-    {
-      memberName: '',
-      memberEmail: '',
-    },
-  ])
+  const [memberList, setMemberList] = useState<MemberData[]>([])
 
   const setUserList = () => {
     getLeaderUserList(id).then((response) => {

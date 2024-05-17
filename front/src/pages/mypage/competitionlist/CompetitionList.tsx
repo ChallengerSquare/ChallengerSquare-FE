@@ -6,13 +6,7 @@ import EmptyImg from '@/components/EmptyImg/EmptyImg'
 import { getCompetitinoList } from '@services/member'
 
 const CompetitionList = () => {
-  const [contestList, setContestList] = useState<ContestData[]>([
-    {
-      contestId: 0,
-      contestTitle: '',
-      contestImage: '',
-    },
-  ])
+  const [contestList, setContestList] = useState<ContestData[]>([])
 
   useEffect(() => {
     getCompetitinoList().then(({ data }) => {

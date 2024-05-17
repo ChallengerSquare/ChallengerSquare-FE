@@ -77,7 +77,7 @@ const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) 
 
   useEffect(() => {
     // setQnAs(dummyQnAs)
-    // getCompetitionQnAData(0)
+    getCompetitionQnAData(0)
   }, [])
 
   const getCompetitionQnAData = (id: number) => {
@@ -113,7 +113,7 @@ const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) 
   const handleOnClick = (qnaId: number) => {
     const updatedQAs = QnAs.map((QA) => (QA.qnaId === qnaId ? { ...QA, answer: QA.editText, editText: '' } : QA))
     setQnAs(updatedQAs)
-    // postCompetitionQnAData(qnaId)
+    postCompetitionQnAData(qnaId)
   }
 
   const postCompetitionQnAData = (id: number) => {

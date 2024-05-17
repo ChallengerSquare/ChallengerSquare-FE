@@ -17,15 +17,7 @@ interface alarmData {
 
 const Alarm = () => {
   const [notification, setNotification] = useRecoilState(notificationState)
-  const [alramList, setAlarmList] = useState<alarmData[]>([
-    {
-      alertId: 0,
-      alertType: '',
-      alertContent: '',
-      isRead: true,
-      alertTargetId: 0,
-    },
-  ])
+  const [alramList, setAlarmList] = useState<alarmData[]>([])
 
   useEffect(() => {
     getAlarmList().then(({ data }) => {
@@ -44,7 +36,7 @@ const Alarm = () => {
   return (
     <div className={styles.info}>
       <div className={styles.title}>
-        <div>{'HOME > 알람'}</div>
+        <div>{'HOME > 알림'}</div>
       </div>
       {alramList.length > 0 ? (
         <div className={styles.content}>

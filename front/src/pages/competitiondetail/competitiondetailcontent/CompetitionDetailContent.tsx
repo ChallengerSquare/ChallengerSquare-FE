@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 import { cancelParticipateContest } from '@/services/contest'
 import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
-import styles from '@/pages/competitiondetail/CompetitionDetailContent.module.scss'
+import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
 
 interface Props {
   competition: Contest

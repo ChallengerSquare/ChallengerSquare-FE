@@ -48,4 +48,8 @@
   align-items: end;
   font-size: large;
   font-weight: 500;
+
+  p{
+    text-wrap: nowrap;
+  }
 }

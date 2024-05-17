@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getUserList, getContestList, getTeamInfo } from '@services/team'
+import CompetitionCard from '@/components/CompetitionCard/CompetitionCard'
 import BaseImg from '@/components/BaseImg/BaseImg'
 import styles from './CompetitionDetailTeam.module.scss'
 
@@ -42,6 +43,7 @@ const CompetitionDetailTeam = ({ teamId }: Props) => {
       const response: Competition[] = data.content
       setCompetitionList(response)
     })
+    console.log(competitionList)
   }, [])
 
   return (
@@ -67,14 +69,7 @@ const CompetitionDetailTeam = ({ teamId }: Props) => {
       </div>
       <div className={styles.competition}>
         <div className={styles.title}>개최대회</div>
-        <div className={styles.item_list}>
-          {competitionList.map((competition) => (
-            <div key={competition.contestId} className={styles.item}>
-              <BaseImg imgUrl={competition.contestImage} imgName={'대회 이미지'} />
-              <p>{competition.contestTitle}</p>
-            </div>
-          ))}
-        </div>
+        <CompetitionCard grid={'grid_4'} state={'participate'} contestList={competitionList} />
       </div>
     </div>
   )
