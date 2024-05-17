@@ -38,7 +38,8 @@ public class QnaRepositoryImpl implements QnaRepositoryCustom {
 					qQna.qnaContent,
 					qQna.qnaAnswer,
 					Expressions.stringTemplate(
-						"CONCAT(SUBSTRING({0},1,1), REPEAT('*', CHAR_LENGTH({0}) - 1))", qMember.memberName))
+						"CONCAT(SUBSTRING({0}, 1, 1), REPEAT('*', CAST(CHAR_LENGTH({0}) AS INTEGER) - 1))",
+						qMember.memberName))
 			).from(qQna)
 			.leftJoin(qMember).on(qMember.id.eq(qQna.memberId))
 			.where(qQna.contest.id.eq(contestId))
@@ -59,7 +60,7 @@ public class QnaRepositoryImpl implements QnaRepositoryCustom {
 	@Override
 	public void updateQnaAnswer(Long qnaId, String answer) {
 		QQna qQna = QQna.qna;
-		
+
 		queryFactory.update(qQna)
 			.set(qQna.qnaAnswer, answer)
 			.where(qQna.id.eq(qnaId))
