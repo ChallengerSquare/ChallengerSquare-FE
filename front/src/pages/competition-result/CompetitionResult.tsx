@@ -11,9 +11,7 @@ const CompetitionResult = () => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.navbar}>
-          <Navbar enableScrollEffect />
-        </div>
+        <Navbar enableScrollEffect />
         <div className={styles.body}>
           <img className={styles.background} src={blockchain} alt={'background'} />
           <div className={styles.content}>
