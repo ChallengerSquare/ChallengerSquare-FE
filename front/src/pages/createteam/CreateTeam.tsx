@@ -17,7 +17,6 @@ interface TeamData {
 }
 
 const CreateTeam = () => {
-  const [tap, setTap] = useRecoilState(tapState)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [teamData, setTeamData] = useState<TeamData>({
     name: '',
@@ -25,8 +24,6 @@ const CreateTeam = () => {
     img: '',
   })
 
-  // 혜미누나 바보, 수정하세요 제발!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // navigate 어쩌구한다며!!!!!!!!!!!!!!!!!!!! -> CreateTeamModal에 navigate잇음!!
   const data = useMutation(createTeam, {
     onSuccess: () => {
       setIsOpen(true)
@@ -96,14 +93,11 @@ const CreateTeam = () => {
   }
 
   const headlePostTeamData = () => {
-    if (!teamData.name || !teamData.description || !teamData.img) {
+    if (!teamData.name || !teamData.description) {
       alert('모든 필수 정보를 입력해주세요.')
     } else {
       console.log(teamData) /* 팀 생성 API 호출 */
       handleFormData()
-      // 마이페이지 팀 목록 페이지 이동
-      setTap('teamList')
-      //  navigate('/mypage')
     }
   }
 
