@@ -75,8 +75,9 @@ public class QnaController {
 	@PutMapping
 	@Operation(summary = "QNA 답변 작성", description = "QNA의 답변을 작성하는 API")
 	public ResponseEntity<SuccessResponse<String>> updateQna(
+		@AuthenticationPrincipal SecurityMember securityMember,
 		@RequestBody @Valid QnaUpdateRequestDto qnaUpdateRequestDto) {
-		qnaService.updateQnaAnswer(qnaUpdateRequestDto.qnaId(), qnaUpdateRequestDto.answer());
+		qnaService.updateQnaAnswer(qnaUpdateRequestDto.qnaId(), qnaUpdateRequestDto.answer(), securityMember.id());
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "success"));
 	}
 

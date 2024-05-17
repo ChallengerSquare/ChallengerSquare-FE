@@ -77,7 +77,9 @@ public class SseServiceImpl implements SseService {
 		for (Long receiver : receivers) {
 			// 알림을 받을 모든 유저들에게 알림 전송
 			SseEmitter emitterByMemberId = sseRepository.findEmitterByMemberId(receiver);
-			send(emitterByMemberId, receiver, message);
+			if (emitterByMemberId != null) {
+				send(emitterByMemberId, receiver, message);
+			}
 		}
 	}
 

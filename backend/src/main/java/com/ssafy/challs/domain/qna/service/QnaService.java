@@ -12,5 +12,5 @@ public interface QnaService {
 
 	Page<QnaResponseDto> searchQna(Long contestId, Pageable pageable);
 
-	void updateQnaAnswer(Long qnaId, String answer);
+	void updateQnaAnswer(Long qnaId, String answer, Long memberId);
 }
