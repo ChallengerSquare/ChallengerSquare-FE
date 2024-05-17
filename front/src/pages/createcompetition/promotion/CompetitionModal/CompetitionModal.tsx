@@ -51,7 +51,6 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
     const competitionDto = { ...competition }
     if (!competitionDto.contestLocation) competitionDto.contestLocation = '온라인'
     const formData = new FormData()
-    console.log(data.contestImage)
     if (data.contestImage && data.contestImage.startsWith('data:image')) {
       const base64Response = data.contestImage.split(',')[1]
       const blob = base64ToBlob(base64Response, 'image/jpeg') // MIME type을 정확히 알 경우 사용
