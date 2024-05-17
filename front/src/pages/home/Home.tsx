@@ -28,9 +28,7 @@ const Home = () => {
     <>
       <div className={styles.home}>
         <div className={styles.main}>
-          <div className={styles.nav}>
-            <Navbar enableScrollEffect />
-          </div>
+          <Navbar enableScrollEffect />
           <div className={styles.title}>
             <img src={title} alt="title" />
           </div>
