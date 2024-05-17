@@ -65,7 +65,6 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
 
     registerData.mutate(formData)
   }
-
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
@@ -83,7 +82,9 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
             </div>
             <div className={styles.element}>
               <div className={styles.label}>카테고리 : </div>
-              <div className={styles.content}>{categorys[parseInt(competition.contestCategory, 10) - 1].category}</div>
+              <div className={styles.content}>
+                {competition.contestCategory ? categorys[parseInt(competition.contestCategory, 10) - 1].category : ''}
+              </div>
             </div>
             <div className={styles.element}>
               <div className={styles.label}>대회명 : </div>

@@ -20,7 +20,7 @@ const CompetitionDetailInfo = ({ content, isLeader }: Props) => {
         </div>
       ) : (
         <div className={styles.content}>
-          <Viewer initialValue={content || ''} />
+          <Viewer initialValue={content} />
         </div>
       )}
     </div>
