@@ -20,6 +20,7 @@ import com.ssafy.challs.domain.qna.entity.Qna;
 import com.ssafy.challs.domain.qna.mapper.QnaMapper;
 import com.ssafy.challs.domain.qna.repository.QnaRepository;
 import com.ssafy.challs.domain.qna.service.QnaService;
+import com.ssafy.challs.domain.team.repository.TeamParticipantsRepository;
 import com.ssafy.challs.global.common.exception.BaseException;
 import com.ssafy.challs.global.common.exception.ErrorCode;
 
@@ -34,6 +35,7 @@ public class QnaServiceImpl implements QnaService {
 	private final SseService sseService;
 	private final ContestParticipantsRepository contestParticipantsRepository;
 	private final QnaRepository qnaRepository;
+	private final TeamParticipantsRepository teamParticipantsRepository;
 	private final QnaMapper qnaMapper;
 
 	/**
@@ -79,11 +81,17 @@ public class QnaServiceImpl implements QnaService {
 	 * @author 강다솔
 	 * @param qnaId 답변 등록할 질문 ID
 	 * @param answer 답변 정보
+	 * @param memberId 답변 다는 사람 정보
 	 */
 	@Override
 	@Transactional
-	public void updateQnaAnswer(Long qnaId, String answer) {
+	public void updateQnaAnswer(Long qnaId, String answer, Long memberId) {
 		Qna qna = qnaRepository.findById(qnaId).orElseThrow(() -> new BaseException(ErrorCode.QNA_NOT_FOUND));
+		// 답변 다는 사람이 개최팀 소속인지 확인
+		Long teamId = qna.getContest().getTeam().getId();
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		if (!isTeamMember)
+			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
 		qnaRepository.updateQnaAnswer(qnaId, answer);
 
 		// 질문 등록 시 질문 등록자에게 알림 전송
