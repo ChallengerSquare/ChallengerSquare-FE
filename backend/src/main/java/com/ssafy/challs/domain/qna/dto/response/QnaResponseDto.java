@@ -11,9 +11,9 @@ public record QnaResponseDto(
 	String title,
 	@Schema(description = "질문 내용", example = "질문1")
 	String content,
-	@Schema(description = "질문 작성자", example = "작성자")
-	String writer,
 	@Schema(description = "답변 내용", example = "답변1")
-	String answer
+	String answer,
+	@Schema(description = "질문 작성자", example = "작성자")
+	String writer
 ) {
 }
