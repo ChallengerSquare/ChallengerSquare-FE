@@ -22,6 +22,7 @@ import TempTeamList from './pages/mypage/teamlist/TeamListPage'
 import TempResultList from './pages/mypage/resultlist/ResultListPage'
 import TempSetting from './pages/mypage/setting/SettingPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
+import ParticipateWindow from './pages/participateWindow/ParticipateWindow'
 
 const queryClient = new QueryClient()
 
@@ -51,6 +52,7 @@ function App() {
             <Route path="/create-competition" element={<CreateCompetition />} />
             <Route path="/create-team" element={<CreateTeam />} />
             <Route path="/join/:code" element={<JoinTeam />} />
+            <Route path="/form/write/:competitionId" element={<ParticipateWindow />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>

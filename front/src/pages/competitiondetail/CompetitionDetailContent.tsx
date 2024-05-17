@@ -1,5 +1,9 @@
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { createRoot } from 'react-dom/client'
 import Button from '@/components/Button/Button'
-import styles from './CompetitoinDetailContent.module.scss'
+import ParticipateWindow from '../participateWindow/ParticipateWindow'
+import styles from './CompetitionDetailContent.module.scss'
 
 interface Props {
   competition: Contest
@@ -39,9 +43,7 @@ interface Award {
   awardsPrize: number
 }
 
-const CompetitoinContent = ({ competition }: Props) => {
-  const path = process.env.PUBLIC_URL
-
+const CompetitionContent = ({ competition }: Props) => {
   const isRegistrationOpen = () => {
     const currentDate = new Date()
     const startDate = new Date(competition.registrationPeriod.start)
@@ -73,26 +75,27 @@ const CompetitoinContent = ({ competition }: Props) => {
               <span>장소</span> {competition.contestLocation}
             </li>
             <li>
-              <span>참가비</span> {competition.contestFee}
-              {' 원 '}
+              <span>참가비</span> {competition.contestFee} 원{' '}
               {competition.contestFee === 0 && <p className="point">무료</p>}
             </li>
             <li>
-              <span>모집인원</span> {competition.contestRegistrationNum}
-              {' 명 '}
+              <span>모집인원</span> {competition.contestRegistrationNum} 명{' '}
               {competition.isPriority && <p className="point">선착순</p>}
             </li>
           </ul>
         </div>
       </div>
       <div className={styles.btn}>
-        {/* 현재 날짜가 해당하지 않으면 비활성화 */}
-        {/* 버튼 클릭시 참가 신청 폼으로 이동 */}
-
-        <Button variation="purple" disabled={isRegistrationOpen() && competition.isLeader}>
+        <Button
+          variation="purple"
+          disabled={!isRegistrationOpen() || competition.isLeader}
+          onClick={() => {
+            const features = 'toolbar=no,menubar=no,width=600,height=700,left=100,top=100'
+            window.open(`/form/write/${competition.contestId}`, '_blank', features)
+          }}
+        >
           참가하기
         </Button>
-
         <p>
           {competition.registrationPeriod.start} ~ {competition.registrationPeriod.end}
         </p>
@@ -101,4 +104,4 @@ const CompetitoinContent = ({ competition }: Props) => {
   )
 }
 
-export default CompetitoinContent
+export default CompetitionContent

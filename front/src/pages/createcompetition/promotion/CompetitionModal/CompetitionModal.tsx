@@ -6,6 +6,8 @@ import Modal from '@components/Modal/Modal'
 import logoIcon from '@svgs/logo/challSv2.svg'
 import { CreateCompetitionDto, CompetitionCreateRequestDto } from '@/types/api'
 import { registerCompetition } from '@/services/contest'
+import { useResetRecoilState } from 'recoil'
+import { competitionForm, formButtonState } from '../../store'
 import ResultModal from '../ResultModal/ResultModal'
 import styles from './CompetitionModal.module.scss'
 
@@ -18,11 +20,15 @@ interface CompetitionModalProps {
 const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) => {
   const [isResult, setIsResult] = useState<boolean>(false)
   const [contestId, setContestId] = useState<number | null>(null)
+  const resetRecoilState = useResetRecoilState(competitionForm)
+  const resetButtonState = useResetRecoilState(formButtonState)
   const competition: CompetitionCreateRequestDto = data.contestCreateRequestDto
   const registerData = useMutation(registerCompetition, {
     onSuccess: (response) => {
       setContestId(response.data.contestId)
       setIsResult(true)
+      resetRecoilState()
+      resetButtonState()
       handleClose()
     },
     onError: (error) => {

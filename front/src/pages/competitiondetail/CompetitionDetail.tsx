@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
 import Navbar from '@/components/Navbar/Navbar'
-import CompetitionDetailContent from './CompetitoinDetailContent'
+import CompetitionDetailContent from './CompetitionDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
 
