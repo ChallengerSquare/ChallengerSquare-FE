@@ -5,6 +5,7 @@ import navigateBefore from '@/assets/navigate_before.svg'
 import navigateNext from '@/assets/navigate_next.svg'
 import styles from '@/components/Competition/CompetitionList.module.scss'
 import ProfileImg from '../ProfileImg/ProfileImg'
+import BaseImg from '../BaseImg/BaseImg'
 
 interface CompetitoinListProps {
   text: string
@@ -40,7 +41,9 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
   const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item, index) => (
     <div className={styles.content_item} key={index}>
       <Link to={`/competition/detail/${item.contestId}`}>
-        <ProfileImg imgUrl={item.contestImage} imgName={'대회이미지'} name={'competition'} />
+        <div className={styles.poster}>
+          <BaseImg imgUrl={item.contestImage} imgName={'대회이미지'} />
+        </div>
         <p>{item.contestDate}</p>
         <span>{item.contestTitle}</span>
       </Link>
