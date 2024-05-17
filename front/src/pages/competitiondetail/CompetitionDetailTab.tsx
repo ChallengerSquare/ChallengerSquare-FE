@@ -2,7 +2,7 @@ import { useState } from 'react'
 import CompetitionDetailInfo from './CompetitionDetailInfo'
 import CompetitionDetailNotice from './competitiondetailnotice/CompetitionDetailNotice'
 import CompetitionDetailQA from './competitiondetailqa/CompetitionDetailQA'
-import CompetitionDetailTeam from './CompetitionDetailTeam'
+import CompetitionDetailTeam from './competitiondetailteam/CompetitionDetailTeam'
 import styles from './CompetitionDetailTab.module.scss'
 
 interface Props {
