@@ -278,6 +278,12 @@ public class ContestServiceImpl implements ContestService {
 		Contest contest = contestRepository.findById(participantRequestDto.contestId())
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
 
+		// 개최팀인지 확인
+		boolean isOwner = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsParticipantsTrue(memberId,
+			contest.getTeam().getId());
+		if (isOwner)
+			throw new BaseException(ErrorCode.MEMBER_OWNER_ERROR);
+
 		// 모집중인 대회인지 확인
 		if (!contest.getContestState().equals('J')) {
 			throw new BaseException(ErrorCode.CONTEST_NOT_OPEN_ERROR);
