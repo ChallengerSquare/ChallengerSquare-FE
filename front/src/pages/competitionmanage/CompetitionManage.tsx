@@ -104,7 +104,10 @@ const CompetitionManage = () => {
                 name: member.memberName,
                 birthday: member.memberBirth,
                 phone: member.memberPhone,
-                address: member.memberAddress,
+                address:
+                  member.memberAddress != null
+                    ? member.memberAddress.split(' ').slice(1, 4).join(' ')
+                    : member.memberAddress,
               })),
             })),
             awardList: response.awards.map((data) => ({

@@ -63,7 +63,7 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
           <div className={styles.content_phone}>{'대표 연락처'}</div>
           <div className={styles.content_address}>{'주소'}</div>
           <div className={styles.content_attend}>{'참가'}</div>
-          <div className={styles.content_award}>{'시상'}</div>
+          {/* <div className={styles.content_award}>{'시상'}</div> */}
           <div className={styles.content_btn}>{''}</div>
         </div>
         <div className={styles.content_teamlist}>
@@ -77,7 +77,7 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
                 <span className={styles.content_phone}>{team.members[0].phone}</span>
                 <span className={styles.content_address}>{team.members[0].address}</span>
                 <span className={styles.content_attend}>{team.attend ? '참석' : '-'}</span>
-                <span className={styles.content_award}>{team.award}</span>
+                {/* <span className={styles.content_award}>{team.award}</span> */}
                 <div className={styles.content_btn} role={'button'} tabIndex={0} onClick={() => toggleExpand(team.id)}>
                   {expandedIndexes.includes(team.id) ? '▲' : '▼'}
                 </div>
@@ -93,7 +93,7 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
                       <span className={styles.content_phone}>{member.phone}</span>
                       <span className={styles.content_address}>{member.address}</span>
                       <span className={styles.content_attend}>{''}</span>
-                      <span className={styles.content_award}>{''}</span>
+                      {/* <span className={styles.content_award}>{''}</span> */}
                       <span className={styles.content_btn}>{''}</span>
                     </div>
                   ))}

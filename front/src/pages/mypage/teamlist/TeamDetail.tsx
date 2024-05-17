@@ -2,9 +2,10 @@ import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { teamDetailTapState, teamIdxState } from '@/pages/mypage/store'
-import { TeamData, TeamListData } from '@/types/team'
+import { TeamListData } from '@/types/team'
 import TeamContest from '@/pages/mypage/teamlist/TeamContest'
 import TeamMember from '@/pages/mypage/teamlist/TeamMember'
+import LinkImg from '@svgs/link.svg'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
 
 interface TeamDetailProps {
@@ -23,6 +24,15 @@ const TeamDetail = ({ teamData }: TeamDetailProps) => {
     setTeamDetailTap(state)
   }
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      alert('초대 링크가 복사되었습니다.!')
+    } catch (error) {
+      alert('초대 링크가 복사가 실패하였습니다.')
+    }
+  }
+
   return (
     <div className={styles.teamlist}>
       <div className={styles.head}>
@@ -38,6 +48,16 @@ const TeamDetail = ({ teamData }: TeamDetailProps) => {
               <span>{team.teamName}</span>
             </div>
             <div>{team.description}</div>
+          </div>
+          <div>
+            <button
+              type={'button'}
+              className={styles.team_clipbord}
+              onClick={() => handleCopyClipBoard(`${team.teamCode}`)}
+            >
+              <img src={LinkImg} alt={'대회링크'} />
+              <p>{'초대링크'}</p>
+            </button>
           </div>
         </div>
         <div className={styles.team_content}>

@@ -1,7 +1,7 @@
-import styles from '@/components/ProfileImg/ProfileImg.module.scss'
-import baseImg from '@images/baseImg.png'
-import camera from '@svgs/camera.svg'
 import { useRef } from 'react'
+import styles from '@/components/ProfileImg/ProfileImg.module.scss'
+import BaseImg from '@/components/BaseImg/BaseImg'
+import camera from '@svgs/camera.svg'
 
 interface ImgProps {
   imgUrl: string
@@ -18,11 +18,13 @@ const ProfileImg = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
   }
   const className = `${styles[name]}`
   return (
-    <div className={styles.img}>
-      <img src={imgUrl === '' || imgUrl === null ? baseImg : imgUrl} alt={imgName} className={className} />
+    <div className={styles.profileimg}>
+      <div className={className}>
+        <BaseImg imgUrl={imgUrl} imgName={imgName} />
+      </div>
       {edit ? (
-        <button type={'button'} className={styles.edit}>
-          <img src={camera} alt={'사진편집'} onClick={handleImageUpload} />
+        <button type={'button'} className={styles.edit} onClick={handleImageUpload}>
+          <img src={camera} alt={'사진편집'} />
           <input
             type="file"
             style={{ display: 'none' }}

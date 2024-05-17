@@ -60,11 +60,6 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
     }
   }
 
-  // 임시저장 버튼
-  const handleAccept = () => {
-    console.log('competitionData 데이터 시상 정보 저장 API')
-  }
-
   // 종료하기 버튼
   const handleStateChange = () => {
     const requestAwardList: ContestInfo[] = competitionData.teamList
@@ -77,7 +72,6 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
       if (response.status === 200) {
         updateCompetitionState(competition.id, 'E').then((response) => {
           onChangeCompetitionState('E')
-          handleAccept()
         })
       }
     })
@@ -125,9 +119,6 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
       <div className={styles.title_container}>
         <div className={styles.title}>{'대회 참가자 현황'}</div>
         <div>
-          <Button variation={'purple_reverse'} onClick={handleAccept}>
-            {'임시저장'}
-          </Button>
           <Button variation={'purple'} onClick={handleStateChange}>
             {'종료하기'}
           </Button>

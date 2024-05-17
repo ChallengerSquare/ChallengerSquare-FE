@@ -21,7 +21,7 @@
         .header{
             display: flex;
             justify-content: space-between;
-            padding: 1rem;
+            padding: 10px 40px;
             font-size: 1.4rem;
 
             span{
@@ -29,7 +29,7 @@
             }
 
             button{
-                font-size: 1.0rem
+                font-size: 1rem
             }
         }
 
@@ -38,32 +38,36 @@
             font-size: 1.2rem;
 
             .content{
-                border-bottom : grey solid 0.01rem;
+                border-bottom : gray solid 0.1px;
+
                 .summary{
                     width: 850px;
                     display: flex;
                     justify-content: space-between;
-                    padding: 1rem 2rem;
+                    padding: 15px 20px;
                     .text{
                         display: flex;
                         .index{
-                            width: 4rem;
-
+                            width: 60px;
                         }
                         .title{
-                            padding:0rem 1rem;
+                            padding:0px 20px;
                         }
                         .date{
                             color: darkgray;
                             font-weight: 400;
+                            font-size: 1rem;
                         }
+                    }
+                    p{
+                        margin: 0px 30px;
                     }
                 }
 
                 .description{
-                    border-top : grey solid 0.01rem;
+                    border-top : grey solid 0.1px;
                     background-color: $main-fifth-color;
-                    padding: 1rem 7rem;
+                    padding: 20px 100px;
                 }
             } 
         }

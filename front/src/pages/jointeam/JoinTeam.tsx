@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { userState } from '@/stores/userState'
 import { User } from '@/types/user'
+import { getParticipantsTeam, createParticipantsTeam } from '@services/team'
 import Navbar from '@/components/Navbar/Navbar'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
 import Button from '@/components/Button/Button'
@@ -22,18 +23,29 @@ const JoinTeam = () => {
   })
   const [join, setJoin] = useState(false)
   useEffect(() => {
-    /* `challengersquare.com/api/team/participants/${code}` GET API 호출 */
-
-    const data = {
-      teamName: 'Buzzer Beater',
-      teamImg: '',
+    if (code != undefined) {
+      getParticipantsTeam(code).then((response) => {
+        if (response.status === 200) {
+          const team: Team = {
+            teamName: response.data.teamName,
+            teamImg: response.data.teamImage,
+          }
+          setTeam(team)
+        } else if (response.code === 'G-031') {
+          setJoin(true)
+        }
+      })
     }
-    setTeam(data)
   }, [])
 
   const handleJoinState = () => {
-    setJoin(true)
-    /* `challengersquare.com/api/team/participants` POST API 호출 */
+    if (code != undefined) {
+      createParticipantsTeam(code).then((response) => {
+        if (response.status === 200) {
+          setJoin(true)
+        }
+      })
+    }
   }
 
   return (
@@ -47,12 +59,14 @@ const JoinTeam = () => {
         </div>
         {join === true ? (
           <div className={styles.content}>{'이미 가입 신청된 계정입니다.'}</div>
-        ) : (
+        ) : team.teamName != '' ? (
           <div className={styles.content}>
             <Button variation={'purple'} onClick={handleJoinState}>
               {'가입 신청'}
             </Button>
           </div>
+        ) : (
+          <div className={styles.content}>{'없는 팀 정보 입니다.'}</div>
         )}
       </div>
     </div>
