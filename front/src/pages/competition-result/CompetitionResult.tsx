@@ -4,8 +4,10 @@ import blockchain from '@images/blockchain.jpg'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import { useState } from 'react'
 import Footer from '@/components/Footer/Footer'
+import useScrollTop from '@/hooks/useScrollTop'
 
 const CompetitionResult = () => {
+  useScrollTop()
   return (
     <>
       <div className={styles.container}>

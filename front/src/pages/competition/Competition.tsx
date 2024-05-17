@@ -3,6 +3,7 @@ import { ContestData } from '@/types/competition'
 import { SearchResponse, SearchRequest } from '@/types/api'
 import { getCompetitionList } from '@/services/competition'
 import useScrollTop from '@/hooks/useScrollTop'
+import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionList from '@/components/Competition/CompetitionList'
 import SearchBar from '@/components/SearchBar/SearchBar'
@@ -87,6 +88,7 @@ const Competition = () => {
         <CompetitionList text={'인기 있는 대회를 살펴보세요'} contestList={famousCompetitionList} />
         <CompetitionList text={'마감 임박한 대회를 살펴보세요'} contestList={dueCompetitionList} />
       </div>
+      <Footer />
     </div>
   )
 }

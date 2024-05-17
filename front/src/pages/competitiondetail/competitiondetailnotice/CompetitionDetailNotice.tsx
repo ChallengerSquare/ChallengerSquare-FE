@@ -7,22 +7,18 @@ import styles from './CompetitionDetailNotice.module.scss'
 
 interface CompetitionDetailNoticeProps {
   contestId: number
+  isLeader: boolean
 }
 
-const CompetitionDetailNotice = ({ contestId }: CompetitionDetailNoticeProps) => {
+const CompetitionDetailNotice = ({ contestId, isLeader }: CompetitionDetailNoticeProps) => {
   const sizeofPage = 7
   const limitofPagenation = 5
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPage, setTotalPage] = useState<number>(0)
   const [totalItem, setTotalItem] = useState<number>(0)
-  const [notices, setNotices] = useState<NoticeResponse[]>([
-    {
-      title: '',
-      content: '',
-      date: '',
-    },
-  ])
+  const [notices, setNotices] = useState<NoticeResponse[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getCompetitionNoticeData(0)
@@ -51,11 +47,20 @@ const CompetitionDetailNotice = ({ contestId }: CompetitionDetailNoticeProps) =>
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index))
   }
 
+  const handleNewPost = () => {
+    // 공지사항 작성 api
+  }
+
   return (
     <div className={styles.container}>
       {notices.length === 0 ? (
         <div className={styles.empty}>
-          <p> 등록된 공지사항이 없습니다.</p>
+          <div>
+            <p> 등록된 공지사항이 없습니다.</p>
+            <button type={'button'} onClick={handleNewPost}>
+              {'작성하러 가기 >'}
+            </button>
+          </div>
         </div>
       ) : (
         <div className={styles.notices}>

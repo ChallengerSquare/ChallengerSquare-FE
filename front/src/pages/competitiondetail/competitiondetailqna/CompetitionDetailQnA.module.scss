@@ -1,10 +1,10 @@
 @import '@styles/variables.scss';
 
 .container{
-    padding: 3rem;
+    padding: 20px 30px;
 
     .empty{
-       height: 20rem;
+       height: 400px;
        background-color: white;
        display: flex;
        justify-content: center;
@@ -13,7 +13,6 @@
        
        p{
         font-size: xx-large;
-        color: $main-forth-color;
        }
     }
 
@@ -56,20 +55,32 @@
                     }
                 }
 
-                .content{
-                    margin: 0.5rem 0rem;
+                .content_wrap{
+                    margin-top: 10px;
+
+                    .title { 
+                        margin-bottom: 10px;
+                    }
                 }
 
                 .answer{
                     border-radius: 0.5rem;
                     background-color: $main-fifth-color;
-                    padding:0.5rem 1rem;
+                    padding: 10px 20px;
+                    margin-top: 10px;
                 }
 
-                input{
-                    width: 100%;
-                    padding : 0.5rem;
-                    border-radius: 0.5rem;
+                
+                
+                .comment {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 10px;
+
+                    input{
+                    width: 90%;
+                    padding : 10px;
+                    border-radius: 10px;
                     border: 1px solid $main-forth-color;
 
                     &:focus{
@@ -78,7 +89,7 @@
                         
                     } 
                 }
-                
+                }
             }
         }
     }
