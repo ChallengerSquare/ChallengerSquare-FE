@@ -1,8 +1,39 @@
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import styles from './dashboard.module.scss'
 
 const Dashboard = () => {
-  // 블록 정보, 거래 정보 등 데이터를 상태로 관리할 수 있습니다.
-  // useState, useEffect를 사용하여 데이터를 fetch하고 상태에 저장합니다.
+  const [blockCount, setBlockCount] = useState<number | null>(null)
+  const [transactionCount, setTransactionCount] = useState<number | null>(null)
+  const [nodeCount, setNodeCount] = useState<number | null>(null)
+  const [blockSpeed, setBlockSpeed] = useState<number | null>(null)
+  const [pendingTransactions, setPendingTransactions] = useState<number | null>(null)
+  const [networkStatus, setNetworkStatus] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Function to fetch data from all APIs
+    const fetchData = async () => {
+      try {
+        const blockCountResponse = await axios.get('http://43.203.254.28:50001/get-block-count')
+        const transactionCountResponse = await axios.get('http://43.203.254.28:50001/get-all-transactions-count')
+        const nodeCountResponse = await axios.get('http://43.203.254.28:8000/api/getNodeCount')
+        const pendingTransactionsResponse = await axios.get('http://43.203.254.28:50001/get-transactions-count')
+        const networkStatusResponse = await axios.get('http://43.203.254.28:8000/api/getNetworkStatus')
+
+        setBlockCount(blockCountResponse.data.block_count)
+        setTransactionCount(transactionCountResponse.data)
+        setNodeCount(nodeCountResponse.data)
+        // Assuming block speed is calculated or retrieved from another source
+        setBlockSpeed(50) // Replace with actual logic if available
+        setPendingTransactions(pendingTransactionsResponse.data)
+        setNetworkStatus(networkStatusResponse.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <div className={styles.dashboard}>
@@ -15,30 +46,30 @@ const Dashboard = () => {
           <div className={styles.statistics}>
             <div className={styles.blockchainInfo}>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoValue}>{blockCount !== null ? blockCount : 'Loading'}</div>
+                <div className={styles.infoLabel}>{'채굴된 블록 수'}</div>
               </div>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoValue}>{transactionCount !== null ? transactionCount : 'Loading'}</div>
+                <div className={styles.infoLabel}>{'총 트랜잭션 수'}</div>
               </div>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoValue}>{nodeCount !== null ? nodeCount : 'Loading'}</div>
+                <div className={styles.infoLabel}>{'참여중인 노드 수'}</div>
               </div>
             </div>
             <div className={styles.blockchainInfo}>
               <div className={styles.infoBox}>
                 <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoLabel}>{'블록 생성 속도'}</div>
               </div>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoValue}>{pendingTransactions !== null ? pendingTransactions : 'Loading'}</div>
+                <div className={styles.infoLabel}>{'대기중 트랜잭션'}</div>
               </div>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
-                <div className={styles.infoLabel}>{'정보 이름'}</div>
+                <div className={styles.infoValue}>{networkStatus !== null ? networkStatus : 'Loading'}</div>
+                <div className={styles.infoLabel}>{'네트워크 상태'}</div>
               </div>
             </div>
           </div>
