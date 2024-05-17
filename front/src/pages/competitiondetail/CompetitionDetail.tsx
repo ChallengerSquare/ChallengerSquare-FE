@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
 import BeforeNav from '@svgs/navigate_before.svg'
 import Navbar from '@/components/Navbar/Navbar'
-import CompetitionDetailContent from './CompetitoinDetailContent'
+import CompetitionDetailContent from './CompetitionDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
 

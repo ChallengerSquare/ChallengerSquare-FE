@@ -84,7 +84,7 @@ const MyInfo = () => {
   const handleLogout = () => {
     logoutUser()
     resetUserState()
-    navigate('/competition')
+    window.location.href = '/competition'
   }
 
   return (
