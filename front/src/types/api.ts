@@ -98,3 +98,9 @@ export interface TeamRequest {
   teamImage: FormData
   teamRequestDto: TeamRequestDto
 }
+
+export interface ParticipateTeamRequest {
+  contestId: number
+  teamId: number
+  contestParticipantsReason: string
+}

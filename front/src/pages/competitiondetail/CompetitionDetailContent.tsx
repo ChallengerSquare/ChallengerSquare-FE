@@ -90,7 +90,7 @@ const CompetitionContent = ({ competition }: Props) => {
           variation="purple"
           disabled={!isRegistrationOpen() || competition.isLeader}
           onClick={() => {
-            const features = 'toolbar=no,menubar=no,width=600,height=700,left=100,top=100'
+            const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
             window.open(`/form/write/${competition.contestId}`, '_blank', features)
           }}
         >
