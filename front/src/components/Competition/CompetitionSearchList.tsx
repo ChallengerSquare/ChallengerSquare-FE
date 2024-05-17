@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { ContestData } from '@/types/competition'
 import useScrollTop from '@/hooks/useScrollTop'
 import styles from '@/components/Competition/CompetitionSearchList.module.scss'
-import ProfileImg from '../ProfileImg/ProfileImg'
 import EmptyImg from '../EmptyImg/EmptyImg'
+import BaseImg from '../BaseImg/BaseImg'
 
 interface SearchListProps {
   title: string
@@ -41,7 +41,7 @@ const CompetitionSearchList = ({ title, data, orderBy, setOrderBy }: SearchListP
             {items.map((item: ContestData, index) => (
               <div key={index} className={styles.grid_item}>
                 <Link to={`/competition/detail/${item.contestId}`}>
-                  <ProfileImg imgUrl={item.contestImage} imgName={item.contestTitle} name={'competition'} />
+                  <BaseImg imgUrl={item.contestImage} imgName={item.contestTitle} />
                   <p>{item.contestTitle}</p>
                   <span>{item.contestDate}</span>
                 </Link>

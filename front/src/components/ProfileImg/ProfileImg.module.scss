@@ -1,16 +1,18 @@
 @import '@/styles/variables.scss';
 
-.img{
+.profileimg{
     padding: 5px;
     position: relative;
     width: 100%;
 
     .teamdetail{
-        width: 100%;
-        aspect-ratio: 1;
-        overflow: hidden;
-        border-radius: 50%;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        img{
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
     }
 
     .edit{

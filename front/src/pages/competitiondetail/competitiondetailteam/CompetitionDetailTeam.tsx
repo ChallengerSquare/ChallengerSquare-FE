@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getUserList, getContestList, getTeamInfo } from '@services/team'
+import BaseImg from '@/components/BaseImg/BaseImg'
 import styles from './CompetitionDetailTeam.module.scss'
 
 interface Props {
@@ -24,7 +25,11 @@ interface Competition {
 
 const CompetitionDetailTeam = ({ teamId }: Props) => {
   const [memberList, setMemberList] = useState<Member[]>([])
-  const [teamInfo, setTeamInfo] = useState<Team>()
+  const [teamInfo, setTeamInfo] = useState<Team>({
+    teamName: '',
+    teamImage: '',
+    teamDescription: '',
+  })
   const [competitionList, setCompetitionList] = useState<Competition[]>([])
   useEffect(() => {
     getTeamInfo(teamId).then(({ data }) => {
@@ -43,7 +48,7 @@ const CompetitionDetailTeam = ({ teamId }: Props) => {
     <div className={styles.container}>
       <div className={styles.team}>
         <div className={styles.logo}>
-          <img src={teamInfo?.teamImage} alt="팀 로고" />
+          <BaseImg imgUrl={teamInfo.teamImage} imgName={'대회 이미지'} />
         </div>
         <div className={styles.teamInfo}>
           <div className={styles.teamName}>{teamInfo?.teamName}</div>
@@ -65,7 +70,7 @@ const CompetitionDetailTeam = ({ teamId }: Props) => {
         <div className={styles.item_list}>
           {competitionList.map((competition) => (
             <div key={competition.contestId} className={styles.item}>
-              <img src={competition.contestImage} alt="대회 이미지" />
+              <BaseImg imgUrl={competition.contestImage} imgName={'대회 이미지'} />
               <p>{competition.contestTitle}</p>
             </div>
           ))}
