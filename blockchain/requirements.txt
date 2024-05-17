@@ -16,3 +16,4 @@ tzdata==2024.1
 tzlocal==5.2
 urllib3==2.2.1
 Werkzeug==3.0.2
+Flask-CORS==4.0.1
