@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CompetitionDetailInfo from './competitiondetailinfo/CompetitionDetailInfo'
 import CompetitionDetailNotice from './competitiondetailnotice/CompetitionDetailNotice'
 import CompetitionDetailQA from './competitiondetailqna/CompetitionDetailQnA'
@@ -18,6 +18,11 @@ const CompetitionDetailTab = ({ contestId, teamId, content, isLeader }: Props) =
   const handleTabClick = (tab: string) => {
     setActiveTab(tab)
   }
+
+  useEffect(() => {
+    setActiveTab('info')
+  }, [contestId])
+
   return (
     <div>
       <div className={styles.tab_menu}>
