@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { getTeamsinLeader } from '@/services/member'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Button from '@/components/Button/Button'
