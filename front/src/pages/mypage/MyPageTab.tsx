@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { teamTapState, teamIdxState } from '@/pages/mypage/store'
-import { tapState } from '@/pages/mypage/store'
+import { teamTapState } from '@/pages/mypage/store'
 import styles from './MyPage.module.scss'
 
 interface MyPageTapParams {
@@ -9,9 +8,6 @@ interface MyPageTapParams {
 }
 
 const MyPageTap = ({ tab }: MyPageTapParams) => {
-  const navigate = useNavigate()
-  // const [tab, setTab] = useRecoilState(tapState)
-  const [teamIdx, setTeamIdx] = useRecoilState(teamIdxState)
   const [teamTap, setTeamTap] = useRecoilState(teamTapState)
 
   const handleClick = (state: string) => {

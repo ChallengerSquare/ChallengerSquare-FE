@@ -20,7 +20,7 @@ const CreateTeamModal = ({ isOpen, handleClose }: CompetitionModalProps) => {
           <div className={styles.modal_header_title}>팀이 등록되었습니다.</div>
         </div>
         <div className={styles.footer}>
-          <Button variation="purple default" width={160} onClick={() => navigate(`/mypage`)}>
+          <Button variation="purple default" width={160} onClick={() => navigate(`/mypage/teamlist`)}>
             확인
           </Button>
         </div>

@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useMutation } from 'react-query'
-import { createRoot } from 'react-dom/client'
-import Button from '@/components/Button/Button'
 import { cancelParticipateContest } from '@/services/contest'
-import ParticipateWindow from '../participateWindow/ParticipateWindow'
+import Button from '@/components/Button/Button'
+import BaseImg from '@/components/BaseImg/BaseImg'
 import styles from './CompetitionDetailContent.module.scss'
 
 interface Props {
@@ -71,7 +68,7 @@ const CompetitionContent = ({ competition }: Props) => {
   return (
     <>
       <div className={styles.poster}>
-        <img src={competition.contestImage} alt="포스터" />
+        <BaseImg imgUrl={competition.contestImage} imgName={'포스터'} />
       </div>
       <div className={styles.content}>
         <div className={styles.title}>
