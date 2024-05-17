@@ -149,7 +149,9 @@ const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) 
             <p>
               총 <span>{totalItem}개</span>의 문의글이 있습니다.
             </p>
-            <button type="button">+ 문의하기</button>
+            <button type="button" onClick={handleNewPost}>
+              + 문의하기
+            </button>
           </div>
           <div className={styles.body}>
             <ul>
