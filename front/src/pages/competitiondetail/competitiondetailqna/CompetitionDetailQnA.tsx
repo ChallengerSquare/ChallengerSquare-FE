@@ -77,7 +77,7 @@ const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) 
 
   useEffect(() => {
     // setQnAs(dummyQnAs)
-    getCompetitionQnAData(0)
+    // getCompetitionQnAData(0)
   }, [])
 
   const getCompetitionQnAData = (id: number) => {
@@ -121,11 +121,20 @@ const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) 
     if (tempQAs) updateCompetitionQnA(id, tempQAs.editText)
   }
 
+  const handleNewPost = () => {
+    // QnA 작성 api
+  }
+
   return (
     <div className={styles.container}>
       {QnAs.length === 0 ? (
         <div className={styles.empty}>
-          <p> 등록된 Q&A가 없습니다. </p>
+          <div>
+            <p> 등록된 Q&A가 없습니다. </p>
+            <button type={'button'} onClick={handleNewPost}>
+              {'작성하러 가기 >'}
+            </button>
+          </div>
         </div>
       ) : (
         <div className={styles.QAs}>

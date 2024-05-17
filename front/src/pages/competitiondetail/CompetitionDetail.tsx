@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
 import BeforeNav from '@svgs/navigate_before.svg'
+import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionDetailContent from './CompetitionDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
@@ -80,6 +81,7 @@ const CompetitionDetail = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

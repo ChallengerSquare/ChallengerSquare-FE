@@ -4,16 +4,16 @@
     padding: 20px 30px;
 
     .empty{
-       height: 20rem;
+       height: 400px;
        background-color: white;
        display: flex;
+       flex-direction: column;
        justify-content: center;
        align-items: center;
        color: $main-forth-color;
        
        p{
         font-size: xx-large;
-        color: $main-forth-color;
        }
     }
     
