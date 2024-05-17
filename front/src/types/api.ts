@@ -104,3 +104,15 @@ export interface ParticipateTeamRequest {
   teamId: number
   contestParticipantsReason: string
 }
+
+export interface RegisterNoticeRequest {
+  title: string
+  content: string
+  contestId: number
+}
+
+export interface RegisterQnaRequest {
+  qnaTitle: string
+  qnaContent: string
+  contestId: number
+}

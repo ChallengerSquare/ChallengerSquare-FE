@@ -78,6 +78,7 @@ const CompetitionDetail = () => {
                 teamId={competition.teamId}
                 content={competition.contestContent}
                 isLeader={competition.isLeader}
+                participateState={competition.participantState}
               />
             )}
           </div>

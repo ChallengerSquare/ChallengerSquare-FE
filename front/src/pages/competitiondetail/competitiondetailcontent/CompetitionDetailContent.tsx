@@ -1,7 +1,9 @@
 import { useMutation } from 'react-query'
-import { cancelParticipateContest } from '@/services/contest'
+import { useState, useEffect } from 'react'
+import { cancelParticipateContest, deleteContest } from '@/services/contest'
 import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
+import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
 
 interface Props {
@@ -43,6 +45,20 @@ interface Award {
 }
 
 const CompetitionContent = ({ competition }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
+
   const isRegistrationOpen = () => {
     const currentDate = new Date()
     const startDate = new Date(competition.registrationPeriod.start)
@@ -57,13 +73,93 @@ const CompetitionContent = ({ competition }: Props) => {
       window.location.reload()
     },
     onError: (error) => {
-      console.error('참가 등록 실패:', error)
-      alert('참가 등록에 실패하였습니다.')
+      console.error('참가 취소 실패:', error)
+      alert('참가 취소에 실패하였습니다.')
     },
   })
 
   const handleCancelParticipation = () => {
     cancelParticipate.mutate(competition.contestId)
+  }
+
+  const deleteCompetition = useMutation(deleteContest, {
+    onSuccess: (response) => {
+      console.log('대회 취소 성공')
+      window.location.reload()
+    },
+    onError: (error) => {
+      console.error('대회 취소 실패:', error)
+      alert('대회 취소에 실패하였습니다.')
+    },
+  })
+
+  const handleDeleteCompetition = () => {
+    deleteCompetition.mutate(competition.contestId)
+  }
+
+  const renderButton = () => {
+    const role = competition.isLeader ? '신청취소' : competition.participantState === 'O' ? '대회취소' : '참가하기'
+    // isleader : 해당 대회 신청했는지
+    switch (role) {
+      case '신청취소':
+        return (
+          <>
+            <Button variation="purple" onClick={() => setIsOpen(true)}>
+              {role}
+            </Button>
+            <ConfirmModal
+              isOpen={isOpen}
+              handleClose={handleClose}
+              title="신청을 취소하시겠습니까?"
+              handleData={handleCancelParticipation}
+            />
+          </>
+        )
+      case '대회취소':
+        return (
+          <>
+            <Button variation="purple" onClick={() => setIsOpen(true)}>
+              {role}
+            </Button>
+            <ConfirmModal
+              isOpen={isOpen}
+              handleClose={handleClose}
+              title="대회를 취소하시겠습니까?"
+              handleData={handleCancelParticipation}
+            />
+          </>
+        )
+      case '참가하기':
+        return (
+          <>
+            <Button
+              variation="purple"
+              disabled={!isRegistrationOpen()}
+              onClick={() => {
+                const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+                window.open(`/competition/participate/write/${competition.contestId}`, '_blank', features)
+              }}
+            >
+              {role}
+            </Button>
+          </>
+        )
+      default:
+        return (
+          <>
+            <Button
+              variation="purple"
+              disabled={true}
+              onClick={() => {
+                const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+                window.open(`/form/write/${competition.contestId}`, '_blank', features)
+              }}
+            >
+              공사중
+            </Button>
+          </>
+        )
+    }
   }
   return (
     <>
@@ -99,22 +195,7 @@ const CompetitionContent = ({ competition }: Props) => {
         </div>
       </div>
       <div className={styles.btn}>
-        {competition.isLeader ? (
-          <Button variation="purple" onClick={handleCancelParticipation}>
-            신청취소
-          </Button>
-        ) : (
-          <Button
-            variation="purple"
-            disabled={!isRegistrationOpen() || competition.participantState === 'O'}
-            onClick={() => {
-              const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
-              window.open(`/form/write/${competition.contestId}`, '_blank', features)
-            }}
-          >
-            참가하기
-          </Button>
-        )}
+        {renderButton()}
         <p>
           {competition.registrationPeriod.start} ~ {competition.registrationPeriod.end}
         </p>

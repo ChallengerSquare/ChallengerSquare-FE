@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ApiResponse } from '@/types/api'
+import { ApiResponse, RegisterQnaRequest } from '@/types/api'
 import { QnARequset } from '@/types/competition'
 
 const api = axios.create({
@@ -42,6 +42,24 @@ export const updateCompetitionQnA = async (id: number, answerParam: string): Pro
     }
   } catch (error: any) {
     console.error('대회 QnA 댓글 작성 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const registerQnA = async (data: RegisterQnaRequest): Promise<ApiResponse> => {
+  try {
+    const response = await api.post<ApiResponse>('', data)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('QnA 등록 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,

@@ -12,6 +12,9 @@ import Signup from '@/pages/signup/Signup'
 import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
 import CreateCompetition from '@pages/createcompetition/CreateCompetition'
 import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
+import ParticipateWindow from '@pages/competitiondetail/participatewindow/ParticipateWindow'
+import NoticeWindow from '@pages/competitiondetail/competitiondetailnotice/noticewindow/NoticeWindow'
+import QnaWindow from '@pages/competitiondetail/competitiondetailqna/qnawindow/QnaWindow'
 import Dashboard from './pages/blockchain/dashboard'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
@@ -22,7 +25,6 @@ import TempTeamList from './pages/mypage/teamlist/TeamListPage'
 import TempResultList from './pages/mypage/resultlist/ResultListPage'
 import TempSetting from './pages/mypage/setting/SettingPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
-import ParticipateWindow from './pages/participateWindow/ParticipateWindow'
 
 const queryClient = new QueryClient()
 
@@ -43,6 +45,9 @@ function App() {
             <Route path="/competition" element={<Competition />} />
             <Route path="/competition/search" element={<CompetitionSearch />} />
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
+            <Route path="/competition/participate/write/:competitionId" element={<ParticipateWindow />} />
+            <Route path="/competition/notice/:competitionId" element={<NoticeWindow />} />
+            <Route path="/competition/inquire/:competitionId" element={<QnaWindow />} />
             <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
             <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
             <Route path="/competition-results" element={<CompetitionResult />} />
@@ -52,7 +57,6 @@ function App() {
             <Route path="/create-competition" element={<CreateCompetition />} />
             <Route path="/create-team" element={<CreateTeam />} />
             <Route path="/join/:code" element={<JoinTeam />} />
-            <Route path="/form/write/:competitionId" element={<ParticipateWindow />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
           </Routes>
