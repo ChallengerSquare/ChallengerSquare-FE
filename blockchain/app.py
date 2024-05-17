@@ -6,8 +6,10 @@ from schedule import start_scheduler
 from apies import connect, list
 from socket_server import run_server
 import threading
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 node_address = str(uuid4()).replace('-', '')
 blockchain = Blockchain.get_blockchain()
