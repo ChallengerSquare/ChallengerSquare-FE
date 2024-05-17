@@ -98,7 +98,6 @@ const CompetitionForm = ({ prevStep, nextStep }: stepProps) => {
   const handleSetData = (type: 'prev' | 'next', step?: () => void) => {
     const isValid = () => {
       return (
-        postImage &&
         categoryBox &&
         competitionName &&
         isOffLine &&

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import Button from '@/components/Button/Button'
 import { participateContest } from '@/services/contest'
