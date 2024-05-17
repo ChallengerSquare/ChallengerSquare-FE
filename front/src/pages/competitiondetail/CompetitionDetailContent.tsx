@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useMutation } from 'react-query'
 import { createRoot } from 'react-dom/client'
 import Button from '@/components/Button/Button'
+import { cancelParticipateContest } from '@/services/contest'
 import ParticipateWindow from '../participateWindow/ParticipateWindow'
 import styles from './CompetitionDetailContent.module.scss'
 
@@ -52,6 +54,20 @@ const CompetitionContent = ({ competition }: Props) => {
     return currentDate >= startDate && currentDate <= endDate
   }
 
+  const cancelParticipate = useMutation(cancelParticipateContest, {
+    onSuccess: (response) => {
+      console.log('참가 취소 성공')
+      window.location.reload()
+    },
+    onError: (error) => {
+      console.error('참가 등록 실패:', error)
+      alert('참가 등록에 실패하였습니다.')
+    },
+  })
+
+  const handleCancelParticipation = () => {
+    cancelParticipate.mutate(competition.contestId)
+  }
   return (
     <>
       <div className={styles.poster}>
@@ -86,16 +102,22 @@ const CompetitionContent = ({ competition }: Props) => {
         </div>
       </div>
       <div className={styles.btn}>
-        <Button
-          variation="purple"
-          disabled={!isRegistrationOpen() || competition.isLeader}
-          onClick={() => {
-            const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
-            window.open(`/form/write/${competition.contestId}`, '_blank', features)
-          }}
-        >
-          참가하기
-        </Button>
+        {competition.isLeader ? (
+          <Button variation="purple" onClick={handleCancelParticipation}>
+            신청취소
+          </Button>
+        ) : (
+          <Button
+            variation="purple"
+            disabled={!isRegistrationOpen() || competition.participantState === 'O'}
+            onClick={() => {
+              const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+              window.open(`/form/write/${competition.contestId}`, '_blank', features)
+            }}
+          >
+            참가하기
+          </Button>
+        )}
         <p>
           {competition.registrationPeriod.start} ~ {competition.registrationPeriod.end}
         </p>

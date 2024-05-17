@@ -100,3 +100,21 @@ export const participateContest = async (data: ParticipateTeamRequest): Promise<
     }
   }
 }
+
+export const cancelParticipateContest = async (id: number): Promise<ApiResponse> => {
+  try {
+    const response = await api.delete<ApiResponse>(`/participants/${id}`)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('참가 취소 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
