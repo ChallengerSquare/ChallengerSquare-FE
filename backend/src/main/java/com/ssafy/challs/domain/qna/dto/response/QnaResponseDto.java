@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.qna.dto.response;
 
+import java.time.LocalDate;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -11,9 +13,12 @@ public record QnaResponseDto(
 	String title,
 	@Schema(description = "질문 내용", example = "질문1")
 	String content,
+	@Schema(description = "답변 내용", example = "답변1")
+	String answer,
 	@Schema(description = "질문 작성자", example = "작성자")
 	String writer,
-	@Schema(description = "답변 내용", example = "답변1")
-	String answer
+	@Schema(description = "질문 생성 날자", example = "2024-05-17")
+	LocalDate createdAt
+
 ) {
 }
