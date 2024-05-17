@@ -128,7 +128,7 @@ public class ContestServiceImpl implements ContestService {
 		isTeamLeader(memberId, team.getId());
 
 		// 대회 날짜 수정과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
-		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
+		Character contestState = 'J';
 		// 대회 수정
 		// 이미지 정보 가져오기
 		String contestImage = contestRepository.findContestImageByContestId(contestRequestDto.contestId());
@@ -161,8 +161,16 @@ public class ContestServiceImpl implements ContestService {
 			isLeader = info.isLeader();
 			state = info.contestParticipantsState();
 		}
+
 		Contest contest = contestRepository.findById(contestId)
 			.orElseThrow(() -> new BaseException(ErrorCode.CONTEST_NOT_FOUND_ERROR));
+
+		// 개최팀인지 확인
+		boolean isMember = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsParticipantsTrue(memberId,
+			contestId);
+		if (isMember)
+			state = "O";
+
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		return contestMapper.contestToFindResponseDto(contest, awsS3Url + contest.getContestImage(), awardsList,
@@ -297,6 +305,7 @@ public class ContestServiceImpl implements ContestService {
 	public void deleteContestParticipant(Long contestId, Long memberId) {
 		ContestParticipants contestParticipants = contestParticipantsRepository.findContestParticipants(
 			contestId, memberId);
+		isTeamLeader(memberId, contestParticipants.getTeam().getId());
 		contestParticipantsRepository.delete(contestParticipants);
 	}
 
@@ -583,7 +592,8 @@ public class ContestServiceImpl implements ContestService {
 	}
 
 	private void isTeamMember(Long memberId, Long teamId) {
-		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamId(memberId, teamId);
+		boolean isTeamMember = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsParticipantsTrue(memberId,
+			teamId);
 		if (!isTeamMember) {
 			throw new BaseException(ErrorCode.MEMBER_NOT_IN_TEAM);
 		}
