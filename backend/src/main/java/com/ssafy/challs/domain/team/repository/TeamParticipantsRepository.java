@@ -15,6 +15,9 @@ public interface TeamParticipantsRepository
 	// 멤버와 팀을 넘겨줘서 해당 멤버가 해당 팀의 리더인지 확인
 	boolean existsByMemberIdAndTeamIdAndIsLeaderTrue(Long memberId, Long teamId);
 
+	// 멤버가 해당 팀에 속해 있는지 확인
+	boolean existsByMemberIdAndTeamIdAndIsParticipantsTrue(Long memberId, Long teamId);
+
 	// 멤버와 팀을 넘겨줘서 해당 멤버가 해당 팀을 신청중인지 확인
 	boolean existsByMemberIdAndTeamId(Long memberId, Long teamId);
 
