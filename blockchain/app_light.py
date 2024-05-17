@@ -1,6 +1,6 @@
 from uuid import uuid4
 from flask import Flask, jsonify, request, render_template
-
+from flask_cors import CORS
 import socket_server
 from blockchain import Blockchain
 from smart_contract import SmartContract
@@ -10,6 +10,7 @@ from socket_server import run_server
 import threading
 
 app = Flask(__name__)
+CORS(app)
 
 node_address = str(uuid4()).replace('-', '')
 blockchain = Blockchain.get_blockchain()
