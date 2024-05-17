@@ -5,9 +5,10 @@ import styles from './CompetitionDetailInfo.module.scss'
 
 interface Props {
   content: string | undefined
+  isLeader: boolean
 }
 
-const CompetitionDetailInfo = ({ content }: Props) => {
+const CompetitionDetailInfo = ({ content, isLeader }: Props) => {
   const [data, setdata] = useState([])
   useEffect(() => {}, [])
 
