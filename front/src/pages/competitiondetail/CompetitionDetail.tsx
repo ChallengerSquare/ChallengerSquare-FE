@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
+import useScrollTop from '@/hooks/useScrollTop'
 import BeforeNav from '@svgs/navigate_before.svg'
 import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
-import CompetitionDetailContent from './CompetitionDetailContent'
+import CompetitionDetailContent from './competitiondetailcontent/CompetitionDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
 
@@ -43,6 +44,7 @@ interface Award {
 }
 
 const CompetitionDetail = () => {
+  useScrollTop()
   const { competitionId } = useParams<{ competitionId: string }>()
   const [competition, setCompetition] = useState<Contest>()
 
@@ -53,7 +55,7 @@ const CompetitionDetail = () => {
         setCompetition(data)
       })
     }
-  }, [])
+  }, [competitionId])
 
   return (
     <div>

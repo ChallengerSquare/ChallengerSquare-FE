@@ -32,18 +32,7 @@ const TeamList = () => {
     description: '',
     teamCode: '',
   })
-  const [teamList, setTeamList] = useState<TeamListData[]>([
-    {
-      teamId: 1,
-      teamImg: '',
-      teamName: '',
-      teamMember: 1,
-      createContest: 1,
-      participateContest: 1,
-      description: '',
-      teamCode: '',
-    },
-  ])
+  const [teamList, setTeamList] = useState<TeamListData[]>([])
 
   const handleTeamNumber = (idx: number) => {
     setTeamIdx(idx)

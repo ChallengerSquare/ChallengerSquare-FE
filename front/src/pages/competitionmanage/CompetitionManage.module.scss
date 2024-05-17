@@ -50,7 +50,7 @@
             .content_title {
                 display: flex;
                 justify-content: space-around;
-                padding: 20px 30px 20px 20px;
+                padding: 20px 30px 20px 30px;
                 border-bottom: 1px solid lightgrey;
                 font-weight: bold;
             }
@@ -105,7 +105,7 @@
                 justify-content: center;
             }
             .content_classify {
-                flex:2;
+                flex:3;
                 display: flex;
                 justify-content: center;
             }
@@ -115,7 +115,7 @@
                 justify-content: center;
             }
             .content_birth {
-                flex:2;
+                flex:3;
                 display: flex;
                 justify-content: center;
             }
@@ -130,7 +130,7 @@
                 justify-content: center;
             }
             .content_accept {
-                flex:2;
+                flex:3;
                 display: flex;
                 justify-content: center;
             }
@@ -140,7 +140,7 @@
                 justify-content: center;
             }
             .content_award {
-                flex:2;
+                flex:3;
                 display: flex;
                 justify-content: center;
             }
