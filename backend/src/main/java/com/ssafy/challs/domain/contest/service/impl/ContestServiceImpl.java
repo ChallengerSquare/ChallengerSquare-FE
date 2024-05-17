@@ -151,8 +151,11 @@ public class ContestServiceImpl implements ContestService {
 	@Transactional(readOnly = true)
 	public ContestFindResponseDto findContest(Long contestId, Long memberId) {
 		// 조회하는 회원이 신청한 팀장인지, 팀의 참가 신청 상태 가져오기
-		ContestParticipantsLeaderStateDto info = contestParticipantsRepository.isLeaderAndParticipantsState(
-			contestId, memberId);
+		ContestParticipantsLeaderStateDto info = null;
+		if (memberId != null) {
+			info = contestParticipantsRepository.isLeaderAndParticipantsState(
+				contestId, memberId);
+		}
 
 		// 대회 정보 가져오기
 		boolean isLeader = false;
