@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import CompetitionDetailInfo from './CompetitionDetailInfo'
+import CompetitionDetailInfo from './competitiondetailinfo/CompetitionDetailInfo'
 import CompetitionDetailNotice from './competitiondetailnotice/CompetitionDetailNotice'
-import CompetitionDetailQA from './competitiondetailqa/CompetitionDetailQA'
+import CompetitionDetailQA from './competitiondetailqna/CompetitionDetailQnA'
 import CompetitionDetailTeam from './competitiondetailteam/CompetitionDetailTeam'
 import styles from './CompetitionDetailTab.module.scss'
 
@@ -9,9 +9,10 @@ interface Props {
   contestId: number
   teamId: number
   content: string | undefined
+  isLeader: boolean
 }
 
-const CompetitionDetailTab = ({ contestId, teamId, content }: Props) => {
+const CompetitionDetailTab = ({ contestId, teamId, content, isLeader }: Props) => {
   const [activeTab, setActiveTab] = useState('info')
 
   const handleTabClick = (tab: string) => {
@@ -52,9 +53,9 @@ const CompetitionDetailTab = ({ contestId, teamId, content }: Props) => {
 
       {/* 선택된 탭에 따라 해당 컴포넌트를 렌더링 */}
       <div className={styles.tab_content}>
-        {activeTab === 'info' && <CompetitionDetailInfo content={content} />}
-        {activeTab === 'notice' && <CompetitionDetailNotice contestId={contestId} />}
-        {activeTab === 'qa' && <CompetitionDetailQA />}
+        {activeTab === 'info' && <CompetitionDetailInfo isLeader={isLeader} content={content} />}
+        {activeTab === 'notice' && <CompetitionDetailNotice isLeader={isLeader} contestId={contestId} />}
+        {activeTab === 'qa' && <CompetitionDetailQA isLeader={isLeader} contestId={contestId} />}
         {activeTab === 'team' && teamId != undefined && <CompetitionDetailTeam teamId={teamId} />}
       </div>
     </div>

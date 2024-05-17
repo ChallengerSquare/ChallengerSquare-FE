@@ -21,3 +21,19 @@ export interface NoticeRequset {
   page: number
   size: number
 }
+
+export interface QnAResponse {
+  qnaId: number
+  title: string
+  content: string
+  writer: string
+  answer: string
+  createdAt: string
+  editText: string
+}
+
+export interface QnARequset {
+  id: number
+  page: number
+  size: number
+}

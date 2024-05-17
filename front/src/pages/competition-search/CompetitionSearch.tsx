@@ -4,6 +4,7 @@ import { Page, SearchRequest, SearchResponse } from '@/types/api'
 import { ContestData } from '@/types/competition'
 import { getCompetitionList } from '@/services/competition'
 import styles from '@/pages/competition-search/CompetitionSearch.module.scss'
+import Footer from '@/components/Footer/Footer'
 import CompetitionCategory from '@/components/Competition/CompetitionCategory'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import Navbar from '@/components/Navbar/Navbar'
@@ -184,6 +185,7 @@ const CompetitionSearch = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
