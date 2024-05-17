@@ -135,6 +135,9 @@ public enum ErrorCode {
 	// 저장된 수상 정보와 다른 값으로 들어왔을 경우
 	LEADER_NOT_FOUND(404, "G-041", "Leader Not Found"),
 
+	// 대회 개최자가 참여신청했을 경우
+	MEMBER_OWNER_ERROR(400, "G-042", "Member Is In Contest Owner Team"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 
