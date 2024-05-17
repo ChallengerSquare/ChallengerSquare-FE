@@ -72,7 +72,7 @@ const SearchBar = ({ text, openBtn, openBtnColor, url }: SearchBarProps) => {
       {openBtn == true ? (
         <div className={styles.page_link}>
           <button className={checkColor} type="button" onClick={() => moveToComtetitionOpen()}>
-            {`대회 개최하러가기 >`}
+            <p>{`대회 개최하러가기 >`}</p>
           </button>
         </div>
       ) : null}

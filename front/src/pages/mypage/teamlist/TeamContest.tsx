@@ -10,13 +10,7 @@ interface TeamContestProps {
 }
 
 const TeamContest = ({ id }: TeamContestProps) => {
-  const [contestList, setContestList] = useState<ContestData[]>([
-    {
-      contestId: 0,
-      contestTitle: '',
-      contestImage: '',
-    },
-  ])
+  const [contestList, setContestList] = useState<ContestData[]>([])
   useEffect(() => {
     getContestList(id).then(({ data }) => {
       setContestList(data.content)

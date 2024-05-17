@@ -24,16 +24,7 @@ interface CompetitionResultBackendList {
 }
 
 const ResultList = () => {
-  const [resultList, setResultList] = useState<CompetitionResultList[]>([
-    {
-      id: 1,
-      category: '',
-      name: '',
-      period: '',
-      awardCode: '',
-      attendCode: '',
-    },
-  ])
+  const [resultList, setResultList] = useState<CompetitionResultList[]>([])
 
   useEffect(() => {
     getResultList().then(({ data }) => {
