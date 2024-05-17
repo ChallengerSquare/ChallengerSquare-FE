@@ -6,6 +6,7 @@ import navigateNext from '@/assets/navigate_next.svg'
 import styles from '@/components/Competition/CompetitionList.module.scss'
 import ProfileImg from '../ProfileImg/ProfileImg'
 import BaseImg from '../BaseImg/BaseImg'
+import EmptyImg from '../EmptyImg/EmptyImg'
 
 interface CompetitoinListProps {
   text: string
@@ -65,7 +66,11 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
           <div className={styles.more}>
             <Link to="/competition/search">{' + 더보기 '}</Link>
           </div>
-          <div className={styles.content_items}>{slicedItems}</div>
+          {contestList.length > 0 ? (
+            <div className={styles.content_items}>{slicedItems}</div>
+          ) : (
+            <EmptyImg text={'해당 대회가 없습니다.'} />
+          )}
         </div>
         <div className={styles.btn}>
           <button
