@@ -138,6 +138,9 @@ public enum ErrorCode {
 	// 대회 개최자가 참여신청했을 경우
 	MEMBER_OWNER_ERROR(400, "G-042", "Member Is In Contest Owner Team"),
 
+	// 블록체인 서버와의 통신에 실패
+	FEIGN_ERROR(500, "G-043", "Feign Error"),
+
 	// 서버가 처리 할 방법을 모르는 경우 발생,
 	INTERNAL_SERVER_ERROR(500, "G-999", "Internal Server Error Exception");
 

@@ -3,6 +3,7 @@ package com.ssafy.challs.domain.blockchain.dto.response;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.challs.domain.blockchain.dto.response.client.BlockChainResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
