@@ -23,6 +23,7 @@ const SearchBar = ({ text, openBtn, openBtnColor, url }: SearchBarProps) => {
     if (keywordFromUrl) {
       setSearch(keywordFromUrl)
     }
+    console.log(location)
   }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,13 +42,17 @@ const SearchBar = ({ text, openBtn, openBtnColor, url }: SearchBarProps) => {
 
   const handleClick = () => {
     const params = new URLSearchParams()
-    if (search && search != '') {
-      params.append('keyword', search)
+    if (url === 'code') {
+      navigate(`${url}/${search}`)
+    } else {
+      if (search && search != '') {
+        params.append('keyword', search)
+      }
+      if (categoryFromUrl) {
+        params.append('category', categoryFromUrl)
+      }
+      navigate(`${url}?${params.toString()}`)
     }
-    if (categoryFromUrl) {
-      params.append('category', categoryFromUrl)
-    }
-    navigate(`${url}?${params.toString()}`)
   }
 
   let checkColor = ''
