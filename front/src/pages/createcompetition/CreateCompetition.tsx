@@ -1,6 +1,7 @@
 import useStep from '@hooks/useStep'
 import Navbar from '@components/Navbar/Navbar'
 import Stepper from '@components/Stepper/Stepper'
+import Footer from '@/components/Footer/Footer'
 import SelectTeam from './selectteam/SelectTeam'
 import CompetitionForm from './competitionform/CompetitionForm'
 import Reward from './reward/Reward'
@@ -28,6 +29,7 @@ const Signup = () => {
           </div>
           <div className={styles['main-box']}>{stepsConfig[step].component}</div>
         </div>
+        <Footer />
       </div>
     </>
   )
