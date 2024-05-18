@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import MyPageTab from '@/pages/mypage/MyPageTab'
 import ResultList from '@/pages/mypage/resultlist/ResultList'
 import styles from '@/pages/mypage/MyPage.module.scss'
+import Footer from '@/components/Footer/Footer'
 
 const TempResultList = () => {
   return (
@@ -18,6 +19,7 @@ const TempResultList = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

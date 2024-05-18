@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { updateCompetitionParticipants, updateCompetitionState } from '@services/competition'
+import EmptyImg from '@/components/EmptyImg/EmptyImg'
 import Button from '@/components/Button/Button'
 import styles from './CompetitionManage.module.scss'
 
@@ -31,10 +32,10 @@ interface Competition {
 interface Props {
   competition: Competition
   onChangeCompetitionState: (state: string) => void
+  loading: boolean
 }
 
-const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props) => {
-  const { competitionId } = useParams()
+const CompetitionManageDone = ({ competition, onChangeCompetitionState, loading }: Props) => {
   const [competitionData, setCompetitionData] = useState<Competition>(competition)
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>([])
 
@@ -52,7 +53,11 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
 
   // 임시저장 버튼
   const handleAccept = () => {
-    console.log('competitionData 데이터 참가여부 저장 API 호출')
+    // console.log('competitionData 데이터 참가여부 저장 API 호출')
+    const teamIdList: number[] = competitionData.teamList
+      .filter((team: Team) => team.accept)
+      .map((team: Team) => team.id)
+    updateCompetitionParticipants(competition.id, teamIdList)
   }
 
   // 시작하기 버튼
@@ -74,7 +79,7 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
 
   // 체크 박스
   const onChangeAccept = (index: number) => {
-    console.log('accept 변경')
+    // console.log('accept 변경')
     setCompetitionData((prevState) => ({
       ...prevState,
       teamList: prevState.teamList.map((team, idx) => {
@@ -92,7 +97,7 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
   return (
     <div>
       <div className={styles.title_container}>
-        <div className={styles.title}>{'대회 참가자 현황'}</div>
+        <div className={styles.title}>{`대회 참가자 현황 (${competition.contestTitle})`}</div>
         <div>
           <Button variation={'purple_reverse'} onClick={handleAccept}>
             {'임시저장'}
@@ -114,47 +119,58 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState }: Props)
           <div className={styles.content_btn}>{''}</div>
         </div>
         <div className={styles.content_teamlist}>
-          {competitionData.teamList.map((team, index) => (
-            <div className={styles.content_team} key={index}>
-              <div className={styles.content_info}>
-                <span className={styles.content_index}>{team.id}</span>
-                <span className={styles.content_classify}>{team.name}</span>
-                <span className={styles.content_name}>{team.members[0].name}</span>
-                <span className={styles.content_birth}>{team.members[0].birthday}</span>
-                <span className={styles.content_phone}>{team.members[0].phone}</span>
-                <span className={styles.content_address}>{team.members[0].address}</span>
-                <input
-                  type={'checkbox'}
-                  className={styles.content_accept}
-                  checked={team.accept}
-                  onChange={() => onChangeAccept(index)}
-                />
-                <div className={styles.content_btn} role={'button'} tabIndex={0} onClick={() => toggleExpand(team.id)}>
-                  {expandedIndexes.includes(team.id) ? '▲' : '▼'}
+          {loading ? (
+            ''
+          ) : competition.teamList.length > 0 ? (
+            competitionData.teamList.map((team, index) => (
+              <div className={styles.content_team} key={index}>
+                <div className={styles.content_info}>
+                  <span className={styles.content_index}>{team.id}</span>
+                  <span className={styles.content_classify}>{team.name}</span>
+                  <span className={styles.content_name}>{team.members[0].name}</span>
+                  <span className={styles.content_birth}>{team.members[0].birthday}</span>
+                  <span className={styles.content_phone}>{team.members[0].phone}</span>
+                  <span className={styles.content_address}>{team.members[0].address}</span>
+                  <input
+                    type={'checkbox'}
+                    className={styles.content_accept}
+                    checked={team.accept}
+                    onChange={() => onChangeAccept(index)}
+                  />
+                  <div
+                    className={styles.content_btn}
+                    role={'button'}
+                    tabIndex={0}
+                    onClick={() => toggleExpand(team.id)}
+                  >
+                    {expandedIndexes.includes(team.id) ? '▲' : '▼'}
+                  </div>
+                </div>
+                {expandedIndexes.includes(team.id) && (
+                  <div className={styles.content_members}>
+                    {team.members.map((member, index) => (
+                      <div className={styles.content_member} key={index}>
+                        <span className={styles.content_index}>{''}</span>
+                        <span className={styles.content_classify}>{''}</span>
+                        <span className={styles.content_name}>{member.name}</span>
+                        <span className={styles.content_birth}>{member.birthday}</span>
+                        <span className={styles.content_phone}>{member.phone}</span>
+                        <span className={styles.content_address}>{member.address}</span>
+                        <span className={styles.content_accept}>{''}</span>
+                        <span className={styles.content_btn}>{''}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className={styles.content_reason}>
+                  <p>{'신청사유'}</p>
+                  <span>{team.reason}</span>
                 </div>
               </div>
-              {expandedIndexes.includes(team.id) && (
-                <div className={styles.content_members}>
-                  {team.members.map((member, index) => (
-                    <div className={styles.content_member} key={index}>
-                      <span className={styles.content_index}>{''}</span>
-                      <span className={styles.content_classify}>{''}</span>
-                      <span className={styles.content_name}>{member.name}</span>
-                      <span className={styles.content_birth}>{member.birthday}</span>
-                      <span className={styles.content_phone}>{member.phone}</span>
-                      <span className={styles.content_address}>{member.address}</span>
-                      <span className={styles.content_accept}>{''}</span>
-                      <span className={styles.content_btn}>{''}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className={styles.content_reason}>
-                <p>{'신청사유'}</p>
-                <span>{team.reason}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <EmptyImg text={'신청인원이 없습니다.'} />
+          )}
         </div>
       </div>
     </div>
