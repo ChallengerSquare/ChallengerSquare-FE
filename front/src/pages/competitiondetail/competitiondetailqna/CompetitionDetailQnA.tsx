@@ -8,6 +8,7 @@ import styles from '@/pages/competitiondetail/competitiondetailqna/CompetitionDe
 interface CompetitionDetailQAProps {
   contestId: number
   isLeader: boolean
+  isOwnerTeamMember: boolean
 }
 
 // const dummyQnAs: QnAResponse[] = [
@@ -67,7 +68,7 @@ interface CompetitionDetailQAProps {
 //   },
 // ]
 
-const CompetitionDetailQA = ({ contestId, isLeader }: CompetitionDetailQAProps) => {
+const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: CompetitionDetailQAProps) => {
   const sizeofPage = 3
   const limitofPagenation = 5
   const [currentPage, setCurrentPage] = useState<number>(1)

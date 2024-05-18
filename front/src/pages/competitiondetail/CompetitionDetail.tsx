@@ -30,10 +30,11 @@ interface Contest {
   isPriority: boolean
   contestCategory: string
   contestLocation: string
-  isLeader: boolean
   participantState: string
   contestState: string
   contestAwards: Award[]
+  isOwnerTeamMember: boolean
+  isParticipantsLeader: boolean // isLeader
 }
 
 interface Award {
@@ -77,8 +78,9 @@ const CompetitionDetail = () => {
                 contestId={competition.contestId}
                 teamId={competition.teamId}
                 content={competition.contestContent}
-                isLeader={competition.isLeader}
+                isLeader={competition.isParticipantsLeader}
                 participateState={competition.participantState}
+                isOwnerTeamMember={competition.isOwnerTeamMember}
               />
             )}
           </div>

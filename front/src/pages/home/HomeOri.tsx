@@ -1,6 +1,5 @@
 import useScrollTop from '@/hooks/useScrollTop'
 import Navbar from '@components/Navbar/Navbar'
-import Footer from '@/components/Footer/Footer'
 import title from '../../../public/images/home/home-title.webp'
 import description from '../../../public/images/home/description.webp'
 import styles from './HomeOri.module.scss'
@@ -63,7 +62,6 @@ const HomeOri = () => {
           })}
         </div>
       </div>
-      <Footer />
     </>
   )
 }
