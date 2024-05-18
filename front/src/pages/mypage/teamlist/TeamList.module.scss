@@ -34,9 +34,10 @@
 
             .team{
                 display: flex;
+                width: 750px;
                 justify-content: space-between;
                 margin-top: 20px;
-                padding: 20px;
+                padding: 20px 10px;
 
                 .team_logo{
                     width:100px;
@@ -45,14 +46,61 @@
                 .team_summary{
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-between;
-                    width:500px;
-                    padding: 5px;
+                    width:550px;
+                    margin: 5px 0px;
 
-                    span{
-                        font-size:1.4rem;
-                        font-weight: 600;
+                    .team_name {
+                        display: flex;
+                        justify-content: space-between;
+                        padding-bottom: 10px;
+                        
+                        p {
+                            font-size:0.5rem;
+                        }
+                        
+                        span{
+                            font-size:1.4rem;
+                            font-weight: 600;
+                            margin-right: 10px;
+                        }
+
+                        input {
+                            width: 300px;
+                            font-weight: bold;
+                            font-size:1.4rem;
+                            border-bottom: 1px solid gray;
+                        }
+
+                        .btn {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 140px;
+                            
+                            button {
+                                padding: 5px;
+                                border-radius: 10px;
+                                // border-bottom: 1px solid gray;
+                                box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+                                
+
+                                &:hover {
+                                    color:$main-color;
+                                    font-weight: bold;
+                                    background-color: $sub-color;
+                                }
+                            }
+                        }
                     }
+
+                    .team_description {
+                        textarea {
+                            width: 500px;
+                            height: 50px;
+                            resize: none;
+                            border-bottom: 1px solid gray;
+                        }
+                    }
+
                 }
                 .team_clipbord {
                     margin: 5px 0px;

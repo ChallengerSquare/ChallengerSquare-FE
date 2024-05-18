@@ -28,7 +28,8 @@ const ProfileImg = ({ imgUrl, imgName, name, edit, onChange }: ImgProps) => {
           <input
             type="file"
             style={{ display: 'none' }}
-            accept="image/jpg,impge/png,image/jpeg"
+            accept="image/*"
+            // accept="image/jpg,impge/png,image/jpeg"
             name="profile_img"
             ref={fileInput}
             onChange={onChange}

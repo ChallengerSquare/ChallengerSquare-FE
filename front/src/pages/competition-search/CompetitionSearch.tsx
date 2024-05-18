@@ -151,38 +151,42 @@ const CompetitionSearch = () => {
           <CompetitionCategory category={searchCategory} setCategory={setSearchCategory} />
         </div>
       </div>
-      <div className={styles.list}>
-        <div className={styles.progress_list}>
-          <CompetitionSearchList
-            title="진행 중인 대회"
-            data={progressCompetitionList}
-            orderBy={progressOrderBy}
-            setOrderBy={setProgressOrderBy}
-          />
-          {progressPage.currentPage + 1 < progressPage.totalPage ? (
-            <div className={styles.more_btn}>
-              <Button variation={'purple'} onClick={() => handleMore('progress')}>
-                {'더보기'}
-              </Button>
-            </div>
-          ) : (
-            ''
-          )}
-          <CompetitionSearchList
-            title="마감된 대회"
-            data={finishCompetitionList}
-            orderBy={finishOrderBy}
-            setOrderBy={setFinishOrderBy}
-          />
-          {finishPage.currentPage + 1 < finishPage.totalPage ? (
-            <div className={styles.more_btn}>
-              <Button variation={'purple'} onClick={() => handleMore('finish')}>
-                {'더보기'}
-              </Button>
-            </div>
-          ) : (
-            ''
-          )}
+      <div className={styles.list_container}>
+        <div className={styles.list}>
+          <div className={styles.item}>
+            <CompetitionSearchList
+              title="진행 중인 대회"
+              data={progressCompetitionList}
+              orderBy={progressOrderBy}
+              setOrderBy={setProgressOrderBy}
+            />
+            {progressPage.currentPage + 1 < progressPage.totalPage ? (
+              <div className={styles.more_btn}>
+                <Button variation={'deep_purple'} width={100} onClick={() => handleMore('progress')}>
+                  {'더보기'}
+                </Button>
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
+          <div>
+            <CompetitionSearchList
+              title="마감된 대회"
+              data={finishCompetitionList}
+              orderBy={finishOrderBy}
+              setOrderBy={setFinishOrderBy}
+            />
+            {finishPage.currentPage + 1 < finishPage.totalPage ? (
+              <div className={styles.more_btn}>
+                <Button variation={'deep_purple'} width={100} onClick={() => handleMore('finish')}>
+                  {'더보기'}
+                </Button>
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
         </div>
       </div>
       <Footer />

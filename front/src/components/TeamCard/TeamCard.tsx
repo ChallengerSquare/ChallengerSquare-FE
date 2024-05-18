@@ -1,50 +1,54 @@
-import { useEffect, useState } from 'react'
-import { TeamListData } from '@/types/team'
-import baseImg from '@images/baseImg.png'
+import { Dispatch, SetStateAction } from 'react'
+import { TeamListResponse } from '@/types/team'
+import { useNavigate } from 'react-router-dom'
 import Grid from '@/components/Gird/Grid'
 import styles from '@/components/TeamCard/TeamCard.module.scss'
+import ProfileImg from '../ProfileImg/ProfileImg'
 
 interface TeamCardProps {
-  team: TeamListData[]
-  onClick: (idx: number) => void
+  teamlist: TeamListResponse[]
+  setId: Dispatch<SetStateAction<number>>
 }
 
-const TeamCard = ({ team, onClick }: TeamCardProps) => {
-  const [teamList, setTeamList] = useState<TeamListData[]>(team)
-
-  useEffect(() => {
-    setTeamList(team)
-  }, [team])
+const TeamCard = ({ teamlist, setId }: TeamCardProps) => {
+  const navigate = useNavigate()
+  const handleClick = (id: number) => {
+    navigate(`/mypage/teamlist/team/${id}`)
+  }
 
   return (
     <Grid grid={'grid_3'}>
-      {teamList.map((team, index) => (
+      {teamlist.map((team, index) => (
         <div key={index} className={styles.containter}>
           <div className={styles.team_img}>
-            <img src={team.teamImg === '' ? baseImg : team.teamImg} alt="팀이미지" />
+            <div className={styles.img}>
+              <ProfileImg imgUrl={team.teamImage} imgName={'팀이미지'} name={'teamdetail'} />
+            </div>
           </div>
           <div className={styles.team_container}>
             <div className={styles.team_txt}>
               <div className={styles.team_name}>{team.teamName}</div>
               <div className={styles.line}>
                 <div>{'인원'}</div>
-                <div>{team.teamMember}</div>
+                <div>{team.teamMemberCount}</div>
               </div>
               <div className={styles.line}>
                 <div>{'개최한 대회 수'}</div>
-                <div>{team.createContest}</div>
+                <div>{team.teamContestCount}</div>
               </div>
               <div className={styles.line}>
-                <div>{'개최한 대회 수'}</div>
-                <div>{team.participateContest}</div>
+                <div>{'참여한 대회 수'}</div>
+                <div>{team.teamParticipantsCount}</div>
               </div>
               <div>{'설명'}</div>
               <div className={styles.team_description}>
-                {team.description.length > 55 ? `${team.description.substring(1, 55)}...` : team.description}
+                {team.teamDescription.length > 55
+                  ? `${team.teamDescription.substring(1, 55)}...`
+                  : team.teamDescription}
               </div>
             </div>
             <div className={styles.team_btn}>
-              <button type={'button'} onClick={() => onClick(index)}>
+              <button type={'button'} onClick={() => handleClick(team.teamId)}>
                 {'더 보기 ➤'}
               </button>
             </div>

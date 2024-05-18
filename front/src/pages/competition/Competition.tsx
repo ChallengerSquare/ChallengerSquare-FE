@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ContestData } from '@/types/competition'
 import { SearchResponse, SearchRequest } from '@/types/api'
 import { getCompetitionList } from '@/services/competition'
+import { Link } from 'react-router-dom'
 import useScrollTop from '@/hooks/useScrollTop'
 import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
@@ -87,6 +88,11 @@ const Competition = () => {
       <div className={styles.searchlist}>
         <CompetitionList text={'인기 있는 대회를 살펴보세요'} contestList={famousCompetitionList} />
         <CompetitionList text={'마감 임박한 대회를 살펴보세요'} contestList={dueCompetitionList} />
+      </div>
+      <div className={styles.more}>
+        <Link to={'/competition/search'}>
+          <div className={styles.btn}>{'더 많은 대회 보러가기'}</div>
+        </Link>
       </div>
       <Footer />
     </div>

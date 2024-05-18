@@ -12,7 +12,6 @@ interface CompetitionCardProps {
   contestList: ContestData[]
 }
 const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => {
-  console.log(contestList)
   return (
     <div>
       <Grid grid={grid}>

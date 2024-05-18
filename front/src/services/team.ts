@@ -24,6 +24,24 @@ export const getContestList = async (teamId: number): Promise<ApiResponse> => {
   }
 }
 
+export const getTeamInfoByMember = async (teamId: number): Promise<ApiResponse> => {
+  try {
+    const response = await api.get(`/${teamId}`)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀원이 팀 정보 조회 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
 export const getLeaderUserList = async (teamId: number): Promise<ApiResponse> => {
   try {
     const response = await api.get(`/${teamId}/participants`)
@@ -91,6 +109,63 @@ export const createTeam = async (formData: FormData): Promise<ApiResponse> => {
     }
   } catch (error: any) {
     console.error('팀 생성 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const deleteTeam = async (id: number): Promise<ApiResponse> => {
+  try {
+    const response = await api.delete<ApiResponse>(`/${id}`)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 삭제 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const putTeam = async (formData: FormData): Promise<ApiResponse> => {
+  try {
+    const response = await api.put<ApiResponse>('', formData)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 수정 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const WithdrawTeam = async (id: number): Promise<ApiResponse> => {
+  try {
+    const params = {
+      teamId: id,
+    }
+    const response = await api.delete<ApiResponse>(`/participants/self`, { params })
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 탈퇴 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,

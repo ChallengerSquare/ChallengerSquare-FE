@@ -90,8 +90,10 @@ export interface Page {
 }
 
 export interface TeamRequestDto {
+  teamId?: number
   teamName: string
   teamDescription: string
+  teamPhone?: string
 }
 
 export interface TeamRequest {

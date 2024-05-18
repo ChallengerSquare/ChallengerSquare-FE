@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { teamTapState } from '@/pages/mypage/store'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import styles from './MyPage.module.scss'
 
 interface MyPageTapParams {
@@ -8,14 +7,6 @@ interface MyPageTapParams {
 }
 
 const MyPageTap = ({ tab }: MyPageTapParams) => {
-  const [teamTap, setTeamTap] = useRecoilState(teamTapState)
-
-  const handleClick = (state: string) => {
-    if (state === 'teamlist') {
-      setTeamTap(false)
-    }
-  }
-
   return (
     <>
       <div className={styles.taplist}>
@@ -33,11 +24,7 @@ const MyPageTap = ({ tab }: MyPageTapParams) => {
         <div className={styles.team}>
           <div className={styles.title}>{'Team'}</div>
           <div className={styles.content}>
-            <Link
-              to="/mypage/teamlist"
-              className={tab === 'teamList' ? styles.active : styles.inactive}
-              onClick={() => handleClick('teamlist')}
-            >
+            <Link to="/mypage/teamlist" className={tab === 'teamList' ? styles.active : styles.inactive}>
               {'팀 목록'}
             </Link>
           </div>

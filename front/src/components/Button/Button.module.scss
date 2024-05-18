@@ -26,6 +26,18 @@
 
 .purple {
   @include button();
+
+}
+
+.deep_purple {
+  @include button();
+  background-color: $main-third-color;
+  
+  &:not(:disabled):hover {
+    background-color: $main-third-color;
+    font-weight: bold;
+    opacity: 70%;
+  }
 }
 
 .purple_reverse {
