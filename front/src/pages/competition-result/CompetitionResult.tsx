@@ -22,7 +22,7 @@ const CompetitionResult = () => {
               <p>참가/내역 조회 찾기</p>
             </div>
             <div className={styles.searchbar}>
-              <SearchBar text="원하는 대회를 입력해주세요." url={'search'} />
+              <SearchBar text="블록체인 코드를 입력해주세요." url={'code'} />
             </div>
           </div>
         </div>
