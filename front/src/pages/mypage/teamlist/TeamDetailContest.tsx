@@ -1,27 +1,27 @@
 import CompetitionCard from '@/components/CompetitionCard/CompetitionCard'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
-import styles from '@/pages/mypage/teamlist/TeamList.module.scss'
 import { ContestData } from '@/types/competition'
 import { useEffect, useState } from 'react'
 import { getContestList } from '@services/team'
+import { useParams } from 'react-router-dom'
 
-interface TeamContestProps {
-  id: number
-}
-
-const TeamContest = ({ id }: TeamContestProps) => {
+const TeamContest = () => {
+  const { teamId } = useParams()
   const [contestList, setContestList] = useState<ContestData[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getContestList(id)
-      .then(({ data }) => {
-        setContestList(data.content)
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-      })
+    if (teamId) {
+      const id = parseInt(teamId, 10)
+      getContestList(id)
+        .then(({ data }) => {
+          setContestList(data.content)
+          setLoading(false)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+    }
   }, [])
 
   return (
