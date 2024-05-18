@@ -37,7 +37,7 @@ class ContestMapperTest {
 
 		// Map to DTO
 		ContestFindResponseDto dto = mapper.contestToFindResponseDto(contest, "경로" + contest.getContestImage(),
-			awardsList, true, "A");
+			awardsList, true, false, "A");
 
 		// Assertions
 		System.out.println(dto.contestAwards());

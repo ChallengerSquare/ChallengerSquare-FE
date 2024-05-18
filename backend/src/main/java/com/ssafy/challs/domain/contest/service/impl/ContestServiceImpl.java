@@ -170,14 +170,12 @@ public class ContestServiceImpl implements ContestService {
 
 		// 개최팀인지 확인
 		boolean isMember = teamParticipantsRepository.existsByMemberIdAndTeamIdAndIsParticipantsTrue(memberId,
-			contestId);
-		if (isMember)
-			state = "O";
+			contest.getTeam().getId());
 
 		// 시상 정보 가져오기
 		List<Awards> awardsList = awardsRepository.findAllByContest(contest);
 		return contestMapper.contestToFindResponseDto(contest, awsS3Url + contest.getContestImage(), awardsList,
-			isLeader, state);
+			isLeader, isMember, state);
 	}
 
 	/**
