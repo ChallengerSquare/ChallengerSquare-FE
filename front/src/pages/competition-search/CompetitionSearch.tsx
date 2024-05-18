@@ -45,7 +45,6 @@ const CompetitionSearch = () => {
       contestDate: '',
     },
   ])
-  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setSearchKeyword(keywordFromUrl)
@@ -87,7 +86,6 @@ const CompetitionSearch = () => {
       } else {
         setProgressCompetitionList((prev) => [...prev, ...progressCompetitionListData])
       }
-      setLoading(false)
     })
   }
 
@@ -154,42 +152,38 @@ const CompetitionSearch = () => {
         </div>
       </div>
       <div className={styles.list}>
-        {loading ? (
-          ''
-        ) : (
-          <div className={styles.progress_list}>
-            <CompetitionSearchList
-              title="진행 중인 대회"
-              data={progressCompetitionList}
-              orderBy={progressOrderBy}
-              setOrderBy={setProgressOrderBy}
-            />
-            {progressPage.currentPage + 1 < progressPage.totalPage ? (
-              <div className={styles.more_btn}>
-                <Button variation={'purple'} onClick={() => handleMore('progress')}>
-                  {'더보기'}
-                </Button>
-              </div>
-            ) : (
-              ''
-            )}
-            <CompetitionSearchList
-              title="마감된 대회"
-              data={finishCompetitionList}
-              orderBy={finishOrderBy}
-              setOrderBy={setFinishOrderBy}
-            />
-            {finishPage.currentPage + 1 < finishPage.totalPage ? (
-              <div className={styles.more_btn}>
-                <Button variation={'purple'} onClick={() => handleMore('finish')}>
-                  {'더보기'}
-                </Button>
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
-        )}
+        <div className={styles.progress_list}>
+          <CompetitionSearchList
+            title="진행 중인 대회"
+            data={progressCompetitionList}
+            orderBy={progressOrderBy}
+            setOrderBy={setProgressOrderBy}
+          />
+          {progressPage.currentPage + 1 < progressPage.totalPage ? (
+            <div className={styles.more_btn}>
+              <Button variation={'purple'} onClick={() => handleMore('progress')}>
+                {'더보기'}
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
+          <CompetitionSearchList
+            title="마감된 대회"
+            data={finishCompetitionList}
+            orderBy={finishOrderBy}
+            setOrderBy={setFinishOrderBy}
+          />
+          {finishPage.currentPage + 1 < finishPage.totalPage ? (
+            <div className={styles.more_btn}>
+              <Button variation={'purple'} onClick={() => handleMore('finish')}>
+                {'더보기'}
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
       <Footer />
     </div>
