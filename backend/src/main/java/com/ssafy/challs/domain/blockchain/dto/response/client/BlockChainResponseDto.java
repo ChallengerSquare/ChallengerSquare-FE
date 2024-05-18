@@ -1,10 +1,12 @@
-package com.ssafy.challs.domain.blockchain.dto.response;
+package com.ssafy.challs.domain.blockchain.dto.response.client;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ssafy.challs.domain.blockchain.dto.response.AwardsChainResponseDto;
+import com.ssafy.challs.domain.blockchain.dto.response.ParticipantsChainResponseDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -63,7 +63,7 @@ public class SecurityConfig {
 			requests -> requests.requestMatchers("/error", "/favicon.ico", "/login/oauth2/**", "/swagger-ui/**",
 					"/v3/api-docs/**", "/swagger-ui.html", "/info/actuator/health", "/info/actuator/prometheus", "/qna/*",
 					"/team/*/public", "/team/*/members", "/team/*/contest", "/notice/*", "/contest", "/contest/*",
-					"/team/participants", "/member/refresh", "/block-chain")
+					"/team/participants", "/member/refresh", "/block-chain", "/block-chain/**")
 				.permitAll()
 				.requestMatchers("/member/create", "/member/logout", "sse/subscribe")
 				.authenticated()
