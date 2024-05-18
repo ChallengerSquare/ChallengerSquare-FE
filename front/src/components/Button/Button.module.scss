@@ -66,12 +66,7 @@
   &:disabled {
     opacity: 1;
     background: lightgray;
-  }
-
-  &:not(:disabled):hover {
     color: white;
-    opacity: 1;
-    background: lightgray;
     pointer-events: none;
   }
 }

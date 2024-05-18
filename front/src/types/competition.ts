@@ -37,3 +37,39 @@ export interface QnARequset {
   page: number
   size: number
 }
+
+
+export interface Contest {
+  contestId: number
+  contestTitle: string
+  contestContent: string
+  contestImage: string
+  teamName: string
+  teamId: number
+  registrationPeriod: {
+    start: string
+    end: string
+  }
+  contestPeriod: {
+    start: string
+    end: string
+  }
+  contestRegistrationNum: number
+  contestFee: number
+  contestPhone: string
+  isPriority: boolean
+  contestCategory: string
+  contestLocation: string
+  participantState: string
+  contestState: string
+  contestAwards: Award[]
+  isOwnerTeamMember: boolean
+  isParticipantsLeader: boolean
+}
+
+export interface Award {
+  awardsId: number
+  awardsName: string
+  awardsCount: number
+  awardsPrize: number
+}
