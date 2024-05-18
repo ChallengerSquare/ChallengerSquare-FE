@@ -8,6 +8,7 @@ import styles from './CompetitionManage.module.scss'
 interface Award {
   id: number
   name: string
+  count: number
 }
 
 interface Member {
@@ -48,8 +49,6 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
   useEffect(() => {
     setCompetitionData(competition)
     setAwardList(competition.awardList)
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!', competition)
-    console.log(awardList)
   }, [competition])
 
   const toggleExpand = (index: number) => {
@@ -62,12 +61,10 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
 
   // 종료하기 버튼
   const handleStateChange = () => {
-    const requestAwardList: ContestInfo[] = competitionData.teamList
-      .filter((data: Team) => data.award != null)
-      .map((team: Team) => ({
-        teamId: team.id,
-        awardsId: team.award,
-      }))
+    const requestAwardList: ContestInfo[] = competitionData.teamList.map((team: Team) => ({
+      teamId: team.id,
+      ...(team.award !== 0 && { awardsId: team.award }),
+    }))
     updateCompetitionEnd(competition.id, requestAwardList).then((response) => {
       if (response.status === 200) {
         updateCompetitionState(competition.id, 'E').then((response) => {
@@ -77,13 +74,8 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
     })
   }
 
-  useEffect(() => {
-    console.log(competitionData)
-  }, [competitionData])
-
   // 체크 박스
   const onChangeAttend = (index: number) => {
-    console.log('attend 변경')
     setCompetitionData((prevState) => ({
       ...prevState,
       teamList: prevState.teamList.map((team, idx) => {
@@ -97,9 +89,29 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
       }),
     }))
   }
+
   const onChangeAward = (index: number, event: any) => {
-    console.log('award 변경', event.target.value)
     const selectedAwardId = parseInt(event.target.value, 10)
+    const previousAwardId = competitionData.teamList[index].award
+
+    setAwardList(
+      awardList.map((award) => {
+        if (award.id === previousAwardId) {
+          return {
+            ...award,
+            count: award.count + 1,
+          }
+        }
+        if (award.id === selectedAwardId) {
+          return {
+            ...award,
+            count: award.count - 1,
+          }
+        }
+        return award
+      }),
+    )
+
     setCompetitionData((prevState) => ({
       ...prevState,
       teamList: prevState.teamList.map((team, idx) => {
@@ -114,10 +126,16 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
     }))
   }
 
+  const getMaxCount = (awardId: number): boolean => {
+    const award = awardList.find((award) => award.id === awardId)
+    if (award && award.count > 0) return false
+    return true
+  }
+
   return (
     <div>
       <div className={styles.title_container}>
-        <div className={styles.title}>{'대회 참가자 현황'}</div>
+        <div className={styles.title}>{`대회 참가자 현황 (${competition.contestTitle})`}</div>
         <div>
           <Button variation={'purple'} onClick={handleStateChange}>
             {'종료하기'}
@@ -133,7 +151,7 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
           <div className={styles.content_phone}>{'대표 연락처'}</div>
           <div className={styles.content_address}>{'주소'}</div>
           <div className={styles.content_attend}>{'참가'}</div>
-          <div className={styles.content_award}>{'시상'}</div>
+          <div className={styles.content_award}>{'시상(남은개수)'}</div>
           <div className={styles.content_btn}>{''}</div>
         </div>
         <div className={styles.content_teamlist}>
@@ -159,11 +177,12 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
                   className={styles.content_award}
                   value={team.award || ''}
                   onChange={(event) => onChangeAward(index, event)}
+                  disabled={!team.attend}
                 >
-                  <option value="">{'해당없음'}</option>
+                  <option value={0}>{'해당없음'}</option>
                   {awardList.map((award) => (
-                    <option value={award.id} key={award.id}>
-                      {award.name}
+                    <option value={award.id} key={award.id} disabled={getMaxCount(award.id)}>
+                      <div>{`${award.name}(${award.count})`}</div>
                     </option>
                   ))}
                 </select>
@@ -196,6 +215,11 @@ const CompetitionManageStart = ({ competition, onChangeCompetitionState }: Props
             </div>
           ))}
         </div>
+        {/* <div>
+          {awardList.map((awrad) => (
+            <div>{awrad.count}</div>
+          ))}
+        </div> */}
       </div>
     </div>
   )

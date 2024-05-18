@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import Nav from '@components/Navbar/Navbar'
 import { getTeamList } from '@services/competition'
 import { useParams } from 'react-router-dom'
+import Nav from '@components/Navbar/Navbar'
+import Footer from '@/components/Footer/Footer'
 import CompetitionManageDone from './CompetitionManageDone'
 import CompetitionManageEnd from './CompetitionManageEnd'
 import styles from './CompetitionManage.module.scss'
@@ -67,9 +68,11 @@ interface Awards {
 interface Award {
   id: number
   name: string
+  count: number
 }
 
 const CompetitionManage = () => {
+  const [loading, setLoading] = useState<boolean>(true)
   const [competitionState, setCompetitionState] = useState<string>('')
   const [competition, setCompetition] = useState<Competition>({
     id: 0,
@@ -85,9 +88,6 @@ const CompetitionManage = () => {
       getTeamList(competitionIdNumber).then(({ data }) => {
         if (data != null) {
           const response: CompetitionBack = data
-
-          console.log(response)
-          console.log(response.awards)
 
           const competition: Competition = {
             id: response.contestId,
@@ -113,10 +113,12 @@ const CompetitionManage = () => {
             awardList: response.awards.map((data) => ({
               id: data.awardsId,
               name: data.awardsName,
+              count: data.awardsCount,
             })),
           }
           setCompetition(competition)
           setCompetitionState(response.contestState)
+          setLoading(false)
         }
       })
     }
@@ -147,10 +149,15 @@ const CompetitionManage = () => {
           ) : competitionState === 'E' ? (
             <CompetitionManageEnd competition={competition} onChangeCompetitionState={CompetitionStateChange} />
           ) : (
-            <CompetitionManageDone competition={competition} onChangeCompetitionState={CompetitionStateChange} />
+            <CompetitionManageDone
+              loading={loading}
+              competition={competition}
+              onChangeCompetitionState={CompetitionStateChange}
+            />
           )}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

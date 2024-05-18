@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import Button from '@/components/Button/Button'
 import styles from './CompetitionManage.module.scss'
 
 interface Member {
@@ -33,7 +31,6 @@ interface Props {
 }
 
 const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) => {
-  const { competitionId } = useParams()
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>([])
   const [competitionData, setCompetitionData] = useState<Competition>(competition)
 
@@ -52,7 +49,7 @@ const CompetitionManageEnd = ({ competition, onChangeCompetitionState }: Props) 
   return (
     <div>
       <div className={styles.title_container}>
-        <div className={styles.title}>{'대회 참가자 현황'}</div>
+        <div className={styles.title}>{`대회 참가자 현황 (${competition.contestTitle})`}</div>
       </div>
       <div className={styles.content_container}>
         <div className={styles.content_title}>
