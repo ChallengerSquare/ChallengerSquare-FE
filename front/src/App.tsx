@@ -19,13 +19,14 @@ import Certification from '@pages/certification/Certification'
 import Dashboard from './pages/blockchain/dashboard'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
-import TempMyInfo from './pages/mypage/myinfo/MyInfoPage'
-import TempAlarm from './pages/mypage/alarm/AlarmPage'
-import TempCompetitionList from './pages/mypage/competitionlist/CompetitionListPage'
-import TempTeamList from './pages/mypage/teamlist/TeamListPage'
-import TempResultList from './pages/mypage/resultlist/ResultListPage'
-import TempSetting from './pages/mypage/setting/SettingPage'
+import MyInfo from './pages/mypage/myinfo/MyInfoPage'
+import Alarm from './pages/mypage/alarm/AlarmPage'
+import CompetitionList from './pages/mypage/competitionlist/CompetitionListPage'
+import TeamList from './pages/mypage/teamlist/TeamListPage'
+import ResultList from './pages/mypage/resultlist/ResultListPage'
+import Setting from './pages/mypage/setting/SettingPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
+import PrivateRoute from './router/PrivateRoute'
 
 const queryClient = new QueryClient()
 
@@ -37,30 +38,31 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mypage/myinfo" element={<TempMyInfo />} />
-            <Route path="/mypage/alarm" element={<TempAlarm />} />
-            <Route path="/mypage/teamlist" element={<TempTeamList />} />
-            <Route path="/mypage/competitionlist" element={<TempCompetitionList />} />
-            <Route path="/mypage/resultlist" element={<TempResultList />} />
-            <Route path="/mypage/setting" element={<TempSetting />} />
             <Route path="/competition" element={<Competition />} />
             <Route path="/competition/search" element={<CompetitionSearch />} />
-            <Route path="/competition-results/code/:code" element={<Certification />} />
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
-            <Route path="/competition/participate/write/:competitionId" element={<ParticipateWindow />} />
-            <Route path="/competition/notice/:competitionId" element={<NoticeWindow />} />
-            <Route path="/competition/inquire/:competitionId" element={<QnaWindow />} />
-            <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
-            <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
             <Route path="/competition-results" element={<CompetitionResult />} />
-            <Route path="/competition-results/:code" element={<CompetitionResult />} />
+            <Route path="/competition-results/code/:code" element={<Certification />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/sign-up" element={<Signup />} />
-            <Route path="/create-competition" element={<CreateCompetition />} />
-            <Route path="/create-team" element={<CreateTeam />} />
             <Route path="/join/:code" element={<JoinTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<div>없는 페이지</div>} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/mypage/myinfo" element={<MyInfo />} />
+              <Route path="/mypage/alarm" element={<Alarm />} />
+              <Route path="/mypage/teamlist" element={<TeamList />} />
+              <Route path="/mypage/competitionlist" element={<CompetitionList />} />
+              <Route path="/mypage/resultlist" element={<ResultList />} />
+              <Route path="/mypage/setting" element={<Setting />} />
+              <Route path="/competition/participate/write/:competitionId" element={<ParticipateWindow />} />
+              <Route path="/competition/notice/:competitionId" element={<NoticeWindow />} />
+              <Route path="/competition/inquire/:competitionId" element={<QnaWindow />} />
+              <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
+              <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
+              <Route path="/create-competition" element={<CreateCompetition />} />
+              <Route path="/create-team" element={<CreateTeam />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </RecoilRoot>

@@ -18,6 +18,10 @@ const Auth = () => {
     window.location.href = googleUrl
   }
 
+  const handleClick = () => {
+    window.location.href = '/'
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -28,14 +32,12 @@ const Auth = () => {
         <div className={styles.form}>
           <div className={styles.wrap}>
             <div className={styles.form_size}>
-              <div>
+              <button type={'button'} onClick={handleClick}>
                 <img src={challSv2} alt="Renewal" />
-              </div>
-
+              </button>
               <div>
                 <img src={content} alt="Content" />
               </div>
-
               <div className="mt-5">
                 <button type="button" onClick={GoogleLoginHandler}>
                   <img src={googleBtn} alt="google" className={styles.btn} />
