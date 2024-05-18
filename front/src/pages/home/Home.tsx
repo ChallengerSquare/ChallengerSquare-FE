@@ -5,6 +5,7 @@ import HomeSectionOne from './home-section1/HomeSectionOne'
 import HomeSectionTwo from './home-section2/HomeSectionTwo'
 import HomeSectionThree from './home-section3/HomeSectionThree'
 import HomeSectionFour from './home-section4/HomeSectionFour'
+import HomeSectionFive from './home-section5/HomeSectionFive'
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -38,6 +39,9 @@ const Home = () => {
         </div>
         <div className={styles.section4}>
           <HomeSectionFour />
+        </div>
+        <div className={styles.section5}>
+          <HomeSectionFive />
         </div>
       </div>
     </div>
