@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { ApiResponse, ParticipateTeamRequest, UpdateCompetitionRequestDto } from '@/types/api'
+import { ApiResponse, DeleteContest, ParticipateTeamRequest, UpdateCompetitionRequestDto } from '@/types/api'
 import { reissueCookie } from './member'
 
 const api = axios.create({
@@ -119,16 +119,16 @@ export const cancelParticipateContest = async (id: number): Promise<ApiResponse>
   }
 }
 
-export const deleteContest = async (id: number): Promise<ApiResponse> => {
+export const deleteContest = async (data: DeleteContest): Promise<ApiResponse> => {
   try {
-    const response = await api.delete<ApiResponse>(`/${id}`)
+    const response = await api.put<ApiResponse>('/state', data)
     return {
       status: response.status,
       code: response.data.code,
       data: response.data.data,
     }
   } catch (error: any) {
-    console.error('참가 취소 API 에러', error)
+    console.error('대회 취소 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,

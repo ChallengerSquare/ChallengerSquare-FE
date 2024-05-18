@@ -5,6 +5,7 @@ import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
+import { DeleteContest } from '@/types/api'
 
 interface Props {
   competition: Contest
@@ -31,12 +32,12 @@ interface Contest {
   isPriority: boolean
   contestCategory: string
   contestLocation: string
-  isLeader: boolean
   participantState: string
   contestState: string
   contestAwards: Award[]
+  isOwnerTeamMember: boolean
+  isParticipantsLeader: boolean // isLeader
 }
-
 interface Award {
   awardsId: number
   awardsName: string
@@ -94,17 +95,28 @@ const CompetitionContent = ({ competition }: Props) => {
   })
 
   const handleDeleteCompetition = () => {
-    deleteCompetition.mutate(competition.contestId)
+    const data: DeleteContest = {
+      contestId: competition.contestId,
+      contestState: 'L',
+    }
+    deleteCompetition.mutate(data)
   }
 
   const renderButton = () => {
-    const role = competition.isLeader ? '신청취소' : competition.participantState === 'O' ? '대회취소' : '참가하기'
+    const role =
+      competition.contestState === 'L'
+        ? '대회마감'
+        : competition.isOwnerTeamMember
+          ? '대회취소'
+          : competition.isParticipantsLeader
+            ? '신청취소'
+            : '참가하기'
     // isleader : 해당 대회 신청했는지
     switch (role) {
       case '신청취소':
         return (
           <>
-            <Button variation="purple" onClick={() => setIsOpen(true)}>
+            <Button variation="purple" disabled={!isRegistrationOpen()} onClick={() => setIsOpen(true)}>
               {role}
             </Button>
             <ConfirmModal
@@ -125,7 +137,7 @@ const CompetitionContent = ({ competition }: Props) => {
               isOpen={isOpen}
               handleClose={handleClose}
               title="대회를 취소하시겠습니까?"
-              handleData={handleCancelParticipation}
+              handleData={handleDeleteCompetition}
             />
           </>
         )
@@ -155,7 +167,7 @@ const CompetitionContent = ({ competition }: Props) => {
                 window.open(`/form/write/${competition.contestId}`, '_blank', features)
               }}
             >
-              공사중
+              {role}
             </Button>
           </>
         )

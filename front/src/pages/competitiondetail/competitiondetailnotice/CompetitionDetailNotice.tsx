@@ -9,9 +9,15 @@ interface CompetitionDetailNoticeProps {
   contestId: number
   isLeader: boolean
   participateState: string
+  isOwnerTeamMember: boolean
 }
 
-const CompetitionDetailNotice = ({ contestId, isLeader, participateState }: CompetitionDetailNoticeProps) => {
+const CompetitionDetailNotice = ({
+  contestId,
+  isLeader,
+  participateState,
+  isOwnerTeamMember,
+}: CompetitionDetailNoticeProps) => {
   const sizeofPage = 7
   const limitofPagenation = 5
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -60,7 +66,7 @@ const CompetitionDetailNotice = ({ contestId, isLeader, participateState }: Comp
         <div className={styles.empty}>
           <div>
             <p> 등록된 공지사항이 없습니다.</p>
-            {participateState === 'O' ? (
+            {isOwnerTeamMember ? (
               <button type={'button'} onClick={handleNewPost}>
                 {'작성하러 가기 >'}
               </button>
@@ -75,7 +81,7 @@ const CompetitionDetailNotice = ({ contestId, isLeader, participateState }: Comp
             <p>
               총 <span>{totalItem}개</span>의 공지사항이 있습니다.
             </p>
-            {participateState === 'O' ? (
+            {isOwnerTeamMember ? (
               <button type="button" onClick={handleNewPost}>
                 + 작성하기
               </button>
