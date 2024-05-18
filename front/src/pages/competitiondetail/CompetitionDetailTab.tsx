@@ -58,7 +58,9 @@ const CompetitionDetailTab = ({ contestId, teamId, content, isOwnerTeamMember }:
 
       {/* 선택된 탭에 따라 해당 컴포넌트를 렌더링 */}
       <div className={styles.tab_content}>
-        {activeTab === 'info' && <CompetitionDetailInfo content={content} isOwnerTeamMember={isOwnerTeamMember} />}
+        {activeTab === 'info' && (
+          <CompetitionDetailInfo content={content} isOwnerTeamMember={isOwnerTeamMember} contestId={contestId} />
+        )}
         {activeTab === 'notice' && (
           <CompetitionDetailNotice contestId={contestId} isOwnerTeamMember={isOwnerTeamMember} />
         )}
