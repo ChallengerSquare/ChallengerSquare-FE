@@ -1,0 +1,78 @@
+@import '@/styles/variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .body {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100%;
+
+    .background {
+      position: absolute;
+      width: 800px;
+      top: 10%;
+      right: 60%;
+      z-index: -1;
+    }
+
+    .certificate {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      height: auto;
+      .image {
+        width: 100%;
+        z-index: 2;
+      }
+    }
+  }
+  .search {
+    text-align: start;
+    font-weight: bold;
+    color: $main-color;
+  }
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 30px;
+  background: #fff;
+  box-shadow: 2px 6px 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 1000px;
+  height: 780px;
+  margin-top: 40px;
+}
+
+.code {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.reward {
+  position: absolute;
+  font-size: 30px;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  top: 140px;
+}
+
+.content {
+  position: absolute;
+  font-size: 30px;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  top: 230px;
+}

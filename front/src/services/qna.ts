@@ -31,7 +31,7 @@ export const getCompetitionQnA = async (param: QnARequset): Promise<ApiResponse>
 
 export const updateCompetitionQnA = async (id: number, answerParam: string): Promise<ApiResponse> => {
   try {
-    const response = await api.put<ApiResponse>(``, {
+    const response = await api.put<ApiResponse>('', {
       qnaId: id,
       answer: answerParam,
     })
