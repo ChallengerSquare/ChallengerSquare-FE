@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './Auth.module.scss'
 
 const Auth = () => {
@@ -28,14 +29,12 @@ const Auth = () => {
         <div className={styles.form}>
           <div className={styles.wrap}>
             <div className={styles.form_size}>
-              <div>
+              <Link to={'/competition'}>
                 <img src={challSv2} alt="Renewal" />
-              </div>
-
+              </Link>
               <div>
                 <img src={content} alt="Content" />
               </div>
-
               <div className="mt-5">
                 <button type="button" onClick={GoogleLoginHandler}>
                   <img src={googleBtn} alt="google" className={styles.btn} />
