@@ -15,11 +15,11 @@ interface ParticipateTeamProps {
 const ResultModal = ({ isOpen, handleClose, data }: ParticipateTeamProps) => {
   const participateCompetition = useMutation(participateContest, {
     onSuccess: (response) => {
-      // if (window.opener && !window.opener.closed) {
-      //   window.opener.location.reload()
-      // }
-      // handleClose()
-      // window.close()
+      if (window.opener && !window.opener.closed) {
+        window.opener.location.reload()
+      }
+      handleClose()
+      window.close()
     },
     onError: (error) => {
       console.error('참가 등록 실패:', error)
