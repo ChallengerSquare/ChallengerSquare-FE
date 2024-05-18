@@ -232,7 +232,7 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		// 해당 대회의 정보를 반환
 		List<MemberContestResponseDto> list = queryFactory.select(
 				Projections.constructor(MemberContestResponseDto.class, contest.id, contest.contestTitle,
-					contest.contestImage))
+					Expressions.stringTemplate("CONCAT({0}, {1})", s3Url, contest.contestImage)))
 			.from(contest)
 			.where(contest.contestState.in('J', 'D', 'S', 'E').and(contest.id.in(searchContestIdList)))
 			.offset(pageable.getOffset())
