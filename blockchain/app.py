@@ -144,7 +144,7 @@ def get_transactions():
 @app.route('/get-transactions-count', methods=['GET'])
 def get_transactions_count():
     count = len(blockchain.get_transactions())
-    response = {'transactions count in mem pool': count}
+    response = {'result': count}
     return jsonify(response), 200
 
 
@@ -160,7 +160,7 @@ def get_awards(code):
 @app.route('/get-block-count', methods=['GET'])
 def get_block_count():
     block_count = len(blockchain.chain)
-    response = {'block_count': block_count}
+    response = {'result': block_count}
     return jsonify(response), 200
 
 
@@ -177,8 +177,10 @@ def get_all_transactions():
 def get_all_transactions_count():
     transactions = blockchain.get_all_transactions()
     count = len(transactions)
-    response = {'all_transactions_count': count}
+    response = {'result': count}
     return jsonify(response), 200
+
+
 
 # Running the app
 if __name__ == '__main__':
