@@ -330,7 +330,9 @@ public class TeamServiceImpl implements TeamService {
 			.getTeamImage();
 		teamParticipantsRepository.deleteByTeamId(teamId);
 		teamRepository.deleteById(teamId);
-		s3ImageUploader.deleteImage(teamImage);
+		if (teamImage != null) {
+			s3ImageUploader.deleteImage(teamImage);
+		}
 	}
 
 	/**
