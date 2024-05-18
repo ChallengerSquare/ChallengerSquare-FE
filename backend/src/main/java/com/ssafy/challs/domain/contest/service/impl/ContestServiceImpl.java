@@ -98,7 +98,7 @@ public class ContestServiceImpl implements ContestService {
 		isTeamLeader(memberId, team.getId());
 
 		// 대회 생성과 동시에 모집 기간인지 확인 (모집전 P 모집중 J)
-		Character contestState = isOpenContest(contestRequestDto.registrationPeriod());
+		Character contestState = 'J';
 		// DTO -> ENTITY
 		Contest contest = contestMapper.contestCreateDtoToContest(contestRequestDto, team, contestState);
 		// DB에 대회, 수상 정보 저장
