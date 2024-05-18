@@ -35,6 +35,11 @@
     @include section();
 }
 
+.section5 {
+    @include section();
+    
+}
+
 // ::-webkit-scrollbar-thumb {
 //     background-color: $main-third-color;
 // }
