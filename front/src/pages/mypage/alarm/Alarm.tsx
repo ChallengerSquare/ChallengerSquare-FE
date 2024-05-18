@@ -19,12 +19,14 @@ const Alarm = () => {
   const [notification, setNotification] = useRecoilState(notificationState)
   const [alramList, setAlarmList] = useState<alarmData[]>([])
   const [unread, setUnread] = useState<number | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getAlarmList().then(({ data }) => {
       setAlarmList(data)
       const unreadCount = data.filter((alarm: alarmData) => !alarm.isRead).length
       setUnread(unreadCount)
+      setLoading(false)
     })
   }, [])
 
@@ -53,7 +55,9 @@ const Alarm = () => {
       <div className={styles.title}>
         <div>{'HOME > 알림'}</div>
       </div>
-      {alramList.length > 0 ? (
+      {loading ? (
+        ''
+      ) : alramList.length > 0 ? (
         <div className={styles.content}>
           {alramList.map((alarm, index) => (
             <button

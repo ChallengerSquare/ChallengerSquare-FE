@@ -28,11 +28,7 @@ const TeamCardList = ({ teamListData, onClick }: TeamCardListProps) => {
         </Link>
       </div>
       <div className={styles.body}>
-        {teamList.length > 0 ? (
-          <TeamCard team={teamList} onClick={onClick} />
-        ) : (
-          <EmptyImg text={'팀 목록이 없습니다.'} />
-        )}
+        {teamListData ? <TeamCard team={teamList} onClick={onClick} /> : <EmptyImg text={'팀 목록이 없습니다.'} />}
       </div>
     </div>
   )

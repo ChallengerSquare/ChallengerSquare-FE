@@ -17,6 +17,7 @@ interface MemberData {
 
 const TeamMember = ({ id }: TeamMemberProps) => {
   const [memberList, setMemberList] = useState<MemberData[]>([])
+  const [loading, setLoading] = useState(true)
 
   const setUserList = () => {
     getLeaderUserList(id).then((response) => {
@@ -29,6 +30,7 @@ const TeamMember = ({ id }: TeamMemberProps) => {
           setMemberList(data)
         })
       }
+      setLoading(false)
     })
   }
 
@@ -47,43 +49,49 @@ const TeamMember = ({ id }: TeamMemberProps) => {
   }
 
   return (
-    <div className={styles.team_member}>
-      {memberList.length > 0 ? (
-        <div>
-          {memberList.map((member, index) => (
-            <div key={index} className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
-              <div className={styles.line_head}>{''}</div>
-              <div className={styles.line_body}>
-                <div>
-                  <span>{member.memberName}</span>
-                  {member.memberEmail}
-                </div>
-              </div>
-              {member.isApprove === false ? (
-                <div className={styles.line_tail}>
-                  <button
-                    type={'button'}
-                    className={styles.approve}
-                    onClick={() => updateMemberStatus(member.participantsId, true)}
-                  >
-                    {'승인'}
-                  </button>
-                  <button
-                    type={'button'}
-                    className={styles.reject}
-                    onClick={() => updateMemberStatus(member.participantsId, false)}
-                  >
-                    {'거부'}
-                  </button>
-                </div>
-              ) : (
-                <div className={styles.line_tail}>{''}</div>
-              )}
-            </div>
-          ))}
-        </div>
+    <div>
+      {loading ? (
+        ''
       ) : (
-        <EmptyImg text={'팀원 목록이 비었습니다.'} />
+        <div className={styles.team_member}>
+          {memberList.length > 0 ? (
+            <div>
+              {memberList.map((member, index) => (
+                <div key={index} className={`${styles.line} ${member.isApprove === false ? styles.notApprove : ''}`}>
+                  <div className={styles.line_head}>{''}</div>
+                  <div className={styles.line_body}>
+                    <div>
+                      <span>{member.memberName}</span>
+                      {member.memberEmail}
+                    </div>
+                  </div>
+                  {member.isApprove === false ? (
+                    <div className={styles.line_tail}>
+                      <button
+                        type={'button'}
+                        className={styles.approve}
+                        onClick={() => updateMemberStatus(member.participantsId, true)}
+                      >
+                        {'승인'}
+                      </button>
+                      <button
+                        type={'button'}
+                        className={styles.reject}
+                        onClick={() => updateMemberStatus(member.participantsId, false)}
+                      >
+                        {'거부'}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={styles.line_tail}>{''}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyImg text={'팀원 목록이 비었습니다.'} />
+          )}
+        </div>
       )}
     </div>
   )

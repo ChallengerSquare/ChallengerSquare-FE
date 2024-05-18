@@ -17,6 +17,7 @@ const CompetitionDetailNotice = ({ contestId, isOwnerTeamMember }: CompetitionDe
   const [totalPage, setTotalPage] = useState<number>(0)
   const [totalItem, setTotalItem] = useState<number>(0)
   const [notices, setNotices] = useState<NoticeResponse[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getCompetitionNoticeData(0)
@@ -38,6 +39,7 @@ const CompetitionDetailNotice = ({ contestId, isOwnerTeamMember }: CompetitionDe
       setCurrentPage(data.pageable.pageNumber + 1)
       setTotalPage(data.totalPages)
       setTotalItem(data.totalElements)
+      setLoading(false)
     })
   }
 
@@ -52,7 +54,9 @@ const CompetitionDetailNotice = ({ contestId, isOwnerTeamMember }: CompetitionDe
 
   return (
     <div className={styles.container}>
-      {notices.length === 0 ? (
+      {loading ? (
+        <div className={styles.empty}>{''}</div>
+      ) : notices.length === 0 ? (
         <div className={styles.empty}>
           <div>
             <p> 등록된 공지사항이 없습니다.</p>

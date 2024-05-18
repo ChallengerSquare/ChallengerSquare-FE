@@ -11,15 +11,24 @@ interface TeamContestProps {
 
 const TeamContest = ({ id }: TeamContestProps) => {
   const [contestList, setContestList] = useState<ContestData[]>([])
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
-    getContestList(id).then(({ data }) => {
-      setContestList(data.content)
-    })
+    getContestList(id)
+      .then(({ data }) => {
+        setContestList(data.content)
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div>
-      {contestList.length ? (
+      {loading ? (
+        ''
+      ) : contestList.length ? (
         <CompetitionCard grid={'grid_3'} state={'create'} contestList={contestList} />
       ) : (
         <EmptyImg text={'개최 대회가 없습니다.'} />

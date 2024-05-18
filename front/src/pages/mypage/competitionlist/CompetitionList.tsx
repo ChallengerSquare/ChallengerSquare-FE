@@ -7,11 +7,13 @@ import { getCompetitinoList } from '@services/member'
 
 const CompetitionList = () => {
   const [contestList, setContestList] = useState<ContestData[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getCompetitinoList().then(({ data }) => {
       const contestDataList: ContestData[] = data.content
       setContestList(contestDataList)
+      setLoading(false)
     })
   }, [])
 
@@ -20,7 +22,9 @@ const CompetitionList = () => {
       <div className={styles.title}>
         <div>{'Competition > 신청한 대회'}</div>
       </div>
-      {contestList.length > 0 ? (
+      {loading ? (
+        ''
+      ) : contestList.length > 0 ? (
         <div className={styles.content}>
           <CompetitionCard grid={'grid_3'} state={'participate'} contestList={contestList} />
         </div>

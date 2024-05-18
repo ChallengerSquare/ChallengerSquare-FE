@@ -25,6 +25,7 @@ interface CompetitionResultBackendList {
 
 const ResultList = () => {
   const [resultList, setResultList] = useState<CompetitionResultList[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getResultList().then(({ data }) => {
@@ -38,6 +39,7 @@ const ResultList = () => {
         attendCode: element.participantCode,
       }))
       setResultList(resultListData)
+      setLoading(false)
     })
   }, [])
 
@@ -54,7 +56,9 @@ const ResultList = () => {
           <div className={styles.awardcode}>{'참가코드'}</div>
           <div className={styles.attendcode}>{'수상코드'}</div>
         </div>
-        {resultList.length > 0 ? (
+        {loading ? (
+          ''
+        ) : resultList.length > 0 ? (
           <div className={styles.body}>
             {resultList.map((result) => (
               <div key={result.id} className={styles.line}>

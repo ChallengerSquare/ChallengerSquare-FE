@@ -17,6 +17,7 @@ const CompetitionDetailQA = ({ contestId, isOwnerTeamMember }: CompetitionDetail
   const [totalPage, setTotalPage] = useState<number>(0)
   const [totalItem, setTotalItem] = useState<number>(0)
   const [QnAs, setQnAs] = useState<QnAResponse[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     getCompetitionQnAData(0)
@@ -33,6 +34,7 @@ const CompetitionDetailQA = ({ contestId, isOwnerTeamMember }: CompetitionDetail
       setCurrentPage(data.pageable.pageNumber + 1)
       setTotalPage(data.totalPages)
       setTotalItem(data.totalElements)
+      setLoading(false)
     })
   }
 
@@ -71,7 +73,9 @@ const CompetitionDetailQA = ({ contestId, isOwnerTeamMember }: CompetitionDetail
 
   return (
     <div className={styles.container}>
-      {QnAs.length === 0 ? (
+      {loading ? (
+        <div className={styles.empty}>{''}</div>
+      ) : QnAs.length === 0 ? (
         <div className={styles.empty}>
           <div>
             <p> 등록된 Q&A가 없습니다. </p>
