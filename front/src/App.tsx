@@ -15,6 +15,7 @@ import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
 import ParticipateWindow from '@pages/competitiondetail/participatewindow/ParticipateWindow'
 import NoticeWindow from '@pages/competitiondetail/competitiondetailnotice/noticewindow/NoticeWindow'
 import QnaWindow from '@pages/competitiondetail/competitiondetailqna/qnawindow/QnaWindow'
+import Certification from '@pages/certification/Certification'
 import Dashboard from './pages/blockchain/dashboard'
 import CreateTeam from './pages/createteam/CreateTeam'
 import JoinTeam from './pages/jointeam/JoinTeam'
@@ -44,6 +45,7 @@ function App() {
             <Route path="/mypage/setting" element={<TempSetting />} />
             <Route path="/competition" element={<Competition />} />
             <Route path="/competition/search" element={<CompetitionSearch />} />
+            <Route path="/competition-results/code/:code" element={<Certification />} />
             <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
             <Route path="/competition/participate/write/:competitionId" element={<ParticipateWindow />} />
             <Route path="/competition/notice/:competitionId" element={<NoticeWindow />} />

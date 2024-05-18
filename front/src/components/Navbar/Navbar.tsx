@@ -73,7 +73,7 @@ const Navbar = ({ enableScrollEffect = false }: NavbarProps) => {
               }
             }}
           >
-            수상/참가 조회
+            참가/수상 이력 조회
           </NavLink>
         </nav>
         {user.userName ? (
