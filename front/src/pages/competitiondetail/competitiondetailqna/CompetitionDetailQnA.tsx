@@ -7,68 +7,10 @@ import styles from '@/pages/competitiondetail/competitiondetailqna/CompetitionDe
 
 interface CompetitionDetailQAProps {
   contestId: number
-  isLeader: boolean
   isOwnerTeamMember: boolean
 }
 
-// const dummyQnAs: QnAResponse[] = [
-//   {
-//     qnaId: 1,
-//     title: 'How to reset password?',
-//     content: 'I forgot my password, how can I reset it?',
-//     writer: 'John Doe',
-//     answer: 'You can reset your password by clicking on "Forgot Password" at the login screen.',
-//     createdAt: '2023-01-01T10:00:00Z',
-//     editText: '',
-//   },
-//   {
-//     qnaId: 2,
-//     title: 'How to change email address?',
-//     content: 'How do I update my email address in my account settings?',
-//     writer: 'Jane Smith',
-//     answer: '',
-//     createdAt: '2023-02-15T12:30:00Z',
-//     editText: '',
-//   },
-//   {
-//     qnaId: 3,
-//     title: 'How to delete my account?',
-//     content: 'What is the procedure to permanently delete my account?',
-//     writer: 'Michael Johnson',
-//     answer: 'To delete your account, please contact our support team.',
-//     createdAt: '2023-03-20T09:45:00Z',
-//     editText: '',
-//   },
-//   {
-//     qnaId: 4,
-//     title: 'How to contact support?',
-//     content: 'I need help with my account, how can I reach the support team?',
-//     writer: 'Emily Davis',
-//     answer: 'You can contact our support team via the "Contact Us" page.',
-//     createdAt: '2023-04-05T14:00:00Z',
-//     editText: '',
-//   },
-//   {
-//     qnaId: 5,
-//     title: 'How to update profile picture?',
-//     content: 'How can I upload a new profile picture?',
-//     writer: 'David Wilson',
-//     answer: 'You can update your profile picture in the account settings under "Profile".',
-//     createdAt: '2023-05-10T11:15:00Z',
-//     editText: '',
-//   },
-//   {
-//     qnaId: 6,
-//     title: 'How to enable two-factor authentication?',
-//     content: 'What steps are required to enable two-factor authentication?',
-//     writer: 'Linda Martinez',
-//     answer: 'You can enable two-factor authentication in the account settings under "Security".',
-//     createdAt: '2023-06-25T08:30:00Z',
-//     editText: '',
-//   },
-// ]
-
-const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: CompetitionDetailQAProps) => {
+const CompetitionDetailQA = ({ contestId, isOwnerTeamMember }: CompetitionDetailQAProps) => {
   const sizeofPage = 3
   const limitofPagenation = 5
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -77,7 +19,6 @@ const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: Competi
   const [QnAs, setQnAs] = useState<QnAResponse[]>([])
 
   useEffect(() => {
-    // setQnAs(dummyQnAs)
     getCompetitionQnAData(0)
   }, [])
 
@@ -160,7 +101,7 @@ const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: Competi
                 <li key={QA.qnaId} className={styles.QA}>
                   <div className={styles.info}>
                     <div>
-                      <span className={styles.name}>{`${QA.writer}**`}</span>
+                      <span className={styles.name}>{`${QA.writer}`}</span>
                       <span className={styles.date}> {QA.createdAt} </span>
                     </div>
                     <div>{QA.answer != null ? '답변완료' : '답변대기'}</div>
@@ -170,14 +111,14 @@ const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: Competi
                     <div className={styles.content}> {`${QA.content}`} </div>
                   </div>
                   {QA.answer != null && QA.answer != '' ? <p className={styles.answer}> ➥ {QA.answer} </p> : ''}
-                  {isLeader === false ? (
+                  {isOwnerTeamMember === true ? (
                     <div className={styles.comment}>
                       <input
                         type="text"
                         value={QA.editText}
                         onChange={(event) => handleChange(QA.qnaId, event)}
                         onKeyDown={(event) => handleKeyDown(QA.qnaId, event)}
-                        placeholder={QA.answer}
+                        // placeholder={QA.answer}
                       />
                       {QA.answer && QA.editText ? (
                         <Button variation="purple" onClick={() => handleOnClick(QA.qnaId)}>
@@ -187,7 +128,7 @@ const CompetitionDetailQA = ({ contestId, isLeader, isOwnerTeamMember }: Competi
                         ''
                       )}
                       {QA.answer && !QA.editText ? (
-                        <Button variation="gray" onClick={() => handleOnClick(QA.qnaId)}>
+                        <Button variation="gray" disabled={true} onClick={() => handleOnClick(QA.qnaId)}>
                           {'수정'}
                         </Button>
                       ) : (

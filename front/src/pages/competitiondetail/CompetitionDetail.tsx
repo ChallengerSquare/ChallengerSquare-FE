@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getCompetitionDetails } from '@services/contest'
+import { Contest } from '@/types/competition'
 import useScrollTop from '@/hooks/useScrollTop'
 import BeforeNav from '@svgs/navigate_before.svg'
 import Footer from '@/components/Footer/Footer'
@@ -8,41 +9,6 @@ import Navbar from '@/components/Navbar/Navbar'
 import CompetitionDetailContent from './competitiondetailcontent/CompetitionDetailContent'
 import CompetitionDetailTab from './CompetitionDetailTab'
 import styles from './CompetitionDetail.module.scss'
-
-interface Contest {
-  contestId: number
-  contestTitle: string
-  contestContent: string
-  contestImage: string
-  teamName: string
-  teamId: number
-  registrationPeriod: {
-    start: string
-    end: string
-  }
-  contestPeriod: {
-    start: string
-    end: string
-  }
-  contestRegistrationNum: number
-  contestFee: number
-  contestPhone: string
-  isPriority: boolean
-  contestCategory: string
-  contestLocation: string
-  participantState: string
-  contestState: string
-  contestAwards: Award[]
-  isOwnerTeamMember: boolean
-  isParticipantsLeader: boolean // isLeader
-}
-
-interface Award {
-  awardsId: number
-  awardsName: string
-  awardsCount: number
-  awardsPrize: number
-}
 
 const CompetitionDetail = () => {
   useScrollTop()
@@ -78,8 +44,6 @@ const CompetitionDetail = () => {
                 contestId={competition.contestId}
                 teamId={competition.teamId}
                 content={competition.contestContent}
-                isLeader={competition.isParticipantsLeader}
-                participateState={competition.participantState}
                 isOwnerTeamMember={competition.isOwnerTeamMember}
               />
             )}

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Page } from '@/types/api'
 import { NoticeRequset, NoticeResponse } from '@/types/competition'
 import { getCompetitionNotice } from '@/services/notice'
 import Pagination from '@/components/Pagination/Pagination'
@@ -7,17 +6,10 @@ import styles from './CompetitionDetailNotice.module.scss'
 
 interface CompetitionDetailNoticeProps {
   contestId: number
-  isLeader: boolean
-  participateState: string
   isOwnerTeamMember: boolean
 }
 
-const CompetitionDetailNotice = ({
-  contestId,
-  isLeader,
-  participateState,
-  isOwnerTeamMember,
-}: CompetitionDetailNoticeProps) => {
+const CompetitionDetailNotice = ({ contestId, isOwnerTeamMember }: CompetitionDetailNoticeProps) => {
   const sizeofPage = 7
   const limitofPagenation = 5
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -25,7 +17,6 @@ const CompetitionDetailNotice = ({
   const [totalPage, setTotalPage] = useState<number>(0)
   const [totalItem, setTotalItem] = useState<number>(0)
   const [notices, setNotices] = useState<NoticeResponse[]>([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getCompetitionNoticeData(0)
@@ -57,7 +48,6 @@ const CompetitionDetailNotice = ({
   const handleNewPost = () => {
     const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
     window.open(`/competition/notice/${contestId}`, '_blank', features)
-    // 공지사항 작성 api
   }
 
   return (
