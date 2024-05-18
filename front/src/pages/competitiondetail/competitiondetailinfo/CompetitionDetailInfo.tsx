@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Viewer } from '@toast-ui/react-editor'
+import styled from '@emotion/styled'
 import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import { useNavigate } from 'react-router-dom'
 import styles from './CompetitionDetailInfo.module.scss'
@@ -10,6 +11,21 @@ interface Props {
   contestId: number
 }
 
+const StyledViewer = styled.div`
+  .toastui-editor-viewer {
+    font-size: 100px; // 모든 텍스트에 대해 폰트 크기를 100px로 설정
+
+    // 추가적으로, 특정 요소에 대해 다른 스타일을 적용할 수 있습니다.
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: 120px; // 제목에 대해 더 큰 폰트 크기 설정
+    }
+  }
+`
 const CompetitionDetailInfo = ({ content, isOwnerTeamMember, contestId }: Props) => {
   const [data, setdata] = useState([])
   const navigate = useNavigate()
@@ -23,9 +39,9 @@ const CompetitionDetailInfo = ({ content, isOwnerTeamMember, contestId }: Props)
             <p>등록된 상세정보가 없습니다.</p>
           </div>
         ) : (
-          <div className={styles.content}>
-            <Viewer initialValue={content} font-size={20} />
-          </div>
+          <StyledViewer>
+            <Viewer initialValue={content} />
+          </StyledViewer>
         )}
       </div>
       {isOwnerTeamMember ? (
