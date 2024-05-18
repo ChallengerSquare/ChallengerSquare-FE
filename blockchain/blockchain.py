@@ -368,3 +368,17 @@ class Blockchain:
 
         all_transactions.extend(self.transactions)
         return all_transactions
+
+    def get_mining_period(self):
+        if len(self.chain) < 2:
+            raise ValueError("Not enough blocks to calculate the mining period.")
+
+        last_block = self.chain[-1]
+        previous_block = self.chain[-2]
+
+        last_timestamp = datetime.datetime.fromisoformat(last_block['body']['timestamp'])
+        previous_timestamp = datetime.datetime.fromisoformat(previous_block['body']['timestamp'])
+
+        period = int((last_timestamp - previous_timestamp).total_seconds())
+
+        return period
