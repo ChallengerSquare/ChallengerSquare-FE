@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import styles from './Auth.module.scss'
 
 const Auth = () => {
@@ -19,6 +18,10 @@ const Auth = () => {
     window.location.href = googleUrl
   }
 
+  const handleClick = () => {
+    window.location.href = '/'
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -29,9 +32,9 @@ const Auth = () => {
         <div className={styles.form}>
           <div className={styles.wrap}>
             <div className={styles.form_size}>
-              <Link to={'/competition'}>
+              <button type={'button'} onClick={handleClick}>
                 <img src={challSv2} alt="Renewal" />
-              </Link>
+              </button>
               <div>
                 <img src={content} alt="Content" />
               </div>
