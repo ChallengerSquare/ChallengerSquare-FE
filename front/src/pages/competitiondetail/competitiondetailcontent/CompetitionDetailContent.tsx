@@ -73,11 +73,13 @@ const CompetitionContent = ({ competition }: Props) => {
     const role =
       competition.contestState === 'L'
         ? '대회마감'
-        : competition.isOwnerTeamMember
-          ? '대회취소'
-          : competition.isParticipantsLeader
-            ? '신청취소'
-            : '참가하기'
+        : competition.contestState === 'S'
+          ? '진행중'
+          : competition.isOwnerTeamMember
+            ? '대회취소'
+            : competition.isParticipantsLeader
+              ? '신청취소'
+              : '참가하기'
     // isleader : 해당 대회 신청했는지
     switch (role) {
       case '신청취소':
