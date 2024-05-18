@@ -62,10 +62,11 @@ public interface ContestMapper {
 	@Mapping(source = "imageUrl", target = "contestImage")
 	@Mapping(source = "contest.id", target = "contestId")
 	ContestFindResponseDto contestToFindResponseDto(Contest contest, String imageUrl, List<Awards> contestAwards,
-		Boolean isLeader, String participantState);
+		Boolean isParticipantsLeader, Boolean isOwnerTeamMember, String participantState);
 
 	List<ContestAwardsDto> awardsToDtoList(List<Awards> awardsList);
 
+	@Mapping(source = "id", target = "awardsId")
 	ContestAwardsDto awardsToDto(Awards awards);
 
 	@Mapping(target = "id", ignore = true)
