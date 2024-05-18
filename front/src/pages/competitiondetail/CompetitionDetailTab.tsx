@@ -9,12 +9,10 @@ interface Props {
   contestId: number
   teamId: number
   content: string | undefined
-  isLeader: boolean
-  participateState: string
   isOwnerTeamMember: boolean
 }
 
-const CompetitionDetailTab = ({ contestId, teamId, content, isLeader, participateState, isOwnerTeamMember }: Props) => {
+const CompetitionDetailTab = ({ contestId, teamId, content, isOwnerTeamMember }: Props) => {
   const [activeTab, setActiveTab] = useState('info')
 
   const handleTabClick = (tab: string) => {
@@ -61,24 +59,12 @@ const CompetitionDetailTab = ({ contestId, teamId, content, isLeader, participat
       {/* 선택된 탭에 따라 해당 컴포넌트를 렌더링 */}
       <div className={styles.tab_content}>
         {activeTab === 'info' && (
-          <CompetitionDetailInfo
-            isLeader={isLeader}
-            content={content}
-            isOwnerTeamMember={isOwnerTeamMember}
-            contestId={contestId}
-          />
+          <CompetitionDetailInfo content={content} isOwnerTeamMember={isOwnerTeamMember} contestId={contestId} />
         )}
         {activeTab === 'notice' && (
-          <CompetitionDetailNotice
-            isLeader={isLeader}
-            contestId={contestId}
-            participateState={participateState}
-            isOwnerTeamMember={isOwnerTeamMember}
-          />
+          <CompetitionDetailNotice contestId={contestId} isOwnerTeamMember={isOwnerTeamMember} />
         )}
-        {activeTab === 'qa' && (
-          <CompetitionDetailQA isLeader={isLeader} contestId={contestId} isOwnerTeamMember={isOwnerTeamMember} />
-        )}
+        {activeTab === 'qa' && <CompetitionDetailQA contestId={contestId} isOwnerTeamMember={isOwnerTeamMember} />}
         {activeTab === 'team' && teamId != undefined && <CompetitionDetailTeam teamId={teamId} />}
       </div>
     </div>

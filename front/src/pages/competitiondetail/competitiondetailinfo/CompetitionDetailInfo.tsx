@@ -6,12 +6,11 @@ import styles from './CompetitionDetailInfo.module.scss'
 
 interface Props {
   content: string | undefined
-  isLeader: boolean
   isOwnerTeamMember: boolean
   contestId: number
 }
 
-const CompetitionDetailInfo = ({ content, isLeader, isOwnerTeamMember, contestId }: Props) => {
+const CompetitionDetailInfo = ({ content, isOwnerTeamMember, contestId }: Props) => {
   const [data, setdata] = useState([])
   const navigate = useNavigate()
   useEffect(() => {}, [])

@@ -1,48 +1,15 @@
 import { useMutation } from 'react-query'
 import { useState, useEffect } from 'react'
 import { cancelParticipateContest, deleteContest } from '@/services/contest'
+import { Contest } from '@/types/competition'
+import { DeleteContest } from '@/types/api'
 import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
-import { DeleteContest } from '@/types/api'
 
 interface Props {
   competition: Contest
-}
-
-interface Contest {
-  contestId: number
-  contestTitle: string
-  contestContent: string
-  contestImage: string
-  teamName: string
-  teamId: number
-  registrationPeriod: {
-    start: string
-    end: string
-  }
-  contestPeriod: {
-    start: string
-    end: string
-  }
-  contestRegistrationNum: number
-  contestFee: number
-  contestPhone: string
-  isPriority: boolean
-  contestCategory: string
-  contestLocation: string
-  participantState: string
-  contestState: string
-  contestAwards: Award[]
-  isOwnerTeamMember: boolean
-  isParticipantsLeader: boolean // isLeader
-}
-interface Award {
-  awardsId: number
-  awardsName: string
-  awardsCount: number
-  awardsPrize: number
 }
 
 const CompetitionContent = ({ competition }: Props) => {
