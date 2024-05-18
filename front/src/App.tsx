@@ -27,6 +27,7 @@ import ResultList from './pages/mypage/resultlist/ResultListPage'
 import Setting from './pages/mypage/setting/SettingPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
 import PrivateRoute from './router/PrivateRoute'
+import Error from './pages/error/Error'
 
 const queryClient = new QueryClient()
 
@@ -47,7 +48,7 @@ function App() {
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/join/:code" element={<JoinTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<div>없는 페이지</div>} />
+            <Route path="*" element={<Error />} />
             <Route element={<PrivateRoute />}>
               <Route path="/mypage/myinfo" element={<MyInfo />} />
               <Route path="/mypage/alarm" element={<Alarm />} />
