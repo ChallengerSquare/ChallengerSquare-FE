@@ -181,6 +181,15 @@ def get_all_transactions_count():
     return jsonify(response), 200
 
 
+@app.route('/get-mining-period', methods=['GET'])
+def get_mining_period():
+    try:
+        period = blockchain.get_mining_period()
+        response = {'result': period}
+        return jsonify(response), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+
 
 # Running the app
 if __name__ == '__main__':
