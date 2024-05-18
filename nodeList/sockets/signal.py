@@ -3,7 +3,7 @@ from django.utils import timezone
 from apies.models import Node
 from apies.serializers import NodeSerializer
 def signal(IP, PORT):
-    print(str(IP) + ':' + str(PORT) + ' 에 요청을 보낼 게요')
+    # print(str(IP) + ':' + str(PORT) + ' 에 요청을 보낼 게요')
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             client_socket.connect((IP, PORT))
