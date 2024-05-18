@@ -14,19 +14,25 @@ const Dashboard = () => {
     // Function to fetch data from all APIs
     const fetchData = async () => {
       try {
-        const blockCountResponse = await axios.get('http://43.203.254.28:50001/get-block-count')
-        const transactionCountResponse = await axios.get('http://43.203.254.28:50001/get-all-transactions-count')
-        const nodeCountResponse = await axios.get('http://43.203.254.28:8000/api/getNodeCount')
-        const pendingTransactionsResponse = await axios.get('http://43.203.254.28:50001/get-transactions-count')
-        const networkStatusResponse = await axios.get('http://43.203.254.28:8000/api/getNetworkStatus')
+        const blockCountResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-block-count')
+        const transactionCountResponse = await axios.get(
+          'https://www.challengersquare.com/api/block-chain/get-all-transactions-count',
+        )
+        const nodeCountResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-node-count')
+        const pendingTransactionsResponse = await axios.get(
+          'https://www.challengersquare.com/api/block-chain/get-transactions-count',
+        )
+        const networkStatusResponse = await axios.get(
+          'https://www.challengersquare.com/api/block-chain/get-network-status',
+        )
+        const blockSpeedResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-mining-period')
 
-        setBlockCount(blockCountResponse.data.block_count)
-        setTransactionCount(transactionCountResponse.data)
-        setNodeCount(nodeCountResponse.data)
-        // Assuming block speed is calculated or retrieved from another source
-        setBlockSpeed(50) // Replace with actual logic if available
-        setPendingTransactions(pendingTransactionsResponse.data)
-        setNetworkStatus(networkStatusResponse.data)
+        setBlockCount(blockCountResponse.data.data.result)
+        setTransactionCount(transactionCountResponse.data.data.result)
+        setNodeCount(nodeCountResponse.data.data.result)
+        setBlockSpeed(blockSpeedResponse.data.data.result)
+        setPendingTransactions(pendingTransactionsResponse.data.data.result)
+        setNetworkStatus(networkStatusResponse.data.data.result)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -60,7 +66,7 @@ const Dashboard = () => {
             </div>
             <div className={styles.blockchainInfo}>
               <div className={styles.infoBox}>
-                <div className={styles.infoValue}>{'50'}</div>
+                <div className={styles.infoValue}>{blockSpeed !== null ? blockSpeed : 'Loading'}</div>
                 <div className={styles.infoLabel}>{'블록 생성 속도'}</div>
               </div>
               <div className={styles.infoBox}>
