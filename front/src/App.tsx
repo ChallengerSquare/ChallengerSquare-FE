@@ -16,15 +16,17 @@ import ParticipateWindow from '@pages/competitiondetail/participatewindow/Partic
 import NoticeWindow from '@pages/competitiondetail/competitiondetailnotice/noticewindow/NoticeWindow'
 import QnaWindow from '@pages/competitiondetail/competitiondetailqna/qnawindow/QnaWindow'
 import Certification from '@pages/certification/Certification'
-import Dashboard from './pages/blockchain/dashboard'
-import CreateTeam from './pages/createteam/CreateTeam'
-import JoinTeam from './pages/jointeam/JoinTeam'
-import MyInfo from './pages/mypage/myinfo/MyInfoPage'
-import Alarm from './pages/mypage/alarm/AlarmPage'
-import CompetitionList from './pages/mypage/competitionlist/CompetitionListPage'
-import TeamList from './pages/mypage/teamlist/TeamListPage'
-import ResultList from './pages/mypage/resultlist/ResultListPage'
-import Setting from './pages/mypage/setting/SettingPage'
+import Dashboard from '@pages//blockchain/dashboard'
+import CreateTeam from '@pages//createteam/CreateTeam'
+import JoinTeam from '@pages//jointeam/JoinTeam'
+import MyInfo from '@pages//mypage/myinfo/MyInfoPage'
+import Alarm from '@pages//mypage/alarm/AlarmPage'
+import CompetitionList from '@pages//mypage/competitionlist/CompetitionListPage'
+import TeamList from '@pages//mypage/teamlist/TeamListPage'
+import ResultList from '@pages//mypage/resultlist/ResultListPage'
+import Setting from '@pages//mypage/setting/SettingPage'
+import Error from '@pages//error/Error'
+import Team from '@/pages/mypage/teamlist/TeamDetailPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
 import PrivateRoute from './router/PrivateRoute'
 
@@ -47,11 +49,12 @@ function App() {
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/join/:code" element={<JoinTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<div>없는 페이지</div>} />
+            <Route path="*" element={<Error />} />
             <Route element={<PrivateRoute />}>
               <Route path="/mypage/myinfo" element={<MyInfo />} />
               <Route path="/mypage/alarm" element={<Alarm />} />
               <Route path="/mypage/teamlist" element={<TeamList />} />
+              <Route path="/mypage/teamlist/team/:teamId" element={<Team />} />
               <Route path="/mypage/competitionlist" element={<CompetitionList />} />
               <Route path="/mypage/resultlist" element={<ResultList />} />
               <Route path="/mypage/setting" element={<Setting />} />

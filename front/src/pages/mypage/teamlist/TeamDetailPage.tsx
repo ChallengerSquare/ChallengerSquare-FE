@@ -1,10 +1,10 @@
 import Navbar from '@/components/Navbar/Navbar'
 import MyPageTab from '@/pages/mypage/MyPageTab'
 import styles from '@/pages/mypage/MyPage.module.scss'
-import TeamList from '@/pages/mypage/teamlist/TeamList'
 import Footer from '@/components/Footer/Footer'
+import TeamDetail from '@/pages/mypage/teamlist/TeamDetail'
 
-const TeamListPage = () => {
+const TeamDetailPage = () => {
   return (
     <div>
       <Navbar />
@@ -15,7 +15,7 @@ const TeamListPage = () => {
             <MyPageTab tab={'teamList'} />
           </div>
           <div className={styles.content_wrap}>
-            <TeamList />
+            <TeamDetail />
           </div>
         </div>
       </div>
@@ -24,4 +24,4 @@ const TeamListPage = () => {
   )
 }
 
-export default TeamListPage
+export default TeamDetailPage

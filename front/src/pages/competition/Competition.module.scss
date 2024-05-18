@@ -40,6 +40,22 @@
   }
 
   .searchlist{
-    margin-bottom: 200px;
+    margin-bottom: 100px;
+  }
+
+  .more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    margin-bottom: 100px;
+
+    .btn {
+      padding: 30px 50px;
+      border-radius: 100px;
+      background-color: $main-third-color;
+      color: white;
+      font-size: 1.3rem;
+    }
   }
 }
