@@ -62,14 +62,7 @@ const SearchBar = ({ text, openBtn, openBtnColor, url }: SearchBarProps) => {
   return (
     <div className={styles.search}>
       <div className={styles.search_bar}>
-        <input
-          type="text"
-          placeholder={text}
-          value={search}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          maxLength={25}
-        />
+        <input type="text" placeholder={text} value={search} onChange={handleChange} onKeyDown={handleKeyDown} />
         <button type="button" onClick={handleClick}>
           <img className={styles.searchimg} src={searchIcon} alt="검색" />
         </button>

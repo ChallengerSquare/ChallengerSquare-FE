@@ -21,7 +21,7 @@ export const getCertification = async (param: string): Promise<ApiResponse> => {
       data: response.data.data,
     }
   } catch (error) {
-    console.error('대회 목록 호출 에러', error)
+    console.error('블록체인 코드 API 호출 에러', error)
     throw error
   }
 }
