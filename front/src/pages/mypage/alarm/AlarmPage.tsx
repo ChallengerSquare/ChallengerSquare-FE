@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import MyPageTab from '@/pages/mypage/MyPageTab'
 import styles from '@/pages/mypage/MyPage.module.scss'
 import Alarm from '@/pages/mypage/alarm/Alarm'
+import Footer from '@/components/Footer/Footer'
 
 const TempAlarm = () => {
   return (
@@ -18,6 +19,7 @@ const TempAlarm = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
