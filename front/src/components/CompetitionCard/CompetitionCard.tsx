@@ -4,6 +4,7 @@ import { ContestData } from '@/types/competition'
 import baseImg from '@images/baseImg.png'
 import Grid from '../Gird/Grid'
 import styles from './CompetitionCard.module.scss'
+import BaseImg from '../BaseImg/BaseImg'
 
 interface CompetitionCardProps {
   grid: string
@@ -11,6 +12,7 @@ interface CompetitionCardProps {
   contestList: ContestData[]
 }
 const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => {
+  console.log(contestList)
   return (
     <div>
       <Grid grid={grid}>
@@ -18,10 +20,7 @@ const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => 
           <div key={contest.contestId}>
             <div className={styles.contest}>
               <p>{contest.contestTitle}</p>
-              <img
-                src={contest.contestImage === '' || contest.contestImage === null ? baseImg : contest.contestImage}
-                alt="대회 로고"
-              />
+              <BaseImg imgUrl={contest.contestImage} imgName={'대회 로고'} />
             </div>
             <div className={styles.btn}>
               {state === 'create' ? (
