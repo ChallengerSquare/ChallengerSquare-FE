@@ -365,4 +365,6 @@ class Blockchain:
         all_transactions = []
         for block in self.chain:
             all_transactions.extend(block['body']['transactions'])
+
+        all_transactions.extend(self.transactions)
         return all_transactions
