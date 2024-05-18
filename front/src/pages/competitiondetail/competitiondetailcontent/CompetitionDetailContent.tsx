@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { cancelParticipateContest, deleteContest } from '@/services/contest'
 import { Contest } from '@/types/competition'
@@ -7,6 +8,8 @@ import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
+import { userState } from '@/stores/userState'
 
 interface Props {
   competition: Contest
@@ -14,6 +17,8 @@ interface Props {
 
 const CompetitionContent = ({ competition }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const user = useRecoilValue(userState)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (isOpen) {
@@ -117,8 +122,11 @@ const CompetitionContent = ({ competition }: Props) => {
               variation="purple"
               disabled={!isRegistrationOpen()}
               onClick={() => {
-                const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
-                window.open(`/competition/participate/write/${competition.contestId}`, '_blank', features)
+                if (!user.userName) navigate('/auth')
+                else {
+                  const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+                  window.open(`/competition/participate/write/${competition.contestId}`, '_blank', features)
+                }
               }}
             >
               {role}
