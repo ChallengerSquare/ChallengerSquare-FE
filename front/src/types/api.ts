@@ -116,3 +116,8 @@ export interface RegisterQnaRequest {
   qnaContent: string
   contestId: number
 }
+
+export interface DeleteContest {
+  contestId: number
+  contestState: string
+}
