@@ -2,6 +2,7 @@
 
 .background {
   background-color: $login-background;
+  width: auto;
   height: auto;
 }
 
@@ -11,6 +12,7 @@
   justify-items: center;
   align-items: center;
   margin-top: 3rem;
+  margin-bottom: 100px;
 }
 
 .title {
