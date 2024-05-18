@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import MyPageTab from '@/pages/mypage/MyPageTab'
 import CompetitionList from '@/pages/mypage/competitionlist/CompetitionList'
 import styles from '@/pages/mypage/MyPage.module.scss'
+import Footer from '@/components/Footer/Footer'
 
 const TempCompetitionList = () => {
   return (
@@ -18,6 +19,7 @@ const TempCompetitionList = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

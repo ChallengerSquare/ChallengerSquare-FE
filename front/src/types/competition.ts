@@ -7,7 +7,7 @@ export interface ContestData {
 
 export interface ContestInfo {
   teamId: number
-  awardsId: number
+  awardsId?: number
 }
 
 export interface NoticeResponse {
