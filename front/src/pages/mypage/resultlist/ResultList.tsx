@@ -53,8 +53,8 @@ const ResultList = () => {
           <div className={styles.category}>{'카테고리'}</div>
           <div className={styles.name}>{'대회명'}</div>
           <div className={styles.period}>{'대회기간'}</div>
-          <div className={styles.awardcode}>{'참가코드'}</div>
-          <div className={styles.attendcode}>{'수상코드'}</div>
+          <div className={styles.attendcode}>{'참가코드'}</div>
+          <div className={styles.awardcode}>{'수상코드'}</div>
         </div>
         {loading ? (
           ''
@@ -69,13 +69,13 @@ const ResultList = () => {
                   </div>
                 </Link>
                 <div className={styles.period}>{result.period}</div>
-                <Link to={`/competition-results/${result.awardCode}`} className={styles.awardcode}>
+                <Link to={`/competition-results/code/${result.attendCode}`} className={styles.attendcode}>
                   <div>
                     {/* {result.awardCode.length > 20 ? `${result.attendCode.substring(1, 20)}...` : result.attendCode} */}
                     <span>{result.awardCode}</span>
                   </div>
                 </Link>
-                <Link to={`/competition-results/${result.attendCode}`} className={styles.attendcode}>
+                <Link to={`/competition-results/code/${result.awardCode}`} className={styles.awardcode}>
                   <div>
                     <span>{result.attendCode}</span>
                   </div>

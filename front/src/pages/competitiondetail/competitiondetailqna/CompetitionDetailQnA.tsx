@@ -67,7 +67,7 @@ const CompetitionDetailQA = ({ contestId, isOwnerTeamMember }: CompetitionDetail
 
   const handleNewPost = () => {
     // QnA 작성 api
-    const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+    const features = 'toolbar=no,menubar=no,width=800,height=700,left=100,top=100'
     window.open(`/competition/inquire/${contestId}`, '_blank', features)
   }
 
