@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import styles from '@/pages/home/home-section1/HomeSectionOne.module.scss'
 import Logo from '@images/home/home-title.webp'
+import ArrowDown from '@/components/ArrowDown/ArrowDown'
 
 const HomeSectionOne = () => {
   return (
@@ -28,6 +29,9 @@ const HomeSectionOne = () => {
             <p>개최하기</p>
           </div>
         </Link>
+      </div>
+      <div className={styles.arrow_down}>
+        <ArrowDown />
       </div>
     </div>
   )
