@@ -25,6 +25,5 @@ public class Team extends BaseEntity {
 	String teamDescription;
 	String teamCode;
 	String teamImage;
-	String teamPhone;
 
 }

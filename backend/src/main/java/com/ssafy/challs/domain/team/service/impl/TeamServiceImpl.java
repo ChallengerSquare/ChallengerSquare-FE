@@ -87,7 +87,7 @@ public class TeamServiceImpl implements TeamService {
 		Member owner = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		// DTO -> ENTITY
-		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, null, owner.getMemberPhone());
+		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, null);
 		// DB에 저장
 		Team savedTeam = teamRepository.save(team);
 
@@ -166,7 +166,7 @@ public class TeamServiceImpl implements TeamService {
 
 		// 알림 생성, sse 전송
 		Long leaderId = teamParticipantsRepository.findByTeamIdAndIsLeaderTrue(team.getId())
-			.orElseThrow(() -> new BaseException(ErrorCode.LEADER_NOT_FOUND)).getId();
+			.orElseThrow(() -> new BaseException(ErrorCode.LEADER_NOT_FOUND)).getMember().getId();
 		alertService.createAlert(List.of(leaderId), 'T', team.getId(), team.getTeamName() + "에 가입 신청이 도착했습니다!");
 		Map<String, Boolean> message = new HashMap<>();
 		message.put(UN_READ, true);
