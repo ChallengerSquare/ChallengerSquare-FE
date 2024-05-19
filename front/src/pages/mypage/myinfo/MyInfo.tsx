@@ -1,16 +1,18 @@
 import { useState, useEffect, useInsertionEffect } from 'react'
 import { User, UserInfo } from '@/types/user'
-import styles from '@/pages/mypage/myinfo/MyInfo.module.scss'
+import { useNavigate } from 'react-router-dom'
 import Button from '@/components/Button/Button'
+import { useResetRecoilState } from 'recoil'
+import { userState } from '@/stores/userState'
 import loadPostcode from '@/services/postcode'
 import { getUser, logoutUser, updateUser } from '@services/member'
-import { useNavigate } from 'react-router-dom'
-import { useRecoilState, useResetRecoilState } from 'recoil'
-import { userState } from '@/stores/userState'
+import styles from '@/pages/mypage/myinfo/MyInfo.module.scss'
+import MyInfoModal from './MyinfoModal/MyInfoModal'
 
 const MyInfo = () => {
   const navigate = useNavigate()
   const resetUserState = useResetRecoilState(userState)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [user, setUser] = useState<User>({
     userName: '',
     userBirth: '',
@@ -60,6 +62,9 @@ const MyInfo = () => {
     }
   }
 
+  const handleClose = () => {
+    setIsOpen(false)
+  }
   const handleUser = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
     if (key === 'userAddress') {
       const fullAddress = `${addressDetails.postcode} ${addressDetails.roadAddress} ${event.target.value}`
@@ -77,7 +82,7 @@ const MyInfo = () => {
     updateUser(userInfo)
     setUser(editUser)
     if (editUser != user) {
-      alert('내 정보가 수정되었습니다.')
+      setIsOpen(true)
     }
   }
 
@@ -190,6 +195,7 @@ const MyInfo = () => {
           <Button variation={'purple default'} onClick={handelePostRequest}>
             {'수정'}
           </Button>
+          <MyInfoModal isOpen={isOpen} handleClose={handleClose} />
         </div>
       </div>
     </div>
