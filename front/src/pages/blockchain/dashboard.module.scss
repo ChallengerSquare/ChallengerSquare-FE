@@ -6,6 +6,7 @@
   //항상 화면을 꽉채우도록
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
   font-family: pretendard-regular;
 
   .header {
@@ -27,16 +28,44 @@
     padding-right: 40px;
 
     .overview {
-      display: flex; // flex로 변경하여 가로로 정렬
+      display: flex;
       height: 428px;
       margin-bottom: 32px;
 
       .blocks {
+        display: flex;
+        flex-direction: row;
+        overflow: scroll;
+        padding: 2rem;
+        color: #252525;
         flex-grow: 1; // 화면의 남은 부분을 차지하도록 설정
         background-color: #f9f6ff; // 섹션 배경색
         margin-right: 28px; // 오른쪽 여백을 28px로 설정
         //텍스트가 넘칠경우 줄바꿈
         white-space: pre-wrap;
+
+        .block {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .blockContentWrapper {
+          padding: 1rem;
+          box-sizing: border-box;
+          width: 200px; // 가로 길이를 186px로 고정
+          background-color: #ebe5fa;
+          overflow-wrap: break-word;
+        }
+
+        .dash {
+          width: 3rem;
+          border: #a1a1a1 1px solid;
+        }
+
+        .blockData {
+          color: #666;
+        }
       }
 
       .statistics {
