@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation } from 'react-query'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom'
 import { getTeamsinLeader } from '@/services/member'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Button from '@/components/Button/Button'
@@ -22,7 +22,7 @@ const ParticipateWindow = () => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [text, setText] = useState<string>('')
   const [request, setRequest] = useState<ParticipateTeamRequest | null>(null)
-
+  const navigate = useNavigate()
   const handleData = () => {
     if (!team) alert('팀을 선택해주세요.')
     else if (!text) alert('내용을 입력해주세요.')
@@ -52,6 +52,13 @@ const ParticipateWindow = () => {
   const handleClose = () => {
     setIsSubmit(false)
   }
+
+  const handleTeam = () => {
+    if (window.opener && !window.opener.closed) {
+      window.opener.location.href = '/create-team'
+    }
+    window.close()
+  }
   return (
     <>
       <div className={styles.header}>
@@ -67,6 +74,11 @@ const ParticipateWindow = () => {
             placeholder="신청할 팀을 선택하세요."
             border={true}
           />
+        </div>
+        <div className={styles.link}>
+          <button type="button" onClick={handleTeam}>
+            팀 생성하러가기 &gt;
+          </button>
         </div>
       </div>
       <div className={styles.container}>
