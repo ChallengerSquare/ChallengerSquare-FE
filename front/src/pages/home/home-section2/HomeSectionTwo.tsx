@@ -1,4 +1,4 @@
-import description from '@images/home/description.webp'
+import description from '@images/home/Description1.png'
 import styles from '@/pages/home/home-section2/HomeSectionTwo.module.scss'
 
 const HomeSectionTwo = () => {
@@ -9,7 +9,7 @@ const HomeSectionTwo = () => {
       </div>
       <div className={styles.right}>
         <span>손쉬운 행사 관리</span>
-        <p>행사를 쉽게 관리해보세요!</p>
+        <p>행사 참가자를 한 눈에 볼 수 있어요! 결과를 받아서 열심히 다시 정리했던 일은 이젠 안녕!</p>
       </div>
     </div>
   )
