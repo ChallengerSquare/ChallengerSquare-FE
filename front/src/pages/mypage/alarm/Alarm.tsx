@@ -70,13 +70,11 @@ const Alarm = () => {
               <div>
                 <div className={styles.notice_title}>
                   <div className={`${styles.point} ${alarm.isRead ? '' : styles.unread}`}>{''}</div>
-                  <div>{'SSAFY 자율 프로젝트'}</div>
+                  <div className={styles.notice_content}>{alarm.alertContent}</div>
                 </div>
-                <div className={styles.notice_content}>{alarm.alertContent}</div>
               </div>
               <div className={styles.time}>
                 <img src={notificationsIcon} alt={'notificationsIcon'} />
-                {'1시간 전'}
               </div>
             </button>
           ))}
