@@ -170,18 +170,19 @@ const Team = () => {
             <div>{`Team > 팀목록 > ${team.teamName}`}</div>
             <div className={styles.btn}>
               {team.isLeader ? (
-                <div>
-                  <button type={'button'} onClick={() => setIsOpen(true)}>
-                    {'팀 해체하기'}
-                  </button>
-                  <ConfirmModal
-                    isOpen={isOpen}
-                    handleClose={handleClose}
-                    title="팀을 해체하시겠습니까?"
-                    handleData={handleDeleteTeam}
-                  />
-                </div>
+                ''
               ) : (
+                // <div>
+                //   <button type={'button'} onClick={() => setIsOpen(true)}>
+                //     {'팀 해체하기'}
+                //   </button>
+                //   <ConfirmModal
+                //     isOpen={isOpen}
+                //     handleClose={handleClose}
+                //     title="팀을 해체하시겠습니까?"
+                //     handleData={handleDeleteTeam}
+                //   />
+                // </div>
                 <div>
                   <button type={'button'} onClick={() => setIsOpen(true)}>
                     {'팀 탈퇴하기'}

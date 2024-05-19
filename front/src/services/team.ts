@@ -117,6 +117,27 @@ export const createTeam = async (formData: FormData): Promise<ApiResponse> => {
   }
 }
 
+export const deleteMember = async (id: number): Promise<ApiResponse> => {
+  const params = {
+    participantsId: id,
+  }
+  try {
+    const response = await api.delete<ApiResponse>(`/participants`, { data: params })
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 퇴출 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
 export const deleteTeam = async (id: number): Promise<ApiResponse> => {
   try {
     const response = await api.delete<ApiResponse>(`/${id}`)
@@ -127,24 +148,6 @@ export const deleteTeam = async (id: number): Promise<ApiResponse> => {
     }
   } catch (error: any) {
     console.error('팀 삭제 API 에러', error)
-    return {
-      status: error.response.status,
-      code: error.response.data.code,
-      message: error.response.data.message,
-    }
-  }
-}
-
-export const putTeam = async (formData: FormData): Promise<ApiResponse> => {
-  try {
-    const response = await api.put<ApiResponse>('', formData)
-    return {
-      status: response.status,
-      code: response.data.code,
-      data: response.data.data,
-    }
-  } catch (error: any) {
-    console.error('팀 수정 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,
@@ -166,6 +169,24 @@ export const WithdrawTeam = async (id: number): Promise<ApiResponse> => {
     }
   } catch (error: any) {
     console.error('팀 탈퇴 API 에러', error)
+    return {
+      status: error.response.status,
+      code: error.response.data.code,
+      message: error.response.data.message,
+    }
+  }
+}
+
+export const putTeam = async (formData: FormData): Promise<ApiResponse> => {
+  try {
+    const response = await api.put<ApiResponse>('', formData)
+    return {
+      status: response.status,
+      code: response.data.code,
+      data: response.data.data,
+    }
+  } catch (error: any) {
+    console.error('팀 수정 API 에러', error)
     return {
       status: error.response.status,
       code: error.response.data.code,
