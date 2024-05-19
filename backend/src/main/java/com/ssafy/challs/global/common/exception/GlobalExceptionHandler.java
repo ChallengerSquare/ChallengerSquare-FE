@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.challs.global.common.response.ErrorResponse;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -131,6 +132,14 @@ public class GlobalExceptionHandler {
 		log.error("JsonProcessingException", e);
 		final ErrorResponse res = ErrorResponse.of(ErrorCode.JSON_PARSE_ERROR, e.getMessage());
 		return ResponseEntity.status(ErrorCode.JSON_PARSE_ERROR.getStatus()).body(res);
+	}
+
+	/** feign exception */
+	@ExceptionHandler(FeignException.class)
+	protected ResponseEntity<ErrorResponse> handleFeignException(FeignException e) {
+		log.error("FeignException", e);
+		final ErrorResponse res = ErrorResponse.of(ErrorCode.FEIGN_ERROR, e.getMessage());
+		return ResponseEntity.status(ErrorCode.FEIGN_ERROR.getStatus()).body(res);
 	}
 
 	/** 기타 모든 Excpetion */

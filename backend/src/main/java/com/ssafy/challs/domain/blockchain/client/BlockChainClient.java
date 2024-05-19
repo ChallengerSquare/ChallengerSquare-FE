@@ -1,5 +1,7 @@
 package com.ssafy.challs.domain.blockchain.client;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.ssafy.challs.domain.blockchain.dto.request.BlockChainRequest;
-import com.ssafy.challs.domain.blockchain.dto.response.BlockChainResponseDto;
+import com.ssafy.challs.domain.blockchain.dto.response.BlockChainCountResponseDto;
+import com.ssafy.challs.domain.blockchain.dto.response.client.BlockChainResponseDto;
+import com.ssafy.challs.domain.blockchain.dto.response.client.GetChainResponse;
+import com.ssafy.challs.domain.blockchain.dto.response.client.Transaction;
 
 // 연결할 주소와 이름 지정
-@FeignClient(name = "blockChainFeignClient", url = "${feign-client.url}")
+@FeignClient(name = "blockChainFeignClient", url = "${feign-client.block-chain.url}")
 public interface BlockChainClient {
 
 	// 저장할 때 사용 할 메소드
@@ -36,5 +41,59 @@ public interface BlockChainClient {
 	 */
 	@GetMapping("/get-transactions/code/{code}")
 	BlockChainResponseDto getBlockChain(@PathVariable String code);
+
+	/**
+	 * 모든 체인을 조회
+	 *
+	 * @author 강태연
+	 * @return 모든 체인
+	 */
+	@GetMapping("/get-chain")
+	GetChainResponse getChain();
+
+	/**
+	 * 모든 트랙잭션의 숫자를 조회
+	 *
+	 * @author 강태연
+	 * @return 모든 트랙잭션의 숫자
+	 */
+	@GetMapping("/get-all-transactions-count")
+	BlockChainCountResponseDto getAllTransactionsCount();
+
+	/**
+	 * 대기중인 트랙잭션의 숫자를 조회
+	 *
+	 * @author 강태연
+	 * @return 대기중인 트랜잭션의 숫자
+	 */
+	@GetMapping("/get-transactions-count")
+	BlockChainCountResponseDto getWaitingTransactionsCount();
+
+	/**
+	 * 블록의 숫자 조회
+	 *
+	 * @author 강태연
+	 * @return 블록의 숫자
+	 */
+	@GetMapping("/get-block-count")
+	BlockChainCountResponseDto getBlockCount();
+
+	/**
+	 * 모든 트랜잭션 조회
+	 *
+	 * @author 강태연
+	 * @return 모든 트랜잭션
+	 */
+	@GetMapping("/get-all-transactions")
+	List<Transaction> getAllTransactions();
+
+	/**
+	 * 블록 생성 속도 조회
+	 *
+	 * @author 강태연
+	 * @return 블록 생성 속도
+	 */
+	@GetMapping("/get-mining-period")
+	BlockChainCountResponseDto getMiningPeriod();
 
 }
