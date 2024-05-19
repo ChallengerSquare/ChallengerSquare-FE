@@ -166,7 +166,7 @@ public class TeamServiceImpl implements TeamService {
 
 		// 알림 생성, sse 전송
 		Long leaderId = teamParticipantsRepository.findByTeamIdAndIsLeaderTrue(team.getId())
-			.orElseThrow(() -> new BaseException(ErrorCode.LEADER_NOT_FOUND)).getId();
+			.orElseThrow(() -> new BaseException(ErrorCode.LEADER_NOT_FOUND)).getMember().getId();
 		alertService.createAlert(List.of(leaderId), 'T', team.getId(), team.getTeamName() + "에 가입 신청이 도착했습니다!");
 		Map<String, Boolean> message = new HashMap<>();
 		message.put(UN_READ, true);
