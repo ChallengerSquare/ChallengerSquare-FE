@@ -106,7 +106,7 @@ const CompetitionManage = () => {
                 phone: member.memberPhone,
                 address:
                   member.memberAddress != null
-                    ? member.memberAddress.split(' ').slice(1, 4).join(' ')
+                    ? member.memberAddress.split(' ').slice(1, 3).join(' ')
                     : member.memberAddress,
               })),
             })),

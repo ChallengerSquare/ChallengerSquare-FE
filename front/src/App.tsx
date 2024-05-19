@@ -47,7 +47,6 @@ function App() {
             <Route path="/competition-results/code/:code" element={<Certification />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/sign-up" element={<Signup />} />
-            <Route path="/join/:code" element={<JoinTeam />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<Error />} />
             <Route element={<PrivateRoute />}>
@@ -65,6 +64,7 @@ function App() {
               <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
               <Route path="/create-competition" element={<CreateCompetition />} />
               <Route path="/create-team" element={<CreateTeam />} />
+              <Route path="/join/:code" element={<JoinTeam />} />
             </Route>
           </Routes>
         </BrowserRouter>
