@@ -55,7 +55,6 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 		queryFactory.update(team)
 			.set(team.teamName, teamUpdateRequestDto.teamName())
 			.set(team.teamDescription, teamUpdateRequestDto.teamDescription())
-			.set(team.teamPhone, teamUpdateRequestDto.teamPhone())
 			.where(team.id.eq(teamUpdateRequestDto.teamId()))
 			.execute();
 	}
