@@ -31,6 +31,9 @@ const CompetitionContent = ({ competition }: Props) => {
   const handleClose = () => {
     setIsOpen(false)
   }
+  const formatCurrency = (amount: number): string => {
+    return `${amount.toLocaleString()} 원`
+  }
 
   const isRegistrationOpen = () => {
     const currentDate = new Date()
@@ -76,15 +79,19 @@ const CompetitionContent = ({ competition }: Props) => {
 
   const renderButton = () => {
     const role =
-      competition.contestState === 'L'
+      competition.contestState === 'L' || competition.contestState === 'D'
         ? '대회마감'
         : competition.contestState === 'S'
           ? '진행중'
-          : competition.isOwnerTeamMember
-            ? '대회취소'
-            : competition.isParticipantsLeader
-              ? '신청취소'
-              : '참가하기'
+          : competition.contestState === 'E'
+            ? '대회종료'
+            : competition.contestState === 'P'
+              ? '진행전'
+              : competition.isOwnerTeamMember
+                ? '대회취소'
+                : competition.isParticipantsLeader
+                  ? '신청취소'
+                  : '참가하기'
     // isleader : 해당 대회 신청했는지
     switch (role) {
       case '신청취소':
@@ -173,7 +180,7 @@ const CompetitionContent = ({ competition }: Props) => {
               <span>장소</span> {competition.contestLocation}
             </li>
             <li>
-              <span>참가비</span> {competition.contestFee} 원{' '}
+              <span>참가비</span> {formatCurrency(competition.contestFee)}
               {competition.contestFee === 0 && <p className="point">무료</p>}
             </li>
             <li>

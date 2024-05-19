@@ -17,6 +17,10 @@ interface CompetitionModalProps {
   handleClose: () => void
 }
 
+const formatNumber = (number: number) => {
+  return number.toLocaleString()
+}
+
 const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) => {
   const [isResult, setIsResult] = useState<boolean>(false)
   const [contestId, setContestId] = useState<number | null>(null)
@@ -65,6 +69,7 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
 
     registerData.mutate(formData)
   }
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={handleClose}>
@@ -116,15 +121,15 @@ const CompetitionModal = ({ data, isOpen, handleClose }: CompetitionModalProps) 
             </div>
             <div className={styles.element}>
               <div className={styles.label}>참가비 : </div>
-              <div className={styles.content}> {competition.contestFee} 원</div>
+              <div className={styles.content}> {formatNumber(competition.contestFee)} 원</div>
             </div>
             <div className={styles.element}>
               <div className={styles.label}>수상내역 : </div>
               <div className={styles.content}>
                 <div className={styles.reward}>
                   {competition.contestAwards.map((item, index) => (
-                    <div>
-                      {item.awardsName}({item.awardsCount}) : {item.awardsPrize}
+                    <div key={index}>
+                      {item.awardsName}({item.awardsCount}) : {formatNumber(item.awardsPrize)} 원
                     </div>
                   ))}
                 </div>

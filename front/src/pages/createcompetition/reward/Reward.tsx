@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { stepProps } from '@/types/step'
-import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { CreateCompetitionDto } from '@/types/api'
 import Button from '@/components/Button/Button'
 import plusIcon from '@svgs/plus_icon.svg'
@@ -9,8 +9,6 @@ import { competitionForm } from '../store'
 import styles from './Reward.module.scss'
 
 const Reward = ({ prevStep, nextStep }: stepProps) => {
-  const [formState, setFormState] = useRecoilState(competitionForm)
-  const ss: CreateCompetitionDto = useRecoilValue(competitionForm)
   const [form, setForm] = useRecoilState(competitionForm)
   const [awards, setAwards] = useState(() => {
     if (form.contestCreateRequestDto.contestAwards.length === 0) {
@@ -19,7 +17,7 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     return form.contestCreateRequestDto.contestAwards.map((award) => ({
       name: award.awardsName,
       count: award.awardsCount.toString(),
-      amount: award.awardsPrize.toString(),
+      amount: award.awardsPrize.toLocaleString(),
     }))
   })
 
@@ -27,15 +25,13 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     const initialAwards = form.contestCreateRequestDto.contestAwards.map((award) => ({
       name: award.awardsName,
       count: award.awardsCount.toString(),
-      amount: award.awardsPrize.toString(),
+      amount: award.awardsPrize.toLocaleString(),
     }))
     setAwards(initialAwards.length > 0 ? initialAwards : [{ name: '', count: '0', amount: '0' }])
   }, [form.contestCreateRequestDto.contestAwards])
 
   const handleAddAward = () => {
-    if (awards.length < 10) {
-      setAwards([...awards, { name: '', count: '', amount: '' }])
-    }
+    setAwards([...awards, { name: '', count: '', amount: '' }])
   }
 
   const handleRemoveAward = (index: number) => {
@@ -43,6 +39,18 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
   }
 
   const handleInputChange = (index: number, field: string, value: string) => {
+    if (field === 'amount') {
+      const strippedValue = value.replace(/,/g, '')
+      if (/^\d*$/.test(strippedValue)) {
+        const formattedValue = strippedValue === '' ? '' : parseInt(strippedValue, 10).toLocaleString()
+        updateAward(index, field, formattedValue)
+      }
+    } else {
+      updateAward(index, field, value)
+    }
+  }
+
+  const updateAward = (index: number, field: string, value: string) => {
     const updatedAwards = awards.map((award, idx) => {
       if (idx === index) {
         return { ...award, [field]: value }
@@ -51,16 +59,14 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     })
     setAwards(updatedAwards)
   }
+
   const handleNextStep = () => {
     const validAwards = awards
-      .filter((award) => {
-        const count = parseInt(award.count, 10)
-        return count > 0
-      })
+      .filter((award) => parseInt(award.count, 10) > 0)
       .map((award) => ({
         awardsName: award.name,
         awardsCount: parseInt(award.count, 10),
-        awardsPrize: parseInt(award.amount, 10),
+        awardsPrize: parseInt(award.amount.replace(/,/g, ''), 10),
       }))
     setForm({
       ...form,
@@ -71,6 +77,7 @@ const Reward = ({ prevStep, nextStep }: stepProps) => {
     })
     nextStep?.()
   }
+
   return (
     <>
       <div className={styles.header}>대회 시상 정보를 입력해 주세요.</div>
