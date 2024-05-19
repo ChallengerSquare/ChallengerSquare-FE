@@ -87,7 +87,7 @@ public class TeamServiceImpl implements TeamService {
 		Member owner = memberRepository.findById(memberId)
 			.orElseThrow(() -> new BaseException(ErrorCode.MEMBER_FOUND_ERROR));
 		// DTO -> ENTITY
-		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, null, owner.getMemberPhone());
+		Team team = teamMapper.teamCreateDtoToTeam(teamRequestDto, teamCode, null);
 		// DB에 저장
 		Team savedTeam = teamRepository.save(team);
 
