@@ -16,7 +16,11 @@ const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => 
         {contestList.map((contest) => (
           <div key={contest.contestId}>
             <div className={styles.contest}>
-              <p>{contest.contestTitle}</p>
+              {contest.contestTitle.length > 10 ? (
+                <p>{contest.contestTitle.substring(0, 9)}...</p>
+              ) : (
+                <p>{contest.contestTitle}</p>
+              )}
               <BaseImg imgUrl={contest.contestImage} imgName={'대회 로고'} variation={'card'} />
             </div>
             <div className={styles.btn}>
