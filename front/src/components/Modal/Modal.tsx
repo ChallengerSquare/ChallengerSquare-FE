@@ -14,7 +14,7 @@ const Modal = ({ isOpen, onClose, children, width, background = false }: ModalPr
   if (!isOpen) return null
 
   return (
-    <div className={background ? styles['modal-overlay-white'] : styles['modal-overlay']} onClick={onClose}>
+    <div className={background ? styles['modal-overlay-white'] : styles['modal-overlay']}>
       <div className={styles['modal-content']} style={{ width }} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

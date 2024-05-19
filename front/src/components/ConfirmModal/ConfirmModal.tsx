@@ -8,7 +8,7 @@ interface ConfirmProps {
   isOpen: boolean
   handleClose: () => void
   title: string
-  handleData: () => void
+  handleData?: () => void
 }
 
 const ConfirmModal = ({ isOpen, handleClose, title, handleData }: ConfirmProps) => {
