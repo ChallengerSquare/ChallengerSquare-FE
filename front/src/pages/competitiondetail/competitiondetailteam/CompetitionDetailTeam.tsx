@@ -69,7 +69,7 @@ const CompetitionDetailTeam = ({ teamId }: Props) => {
       </div>
       <div className={styles.competition}>
         <div className={styles.title}>개최대회</div>
-        <CompetitionCard grid={'grid_4'} state={'participate'} contestList={competitionList} />
+        <CompetitionCard grid={'grid_3'} state={'participate'} contestList={competitionList} />
       </div>
     </div>
   )
