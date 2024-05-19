@@ -13,7 +13,7 @@ import com.ssafy.challs.domain.team.entity.Team;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TeamMapper {
 	@Mapping(source = "image", target = "teamImage")
-	Team teamCreateDtoToTeam(TeamCreateRequestDto teamCreateDto, String teamCode, String image, String teamPhone);
+	Team teamCreateDtoToTeam(TeamCreateRequestDto teamCreateDto, String teamCode, String image);
 
 	@Mapping(source = "team.id", target = "teamId")
 	@Mapping(source = "teamCode", target = "teamCode")
