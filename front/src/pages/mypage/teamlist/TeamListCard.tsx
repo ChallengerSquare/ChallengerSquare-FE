@@ -20,7 +20,11 @@ const TeamCardList = ({ teamListData, setId }: TeamCardListProps) => {
         </Link>
       </div>
       <div className={styles.body}>
-        {teamListData ? <TeamCard teamlist={teamListData} setId={setId} /> : <EmptyImg text={'팀 목록이 없습니다.'} />}
+        {teamListData.length > 0 ? (
+          <TeamCard teamlist={teamListData} setId={setId} />
+        ) : (
+          <EmptyImg text={'팀 목록이 없습니다.'} />
+        )}
       </div>
     </div>
   )
