@@ -13,22 +13,8 @@ import styles from './Competition.module.scss'
 
 const Competition = () => {
   useScrollTop()
-  const [famousCompetitionList, setfamousCompetitionList] = useState<ContestData[]>([
-    {
-      contestId: 0,
-      contestTitle: '',
-      contestImage: '',
-      contestDate: '',
-    },
-  ])
-  const [dueCompetitionList, setDueCompetitionList] = useState<ContestData[]>([
-    {
-      contestId: 0,
-      contestTitle: '',
-      contestImage: '',
-      contestDate: '',
-    },
-  ])
+  const [famousCompetitionList, setfamousCompetitionList] = useState<ContestData[]>([])
+  const [dueCompetitionList, setDueCompetitionList] = useState<ContestData[]>([])
 
   useEffect(() => {
     /* 인기 있는 대회 조회 API */
