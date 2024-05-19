@@ -86,7 +86,7 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 			.from(team)
 			.where(team.id.in(JPAExpressions.select(teamParticipants.team.id)
 				.from(teamParticipants)
-				.where(teamParticipants.member.id.eq(memberId))))
+				.where(teamParticipants.member.id.eq(memberId).and(teamParticipants.isParticipants.isTrue()))))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
