@@ -1,31 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import styles from './dashboard.module.scss'
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const [blockCount, setBlockCount] = useState<number | null>(null)
   const [transactionCount, setTransactionCount] = useState<number | null>(null)
   const [nodeCount, setNodeCount] = useState<number | null>(null)
   const [blockSpeed, setBlockSpeed] = useState<number | null>(null)
   const [pendingTransactions, setPendingTransactions] = useState<number | null>(null)
   const [networkStatus, setNetworkStatus] = useState<string | null>(null)
+  const [transactions, setTransactions] = useState<any[]>([])
 
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Fetch data on component mount
   useEffect(() => {
-    // Function to fetch data from all APIs
     const fetchData = async () => {
       try {
-        const blockCountResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-block-count')
-        const transactionCountResponse = await axios.get(
-          'https://www.challengersquare.com/api/block-chain/get-all-transactions-count',
-        )
-        const nodeCountResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-node-count')
-        const pendingTransactionsResponse = await axios.get(
-          'https://www.challengersquare.com/api/block-chain/get-transactions-count',
-        )
-        const networkStatusResponse = await axios.get(
-          'https://www.challengersquare.com/api/block-chain/get-network-status',
-        )
-        const blockSpeedResponse = await axios.get('https://www.challengersquare.com/api/block-chain/get-mining-period')
+        const [
+          blockCountResponse,
+          transactionCountResponse,
+          nodeCountResponse,
+          pendingTransactionsResponse,
+          networkStatusResponse,
+          blockSpeedResponse,
+          transactionsResponse,
+        ] = await Promise.all([
+          axios.get('https://www.challengersquare.com/api/block-chain/get-block-count'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-all-transactions-count'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-node-count'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-transactions-count'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-network-status'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-mining-period'),
+          axios.get('https://www.challengersquare.com/api/block-chain/get-chain'),
+        ])
 
         setBlockCount(blockCountResponse.data.data.result)
         setTransactionCount(transactionCountResponse.data.data.result)
@@ -33,6 +41,7 @@ const Dashboard = () => {
         setBlockSpeed(blockSpeedResponse.data.data.result)
         setPendingTransactions(pendingTransactionsResponse.data.data.result)
         setNetworkStatus(networkStatusResponse.data.data.result)
+        setTransactions(transactionsResponse.data.data.chain)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -41,6 +50,31 @@ const Dashboard = () => {
     fetchData()
   }, [])
 
+  // Scroll to the right end after transactions are set
+  useEffect(() => {
+    const scrollContainer = scrollRef.current
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth
+    }
+  }, [transactions])
+
+  const extractTransactions = (chain: any[]) => {
+    const extractedTransactions: any[] = []
+    chain.forEach((block) => {
+      if (block.body.transactions && block.body.transactions.length > 0) {
+        block.body.transactions.forEach((transaction: any) => {
+          extractedTransactions.push({
+            transaction_id: transaction.transaction_id,
+            data: transaction.data,
+            type: transaction.type,
+            timestamp: transaction.timestamp,
+          })
+        })
+      }
+    })
+    return extractedTransactions
+  }
+
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
@@ -48,7 +82,30 @@ const Dashboard = () => {
       </header>
       <div className={styles.mainContent}>
         <div className={styles.overview}>
-          <div className={styles.blocks}>{'contents'}</div>
+          <div className={styles.blocks} ref={scrollRef}>
+            {transactions.map((transaction, index) => (
+              <div key={index} className={styles.block}>
+                <div className={styles.blockContentWrapper}>
+                  <p>
+                    previous hash: <span className={styles.blockData}>{transaction.body.previous_hash}</span>
+                  </p>
+                  <p>
+                    index: <span className={styles.blockData}>{transaction.body.index}</span>
+                  </p>
+                  <p>
+                    proof: <span className={styles.blockData}>{transaction.body.proof}</span>
+                  </p>
+                  <p>
+                    timestamp: <span className={styles.blockData}>{transaction.body.timestamp}</span>
+                  </p>
+                  <p>
+                    transactions: <span className={styles.blockData}>{transaction.body.transactions.length}</span>
+                  </p>
+                </div>
+                {transactions.length - 1 !== index && <div className={styles.dash} />}
+              </div>
+            ))}
+          </div>
           <div className={styles.statistics}>
             <div className={styles.blockchainInfo}>
               <div className={styles.infoBox}>
@@ -84,37 +141,28 @@ const Dashboard = () => {
           <div className={styles.detailHeader}>
             <div className={styles.dataType}>
               <div className={styles.types}>Transactions</div>
-              <div className={styles.types}>nodes</div>
-            </div>
-            <div className={styles.search}>
-              <div className={styles.searchInput}>
-                <input type="text" placeholder="Search transactions" />
-              </div>
-              <div className={styles.searchButton}>Search</div>
             </div>
             {/* 거래 정보 표시 */}
           </div>
           <div className={styles.dataTable}>
             <div className={styles.columnNames}>
               {/* 조건에 따라 내용 추가 */}
-              <div className={styles.columnName}>ID</div>
-              <div className={styles.columnName}>type</div>
-              <div className={styles.columnName}>block number</div>
-              <div className={styles.columnName}>contents</div>
-              <div className={styles.columnName}>timestamp</div>
+              <div className={`${styles.columnName} ${styles.IDColumn}`}>ID</div>
+              <div className={`${styles.columnName} ${styles.typeColumn}`}>type</div>
+              <div className={`${styles.columnName} ${styles.contentColumn}`}>contents</div>
+              <div className={`${styles.columnName} ${styles.timestampColumn}`}>timestamp</div>
             </div>
             <div className={styles.dataList}>
-              <div className={styles.dataBox}>
-                <div className={styles.data}>58865349-7b29-4328-ae01-78233765f5b2</div>
-                <div className={styles.data}>participation</div>
-                <div className={styles.data}>288</div>
-                <div className={styles.data}>
-                  &quot;attendee_name&quot;: &quot;김영희&quot;, &quot;code&quot;: &quot;PART67890&quot;,
-                  &quot;details&quot;: &quot;참가자 전원에게 기념품 제공&quot;, &quot;event_date&quot;:
-                  &quot;2023-05-02&quot;
-                </div>
-                <div className={styles.data}>2024-05-07T16:58:10.351843</div>
-              </div>
+              {extractTransactions(transactions)
+                .reverse()
+                .map((transaction, index) => (
+                  <div key={index} className={styles.dataBox}>
+                    <div className={`${styles.data} ${styles.IDColumn}`}>{transaction.transaction_id}</div>
+                    <div className={`${styles.data} ${styles.typeColumn}`}>{transaction.type}</div>
+                    <div className={`${styles.data} ${styles.contentColumn}`}>{JSON.stringify(transaction.data)}</div>
+                    <div className={`${styles.data} ${styles.timestampColumn}`}>{transaction.timestamp}</div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
