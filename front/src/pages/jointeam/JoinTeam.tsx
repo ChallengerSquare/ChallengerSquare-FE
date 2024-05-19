@@ -58,7 +58,7 @@ const JoinTeam = () => {
           <p>{team.teamName}</p>
         </div>
         {join === true ? (
-          <div className={styles.content}>{'이미 가입 신청된 계정입니다.'}</div>
+          <div className={styles.content}>{'가입 신청된 계정입니다.'}</div>
         ) : team.teamName != '' ? (
           <div className={styles.content}>
             <Button variation={'purple'} onClick={handleJoinState}>

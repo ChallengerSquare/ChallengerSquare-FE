@@ -125,7 +125,7 @@ const CompetitionManageDone = ({ competition, onChangeCompetitionState, loading 
             competitionData.teamList.map((team, index) => (
               <div className={styles.content_team} key={index}>
                 <div className={styles.content_info}>
-                  <span className={styles.content_index}>{team.id}</span>
+                  <span className={styles.content_index}>{index + 1}</span>
                   <span className={styles.content_classify}>{team.name}</span>
                   <span className={styles.content_name}>{team.members[0].name}</span>
                   <span className={styles.content_birth}>{team.members[0].birthday}</span>
