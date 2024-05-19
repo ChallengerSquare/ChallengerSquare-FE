@@ -70,7 +70,7 @@ public class TeamRepositoryImpl implements TeamRepositoryCustom {
 					// 팀 인원수
 					JPAExpressions.select(teamParticipants.count().castToNum(Integer.class))
 						.from(teamParticipants)
-						.where(teamParticipants.team.id.eq(team.id)),
+						.where(teamParticipants.team.id.eq(team.id).and(teamParticipants.isParticipants.isTrue())),
 					// 팀 대회 개최 수
 					JPAExpressions
 						.select(contest.count().castToNum(Integer.class))
