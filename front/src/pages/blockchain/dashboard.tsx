@@ -141,33 +141,28 @@ const Dashboard: React.FC = () => {
           <div className={styles.detailHeader}>
             <div className={styles.dataType}>
               <div className={styles.types}>Transactions</div>
-              <div className={styles.types}>nodes</div>
-            </div>
-            <div className={styles.search}>
-              <div className={styles.searchInput}>
-                <input type="text" placeholder="Search transactions" />
-              </div>
-              <div className={styles.searchButton}>Search</div>
             </div>
             {/* 거래 정보 표시 */}
           </div>
           <div className={styles.dataTable}>
             <div className={styles.columnNames}>
               {/* 조건에 따라 내용 추가 */}
-              <div className={styles.columnName}>ID</div>
-              <div className={styles.columnName}>type</div>
-              <div className={styles.columnName}>contents</div>
-              <div className={styles.columnName}>timestamp</div>
+              <div className={`${styles.columnName} ${styles.IDColumn}`}>ID</div>
+              <div className={`${styles.columnName} ${styles.typeColumn}`}>type</div>
+              <div className={`${styles.columnName} ${styles.contentColumn}`}>contents</div>
+              <div className={`${styles.columnName} ${styles.timestampColumn}`}>timestamp</div>
             </div>
             <div className={styles.dataList}>
-              {extractTransactions(transactions).map((transaction, index) => (
-                <div key={index} className={styles.dataBox}>
-                  <div className={styles.data}>{transaction.transaction_id}</div>
-                  <div className={styles.data}>{transaction.type}</div>
-                  <div className={styles.data}>{JSON.stringify(transaction.data)}</div>
-                  <div className={styles.data}>{transaction.timestamp}</div>
-                </div>
-              ))}
+              {extractTransactions(transactions)
+                .reverse()
+                .map((transaction, index) => (
+                  <div key={index} className={styles.dataBox}>
+                    <div className={`${styles.data} ${styles.IDColumn}`}>{transaction.transaction_id}</div>
+                    <div className={`${styles.data} ${styles.typeColumn}`}>{transaction.type}</div>
+                    <div className={`${styles.data} ${styles.contentColumn}`}>{JSON.stringify(transaction.data)}</div>
+                    <div className={`${styles.data} ${styles.timestampColumn}`}>{transaction.timestamp}</div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

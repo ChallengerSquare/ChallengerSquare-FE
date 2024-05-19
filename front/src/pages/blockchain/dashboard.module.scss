@@ -5,11 +5,12 @@
   background-color: #4e1a90; // 메인 배경색
   //항상 화면을 꽉채우도록
   height: 100vh;
-  width: 100vw;
   overflow: scroll;
+  width: 100vw;
   font-family: pretendard-regular;
 
   .header {
+    flex-shrink: 0;
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 32px;
@@ -31,6 +32,7 @@
       display: flex;
       height: 428px;
       margin-bottom: 32px;
+      flex-shrink: 0;
 
       .blocks {
         display: flex;
@@ -121,6 +123,7 @@
 
     .detail {
       flex-grow: 1;
+      flex-shrink: 0;
 
       .detailHeader {
         flex-grow: 1;
@@ -189,6 +192,23 @@
         background-color: #ddd1ff; // 섹션 배경색
         padding: 10px;
 
+        .IDColumn {
+          width: 24%;
+        }
+
+        .typeColumn {
+          width: 10%;
+        }
+
+        .contentColumn {
+          width: 56%;
+          overflow-wrap: break-word;
+        }
+
+        .timestampColumn {
+          width: 10%;
+        }
+
         .columnNames {
           display: flex;
           justify-content: space-between;
@@ -203,28 +223,11 @@
             border-right: 1.5px solid #ab56ff;
             text-align: center;
 
-            &:nth-child(1) {
-              flex-grow: 1;
-            }
-
-            &:nth-child(2) {
-              flex-grow: 2;
-            }
-
-            &:nth-child(3) {
-              flex-grow: 1;
-            }
-
-            &:nth-child(4) {
-              flex-grow: 1;
-            }
-
-            &:nth-child(5) {
-              flex-grow: 1;
+            &:last-child {
               border-right: none;
             }
-          }
         }
+      }
 
         .dataList {
           background-color: #f9f6ff;
@@ -241,25 +244,8 @@
             .data {
               text-align: center;
               border-right: 1.5px solid #909090;
-
-              &:nth-child(1) {
-                flex-grow: 1;
-              }
-
-              &:nth-child(2) {
-                flex-grow: 1;
-              }
-
-              &:nth-child(3) {
-                flex-grow: 1;
-              }
-
+              
               &:nth-child(4) {
-                flex-grow: 1;
-              }
-
-              &:nth-child(5) {
-                flex-grow: 1;
                 border-right: none;
               }
             }
