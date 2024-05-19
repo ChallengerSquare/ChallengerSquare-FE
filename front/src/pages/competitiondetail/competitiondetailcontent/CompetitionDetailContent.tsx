@@ -124,7 +124,7 @@ const CompetitionContent = ({ competition }: Props) => {
               onClick={() => {
                 if (!user.userName) navigate('/auth')
                 else {
-                  const features = 'toolbar=no,menubar=no,width=700,height=700,left=100,top=100'
+                  const features = 'toolbar=no,menubar=no,width=800,height=700,left=100,top=100'
                   window.open(`/competition/participate/write/${competition.contestId}`, '_blank', features)
                 }
               }}
