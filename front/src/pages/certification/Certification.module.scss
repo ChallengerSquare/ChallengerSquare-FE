@@ -77,6 +77,7 @@
   height: auto;
   z-index: 3;
   top: 190px;
+  text-wrap: nowrap;
 }
 
 .event_name {
@@ -87,6 +88,7 @@
   height: auto;
   z-index: 3;
   top: 170px;
+  text-wrap: nowrap;
 }
 
 .content {
@@ -196,6 +198,7 @@
   font-weight: bold;
   top: 450px;
   left: 610px;
+  text-wrap: nowrap;
 }
 .line_organization {
   position: absolute;
