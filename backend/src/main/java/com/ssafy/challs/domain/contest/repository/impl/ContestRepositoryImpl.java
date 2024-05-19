@@ -76,6 +76,9 @@ public class ContestRepositoryImpl implements ContestRepositoryCustom {
 		if (Boolean.TRUE.equals(searchRequestDto.isEnd())) {
 			BooleanExpression isEndCondition = contest.contestState.eq('E');
 			whereBuilder.and(isEndCondition);
+		} else {
+			BooleanExpression isEndCondition = contest.contestState.ne('E');
+			whereBuilder.and(isEndCondition);
 		}
 
 		// 결과 쿼리 실행
