@@ -122,11 +122,15 @@ const Certification = () => {
             ) : (
               <EmptyImg text="검색 결과가 없습니다." />
             )}
-            <div className={styles.download}>
-              <button type="button" className={styles.download_btn} onClick={handleDownload}>
-                <img src={FileDownloadIcon} alt="file_download" />
-              </button>
-            </div>
+            {certificate ? (
+              <div className={styles.download}>
+                <button type="button" className={styles.download_btn} onClick={handleDownload}>
+                  <img src={FileDownloadIcon} alt="file_download" />
+                </button>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </div>
