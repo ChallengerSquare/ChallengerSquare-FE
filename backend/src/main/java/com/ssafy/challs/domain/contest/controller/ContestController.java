@@ -5,7 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -114,9 +116,18 @@ public class ContestController {
 	@GetMapping("/{contestId}")
 	@Operation(summary = "대회 상세조회 (O)", description = "대회를 상세조회하는 API")
 	public ResponseEntity<SuccessResponse<ContestFindResponseDto>> findContest(
-		@AuthenticationPrincipal SecurityMember securityMember,
 		@PathVariable @Schema(description = "검색할 대회의 ID", example = "1") Long contestId) {
-		ContestFindResponseDto contest = contestService.findContest(contestId, securityMember.id());
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		SecurityMember securityMember = null;
+
+		if (authentication != null && authentication.isAuthenticated()
+			&& authentication.getPrincipal() instanceof SecurityMember) {
+			securityMember = (SecurityMember)authentication.getPrincipal();
+		}
+
+		Long userId = (securityMember != null) ? securityMember.id() : null;
+		ContestFindResponseDto contest = contestService.findContest(contestId, userId);
 		return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, contest));
 	}
 
