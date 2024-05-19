@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ContestData } from '@/types/competition'
-import baseImg from '@images/baseImg.png'
 import Grid from '../Gird/Grid'
 import styles from './CompetitionCard.module.scss'
 import BaseImg from '../BaseImg/BaseImg'
@@ -19,7 +17,7 @@ const CompetitionCard = ({ grid, state, contestList }: CompetitionCardProps) => 
           <div key={contest.contestId}>
             <div className={styles.contest}>
               <p>{contest.contestTitle}</p>
-              <BaseImg imgUrl={contest.contestImage} imgName={'대회 로고'} />
+              <BaseImg imgUrl={contest.contestImage} imgName={'대회 로고'} variation={'card'} />
             </div>
             <div className={styles.btn}>
               {state === 'create' ? (
