@@ -6,6 +6,7 @@
 💡 대회를 간편하게 개최/참여하고 블록체인으로 수상과 참가 내역을 투명하게 관리하는 서비스
 </aside>
 
+<br>
 
 ## ✍🏻 기획 배경
 
@@ -18,6 +19,8 @@
 - 여러 곳에 흩어져있는 대회 정보를 하나의 플랫폼에서 확인할 수 있도록 돕는 프로젝트
 - 블록체인 네트워크를 이용하여 수상,참가 내역을 안전하고 무결하게 관리하는 프로젝트
 
+<br>
+
 ## **🙋 팀원 소개**
 
 ---
@@ -26,6 +29,8 @@
 | --- | --- | --- | --- | --- | --- |
 | [안준현](https://github.com/alloy31) | [강다솔](https://github.com/DasollKang) | [강태연](https://github.com/snowman2810) | [김재윤](https://github.com/jaeyun1723) | [남혜미](https://github.com/namhyemi) | [이성목](https://github.com/CocoIsCat) |
 | 팀장,<br> Block Chain | Backend | Backend, Infra | Frontend, Infra | Frontend | Block Chain |
+
+<br>
 
 ## **🛠️ 기술 스택**
 
@@ -83,12 +88,18 @@
 <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white" alt="Notion Badge" />
 <img src="https://img.shields.io/badge/Mattermost-0072C6?style=flat-square&logo=mattermost&logoColor=white" alt="Mattermost Badge" />
 
-
+<br>
 
 ## **🏃‍♂️ 유저 플로우**
 <img src="./README_images/UserFlow.png"/>
 
+<br>
 
+## **📚 산출물**
+[API 명세서](./산출물/API%20명세서) &nbsp; &nbsp;
+[ERD](./산출물/ERD.png)
+
+<br>
 
 ## **🛠️ 아키텍처 다이어그램**
 서비스 서버
@@ -96,12 +107,13 @@
 블록체인 서버
 <img src="./README_images/Architecture-block.png"/>
 
+<br>
 
 ## **🎬 실행 방법**
 
-
-
 [포팅 메뉴얼](./exec) 참고
+
+<br>
 
 ## **🎮 주요 기능**
 
@@ -154,7 +166,7 @@
 <img src="./README_images/BlockchainDashBoard.png"/>
 <img src="./README_images/16. 블록체인.gif"/>
 
-
+<br>
 
 ## **🔍 서비스 의의**
 - 비용 절감 
