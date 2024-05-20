@@ -25,7 +25,7 @@
 | <img src="https://github.com/alloy31.png" width="200" height="200"/> | <img src="https://github.com/DasolKang.png" width="200" height="200"/> | <img src="https://github.com/snowman2810.png" width="200" height="200"/> | <img src="https://github.com/jaeyun1723.png" width="200" height="200"/> | <img src="https://github.com/namhyemi.png" width="200" height="200"/> | <img src="https://github.com/CocoIsCat.png" width="200" height="200"/> |
 | --- | --- | --- | --- | --- | --- |
 | [안준현](https://github.com/alloy31) | [강다솔](https://github.com/DasollKang) | [강태연](https://github.com/snowman2810) | [김재윤](https://github.com/jaeyun1723) | [남혜미](https://github.com/namhyemi) | [이성목](https://github.com/CocoIsCat) |
-| 팀장, Block Chain | Backend | Backend, Infra | Frontend, Infra | Frontend | Block Chain |
+| 팀장,<br> Block Chain | Backend | Backend, Infra | Frontend, Infra | Frontend | Block Chain |
 
 ## **🛠️ 기술 스택**
 
@@ -105,18 +105,54 @@
 
 ## **🎮 주요 기능**
 
+### 메인 화면
+<img src="./README_images/1.대회메인페이지.gif"/>
+
+
 ### 수상 확인
-<img src="./README_images/SearchCode.png"/>
-<img src="./README_images/Certificate.png"/>
+<img src="./README_images/15.대회결과.png"/>
+<img src="./README_images/15-1.대회결과.gif"/>
+
 
 ### 팀
+팀 가입 신청
+<img src="./README_images/12.팀초대링크.gif"/>
+팀 가입 수락 / 거절
+<img src="./README_images/13.팀초대링크확인.gif"/>
 
 ### 대회
+대회 메인 페이지
+<img src="./README_images/1.대회메인페이지.gif"/>
+대회 검색
+<img src="./README_images/2.대회검색페이지.gif"/>
+대회 상세
+<img src="./README_images/3.대회상세페이지.gif"/>
+대회 등록
+<img src="./README_images/6.대회등록.gif"/>
+<img src="./README_images/7.대회등록.gif"/>
+대회 신청
+<img src="./README_images/8.대회신청.gif"/>
+대회 신청 취소
+<img src="./README_images/10.대회신청취소.gif"/>
+대회 취소
+<img src="./README_images/9.대회취소.gif"/>
+대회 관리
+<img src="./README_images/11.대회관리.gif"/>
 
-### 알림
+### 대회 공지사항
+<img src="./README_images/4.공지사항등록.gif"/>
+
+
+### 대회 QnA
+질문 등록
+<img src="./README_images/5.QnA등록.gif"/>
+질문에 답변 등록
+<img src="./README_images/6.QnA답변.gif"/>
+
 
 ### 블록체인 대시보드
 <img src="./README_images/BlockchainDashBoard.png"/>
+<img src="./README_images/16. 블록체인.gif"/>
 
 
 
