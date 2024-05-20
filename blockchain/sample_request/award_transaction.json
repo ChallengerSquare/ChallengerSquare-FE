@@ -1,0 +1,19 @@
+[
+  {
+    "type": "award",
+    "organizer": "주최 단체명",
+    "event_name": "대회명",
+    "award_date": "2023-05-01",
+    "recipient_name": "홍길동",
+    "recipient_code": "samplecodeforhong",
+    "code": "CERT12345",
+    "award_type": "금상"
+  },
+  {
+    "type": "award",
+    "organizer": "주최 단체명",
+    "event_name": "대회명",
+    "award_date": "2023-05-01",
+    "recipient_name": "홍길동"
+  }
+]
