@@ -1,0 +1,81 @@
+@import '@styles/variables.scss';
+
+.info{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .title{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-bottom: 1px solid $sub-color;
+        font-weight: 600;
+    }
+
+    .content{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0px;
+        overflow-y: auto;;
+        border-bottom: 1px solid $sub-color;
+    }
+    .head{
+        display: flex;
+        padding: 10px 10px;
+        background-color: $sub-color;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+    .body{
+        .line{
+            display: flex;
+            padding: 10px 0px;  
+            border-bottom: 1px solid $sub-color;
+        }
+
+        span{
+            border-bottom: 1px solid $main-color;
+            font-weight: bold;
+            color: $main-color;
+            padding: 1px;
+        }
+
+    }
+    .empty{
+        width: 100%;
+        height: 100%;
+    }
+
+    .category{
+        flex:1;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .name{
+        flex:2;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .period{
+        flex:2;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .awardcode{
+        flex:4;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    .attendcode{
+        flex:4;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+}

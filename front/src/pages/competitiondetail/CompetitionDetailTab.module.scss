@@ -1,0 +1,30 @@
+@import '@styles/variables.scss';
+
+.tab_menu{
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5rem;
+    
+    border-bottom : grey solid 0.01rem;
+
+    button{ 
+        width: 8rem;
+        padding-bottom : 1rem;
+    }
+    
+    .active{
+        color: $main-color;
+        font-weight: bold;
+        border-bottom: $main-color solid 0.01rem;
+    }
+
+    .inactive{
+        &:hover{
+            color:$main-third-color;
+        }
+    }
+}
+
+.tab_content{
+    border-bottom : grey solid 0.01rem;
+}

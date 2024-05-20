@@ -1,0 +1,147 @@
+@import '@styles/variables.scss';
+
+@mixin inputBox {
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  font-weight: bold;
+  font-size: 1.5rem;
+  justify-content: center;
+  margin: 20px 0 0 0;
+}
+
+.content {
+  display: flex;
+}
+
+.thumbnail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .poster {
+    margin-bottom: 10px;
+  }
+  img {
+    width: 30%;
+    height: auto;
+  }
+}
+
+.period {
+  margin: 0 20px 0 20px;
+  font-weight: bold;
+}
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+
+  .required {
+    color: red;
+    font-weight: bolder;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    margin-right: 10px;
+  }
+
+  .element {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .place {
+    display: flex;
+    margin-left: 130px;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .input_box {
+    @include inputBox();
+    width: 220px;
+  }
+
+  .input_box_two {
+    @include inputBox();
+    width: 80px;
+  }
+
+  .input_box_three {
+    @include inputBox();
+    width: 100px;
+  }
+
+  .input_box_four {
+    @include inputBox();
+    width: 180px;
+  }
+  .place_box_one {
+    @include inputBox();
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-left: 20px;
+    width: 230px;
+  }
+
+  .place_box_two {
+    @include inputBox();
+    text-align: start;
+    margin-left: 20px;
+    width: 130px;
+  }
+}
+
+.upload {
+  width: 350px;
+  height: 350px;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative; // 이 부분을 추가
+  overflow: hidden;
+
+  img {
+    width: 80%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .default {
+    width: 30%;
+  }
+  &:hover {
+    background-color: #e8e8e8;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+  & > div {
+    margin: 0 40px;
+    text-align: center; // 버튼을 가운데 정렬
+  }
+}

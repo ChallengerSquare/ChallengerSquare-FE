@@ -1,0 +1,24 @@
+@import '@styles/variables.scss';
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 40px 40px;
+  background: #fff; // 배경 색상
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // 그림자 효과
+  border-radius: 8px; // 모서리 둥글게
+  width: 1000px;
+  margin: 3rem auto; // 중앙 정렬
+}
+
+.size {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.font {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}

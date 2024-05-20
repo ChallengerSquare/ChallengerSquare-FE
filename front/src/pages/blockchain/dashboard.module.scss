@@ -1,0 +1,264 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  background-color: #4e1a90; // 메인 배경색
+  //항상 화면을 꽉채우도록
+  height: 100vh;
+  overflow: scroll;
+  width: 100vw;
+  font-family: pretendard-regular;
+
+  .header {
+    flex-shrink: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    text-align: start;
+    font-family: Pretendard-Regular;
+    font-weight: 800;
+    font-size: 32px;
+  }
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    .overview {
+      display: flex;
+      height: 428px;
+      margin-bottom: 32px;
+      flex-shrink: 0;
+
+      .blocks {
+        display: flex;
+        flex-direction: row;
+        overflow: scroll;
+        padding: 2rem;
+        color: #252525;
+        flex-grow: 1; // 화면의 남은 부분을 차지하도록 설정
+        background-color: #f9f6ff; // 섹션 배경색
+        margin-right: 28px; // 오른쪽 여백을 28px로 설정
+        //텍스트가 넘칠경우 줄바꿈
+        white-space: pre-wrap;
+
+        .block {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .blockContentWrapper {
+          padding: 1rem;
+          box-sizing: border-box;
+          width: 200px; // 가로 길이를 186px로 고정
+          background-color: #ebe5fa;
+          overflow-wrap: break-word;
+        }
+
+        .dash {
+          width: 3rem;
+          border: #a1a1a1 1px solid;
+        }
+
+        .blockData {
+          color: #666;
+        }
+      }
+
+      .statistics {
+        width: 596px; // 가로 길이를 596px로 고정
+
+        .blockchainInfo {
+          display: flex; // flex로 변경하여 가로로 정렬
+
+          .infoBox {
+            background-color: #d2bbff; // 섹션 배경색
+            padding: 10px;
+            width: 186px;
+            height: 205px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end; // 자식 요소들을 가로축에서 가운데 정렬
+
+            .infoValue {
+              text-align: center;
+              font-size: 48px;
+              color: black;
+              font-weight: 1000;
+              padding: 10px;
+              //위쪽 마진과, 아래쪽 마진이 동일하도록 설정
+              margin: 10px 0;
+            }
+
+            .infoLabel {
+              width: 137px;
+              text-align: center;
+              font-size: 20px;
+              color: black;
+              font-weight: 800;
+              //위쪽 변만 표시, 3px 두께,색 8930FD
+              border-top: 3px solid #8930fd;
+              padding-top: 20px;
+              margin-bottom: 10px;
+            }
+
+            &:nth-child(2) {
+              margin-left: 19px;
+              margin-right: 19px;
+            }
+          }
+
+          &:nth-child(1) {
+            margin-bottom: 18px;
+          }
+        }
+      }
+    }
+
+    .detail {
+      flex-grow: 1;
+      flex-shrink: 0;
+
+      .detailHeader {
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        .dataType {
+          font-size: 24px;
+          font-weight: 800;
+          margin-bottom: 10px;
+          margin-right: 10px;
+          display: flex;
+          justify-content: space-between;
+
+          .types {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 10px;
+          }
+        }
+
+        .search {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+
+          .searchInput {
+            width: 100%;
+            height: 40px;
+            font-size: 16px;
+            border: 1px solid #d2bbff;
+
+            input {
+              width: 100%;
+              height: 100%;
+              padding: 0 10px; // input 내부의 padding
+              font-size: 16px;
+              border: none; // input의 테두리를 없앰
+              outline: none; // 포커스시 나타나는 테두리도 제거
+              color: black; // 글자색을 검은색으로 설정
+            }
+          }
+
+          .searchButton {
+            width: 100px;
+            height: 40px;
+            background-color: #d2bbff;
+            color: black;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: center;
+            line-height: 40px;
+            border: none;
+          }
+        }
+      }
+
+      .dataTable {
+        display: flex;
+        flex-direction: column;
+        background-color: #ddd1ff; // 섹션 배경색
+        padding: 10px;
+
+        .IDColumn {
+          width: 24%;
+        }
+
+        .typeColumn {
+          width: 10%;
+        }
+
+        .contentColumn {
+          width: 56%;
+          overflow-wrap: break-word;
+        }
+
+        .timestampColumn {
+          width: 10%;
+        }
+
+        .columnNames {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px;
+          margin-bottom: 10px;
+
+          .columnName {
+            font-size: 16px;
+            font-weight: 800;
+            color: black;
+            //오른쪽 변을 1px 두께로 설정 색 AB56FF
+            border-right: 1.5px solid #ab56ff;
+            text-align: center;
+
+            &:last-child {
+              border-right: none;
+            }
+        }
+      }
+
+        .dataList {
+          background-color: #f9f6ff;
+
+          .dataBox {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #d2bbff;
+            font-size: 12px;
+            font-weight: 600;
+            color: black;
+
+            .data {
+              text-align: center;
+              border-right: 1.5px solid #909090;
+              
+              &:nth-child(4) {
+                border-right: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}

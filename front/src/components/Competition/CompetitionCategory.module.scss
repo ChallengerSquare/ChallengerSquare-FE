@@ -1,0 +1,37 @@
+@import '@/styles/variables.scss';
+
+.icons_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color:$main-third-color;
+  font-weight: 600;
+
+  .icon {
+    cursor: pointer;
+    text-align: center;
+
+    .btn{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      img {
+        border-radius: 20px;
+        padding: 10px;
+        width: 50px;
+        border: 2px solid $main-third-color;
+      }
+      p {
+        margin-top:5px;
+        font-size: 1rem;
+      }
+    }
+    .active{
+        img{
+          padding: 5px;
+          border: 1px solid $sub-color;
+          background-color: $sub-color;
+        }
+    }
+  }
+}

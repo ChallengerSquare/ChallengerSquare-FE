@@ -1,0 +1,95 @@
+@import '@styles/variables.scss';
+
+.container{
+    padding: 20px 30px;
+
+    .empty{
+       height: 400px;
+       background-color: white;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       color: $main-forth-color;
+       
+       p{
+        font-size: xx-large;
+       }
+    }
+    
+    .notices{
+        .header{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 40px;
+            font-size: 1.4rem;
+
+            span{
+                color: $main-color;
+            }
+
+            button{
+                font-size: 1rem
+            }
+        }
+
+        .body{
+            border-top: grey solid 1px;
+            font-size: 1.2rem;
+
+            .content{
+                border-bottom : gray solid 0.1px;
+
+                .summary{
+                    width: 850px;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 15px 20px;
+                    .text{
+                        display: flex;
+                        .index{
+                            width: 60px;
+                        }
+                        .title{
+                            padding:0px 20px;
+                        }
+                        .date{
+                            color: darkgray;
+                            font-weight: 400;
+                            font-size: 1rem;
+                        }
+                    }
+                    p{
+                        margin: 0px 30px;
+                    }
+                }
+
+                .description{
+                    border-top : grey solid 0.1px;
+                    background-color: $main-fifth-color;
+                    padding: 20px 100px;
+                }
+            } 
+        }
+        .tail{
+            display: flex;
+            justify-content: center;
+            padding:1rem;
+            
+            button{
+                margin:1rem;
+            }
+            
+            .active{
+                color: $main-color;
+                font-weight: bold;
+            }
+
+            .inactive{
+                &:hover{
+                    color:$main-third-color;
+                }
+            }
+        }
+    }
+}

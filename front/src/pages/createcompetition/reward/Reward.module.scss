@@ -1,0 +1,94 @@
+@import '@styles/variables.scss';
+
+@mixin inputBox {
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0px 3px 3px 0px rgb(219, 216, 216);
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+.select {
+  font-size: 15px;
+}
+.notice {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .element {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .title_one {
+      margin-top: 30px;
+      width: 180px;
+      text-align: center;
+    }
+
+    .award_name {
+      @include inputBox();
+      width: 180px;
+      height: 50px;
+      margin-left: 75px;
+    }
+
+    .title_two {
+      margin-top: 30px;
+      margin-left: 65px;
+      width: 70px;
+      text-align: center;
+    }
+
+    .award_count {
+      @include inputBox();
+      width: 70px;
+      height: 50px;
+      margin-left: 65px;
+    }
+
+    .title_three {
+      margin-top: 30px;
+      margin-left: 65px;
+      width: 130px;
+      text-align: center;
+    }
+
+    .award_price {
+      @include inputBox();
+      width: 130px;
+      height: 50px;
+      margin-left: 65px;
+    }
+  }
+}
+
+.award_btn {
+  margin-left: 50px;
+  width: 30px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 125px;
+  margin-bottom: 30px;
+  & > div {
+    margin: 0 40px;
+    text-align: center; // 버튼을 가운데 정렬
+  }
+}
