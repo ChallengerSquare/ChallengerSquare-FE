@@ -1,0 +1,165 @@
+@import '@styles/variables.scss';
+
+@mixin button {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  background-color: $main-color;
+  color: white;
+
+  &:disabled {
+    background-color: darken($main-color, 60%);
+    color: darken(white, 20%);
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  &:not(:disabled):hover {
+    background-color: $main-color;
+    font-weight: bold;
+    opacity: 70%;
+  }
+}
+
+.purple {
+  @include button();
+
+}
+
+.deep_purple {
+  @include button();
+  background-color: $main-third-color;
+  
+  &:not(:disabled):hover {
+    background-color: $main-third-color;
+    font-weight: bold;
+    opacity: 70%;
+  }
+}
+
+.purple_reverse {
+  @include button();
+  border: 1px solid $main-color;
+  background: white;
+  color: $main-color;
+
+  &:not(:disabled):hover {
+    background: $main-color;
+    color: white;
+    font-weight: bold;
+    opacity: 40%;
+  }
+}
+
+.white {
+  @include button();
+  border: 1px solid $main-color;
+  background: var(--color-white);
+  color: $main-color;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+
+  &:not(:disabled):hover {
+    color: white;
+  }
+}
+
+.gray {
+  @include button();
+  border: 1px solid lightgray;
+  background: lightgray;
+  color: white;
+
+  &:disabled {
+    opacity: 1;
+    background: lightgray;
+    color: white;
+    pointer-events: none;
+  }
+}
+
+.pink {
+  @include button();
+  background-color: #e8aee9;
+  width: 120px;
+
+  &:not(:disabled):hover {
+    background-color: #e8aee9;
+  }
+}
+
+.agreement {
+  width: 900px;
+  margin-left: 10px;
+}
+
+.postcode {
+  @include button();
+  margin-left: 20px;
+  background-color: rgba(128, 128, 128, 0.756);
+  &:not(:disabled):hover {
+    background-color: rgba(128, 128, 128, 0.756);
+    font-weight: initial;
+    opacity: 100%;
+  }
+}
+
+.default {
+  width: 100px;
+}
+
+.competition_submit_btn {
+  @include button();
+  width: 120px;
+}
+
+@mixin competition_btn {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.competition_place_offline {
+  @include competition_btn();
+  width: 110px;
+}
+
+.competition_place_online {
+  @include competition_btn();
+  width: 90px;
+}
+
+.competition_btn_active {
+  border: 2px solid $main-forth-color;
+}
+.regist_competition_btn {
+  @include competition_btn();
+  width: 43px;
+}
+
+.competition_fee {
+  @include competition_btn();
+  width: 70px;
+}
+
+.competition_fee_active {
+  background-color: gray;
+}
+
+.user {
+  padding: 10px 10px;
+  color: $main-color;
+  border: none;
+  cursor: pointer;
+  transition: font-weight 0.3s;
+  font-size: 1.2rem;
+  &:hover {
+    font-weight: bold;
+  }
+}

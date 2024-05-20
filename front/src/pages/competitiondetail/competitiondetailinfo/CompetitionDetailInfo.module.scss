@@ -1,0 +1,34 @@
+@import '@styles/variables.scss';
+
+.container {
+  padding: 1rem;
+
+  .empty {
+    height: 20rem;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $main-forth-color;
+
+    p {
+      font-size: xx-large;
+      color: $main-forth-color;
+    }
+  }
+
+  .content {
+    width: 100%; // 전체 너비를 사용
+    height: 600px; // 높이를 600px로 설정
+    font-size: 50px;
+
+    .toastui-editor-contents {
+      font-size: 30px;
+    }
+  }
+}
+
+.btn {
+  display: flex;
+  justify-content: end;
+}

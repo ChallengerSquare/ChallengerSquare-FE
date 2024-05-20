@@ -1,0 +1,31 @@
+@import '@styles/variables.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+
+    .full_container{
+        width : 1000px;
+
+        .link_container{
+            margin: 2rem 0rem 1.5rem 0rem;
+            .backBtn{
+                display: flex;
+            }
+        }
+
+        .content_container{
+            display: flex;
+            height: 24rem;
+        }
+
+        .info_container{
+            margin: 4rem 1.5rem;
+            font-weight: 600;
+            background-color: white;
+        }
+    }
+}

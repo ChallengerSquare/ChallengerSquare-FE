@@ -1,0 +1,55 @@
+@import '@styles/variables.scss';
+
+.poster {
+  flex: 2;
+  margin: 0rem 20px;
+
+  img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+  }
+}
+.content {
+  flex: 2.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .title {
+    span {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+  }
+  .detail {
+    font-size: 1.3rem;
+    li {
+      margin: 10px 0px;
+      display: flex;
+      span {
+        font-weight: bold;
+        padding-right: 1rem;
+        text-wrap: nowrap;
+      }
+      p {
+        padding: 2px;
+        font-size: 0.8rem;
+        color: $main-color;
+      }
+    }
+  }
+}
+.btn {
+  margin: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  font-size: large;
+  font-weight: 500;
+
+  p{
+    text-wrap: nowrap;
+  }
+}

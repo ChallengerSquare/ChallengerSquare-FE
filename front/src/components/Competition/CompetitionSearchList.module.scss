@@ -1,0 +1,57 @@
+@import '@/styles/variables.scss';
+
+.title{
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid black;
+
+  p{
+    font-size: 20px;
+    font-weight: bolder;
+  }
+
+  select{
+    &:focus {
+          outline:none;
+        }
+  }
+}
+
+.content{
+  margin-bottom: 50px;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4개의 칼럼 */
+    gap: 16px;
+
+    .grid_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 300px;
+        height: 180px;
+        border-radius: 15px;
+      }
+
+      p {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      span {
+        font-size: 14px;
+        color: grey;
+      }
+    }
+  }
+  .empty{
+    height: 400px;
+    background-color: $main-second-color;
+    border-radius: 20px;
+  }
+}

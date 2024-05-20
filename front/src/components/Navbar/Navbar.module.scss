@@ -1,0 +1,48 @@
+@import '@styles/variables.scss';
+
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%; // left: 0; right: 0; 이랑 같다
+  background-color: white;
+  padding: 20px 50px;
+  z-index: 10;
+}
+
+.logo {
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+.link {
+  font-size: 1.2rem;
+  line-height: auto;
+  color: black;
+  //  font-weight: bold;
+  margin-right: 2rem;
+  opacity: 1;
+  &:hover {
+    color: $main-color;
+  }
+}
+
+.user {
+  display: flex;
+}
+
+.bell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.size {
+  width: 1.2rem;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

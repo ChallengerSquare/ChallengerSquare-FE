@@ -1,0 +1,156 @@
+@import '@styles/variables.scss';
+
+.container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+
+    .header {
+        display: flex;
+        margin: 40px 10px 50px 10px;
+        font-size:1.5rem;
+        font-weight: 600;
+
+        span {
+            padding: 2px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: $main-color;
+        }
+    }
+
+    .body {
+        background: $main-second-color;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 30px 50px;
+        width: 1100px;
+        margin-bottom: 100px;
+
+        .title_container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+
+            .title{
+                padding: 6px 0px;
+            }
+
+            Button {
+                margin-left:10px;
+            }
+        }
+
+        .content_container {
+            font-size: 1rem;
+
+            .content_title {
+                display: flex;
+                justify-content: space-around;
+                padding: 20px 30px 20px 30px;
+                border-bottom: 1px solid lightgrey;
+                font-weight: bold;
+            }
+            .content_teamlist{
+                padding: 10px 0px;
+                height: 400px;
+                overflow: auto;
+            }
+            ::-webkit-scrollbar {
+                width: 10px; /* 스크롤바 너비 */
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: $main-fifth-color; /* 스크롤바 색상 */
+                border-radius: 10px; /* 스크롤바 모양 */
+            }
+
+            .content_team {
+                background-color: white;
+                padding: 10px 10px;
+                margin: 10px 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+
+                .content_info {
+                    display: flex;
+                    padding-bottom: 10px;
+                }
+                .content_reason{
+                    display: flex;
+                    padding-top: 10px;
+                    border-top: 1px solid lightgray;
+                    p {
+                        padding-left: 80px;
+                        font-weight: bold;
+                        text-wrap: nowrap;
+                    }
+                    span {
+                        padding: 0px 20px 0px 50px;
+                    }           
+                }
+                .content_members{
+                    border-top: 1px solid lightgray;
+                    padding: 5px 0px 10px 0px;
+                    .content_member{
+                        display:flex;
+                        padding-top:5px;
+                    }
+                }
+            }
+            .content_index {
+                flex:1;
+                display: flex;
+                justify-content: center;
+            }
+            .content_classify {
+                flex:3;
+                display: flex;
+                justify-content: center;
+            }
+            .content_name {
+                flex:2;
+                display: flex;
+                justify-content: center;
+            }
+            .content_birth {
+                flex:3;
+                display: flex;
+                justify-content: center;
+            }
+            .content_phone {
+                flex:4;
+                display: flex;
+                justify-content: center;
+            }
+            .content_address {
+                flex:4;
+                display: flex;
+                justify-content: center;
+            }
+            .content_accept {
+                flex:3;
+                display: flex;
+                justify-content: center;
+            }
+            .content_attend {
+                flex:1;
+                display: flex;
+                justify-content: center;
+            }
+            .content_award {
+                flex:3;
+                display: flex;
+                justify-content: center;
+            }
+            .content_btn {
+                flex:1;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}
+

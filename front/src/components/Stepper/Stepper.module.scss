@@ -1,0 +1,16 @@
+.stepper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.line {
+  margin-top: 29px;
+  width: 180px;
+  height: 2px;
+  background-color: #8930fd;
+}
+
+.stepWithLine {
+  display: flex;
+}

@@ -1,0 +1,37 @@
+.search{
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+
+  .search_container{
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+  }
+}
+
+.list_container{
+  display: flex;
+  justify-content: center;
+  margin: 50px 0px 120px 0px;
+
+  .list{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 1200px;
+
+    .item {
+      margin-bottom: 50px;
+    }
+
+    .more_btn{
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      width: 200px;
+      margin: 20px 500px;
+    }
+  }
+}

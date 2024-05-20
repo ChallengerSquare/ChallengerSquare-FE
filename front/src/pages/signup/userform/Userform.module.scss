@@ -1,0 +1,210 @@
+@import '@styles/variables.scss';
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  padding: 40px 40px;
+  background: #fff; // 배경 색상
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // 그림자 효과
+  border-radius: 8px; // 모서리 둥글게
+  width: 1000px;
+  margin: 3rem auto; // 중앙 정렬
+}
+
+.name-box {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 130px;
+  margin-left: 100px;
+  outline: none;
+  text-align: center;
+}
+
+.input-box {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 180px;
+  margin-left: 100px;
+  outline: none;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+  top: 0; // 상단 고정
+  padding: 10px 20px; // 타이틀 패딩
+  border-radius: 8px; // 모서리 둥글게
+}
+
+.content {
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  max-height: 200px;
+  overflow-y: auto; // 내용이 많을 경우 스크롤
+}
+
+.highlight {
+  color: red;
+  font-weight: bolder;
+}
+
+.term-title {
+  font-size: 1.7rem;
+}
+
+.check-btn-300 {
+  margin-left: 300px;
+}
+
+.check-btn-250 {
+  margin-left: 250px;
+}
+
+.whole-btn {
+  margin-left: 450px;
+}
+
+.header {
+  display: flex;
+}
+
+.bold {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.flex {
+  display: flex;
+}
+.side {
+  margin-left: 500px;
+}
+
+.help {
+  position: relative; // 툴팁 위치 기준점 설정
+  cursor: help;
+  margin-left: 20px; // 필요에 따라 조정
+
+  &::after {
+    content: '전화번호와 주소는 대회 개최자에게 제공됩니다.';
+    position: absolute;
+    width: 250px; // 툴팁의 너비
+    bottom: 100%; // 아이콘의 바로 위에 위치
+    left: 50%; // 중앙 정렬
+    transform: translateX(-50%); // 정확한 중앙 위치
+    background-color: $main-color; // 툴팁 배경색
+    color: white; // 툴팁 텍스트 색상
+    text-align: center;
+    font-size: 14px; // 툴팁 글자 크기
+    padding: 8px;
+    border-radius: 4px; // 툴팁 모서리 둥글게
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); // 선택적 그림자 효과
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s,
+      visibility 0s; // 툴팁 표시 애니메이션
+    z-index: 1; // 다른 요소들 위에 표시
+
+    &::before {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: black transparent transparent transparent; // 말풍선 꼬리
+    }
+  }
+
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.2s;
+  }
+}
+
+.form {
+  margin-top: 70px;
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+
+  .input {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    min-width: 100px; // 최소 너비 설정
+    margin-right: 10px; // 라벨과 입력 필드 사이 간격
+    min-width: 100px; // 최소 너비 설정
+    margin-right: 10px;
+  }
+}
+
+.calendar {
+  margin-left: 100px;
+}
+.road-address {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 500px;
+  margin-left: 230px;
+  outline: none;
+}
+
+.postcode {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 200px;
+  margin-left: 100px;
+  outline: none;
+}
+
+.detail-address {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 270px;
+  margin-top: 20px;
+  margin-left: 230px;
+  outline: none;
+}
+
+.dong-address {
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 200px;
+  margin-top: 20px;
+  margin-left: 30px;
+  outline: none;
+}
+
+.btn {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  & > div {
+    margin: 0 40px;
+    text-align: center; // 버튼을 가운데 정렬
+  }
+}

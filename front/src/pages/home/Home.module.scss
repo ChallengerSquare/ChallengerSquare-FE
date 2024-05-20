@@ -1,0 +1,49 @@
+@import '@/styles/variables.scss';
+
+.container {
+  height: 100vh;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+@mixin section {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem; 
+}
+
+.section1 {
+    @include section();  
+    background-image: url('../../../public/images/home/home.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.section2 {
+    @include section();
+}
+
+.section3 {
+    @include section();
+}
+
+.section4 {
+    @include section();
+}
+
+.section5 {
+    @include section();
+    
+}
+
+// ::-webkit-scrollbar-thumb {
+//     background-color: $main-third-color;
+// }
+
+// ::-webkit-scrollbar {
+//     display: none;
+// }

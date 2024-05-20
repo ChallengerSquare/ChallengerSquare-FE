@@ -1,0 +1,60 @@
+@import '@styles/variables.scss';
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  padding: 40px 40px;
+  background: #fff; // 배경 색상
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // 그림자 효과
+  border-radius: 8px; // 모서리 둥글게
+  width: 1000px;
+  margin: 3rem auto; // 중앙 정렬
+}
+
+.sub-box {
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 900px;
+  margin: 20px auto;
+  position: relative; // 상대적 위치
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+  top: 0; // 상단 고정
+  padding: 10px 20px; // 타이틀 패딩
+  border-radius: 8px; // 모서리 둥글게
+}
+
+.content {
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  max-height: 200px;
+  overflow-y: auto; // 내용이 많을 경우 스크롤
+}
+
+.highlight {
+  color: $main-color;
+}
+
+.check-btn-300 {
+  margin-left: 300px;
+}
+
+.check-btn-250 {
+  margin-left: 250px;
+}
+
+.whole-btn {
+  margin-left: 450px;
+}
+
+.header {
+  display: flex;
+  font-weight: bold;
+}
