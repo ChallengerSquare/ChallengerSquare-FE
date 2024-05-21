@@ -2,33 +2,33 @@ import './App.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from '@/pages/home/Home'
-import Competition from '@/pages/competition/Competition'
-import CompetitionSearch from '@/pages/competition-search/CompetitionSearch'
-import CompetitionDetail from '@/pages/competitiondetail/CompetitionDetail'
-import CompetitionResult from '@pages/competition-result/CompetitionResult'
+import EventStreamManager from '@components/EventStreamManager/EventStreamManager'
+import Home from '@pages/home/Home'
+import ViewCompetition from '@pages/view-competition/ViewCompetition'
+import SearchCompetition from '@pages/search-competition/SearchCompetition'
+import DetailCompetition from '@pages/detail-competition/DetailCompetition'
+import SearchBlockChain from '@pages/search-blockchain/SearchBlockchain'
+import Certification from '@pages/search-blockchain/certification/Certification'
 import Auth from '@pages/auth/Auth'
-import Signup from '@/pages/signup/Signup'
-import CompetitionManage from '@pages/competitionmanage/CompetitionManage'
-import CreateCompetition from '@pages/createcompetition/CreateCompetition'
-import ModifyPromotion from '@pages/modifycompetition/ModifyPromotion'
-import ParticipateWindow from '@pages/competitiondetail/participatewindow/ParticipateWindow'
-import NoticeWindow from '@pages/competitiondetail/competitiondetailnotice/noticewindow/NoticeWindow'
-import QnaWindow from '@pages/competitiondetail/competitiondetailqna/qnawindow/QnaWindow'
-import Certification from '@pages/certification/Certification'
-import Dashboard from '@pages//blockchain/dashboard'
-import CreateTeam from '@pages//createteam/CreateTeam'
-import JoinTeam from '@pages//jointeam/JoinTeam'
-import MyInfo from '@pages//mypage/myinfo/MyInfoPage'
-import Alarm from '@pages//mypage/alarm/AlarmPage'
-import CompetitionList from '@pages//mypage/competitionlist/CompetitionListPage'
-import TeamList from '@pages//mypage/teamlist/TeamListPage'
-import ResultList from '@pages//mypage/resultlist/ResultListPage'
-import Setting from '@pages//mypage/setting/SettingPage'
-import Error from '@pages//error/Error'
-import Team from '@/pages/mypage/teamlist/TeamDetailPage'
-import EventStreamManager from './components/EventStreamManager/EventStreamManager'
-import PrivateRoute from './router/PrivateRoute'
+import Signup from '@pages/signup/Signup'
+import Dashboard from '@pages/dashboard/Dashboard'
+import Error from '@pages/error/Error'
+import Setting from '@pages/mypage/setting/Setting'
+import ParticipateWindow from '@pages/detail-competition/Info/participatewindow/ParticipateWindow.page'
+import NoticeWindow from '@pages/detail-competition/Notice/noticewindow/NoticeWindow.page'
+import QnaWindow from '@pages/detail-competition/QnA/qnawindow/QnaWindow.page'
+import ManageCompetition from '@pages/manage-competition/ManageCompetition'
+import ModifyPromotion from '@pages/modify-competition/ModifyPromotion'
+import CreateCompetition from '@pages/create-competition/CreateCompetition'
+import CreateTeam from '@pages/create-team/CreateTeam'
+import JoinTeam from '@pages/join-team/JoinTeam'
+import PrivateRoute from '@router/PrivateRoute'
+import MyInfoPage from '@pages/mypage/myinfo/MyInfo.page'
+import AlarmPage from '@pages/mypage/alarm/Alarm.page'
+import TeamListPage from '@pages/mypage/teams/list/TeamList.page'
+import TeamDetailPage from '@pages/mypage/teams/detail/TeamDetail.page'
+import ParticipantListPage from '@pages/mypage/participant-list/ParticipantList.page'
+import ResultListPage from '@pages/mypage/result-list/ResultList.page'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,27 +52,27 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/competition" element={<Competition />} />
-            <Route path="/competition/search" element={<CompetitionSearch />} />
-            <Route path="/competition/detail/:competitionId" element={<CompetitionDetail />} />
-            <Route path="/competition-results" element={<CompetitionResult />} />
+            <Route path="/competition" element={<ViewCompetition />} />
+            <Route path="/competition/search" element={<SearchCompetition />} />
+            <Route path="/competition/detail/:competitionId" element={<DetailCompetition />} />
+            <Route path="/competition-results" element={<SearchBlockChain />} />
             <Route path="/competition-results/code/:code" element={<Certification />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/blockchain/dashboard" element={<Dashboard />} />
             <Route path="*" element={<Error />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/mypage/myinfo" element={<MyInfo />} />
-              <Route path="/mypage/alarm" element={<Alarm />} />
-              <Route path="/mypage/teamlist" element={<TeamList />} />
-              <Route path="/mypage/teamlist/team/:teamId" element={<Team />} />
-              <Route path="/mypage/competitionlist" element={<CompetitionList />} />
-              <Route path="/mypage/resultlist" element={<ResultList />} />
+              <Route path="/mypage/myinfo" element={<MyInfoPage />} />
+              <Route path="/mypage/alarm" element={<AlarmPage />} />
+              <Route path="/mypage/teamlist" element={<TeamListPage />} />
+              <Route path="/mypage/teamlist/team/:teamId" element={<TeamDetailPage />} />
+              <Route path="/mypage/competitionlist" element={<ParticipantListPage />} />
+              <Route path="/mypage/resultlist" element={<ResultListPage />} />
               <Route path="/mypage/setting" element={<Setting />} />
               <Route path="/competition/participate/write/:competitionId" element={<ParticipateWindow />} />
               <Route path="/competition/notice/:competitionId" element={<NoticeWindow />} />
               <Route path="/competition/inquire/:competitionId" element={<QnaWindow />} />
-              <Route path="/competition/manage/:competitionId" element={<CompetitionManage />} />
+              <Route path="/competition/manage/:competitionId" element={<ManageCompetition />} />
               <Route path="/competition/edit/:competitionId" element={<ModifyPromotion />} />
               <Route path="/create-competition" element={<CreateCompetition />} />
               <Route path="/create-team" element={<CreateTeam />} />

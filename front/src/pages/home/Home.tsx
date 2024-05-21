@@ -1,11 +1,11 @@
 import { useRef, useEffect } from 'react'
 import Navbar from '@/components/Navbar/Navbar'
 import styles from '@/pages/home/Home.module.scss'
-import HomeSectionOne from './home-section1/HomeSectionOne'
-import HomeSectionTwo from './home-section2/HomeSectionTwo'
-import HomeSectionThree from './home-section3/HomeSectionThree'
-import HomeSectionFour from './home-section4/HomeSectionFour'
-import HomeSectionFive from './home-section5/HomeSectionFive'
+import HomeSectionOne from './SectionOne/HomeSectionOne'
+import HomeSectionTwo from './SectionTwo/HomeSectionTwo'
+import HomeSectionThree from './SectionThree/HomeSectionThree'
+import HomeSectionFour from './SectionFour/HomeSectionFour'
+import HomeSectionFive from './SectionFive/HomeSectionFive'
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null)
