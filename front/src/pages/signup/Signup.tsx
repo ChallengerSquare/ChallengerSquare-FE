@@ -1,10 +1,10 @@
 import Navbar from '@components/Navbar/Navbar'
 import Stepper from '@components/Stepper/Stepper'
 import useStep from '@hooks/useStep'
-import Terms from '@pages/signup/terms/Terms'
 import styles from './Signup.module.scss'
 import Userform from './Userform/Userform'
 import Complete from './Complete/Complete'
+import Terms from './terms/Terms'
 
 const Signup = () => {
   const { step, nextStep, prevStep } = useStep()
