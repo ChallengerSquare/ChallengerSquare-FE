@@ -8,7 +8,7 @@ import BaseImg from '@/components/BaseImg/BaseImg'
 import Button from '@/components/Button/Button'
 import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 import styles from '@/pages/competitiondetail/competitiondetailcontent/CompetitionDetailContent.module.scss'
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { userState } from '@/stores/userState'
 
 interface Props {
