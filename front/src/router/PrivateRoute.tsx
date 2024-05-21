@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { Navigate, Outlet } from 'react-router-dom'
 import { userState } from '@/stores/userState'

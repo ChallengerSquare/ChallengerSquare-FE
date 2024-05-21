@@ -3,7 +3,7 @@ import Button from '@components/Button/Button'
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import { useRecoilState } from 'recoil'
-import { competitionForm } from '@pages/createcompetition/store'
+import { competitionForm } from '@pages/create-competition/store'
 import styles from './CustomEditor.module.scss'
 
 interface EditorProps {
