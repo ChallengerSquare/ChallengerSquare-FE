@@ -30,7 +30,19 @@ import Team from '@/pages/mypage/teamlist/TeamDetailPage'
 import EventStreamManager from './components/EventStreamManager/EventStreamManager'
 import PrivateRoute from './router/PrivateRoute'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      useErrorBoundary: true,
+      staleTime: 1000 * 20,
+      cacheTime: 1000 * 60 * 5,
+    },
+    mutations: {
+      useErrorBoundary: true,
+    },
+  },
+})
 
 function App() {
   return (

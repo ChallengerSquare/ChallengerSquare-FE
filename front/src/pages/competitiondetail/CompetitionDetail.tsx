@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getCompetitionDetails } from '@services/contest'
+import { getCompetitionDetails } from '@services/competition'
 import { Contest } from '@/types/competition'
 import useScrollTop from '@/hooks/useScrollTop'
 import BeforeNav from '@svgs/navigate_before.svg'

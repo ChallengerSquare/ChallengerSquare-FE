@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query'
 import Button from '@/components/Button/Button'
-import { participateContest } from '@/services/contest'
+import { participateContest } from '@/services/competition'
 import { ParticipateTeamRequest } from '@/types/api'
 import Modal from '@components/Modal/Modal'
 import logoIcon from '@svgs/logo/challSv2.svg'

@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { cancelParticipateContest, deleteContest } from '@/services/contest'
+import { cancelParticipateContest, deleteContest } from '@/services/competition'
 import { Contest } from '@/types/competition'
 import { DeleteContest } from '@/types/api'
 import BaseImg from '@/components/BaseImg/BaseImg'
