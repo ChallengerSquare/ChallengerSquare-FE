@@ -1,6 +1,5 @@
 import { useState, useEffect, useInsertionEffect } from 'react'
 import { User, UserInfo } from '@/types/user'
-import { useNavigate } from 'react-router-dom'
 import Button from '@/components/Button/Button'
 import { useResetRecoilState } from 'recoil'
 import { userState } from '@/stores/userState'
@@ -10,7 +9,6 @@ import styles from '@/pages/mypage/myinfo/MyInfo.module.scss'
 import MyInfoModal from './MyinfoModal/MyInfoModal'
 
 const MyInfo = () => {
-  const navigate = useNavigate()
   const resetUserState = useResetRecoilState(userState)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [user, setUser] = useState<User>({

@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar/Navbar'
-import MyPageTab from '@/pages/mypage/MyPageTab'
+import MyPageTab from '@/pages/mypage/tab/Tab'
 import ResultList from '@/pages/mypage/resultlist/ResultList'
 import styles from '@/pages/mypage/MyPage.module.scss'
 import Footer from '@/components/Footer/Footer'

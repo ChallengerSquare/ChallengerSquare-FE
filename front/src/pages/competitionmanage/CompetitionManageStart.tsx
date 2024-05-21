@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { updateCompetitionState, updateCompetitionEnd } from '@services/competition'
 import { ContestInfo } from '@/types/competition'
 import Button from '@/components/Button/Button'

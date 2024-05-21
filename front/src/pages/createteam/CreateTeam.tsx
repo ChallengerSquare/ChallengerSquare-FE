@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { TeamRequestDto } from '@/types/api'
 import { createTeam } from '@/services/team'

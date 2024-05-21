@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { Link } from 'react-router-dom'
 import { TeamListResponse } from '@/types/team'
 import TeamCard from '@/components/TeamCard/TeamCard'

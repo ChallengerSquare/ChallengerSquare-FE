@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { stepProps } from '@/types/step'
 import { useRecoilState } from 'recoil'
-import { CreateCompetitionDto } from '@/types/api'
 import Button from '@/components/Button/Button'
 import plusIcon from '@svgs/plus_icon.svg'
 import minusIcon from '@svgs/minus_icon.svg'

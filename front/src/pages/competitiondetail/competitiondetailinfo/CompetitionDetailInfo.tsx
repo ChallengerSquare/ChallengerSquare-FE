@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Viewer } from '@toast-ui/react-editor'
 import styled from '@emotion/styled'
 import '@toast-ui/editor/dist/toastui-editor-viewer.css'

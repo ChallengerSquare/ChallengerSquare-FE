@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import styles from './MyPage.module.scss'
+import styles from '@pages/mypage/MyPage.module.scss'
 
 interface MyPageTapParams {
   tab: string

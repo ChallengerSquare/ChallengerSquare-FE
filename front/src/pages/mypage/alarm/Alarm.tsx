@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import styles from '@/pages/mypage/alarm/Alarm.module.scss'
 import notificationsIcon from '@svgs/notifications.svg'
-import { isReadable } from 'stream'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
-import { getAlarmList, readAlarm } from '@/services/Alarm'
-import { useRecoilState } from 'recoil'
+import { getAlarmList, readAlarm } from '@services/alarm'
+import { useSetRecoilState } from 'recoil'
 import { notificationState } from '@/stores/notificationState'
 
 interface alarmData {
@@ -16,7 +15,7 @@ interface alarmData {
 }
 
 const Alarm = () => {
-  const [notification, setNotification] = useRecoilState(notificationState)
+  const setNotification = useSetRecoilState(notificationState)
   const [alramList, setAlarmList] = useState<alarmData[]>([])
   const [unread, setUnread] = useState<number | null>(null)
   const [loading, setLoading] = useState<boolean>(true)

@@ -1,9 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useNavigate } from 'react-router-dom'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { User } from '@/types/user'
-import { registerUser } from '@services/member'
-import { userState } from '@/stores/userState'
 import Button from '@/components/Button/Button'
 import check from '@svgs/signup/check.svg'
 import styles from './Complete.module.scss'

@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar/Navbar'
-import MyPageTab from '@/pages/mypage/MyPageTab'
+import MyPageTab from '@/pages/mypage/tab/Tab'
 import styles from '@/pages/mypage/MyPage.module.scss'
 import Setting from '@/pages/mypage/setting/Setting'
 

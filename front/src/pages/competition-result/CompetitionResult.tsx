@@ -2,7 +2,6 @@ import styles from '@/pages/competition-result/CompetitionResult.module.scss'
 import Navbar from '@/components/Navbar/Navbar'
 import blockchain from '@images/blockchain.jpg'
 import SearchBar from '@/components/SearchBar/SearchBar'
-import { useState } from 'react'
 import Footer from '@/components/Footer/Footer'
 import useScrollTop from '@/hooks/useScrollTop'
 

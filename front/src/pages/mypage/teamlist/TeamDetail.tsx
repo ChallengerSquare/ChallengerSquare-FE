@@ -11,7 +11,6 @@ import TeamDetailContest from '@/pages/mypage/teamlist/TeamDetailContest'
 import TeamMember from '@/pages/mypage/teamlist/TeamDetailMember'
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal'
 import { TeamRequestDto } from '@/types/api'
-import Button from '@/components/Button/Button'
 
 const Team = () => {
   const navigate = useNavigate()

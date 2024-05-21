@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
-import { ApiResponse } from '@/types/api'
+import { useEffect, useState } from 'react'
 import { toPng } from 'html-to-image'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getCertification } from '@/services/blockchain'
