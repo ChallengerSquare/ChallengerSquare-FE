@@ -1,4 +1,4 @@
-import Icon from '@svgs/done.svg'
+import Icon from '@assets/svgs/step/done.svg'
 import styles from './Step.module.scss'
 
 interface StepProps {

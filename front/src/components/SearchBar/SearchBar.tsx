@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from '@/components/SearchBar/SearachBar.module.scss'
-import searchIcon from '@/assets/svgs/search.svg'
+import searchIcon from '@/assets/svgs/search/search.svg'
 
 interface SearchBarProps {
   text: string

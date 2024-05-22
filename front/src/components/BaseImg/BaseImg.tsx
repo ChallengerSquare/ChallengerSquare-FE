@@ -1,5 +1,5 @@
 import styles from '@/components/BaseImg/BaseImg.module.scss'
-import baseImg from '@images/baseImg.png'
+import baseImg from '@/assets/images/base-img/baseImg.png'
 import { useEffect, useState } from 'react'
 
 interface ImgProps {

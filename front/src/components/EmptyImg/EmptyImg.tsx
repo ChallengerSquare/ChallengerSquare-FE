@@ -1,5 +1,5 @@
 import styles from '@/components/EmptyImg/EmptyImg.module.scss'
-import emptyImg from '@images/empty.png'
+import emptyImg from '@assets/images/empty/empty.png'
 
 interface EmptyImgProps {
   text: string

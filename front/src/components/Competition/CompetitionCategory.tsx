@@ -1,11 +1,11 @@
 import styles from '@/components/Competition/CompetitionCategory.module.scss'
-import All from '@svgs/category/all.svg'
-import IT from '@svgs/category/it.svg'
-import Art from '@svgs/category/art.svg'
-import Idea from '@svgs/category/idea.svg'
-import Sport from '@svgs/category/sport.svg'
-import Game from '@svgs/category/game.svg'
-import More from '@svgs/category/more.svg'
+import All from '@assets/svgs/category/all.svg'
+import IT from '@assets/svgs/category/it.svg'
+import Art from '@assets/svgs/category/art.svg'
+import Idea from '@assets/svgs/category/idea.svg'
+import Sport from '@assets/svgs/category/sport.svg'
+import Game from '@assets/svgs/category/game.svg'
+import More from '@assets/svgs/category/more.svg'
 import { Dispatch, SetStateAction } from 'react'
 
 const iconsData = [

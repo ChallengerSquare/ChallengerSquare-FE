@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react'
 import DatePicker from 'react-datepicker'
-import { getMonth, getYear, max } from 'date-fns'
+import { getMonth, getYear } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import 'react-datepicker/dist/react-datepicker.css'
-import LeftArrow from '@svgs/left_arrow.svg'
-import RightArrow from '@svgs/right_arrow.svg'
+import LeftArrow from '@assets/svgs/arrow/left_arrow.svg'
+import RightArrow from '@assets/svgs/arrow/right_arrow.svg'
 import styles from './Calendar.module.scss'
 
 interface Props {

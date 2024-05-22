@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from '@/pages/mypage/alarm/Alarm.module.scss'
-import notificationsIcon from '@svgs/notifications.svg'
+import notificationsIcon from '@svgs/alarm/notifications.svg'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
 import { getAlarmList, readAlarm } from '@services/alarm'
 import { useSetRecoilState } from 'recoil'

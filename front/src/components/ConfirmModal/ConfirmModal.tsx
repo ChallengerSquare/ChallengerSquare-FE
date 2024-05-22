@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import Button from '@/components/Button/Button'
 import Modal from '@components/Modal/Modal'
 import logoIcon from '@svgs/logo/challSv2.svg'

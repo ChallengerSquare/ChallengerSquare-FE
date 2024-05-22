@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import { useNavigate } from 'react-router-dom'
 import Button from '@/components/Button/Button'
-import check from '@svgs/signup/check.svg'
+import check from '@assets/svgs/signup/check.svg'
 import styles from './Complete.module.scss'
 
 const Complete = () => {

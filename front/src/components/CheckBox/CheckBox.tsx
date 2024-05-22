@@ -1,6 +1,5 @@
-import useCheckBox from '@/hooks/useCheckBox'
-import checkIcon from '@svgs/signup/check.svg'
-import uncheckIcon from '@svgs/signup/uncheck.svg'
+import checkIcon from '@assets/svgs/signup/check.svg'
+import uncheckIcon from '@assets/svgs/signup/uncheck.svg'
 import styles from './CheckBox.module.scss'
 
 interface CheckBoxProps {
