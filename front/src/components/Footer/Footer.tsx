@@ -1,5 +1,4 @@
-import React from 'react'
-import logo from '@images/footerLogo.webp'
+import logo from '@images/logo/footerLogo.webp'
 import styles from './Footer.module.scss'
 
 const Footer = () => {

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ContestData } from '@/types/competition'
-import navigateBefore from '@/assets/svgs/navigate_before.svg'
-import navigateNext from '@/assets/svgs/navigate_next.svg'
+import navigateBefore from '@/assets/svgs/arrow/navigate_before.svg'
+import navigateNext from '@/assets/svgs/arrow/navigate_next.svg'
 import styles from '@/components/Competition/CompetitionList.module.scss'
-import ProfileImg from '../ProfileImg/ProfileImg'
 import BaseImg from '../BaseImg/BaseImg'
 import EmptyImg from '../EmptyImg/EmptyImg'
 

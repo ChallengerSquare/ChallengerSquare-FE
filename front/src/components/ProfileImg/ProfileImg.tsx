@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import styles from '@/components/ProfileImg/ProfileImg.module.scss'
 import BaseImg from '@/components/BaseImg/BaseImg'
-import camera from '@svgs/camera.svg'
+import camera from '@assets/svgs/edit/camera.svg'
 
 interface ImgProps {
   imgUrl: string

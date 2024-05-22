@@ -8,7 +8,7 @@ import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
 import CompetitionList from '@/components/Competition/CompetitionList'
 import SearchBar from '@/components/SearchBar/SearchBar'
-import LandingImg from '@svgs/Landing/LandingImg.webp'
+import LandingImg from '@images/landing/landingImg.webp'
 import styles from './CompetitionMain.module.scss'
 
 const CompetitionMain = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from '@/components/ArrowDown/ArrowDown.module.scss'
 
 const ArrowDown = () => {

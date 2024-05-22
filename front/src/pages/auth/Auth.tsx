@@ -1,12 +1,11 @@
+import leftImage from '@assets/images/auth/bg-left.png'
+import kakaoBtn from '@assets/images/auth/kakao_login.png'
+import googleBtn from '@assets/images/auth/google_login.png'
 import styles from './Auth.module.scss'
 
 const Auth = () => {
   const challSv2 = `${process.env.PUBLIC_URL}/svgs/logo/challSv2.svg`
   const content = `${process.env.PUBLIC_URL}/images/auth/content.png`
-  const leftImage = `${process.env.PUBLIC_URL}/images/auth/bg-left.png`
-  const kakaoBtn = `${process.env.PUBLIC_URL}/images/auth/kakao_login.png`
-  const googleBtn = `${process.env.PUBLIC_URL}/images/auth/google_login.png`
-
   const kakaoUrl = `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/kakao`
   const googleUrl = `${process.env.REACT_APP_API_ROOT}/oauth2/authorization/google`
 

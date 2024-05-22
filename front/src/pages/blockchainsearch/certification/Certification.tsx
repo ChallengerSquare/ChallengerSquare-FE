@@ -4,16 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getCertification } from '@/services/blockchain'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
 import Navbar from '@/components/Navbar/Navbar'
-import Certificate from '@/assets/images/certification.png'
-import blockchain from '@images/blockchain.jpg'
-import LineIcon from '@svgs/line.svg'
-import ShortLineIcon from '@svgs/shortline.svg'
-import FileDownloadIcon from '@svgs/file_download.svg'
+import blockchain from '@images/blockchain/blockchain.jpg'
+import Certificate from '@/assets/images/certification/certification.png'
+import LineIcon from '@assets/svgs/certification/line.svg'
+import ShortLineIcon from '@assets/svgs/certification/shortline.svg'
+import FileDownloadIcon from '@assets/svgs/file/file_download.svg'
 import Footer from '@/components/Footer/Footer'
 import useScrollTop from '@/hooks/useScrollTop'
 import styles from './Certification.module.scss'
-// 115a9515-ab6a-4633-be6d-e7004452bb6f
-// c973eb55-0b2d-4c71-9c58-876653a21585
+
 interface Award {
   organizer: string
   event_name: string

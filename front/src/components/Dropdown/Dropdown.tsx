@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import dropdown from '@svgs/dropdown.svg'
+import { useState } from 'react'
+import dropdown from '@assets/svgs/edit/camera.svg'
 import styles from './Dropdown.module.scss'
 
 interface DropdownProps<T> {

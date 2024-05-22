@@ -1,6 +1,6 @@
 import useScrollTop from '@/hooks/useScrollTop'
 import Navbar from '@/components/Navbar/Navbar'
-import blockchain from '@images/blockchain.jpg'
+import blockchain from '@images/blockchain/blockchain.jpg'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import Footer from '@/components/Footer/Footer'
 import styles from './BlockchainSearch.module.scss'
