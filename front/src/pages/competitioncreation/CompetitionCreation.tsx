@@ -6,9 +6,9 @@ import SelectTeam from './SelectTeam/SelectTeam'
 import CompetitionForm from './CompetitionForm/CompetitionForm'
 import Reward from './Reward/Reward'
 import Promotion from './Promotion/Promotion'
-import styles from './CreateCompetition.module.scss'
+import styles from './CompetitionCreation.module.scss'
 
-const CreateCompetition = () => {
+const CompetitionCreation = () => {
   const { step, nextStep, prevStep } = useStep()
 
   const stepsConfig = [
@@ -35,4 +35,4 @@ const CreateCompetition = () => {
   )
 }
 
-export default CreateCompetition
+export default CompetitionCreation

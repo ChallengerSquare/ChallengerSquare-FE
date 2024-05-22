@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import Notice from '@pages/detail-competition/Notice/Notice'
-import Promotion from '@pages/detail-competition/Promotion/Promotion'
-import QnA from '@pages/detail-competition/QnA/QnA'
-import HostTeam from '@pages/detail-competition/HostTeam/HostTeam'
+import Notice from '@pages/competitiondetails/Notice/Notice'
+import Promotion from '@pages/competitiondetails/Promotion/Promotion'
+import QnA from '@pages/competitiondetails/QnA/QnA'
+import HostTeam from '@pages/competitiondetails/HostTeam/HostTeam'
 import styles from './CompetitionDetailTab.module.scss'
 
 interface Props {

@@ -6,11 +6,11 @@ import useScrollTop from '@/hooks/useScrollTop'
 import BeforeNav from '@svgs/navigate_before.svg'
 import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/Navbar/Navbar'
-import Info from '@pages/detail-competition/Info/Info'
+import Info from '@pages/competitiondetails/Info/Info'
 import CompetitionDetailTab from './CompetitionDetailTab/CompetitionDetailTab'
-import styles from './DetailCompetition.module.scss'
+import styles from './CompetitionDetails.module.scss'
 
-const DetailCompetition = () => {
+const CompetitionDetails = () => {
   useScrollTop()
   const { competitionId } = useParams<{ competitionId: string }>()
   const [competition, setCompetition] = useState<Contest>()
@@ -53,4 +53,4 @@ const DetailCompetition = () => {
   )
 }
 
-export default DetailCompetition
+export default CompetitionDetails

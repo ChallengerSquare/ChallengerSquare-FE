@@ -5,8 +5,8 @@ import Nav from '@components/Navbar/Navbar'
 import Footer from '@/components/Footer/Footer'
 import CompetitionManageDone from './CompetitionDone'
 import CompetitionManageEnd from './CompetitionEnd'
-import styles from './ManageCompetition.module.scss'
 import CompetitionManageStart from './CompetitionStart'
+import styles from './CompetitionManangement.module.scss'
 
 interface Member {
   name: string
@@ -71,7 +71,7 @@ interface Award {
   count: number
 }
 
-const ManageCompetition = () => {
+const CompetitionManangement = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [competitionState, setCompetitionState] = useState<string>('')
   const [competition, setCompetition] = useState<Competition>({
@@ -162,4 +162,4 @@ const ManageCompetition = () => {
   )
 }
 
-export default ManageCompetition
+export default CompetitionManangement
