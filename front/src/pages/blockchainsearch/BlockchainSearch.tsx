@@ -3,9 +3,9 @@ import Navbar from '@/components/Navbar/Navbar'
 import blockchain from '@images/blockchain.jpg'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import Footer from '@/components/Footer/Footer'
-import styles from './SearchBlockChain.module.scss'
+import styles from './BlockchainSearch.module.scss'
 
-const SearchBlockChain = () => {
+const BlockchainSearch = () => {
   useScrollTop()
   return (
     <>
@@ -31,4 +31,4 @@ const SearchBlockChain = () => {
   )
 }
 
-export default SearchBlockChain
+export default BlockchainSearch

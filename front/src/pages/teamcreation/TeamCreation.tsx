@@ -5,7 +5,7 @@ import { createTeam } from '@/services/team'
 import Navbar from '@/components/Navbar/Navbar'
 import Button from '@/components/Button/Button'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
-import styles from '@/pages/create-team/CreateTeam.module.scss'
+import styles from '@/pages/teamcreation/TeamCreation.module.scss'
 import CreateTeamModal from './CreateTeamModal/CreateTeamModal'
 
 interface TeamData {
@@ -14,7 +14,7 @@ interface TeamData {
   img: string
 }
 
-const CreateTeam = () => {
+const TeamCreation = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [teamData, setTeamData] = useState<TeamData>({
     name: '',
@@ -152,4 +152,4 @@ const CreateTeam = () => {
   )
 }
 
-export default CreateTeam
+export default TeamCreation

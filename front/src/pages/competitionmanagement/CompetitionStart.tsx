@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { updateCompetitionState, updateCompetitionEnd } from '@services/competition'
 import { ContestInfo } from '@/types/competition'
 import Button from '@/components/Button/Button'
-import styles from './ManageCompetition.module.scss'
+import styles from './CompetitionManangement.module.scss'
 
 interface Award {
   id: number

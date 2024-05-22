@@ -7,14 +7,14 @@ import { User } from '@/types/user'
 import { getParticipantsTeam, createParticipantsTeam } from '@services/team'
 import Navbar from '@/components/Navbar/Navbar'
 import ProfileImg from '@/components/ProfileImg/ProfileImg'
-import styles from './JoinTeam.module.scss'
+import styles from './TeamRegistration.module.scss'
 
 interface Team {
   teamName: string
   teamImg: string
 }
 
-const JoinTeam = () => {
+const TeamRegistration = () => {
   const { code } = useParams()
   const [user] = useRecoilState<User>(userState)
   const [team, setTeam] = useState<Team>({
@@ -73,4 +73,4 @@ const JoinTeam = () => {
   )
 }
 
-export default JoinTeam
+export default TeamRegistration

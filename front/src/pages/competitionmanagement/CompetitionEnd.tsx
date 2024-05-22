@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import styles from './ManageCompetition.module.scss'
+import styles from './CompetitionManangement.module.scss'
 
 interface Member {
   name: string

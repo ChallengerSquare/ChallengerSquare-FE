@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Page, SearchRequest, SearchResponse } from '@/types/api'
 import { ContestData } from '@/types/competition'
 import { getCompetitionList } from '@/services/competition'
-import styles from '@/pages/search-competition/SearchCompetition.module.scss'
+import styles from '@/pages/competitionsearch/CompetitionSearch.module.scss'
 import Footer from '@/components/Footer/Footer'
 import CompetitionCategory from '@/components/Competition/CompetitionCategory'
 import SearchBar from '@/components/SearchBar/SearchBar'
@@ -11,7 +11,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import CompetitionSearchList from '@/components/Competition/CompetitionSearchList'
 import Button from '@/components/Button/Button'
 
-const SearchCompetition = () => {
+const CompetitionSearch = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
@@ -194,4 +194,4 @@ const SearchCompetition = () => {
   )
 }
 
-export default SearchCompetition
+export default CompetitionSearch

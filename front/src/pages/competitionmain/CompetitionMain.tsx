@@ -9,9 +9,9 @@ import Navbar from '@/components/Navbar/Navbar'
 import CompetitionList from '@/components/Competition/CompetitionList'
 import SearchBar from '@/components/SearchBar/SearchBar'
 import LandingImg from '@svgs/Landing/LandingImg.webp'
-import styles from './ViewCompetition.module.scss'
+import styles from './CompetitionMain.module.scss'
 
-const ViewCompetition = () => {
+const CompetitionMain = () => {
   useScrollTop()
   const [famousCompetitionList, setfamousCompetitionList] = useState<ContestData[]>([])
   const [dueCompetitionList, setDueCompetitionList] = useState<ContestData[]>([])
@@ -85,4 +85,4 @@ const ViewCompetition = () => {
   )
 }
 
-export default ViewCompetition
+export default CompetitionMain

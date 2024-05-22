@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { updateCompetitionParticipants, updateCompetitionState } from '@services/competition'
 import EmptyImg from '@/components/EmptyImg/EmptyImg'
 import Button from '@/components/Button/Button'
-import styles from './ManageCompetition.module.scss'
+import styles from './CompetitionManangement.module.scss'
 
 interface Member {
   name: string

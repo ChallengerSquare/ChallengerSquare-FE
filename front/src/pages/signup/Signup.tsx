@@ -4,7 +4,7 @@ import useStep from '@hooks/useStep'
 import styles from './Signup.module.scss'
 import Userform from './Userform/Userform'
 import Complete from './Complete/Complete'
-import Terms from './terms/Terms'
+import Terms from './Terms/Terms'
 
 const Signup = () => {
   const { step, nextStep, prevStep } = useStep()

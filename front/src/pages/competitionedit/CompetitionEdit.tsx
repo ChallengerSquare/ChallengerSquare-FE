@@ -7,9 +7,9 @@ import Button from '@/components/Button/Button'
 import CustomEditor from '@/components/Editor/CustomEditor'
 import { ApiResponse, UpdateCompetitionRequestDto } from '@/types/api'
 import ModifyModal from './ModifyModal/ModifyModal'
-import styles from './ModifyPromotion.module.scss'
+import styles from './CompetitionEdit.module.scss'
 
-const ModifyPromotion = () => {
+const CompetitionEdit = () => {
   const queryclient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const editorRef = useRef<{ getMarkdown: () => void }>(null)
@@ -96,4 +96,4 @@ const ModifyPromotion = () => {
   )
 }
 
-export default ModifyPromotion
+export default CompetitionEdit
