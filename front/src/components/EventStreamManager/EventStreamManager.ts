@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { notificationState } from '@/stores/notificationState'
 
 const EventStreamManager = () => {
-  const [notification, setNotification] = useRecoilState(notificationState)
+  const setNotification = useSetRecoilState(notificationState)
 
   useEffect(() => {
     const options = {
