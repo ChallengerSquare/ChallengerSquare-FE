@@ -26,12 +26,12 @@ interface CompetitionCategoryProps {
 const CompetitionCategory = ({ category, setCategory }: CompetitionCategoryProps) => {
   return (
     <div className={styles.icons_container}>
-      {iconsData.map((icon, index) => (
-        <div key={index} className={styles.icon}>
+      {iconsData.map((icon) => (
+        <div key={icon.id} className={styles.icon}>
           <button
             type="button"
-            className={`${styles.btn} ${category === index ? styles.active : ''}`}
-            onClick={() => setCategory(index)}
+            className={`${styles.btn} ${category === icon.id ? styles.active : ''}`}
+            onClick={() => setCategory(icon.id)}
           >
             <img src={icon.image} alt={icon.name} />
             <p>{icon.name}</p>
