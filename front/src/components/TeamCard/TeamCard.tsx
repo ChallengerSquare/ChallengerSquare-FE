@@ -7,10 +7,9 @@ import ProfileImg from '../ProfileImg/ProfileImg'
 
 interface TeamCardProps {
   teamlist: TeamListResponse[]
-  setId: Dispatch<SetStateAction<number>>
 }
 
-const TeamCard = ({ teamlist, setId }: TeamCardProps) => {
+const TeamCard = ({ teamlist }: TeamCardProps) => {
   const navigate = useNavigate()
   const handleClick = (id: number) => {
     navigate(`/mypage/teamlist/team/${id}`)
