@@ -20,7 +20,6 @@ const ParticipateWindow = () => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [text, setText] = useState<string>('')
   const [request, setRequest] = useState<ParticipateTeamRequest | null>(null)
-  const navigate = useNavigate()
   const handleData = () => {
     if (!team) alert('팀을 선택해주세요.')
     else if (!text) alert('내용을 입력해주세요.')
@@ -37,8 +36,6 @@ const ParticipateWindow = () => {
 
   const {
     data: teams,
-    isLoading,
-    error,
   } = useQuery<TeamList[], Error>('teamsInLeader', async () => {
     const response = await getTeamsinLeader()
     return response.data
