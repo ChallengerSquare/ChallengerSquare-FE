@@ -76,17 +76,6 @@ const Team = () => {
     setIsOpen(false)
   }
 
-  const handleDeleteTeam = () => {
-    cancelParticipate.mutate(team.teamId)
-  }
-
-  const cancelParticipate = useMutation(deleteTeam, {
-    onSuccess: () => {
-      navigate('/mypage/teamlist')
-    },
-    onError: (error) => console.error('팀 해체 실패:', error),
-  })
-
   const handleWithdrawTeam = () => {
     withdrawTeam.mutate(team.teamId)
   }
@@ -102,11 +91,11 @@ const Team = () => {
   })
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
+    if (e.target.files?.[0]) {
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = (ev: ProgressEvent<FileReader>) => {
-        if (ev.target && ev.target.result) {
+        if (ev.target?.result) {
           setTeamTemp((prev) => ({
             ...prev,
             teamImage: ev.target?.result as string,
@@ -128,9 +117,9 @@ const Team = () => {
       teamName: teamTemp.teamName,
       teamDescription: teamTemp.teamDescription,
     }
-    if (teamTemp.teamImage && teamTemp.teamImage.startsWith('data:image')) {
+    if (teamTemp.teamImage?.startsWith('data:image')) {
       const base64Response = teamTemp.teamImage.split(',')[1]
-      const blob = base64ToBlob(base64Response, 'image/jpeg') // MIME type을 정확히 알 경우 사용
+      const blob = base64ToBlob(base64Response, 'image/jpeg')
       formData.append('teamImage', blob, 'team-image.jpg')
     }
     formData.append(
