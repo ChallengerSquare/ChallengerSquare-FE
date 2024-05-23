@@ -34,9 +34,7 @@ const ParticipateWindow = () => {
     }
   }
 
-  const {
-    data: teams,
-  } = useQuery<TeamList[], Error>('teamsInLeader', async () => {
+  const { data: teams } = useQuery<TeamList[], Error>('teamsInLeader', async () => {
     const response = await getTeamsinLeader()
     return response.data
   })
