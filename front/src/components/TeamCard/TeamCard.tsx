@@ -18,8 +18,8 @@ const TeamCard = ({ teamlist, setId }: TeamCardProps) => {
 
   return (
     <Grid grid={'grid_3'}>
-      {teamlist.map((team, index) => (
-        <div key={index} className={styles.containter}>
+      {teamlist.map((team) => (
+        <div key={team.teamId} className={styles.containter}>
           <div className={styles.team_img}>
             <div className={styles.img}>
               <ProfileImg imgUrl={team.teamImage} imgName={'팀이미지'} name={'teamdetail'} />
