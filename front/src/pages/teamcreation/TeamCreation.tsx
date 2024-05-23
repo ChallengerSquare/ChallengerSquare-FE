@@ -33,11 +33,11 @@ const TeamCreation = () => {
   })
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
+    if (e.target.files?.[0]) {
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = (ev: ProgressEvent<FileReader>) => {
-        if (ev.target && ev.target.result) {
+        if (ev.target?.result) {
           setTeamData((prev) => ({
             ...prev,
             img: ev.target?.result as string,
@@ -47,7 +47,6 @@ const TeamCreation = () => {
       reader.readAsDataURL(file)
     }
   }
-
   const handleClose = () => {
     setIsOpen(false)
   }
@@ -75,7 +74,7 @@ const TeamCreation = () => {
       teamName: teamData.name,
       teamDescription: teamData.description,
     }
-    if (teamData.img && teamData.img.startsWith('data:image')) {
+    if (teamData.img?.startsWith('data:image')) {
       const base64Response = teamData.img.split(',')[1]
       const blob = base64ToBlob(base64Response, 'image/jpeg') // MIME type을 정확히 알 경우 사용
       formData.append('teamImage', blob, 'team-image.jpg')
