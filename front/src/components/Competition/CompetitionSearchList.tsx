@@ -25,6 +25,33 @@ const CompetitionSearchList = ({ title, data, orderBy, setOrderBy }: SearchListP
     setOrderBy(parseInt(event.target.value, 10))
   }
 
+  let content
+  if (data) {
+    if (items.length > 0) {
+      content = (
+        <div className={styles.grid}>
+          {items.map((item: ContestData) => (
+            <div key={item.contestId} className={styles.grid_item}>
+              <Link to={`/competition/detail/${item.contestId}`}>
+                <BaseImg imgUrl={item.contestImage} imgName={item.contestTitle} />
+                <p>{item.contestTitle}</p>
+                <span>{item.contestDate}</span>
+              </Link>
+            </div>
+          ))}
+        </div>
+      )
+    } else {
+      content = (
+        <div className={styles.empty}>
+          <EmptyImg text={'검색된 결과가 없습니다.'} />
+        </div>
+      )
+    }
+  } else {
+    content = ''
+  }
+
   return (
     <div>
       <div className={styles.title}>
@@ -34,29 +61,7 @@ const CompetitionSearchList = ({ title, data, orderBy, setOrderBy }: SearchListP
           <option value="4">이름순</option>
         </select>
       </div>
-      <div className={styles.content}>
-        {data ? (
-          items.length > 0 ? (
-            <div className={styles.grid}>
-              {items.map((item: ContestData, index) => (
-                <div key={index} className={styles.grid_item}>
-                  <Link to={`/competition/detail/${item.contestId}`}>
-                    <BaseImg imgUrl={item.contestImage} imgName={item.contestTitle} />
-                    <p>{item.contestTitle}</p>
-                    <span>{item.contestDate}</span>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.empty}>
-              <EmptyImg text={'검색된 결과가 없습니다.'} />
-            </div>
-          )
-        ) : (
-          ''
-        )}
-      </div>
+      <div className={styles.content}>{content}</div>
     </div>
   )
 }
