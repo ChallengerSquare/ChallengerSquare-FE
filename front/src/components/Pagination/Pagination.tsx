@@ -11,7 +11,6 @@ interface PaginationProps {
 const Pagination = ({ limit, page, totalPage, onPageChange }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(page)
   const [firstNumOfPage, setFirstNumOfPage] = useState(1)
-  const [lastNumOfPage, setLastNumOfPage] = useState(4)
 
   const pageChange = (page: number) => {
     setCurrentPage(page)
@@ -20,13 +19,11 @@ const Pagination = ({ limit, page, totalPage, onPageChange }: PaginationProps) =
 
   const nextPageChange = () => {
     pageChange(firstNumOfPage + limit)
-    setLastNumOfPage(firstNumOfPage + limit)
     setFirstNumOfPage((prePage) => prePage + limit)
   }
 
   const prePageChange = () => {
     pageChange(firstNumOfPage - 1)
-    setLastNumOfPage(firstNumOfPage - limit)
     setFirstNumOfPage((prePage) => prePage - limit)
   }
 

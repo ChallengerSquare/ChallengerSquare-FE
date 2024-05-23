@@ -27,7 +27,6 @@ const StyledViewer = styled.div`
   }
 `
 const Promotion = ({ content, isOwnerTeamMember, contestId }: Props) => {
-  const [data, setdata] = useState([])
   const navigate = useNavigate()
   useEffect(() => {}, [])
 

@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react'
-import Button from '@components/Button/Button'
+import { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { Editor } from '@toast-ui/react-editor'
-import '@toast-ui/editor/dist/toastui-editor.css'
-import { useRecoilState } from 'recoil'
 import { competitionForm } from '@pages/competitioncreation/store'
+import Button from '@components/Button/Button'
 import styles from './CustomEditor.module.scss'
+import '@toast-ui/editor/dist/toastui-editor.css'
 
 interface EditorProps {
   initialContent?: string
@@ -12,7 +12,7 @@ interface EditorProps {
 
 const CustomEditor = forwardRef(({ initialContent = '' }: EditorProps, ref) => {
   const editorRef = useRef<Editor>(null)
-  const [formState, setFormState] = useRecoilState(competitionForm)
+  const setFormState = useSetRecoilState(competitionForm)
   const [saveMessage, setSaveMessage] = useState<string | null>(null)
 
   useEffect(() => {

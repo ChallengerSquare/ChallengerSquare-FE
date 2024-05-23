@@ -50,7 +50,6 @@ const Calendar = ({
         selected={selectedDate}
         calendarClassName={styles.calenderWrapper}
         dayClassName={(d) => {
-          const day = new Date()
           return (
             selectedDate &&
             (d.getFullYear().toString() + d.getMonth().toString() + d.getDate().toString() ===

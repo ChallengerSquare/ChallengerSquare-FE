@@ -38,8 +38,8 @@ const CompetitoinList = ({ text, contestList }: CompetitoinListProps) => {
   }
 
   // 슬라이스된 아이템을 보여주는 렌더링 부분
-  const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item, index) => (
-    <div className={styles.content_item} key={index}>
+  const slicedItems = contestList.slice(currentIndex, currentIndex + itemPerPage).map((item) => (
+    <div className={styles.content_item}>
       <Link to={`/competition/detail/${item.contestId}`}>
         <div className={styles.poster}>
           <BaseImg imgUrl={item.contestImage} imgName={'대회이미지'} />

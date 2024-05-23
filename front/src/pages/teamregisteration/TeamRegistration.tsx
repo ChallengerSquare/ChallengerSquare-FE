@@ -16,7 +16,6 @@ interface Team {
 
 const TeamRegistration = () => {
   const { code } = useParams()
-  const [user] = useRecoilState<User>(userState)
   const [team, setTeam] = useState<Team>({
     teamName: '',
     teamImg: '',
