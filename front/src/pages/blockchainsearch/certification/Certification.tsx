@@ -42,8 +42,6 @@ const Certification = () => {
   useScrollTop()
   const { code } = useParams()
   const navigate = useNavigate()
-  const [name, setName] = useState('김재윤')
-  const [date, setDate] = useState('2024-02-031')
   const [certificate, setCertificate] = useState<BlockchainCode | null>(null)
   useEffect(() => {
     if (code) {
