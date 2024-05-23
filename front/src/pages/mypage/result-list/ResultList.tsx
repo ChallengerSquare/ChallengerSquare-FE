@@ -71,7 +71,6 @@ const ResultList = () => {
                 <div className={styles.period}>{result.period}</div>
                 <Link to={`/competition-results/code/${result.attendCode}`} className={styles.attendcode}>
                   <div>
-                    {/* {result.awardCode.length > 20 ? `${result.attendCode.substring(1, 20)}...` : result.attendCode} */}
                     <span>{result.awardCode}</span>
                   </div>
                 </Link>
